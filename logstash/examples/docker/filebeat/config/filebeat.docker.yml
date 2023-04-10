@@ -1,0 +1,82 @@
+###################### Filebeat Configuration Example #########################
+
+# This file is an example configuration file highlighting only the most common
+# options. The filebeat.reference.yml file from the same directory contains all the
+# supported options with more comments. You can use it as a reference.
+#
+# You can find the full configuration reference here:
+# https://www.elastic.co/guide/en/beats/filebeat/index.html
+
+# For more available modules and options, please see the filebeat.reference.yml sample
+# configuration file.
+
+#=========================== Filebeat inputs =============================
+
+filebeat.inputs:
+
+- type: log
+
+  enabled: true
+  paths:
+    -  /usr/share/filebeat/data/input/channel1.log 
+
+  tags: ["channel-log"]
+  fields:
+    log_type: channel
+  fields_under_root: true
+  
+#============================= Filebeat modules ===============================
+
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+  #reload.period: 10s
+#==================== Elasticsearch template setting ==========================
+setup.template.settings:
+  index.number_of_shards: 3
+#================================ General =====================================
+name: dibalite
+#tags: ["dibalite"]
+#fields:
+#  env: dibalite
+#queue:
+#  mem:
+#    events: 12800
+#    flush.min_events: 3200
+#max_procs:
+#============================== Kibana =====================================
+#setup.kibana:
+#  host: '${KIBANA_HOST}'
+#================================ Outputs =====================================
+
+#----------------------------- Logstash output ---------------------------------
+output.logstash:
+  enabled: true
+  hosts: '${LOGSTASH_HOST}'
+#  loadbalance: true
+#  worker: 2
+#  bulk_max_size: 3200
+#================================ Processors =====================================
+#processors:
+#  - add_host_metadata: ~
+#================================ Logging =====================================
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /usr/share/filebeat/log
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644
+logging.selectors: ["*"]
+#============================== X-Pack Monitoring ===============================
+#monitoring:
+#  enabled: true
+#  elasticsearch:
+#    hosts: '${ELASTICSEASR_HOST}'
+#    protocol: "http"
+#    username: '${BEATS_USERNAME}'
+#    password: '${BEATS_PASSWORD}'
+#monitoring.elasticsearch:
+#================================= Migration ==================================
+# This allows to enable 6.7 migration aliases
+#migration.6_to_7.enabled: true

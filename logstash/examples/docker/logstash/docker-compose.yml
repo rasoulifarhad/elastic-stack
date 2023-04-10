@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  logstash:
+    image: "docker.elastic.co/logstash/logstash:${VERSION}"
+    container_name: singleLogstash${PERFIX}
+    volumes:
+      - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./config/startup.options:/usr/share/logstash/config/startup.options
+      - ./pipeline:/usr/share/logstash/pipeline
+      - ./data:/var/lib/logstash/data
+    ports:
+      - "5044:5044"
+      - "9600:9600"    
+    command: --config.reload.automatic 
+    environment:
+      LS_JAVA_OPTS: "-Xmx1g -Xms1g"
+      ELASTICSEARCH_HOST:  "singleElasticsearch${PERFIX:-71602}"
+      ELASTICSEARCH_PORT: "9200"
+      ND_PERFIX: ${PERFIX}
+      ELASTICSEARCH_HOSTS: "singleElasticsearch${PERFIX:-71602}:9200"
+    networks:
+      - es7162_es
+networks:
+  es7162_es:
+    external: true
+    name: es7162_es
+
+

@@ -1,0 +1,574 @@
+PUT /%3Cdibalitebpms-exposed-%7Bnow%2Fd%7D-000001%3E
+{
+  "aliases": {
+    "dibalitebpms-exposed":{
+      "is_write_index": true 
+    }
+  }
+}
+
+PUT /%3Cdibalitebpms-external-%7Bnow%2Fd%7D-000001%3E
+{
+  "aliases": {
+    "dibalitebpms-external":{
+      "is_write_index": true 
+    }
+  }
+}
+
+PUT /%3Cdibalite-exposed-%7Bnow%2Fd%7D-000001%3E
+{
+  "aliases": {
+    "dibalite-exposed":{
+      "is_write_index": true 
+    }
+  }
+}
+
+PUT /%3Cdibalite-external-%7Bnow%2Fd%7D-000001%3E
+{
+  "aliases": {
+    "dibalite-external":{
+      "is_write_index": true 
+    }
+  }
+}
+
+PUT _index_template/dibalitebpms-external.template-no-ds
+{
+  "index_patterns": ["dibalitebpms-external-*"],
+  "priority": 100,
+  "template": {
+    "aliases": {}
+  },
+  "composed_of": ["dibalite-dynamic","dibalite-mappings","dibalitebpms-external-settings"], 
+  "version": 1, 
+  "_meta": {
+     "description": "dibalite external template"
+  }
+}
+
+PUT _index_template/dibalitebpms-exposed.template-no-ds
+{
+  "index_patterns": ["dibalitebpms-exposed-*"],
+  "priority": 100,
+  "template": {
+    "aliases": {}
+  },
+  "composed_of": ["dibalite-dynamic","dibalite-mappings","dibalitebpms-exposed-settings"], 
+  "version": 1, 
+  "_meta": {
+     "description": "dibalite exposed template"
+  }
+}
+
+PUT _index_template/dibalite-external.template-no-ds
+{
+  "index_patterns": ["dibalite-external-*"],
+  "priority": 100,
+  "template": {
+    "aliases": {}
+  },
+  "composed_of": ["dibalite-dynamic","dibalite-mappings","dibalite-external-settings"], 
+  "version": 1, 
+  "_meta": {
+     "description": "dibalite external template"
+  }
+}
+
+PUT _index_template/dibalite-exposed.template-no-ds
+{
+  "index_patterns": ["dibalite-exposed-*"],
+  "priority": 100,
+  "template": {
+    "aliases": {}
+  },
+  "composed_of": ["dibalite-dynamic","dibalite-mappings","dibalite-exposed-settings"], 
+  "version": 1, 
+  "_meta": {
+     "description": "dibalite exposed template"
+  }
+}
+
+PUT _component_template/dibalite-mappings
+{
+  "template": {
+    "mappings": {
+	  "runtime": {
+	    "duration": {
+	      "type": "long",
+	      "script": {
+		"source": """
+			if (doc.containsKey('dibalite.start') && doc.containsKey('dibalite.end') ) {
+	       		   if (doc['dibalite.start'].size() != 0  && doc['dibalite.end'].size() != 0  ) {
+				def start = doc['dibalite.start'].value.toEpochMilli();
+				def stop = doc['dibalite.end'].value.toEpochMilli();
+				emit(stop - start);
+			   }
+			}
+		"""
+	      }
+	    }
+	  }
+
+       "properties": {
+          "@timestamp": {
+             "type": "date"
+          },
+          "txnId": {
+             "ignore_above": 1024,
+              "type": "keyword"
+          },
+          "username": {
+             "ignore_above": 1024,
+              "type": "keyword"
+          },
+          "dibalite": {
+             "properties": {
+                "start": {
+                   "type": "date",
+                   "format" : "yyyy-MM-dd HH:mm:ss.SSS||strict_date_optional_time||epoch_millis"
+                },
+                "end": {
+                   "type": "date",
+                   "format" : "yyyy-MM-dd HH:mm:ss.SSS||strict_date_optional_time||epoch_millis"
+                },
+                
+                "trace": {
+                   "ignore_above": 1024,
+                   "type": "keyword"
+                },
+                "statusCode": {
+                   "ignore_above": 1024,
+                   "type": "keyword"
+                },
+                "responsePayload": {
+                  "type": "object",
+                  "properties": {
+                    "formFields_a": {
+                      "type": "object", 
+                      "enabled": false
+                    },
+                    "formFields": {
+                      "type": "object",
+                      "enabled": false
+                    }
+                  }
+                }
+             }
+          }
+       }
+    }
+  }
+}
+
+PUT _component_template/dibalite-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "name": "dibalite"
+        },
+        "codec": "best_compression",
+        "query": {
+          "default_field": [
+            "txnId"
+          ]
+        }
+      },
+      "number_of_routing_shards": 30,
+      "number_of_shards": 2,
+      "number_of_replicas": 0,
+      "auto_expand_replicas": "0-1",
+      "refresh_interval": "5s"
+    }
+  }
+}
+PUT _component_template/dibalitebpms-external-ilm-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "rollover_alias": "dibalitebpms-external"
+        }
+      }
+    }
+  }
+}
+
+PUT _component_template/dibalitebpms-exposed-ilm-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "rollover_alias": "dibalitebpms-exposed"
+        }
+      }
+    }
+  }
+}
+
+PUT _component_template/dibalite-external-ilm-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "rollover_alias": "dibalite-external"
+        }
+      }
+    }
+  }
+}
+
+PUT dibalitebpms-exposed-2023.04.08-000001/_mapping
+{
+  "runtime": {
+    "duration": {
+      "type": "long",
+      "script": {
+        "source": """
+            def start = doc['dibalite']['start'].value.toEpochMilli();
+            def stop = doc['dibalite']['start'].value.toEpochMilli();
+            emit(stop - start)
+        """
+      }
+    }
+  }
+}
+
+PUT _component_template/dibalite-exposed-ilm-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "rollover_alias": "dibalite-exposed"
+        }
+      }
+    }
+  }
+}
+PUT _component_template/dibalitebpms-external-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "name": "dibalite",
+          "rollover_alias": "dibalitebpms-external"
+        },
+        "codec": "best_compression",
+        "query": {
+          "default_field": [
+            "txnId"
+          ]
+        }
+      },
+      "number_of_routing_shards": 30,
+      "number_of_shards": 2,
+      "number_of_replicas": 1,
+      "auto_expand_replicas": "0-1",
+      "refresh_interval": "5s"
+    }
+  }
+}
+
+PUT _component_template/dibalitebpms-exposed-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "name": "dibalite",
+          "rollover_alias": "dibalitebpms-exposed"
+        },
+        "codec": "best_compression",
+        "query": {
+          "default_field": [
+            "txnId"
+          ]
+        }
+      },
+      "number_of_routing_shards": 30,
+      "number_of_shards": 2,
+      "number_of_replicas": 1,
+      "auto_expand_replicas": "0-1",
+      "refresh_interval": "5s"
+    }
+  }
+}
+
+PUT _component_template/dibalite-external-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "name": "dibalite",
+          "rollover_alias": "dibalite-external"
+        },
+        "codec": "best_compression",
+        "query": {
+          "default_field": [
+            "txnId"
+          ]
+        }
+      },
+      "number_of_routing_shards": 30,
+      "number_of_shards": 2,
+      "number_of_replicas": 1,
+      "auto_expand_replicas": "0-1",
+      "refresh_interval": "5s"
+    }
+  }
+}
+
+PUT _component_template/dibalite-exposed-settings
+{
+  "template": {
+    "settings": {
+      "index": {
+        "lifecycle": {
+          "name": "dibalite",
+          "rollover_alias": "dibalite-exposed"
+        },
+        "codec": "best_compression",
+        "query": {
+          "default_field": [
+            "txnId"
+          ]
+        }
+      },
+      "number_of_routing_shards": 30,
+      "number_of_shards": 2,
+      "number_of_replicas": 1,
+      "auto_expand_replicas": "0-1",
+      "refresh_interval": "5s"
+    }
+  }
+}
+PUT _component_template/dibalite-dynamic
+{
+  "template": {
+    "mappings": {
+       "date_detection": false,
+       "dynamic_templates": [
+         {
+           "fields": {
+             "mapping": {
+               "type": "keyword"
+             },
+             "match_mapping_type": "string",
+             "path_match": "fields.*"
+           }
+         },
+         {
+           "strings_as_keyword": {
+             "mapping": {
+               "ignore_above": 1024,
+               "type": "keyword"
+             },
+             "match_mapping_type": "string"
+           }
+         }
+       ]
+    }
+  }
+}
+
+GET dibalitebpms-exposed-2023.04.08-000001/_search
+{
+  "query": {
+    "match_all": {}
+  },
+
+  "script_fields": {
+    "duration": {
+      "script": {
+        "source": "doc['dibalite.end'].value.toEpochMilli() - doc['dibalite.start'].value.toEpochMilli();"
+      }
+    }
+  }
+}
+
+PUT dibalitebpms-exposed-2023.04.08-000001/_mapping
+{
+  "runtime": {
+    "duration": {
+      "type": "long",
+      "script": {
+        "source": """
+            def start = doc['dibalite.start'].value.toEpochMilli();
+            def stop = doc['dibalite.end'].value.toEpochMilli();
+            emit(stop - start);
+        """
+      }
+    }
+  }
+}
+
+PUT dibalitebpms-exposed-2023.04.08-000001/_mapping
+{
+  "runtime": {
+    "duration": {
+      "type": "long",
+      "script": {
+        "source": "emit(doc['dibalite.end'].value.toEpochMilli() - doc['dibalite.start'].value.toEpochMilli());"
+      }
+    }
+  }
+}
+GET dibalitebpms-exposed-2023.04.08-000001/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "fields" : ["duration"]
+}
+
+
+
+PUT dibalitebpms-exposed-2023.04.08-000001/_mapping
+{
+  "runtime": {
+    "duration2": {
+      "type": "long",
+      "script": {
+        "source": """
+            def start = doc['dibalite.start'].value.toEpochMilli();
+            def stop = doc['dibalite.end'].value.toEpochMilli();
+            emit(stop - start);
+        """
+      }
+    }
+  }
+}
+GET dibalitebpms-exposed-2023.04.08-000001/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "_source": false, 
+  "fields" : ["duration1"]
+}
+
+PUT dibalitebpms-exposed-2023.04.08-000001/_mapping
+{
+  "runtime": {
+    "duration": {
+      "type": "long",
+      "script": {
+        "source": "emit(doc['dibalite.end'].value.toEpochMilli() - doc['dibalite.start'].value.toEpochMilli());"
+      }
+    }
+  }
+}
+
+GET dibalitebpms-exposed-2023.04.08-000001/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "_source": false, 
+  "fields" : ["duration"]
+}
+
+GET dibalitebpms-exposed-2023.04.08-000001/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "duration": {
+      "script": {
+        "source": "doc['dibalite.end'].value.toEpochMilli() - doc['dibalite.start'].value.toEpochMilli();"
+      }
+    }
+  }
+}
+
+GET dibalitebpms-exposed-2023.04.08-000001/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "duration": {
+      "script": {
+        "source": "doc['dibalite.end'].value.toEpochMilli() - doc['dibalite.start'].value.toEpochMilli();"
+      }
+    }
+  }
+}
+
+
+
+GET dibalitebpms-exposed-2023.04.08-000001/_search
+{
+  "runtime_mappings": {
+    "duration": {
+      "type": "long",
+      "script": {
+        "source": "emit(doc['dibalite.end'].value.toEpochMilli() - doc['dibalite.start'].value.toEpochMilli())"
+      }
+    }
+  },
+  "fields" : ["duration2"],
+  "_source": false
+}
+
+POST _sql/
+{
+  "query": """
+      SELECT * FROM "dibalite-exposed-2023.04.08-000001"
+  """,
+  "field_multi_value_leniency": true
+}
+
+POST _sql/
+{
+  "query": """
+    SELECT * FROM dibalite*
+  """,
+  "field_multi_value_leniency": true
+}
+
+POST _sql/?format=txt
+{
+  "query": """
+    SELECT * FROM "dibalite-*"
+  """,
+  "field_multi_value_leniency": true
+}
+
+PUT dibalitebpms-exposed-2023.04.08-000001/_mapping
+{
+  "runtime": {
+    "duration": {
+      "type": "long",
+      "script": {
+        "source": """
+		if (doc.containsKey('dibalite.start') && doc.containsKey('dibalite.end') ) {
+       		   if (doc['dibalite.start'].size() != 0  && doc['dibalite.end'].size() != 0  ) {
+			def start = doc['dibalite.start'].value.toEpochMilli();
+			def stop = doc['dibalite.end'].value.toEpochMilli();
+		        emit(stop - start);
+		   }
+		}
+        """
+      }
+    }
+  }
+}
+
+POST _sql/?format=txt
+{
+  "query": """
+    SELECT count(*) FROM "dibalite-*" where "dibalite.duration" < 30
+  """,
+  "field_multi_value_leniency": true
+}

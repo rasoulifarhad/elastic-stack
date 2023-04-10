@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  filebeat:
+#    image: elastic/filebeat:${VERSION:-7.16.2}
+    image: docker.elastic.co/beats/filebeat:${VERSION:-7.16.2}
+    # https://github.com/docker/swarmkit/issues/1951
+    #hostname: "{{.Node.Hostname}}-filebeat"
+    container_name: dibafilebeat${PERFIX:-71602}
+    # Need to override user so we can access the log files, and docker.sock
+    user: root
+    networks:
+      - es7162_es
+    volumes:
+      - ./config/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./data/:/usr/share/filebeat/data
+      - ./log/:/usr/share/filebeat/log
+      - /var/run/docker.sock:/var/run/docker.sock
+      # This is needed for filebeat to load container log path as specified in filebeat.yml
+      - /var/lib/docker/containers/:/var/lib/docker/containers/:ro
+
+      # # This is needed for filebeat to load jenkins build log path as specified in filebeat.yml
+      # - /var/lib/docker/volumes/jenkins_home/_data/jobs/:/var/lib/docker/volumes/jenkins_home/_data/jobs/:ro
+
+      # This is needed for filebeat to load logs for system and auth modules
+      - /var/log/:/var/log/:ro
+      # This is needed for filebeat to load logs for auditd module. you might have to install audit system
+      # on ubuntu first (sudo apt-get install -y auditd audispd-plugins)
+      - /var/log/audit/:/var/log/audit/:ro
+    environment:
+      LOGSTASH_HOST: "logstash${PERFIX:-71602}:5044"
+      ELASTICSEASR_HOST: "elasticsearch${PERFIX:-71602}:9200"
+      KIBANA_HOST: "kibana${PERFIX:-71602}:5601"
+      ELASTICSEARCH_HOSTS: "elasticsearch${PERFIX:-71602}:9200"
+    # disable strict permission checks
+    command: ["--strict.perms=false"]
+networks:
+  es7162_es:
+    external: true
+    name: es7162_es
+
+
+
+

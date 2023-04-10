@@ -1,0 +1,11 @@
+ruby {
+        path => "/home/user/flattenJSON.rb"
+        script_params => { "field" => "[dibalite][responsePayload]" }
+    }
+    
+    
+ruby {
+        path => "/home/user/flattenJSON.rb"
+        script_params => { "field" => "[dibalite][requestPayload]" }
+    }
+        
