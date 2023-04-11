@@ -193,18 +193,18 @@ Syntax:
 
 9. the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it. 
 
-GET news_headlines/_search
-{
-  "query": {
-    "multi_match": {
-      "query": "party planning",
-      "fields": [
-        "headline^2",
-        "short_description"
-      ]
-    }
-  }
-}
+> GET news_headlines/_search
+> {
+>   "query": {
+>     "multi_match": {
+>       "query": "party planning",
+>       "fields": [
+>         "headline^2",
+>         "short_description"
+>       ]
+>     }
+>   }
+> }
 
 #### Improving precision with phrase type match 
 
@@ -214,35 +214,35 @@ The phrase type performs a match_phrase query on each field and calculates a sco
 
 Syntax:
 
-GET Enter_the_name_of_the_index_here/_search
-{
-  "query": {
-    "multi_match": {
-      "query": "Enter search phrase",
-      "fields": [
-        "List field you want to boost^2",
-        "List field you want to search over",
-        "List field you want to search over"
-      ],
-      "type": "phrase"
-    }
-  }
-}
+> GET Enter_the_name_of_the_index_here/_search
+> {
+>   "query": {
+>     "multi_match": {
+>       "query": "Enter search phrase",
+>       "fields": [
+>         "List field you want to boost^2",
+>         "List field you want to search over", 
+>         "List field you want to search over"
+>       ],
+>       "type": "phrase"
+>     }
+>   }
+> }
 
 10. the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it.
 
-GET news_headlines/_search
-{
-  "query": {
-    "multi_match": {
-      "query": "party planning",
-      "fields": [
-        "headline^2",
-        "short_description"
-      ],
-      "type": "phrase"
-    }
-  }
-}
+> GET news_headlines/_search
+> {
+>   "query": {
+>     "multi_match": {
+>       "query": "party planning",
+>       "fields": [
+>         "headline^2",
+>         "short_description"
+>       ],
+>       "type": "phrase"
+>     }
+>   }
+> }
 
-
+#### Combined Queries 
