@@ -398,7 +398,7 @@ All hits must match the phrase "Michelle Obama" in the field headline and match 
 
 ##### The must_not clause 
 
-The must_not clause defines queries(criteria) a document MUST NOT match to be included in the search results.
+The **must_not** clause defines **queries**(criteria) a document MUST NOT match to be included in the search results.
 
 Syntax:
 
@@ -447,6 +447,193 @@ Syntax:
 >   }
 > }
 
+##### The should clause
+
+The **should clause** adds "nice to have" **queries**(criteria). The documents do not need to match the "nice to have" **queries** to be considered as hits. However, the ones that do will be given a higher score and are placed higher in the search results.
+
+Syntax:
+
+> GET Enter_name_of_the_index_here/_search
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>         "Enter match or match_phrase here: {
+>           "Enter the name of the field": "Enter the value you are looking for" 
+>          }
+>         },
+>        "should":[
+>          {
+>           "Enter match or match_phrase here": {
+>             "Enter the name of the field": "Enter the value you are looking for"
+>           }
+>         }
+>       ]
+>     }
+>   }
+
+14. During the Black History Month, it is possible that the user may be looking up "Michelle Obama" in the context of "BLACK VOICES" category rather than in the context of "WEDDINGS", "TASTE", or "STYLE" categories. 
+
+> GET news_headlines/_search
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>           "match_phrase": {
+>             "headline": "Michelle Obama"
+>           }
+>         }
+>       ],
+>       "should": [
+>         {
+>           "match_phrase": {
+>             "category": "BLACK VOICES"
+>           }
+>         }
+>       ]
+>     }
+>   }
+> }
+
+##### The filter clause
+
+The **filter clause** contains filter **queries** that place documents into either "yes" or "no" category.
+
+For example, let's say you are looking for headlines published within a certain time range. Some documents will fall within this range(yes) or do not fall within this range(no).
+
+The **filter clause** only includes documents that fall within the yes category.
+
+Syntax:
+
+> GET Enter_name_of_the_index_here/_search
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>         "Enter match or match_phrase here": {
+>           "Enter the name of the field": "Enter the value you are looking for" 
+>          }
+>         }
+>         ],
+>        "filter":{
+>           "range":{
+>              "date": {
+>                "gte": "Enter lowest value of the range here",
+>                "lte": "Enter highest value of the range here"
+>           }
+>         }
+>       }
+>     }
+>   }
+> }
+
+14. Get all headlines about "Michelle Obama" which published within the date range "2014-03-25" and "2016-03-25"
+
+> GET news_headlines/_search
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>           "match_phrase": {
+>             "headline": "Michelle Obama"
+>           }
+>         }
+>       ],
+>       "filter": [
+>         {
+>           "range": {
+>             "date": {
+>               "gte": "2014-03-25",
+>               "lte": "2016-03-25"
+>             }
+>           }
+>         }
+>       ]
+>     }
+>   }
+> }
+
+#### Fine-tuning the relevance of bool queries
+
+There are many ways you can fine-tune the relevance of **bool queries**.
+
+One of the ways is to add multiple queries under the **should clause**. 
+
+##### Adding multiple queries under the should clause
+
+This approach ensures that you maintain a high recall but also offers a way to present more precise search results at the top of your search results.
+
+Syntax:
+
+> GET Enter_name_of_the_index_here/_search
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>           "Enter match or match_phrase here": {
+>             "Enter the name of the field": "Enter the value you are looking for"
+>           }
+>         }
+>       ],
+>       "should": [
+>         {
+>           "Enter match or match_phrase here": {
+>             "Enter the name of the field": "Enter the value you are looking for"
+>           }
+>         },
+>         {
+>           "Enter match or match_phrase here": {
+>             "Enter the name of the field": "Enter the value you are looking for"
+>           }
+>         },
+>         {
+>           "Enter match or match_phrase here": {
+>             "Enter the name of the field": "Enter the value you are looking for"
+>           }
+>         }
+>       ]
+>     }
+>   }
+> }
+
+15. Get all headlines about "Michelle Obama", and favor articles that mention her biography "Becoming", and terms like "women" and "empower".
+
+> GET news_headlines/_search 
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>           "match_phrase": {
+>             "headline": "Michelle Obama"
+>           }
+>         }
+>       ],
+>       "should": [
+>         {
+>           "match": {
+>             "headline": "Becoming"
+>           }
+>         },
+>         {
+>           "match": {
+>             "headline": "women"
+>           }
+>         },
+>         {
+>           "match": {
+>             "headline": "empower"
+>           }
+>         }
+>       ]
+>     }
+>   }
+> }
 
 
 
