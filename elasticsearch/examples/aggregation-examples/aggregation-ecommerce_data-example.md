@@ -1,6 +1,6 @@
 ### Aggregation Example
 
-https://dev.to/lisahjung/beginner-s-guide-running-aggregations-with-elasticsearch-and-kibana-16bn
+[base link](https://dev.to/lisahjung/beginner-s-guide-running-aggregations-with-elasticsearch-and-kibana-16bn)
 
 1. Run Elasticsearch && Kibana 
 
@@ -703,70 +703,150 @@ Result:
 
 21. We want to calculate the daily revenue and the number of unique customers per day
 
-GET ecommerce_data/_search
-{
-  "size": 0,
-  "aggs": {
-    "transactions_per_day": {
-      "date_histogram": {
-        "field": "InvoiceDate",
-        "calendar_interval": "day"
-      },
-      "aggs": {
-        "daily_revenue": {
-          "sum": {
-            "script": {
-              "source": "doc['UnitPrice'].value * doc['Quantity'].value"
-            }
-          }
-        },
-        "number_of_unique_customers_per_day": {
-          "cardinality": {
-            "field": "CustomerID"
-          }
-        }
-      }
-    }
-  }
-}
+> GET ecommerce_data/_search
+> {
+>   "size": 0,
+>   "aggs": {
+>     "transactions_per_day": {
+>       "date_histogram": {
+>         "field": "InvoiceDate",
+>         "calendar_interval": "day"
+>       },
+>       "aggs": {
+>         "daily_revenue": {
+>           "sum": {
+>             "script": {
+>               "source": "doc['UnitPrice'].value * doc['Quantity'].value"
+>             }
+>           }
+>         },
+>         "number_of_unique_customers_per_day": {
+>           "cardinality": {
+>             "field": "CustomerID"
+>           }
+>         }
+>       }
+>     }
+>   }
+> }
 
 Result:
 
-....
-  "aggregations" : {
-    "transactions_per_day" : {
-      "buckets" : [
-        {
-          "key_as_string" : "12/1/2010 0:0",
-          "key" : 1291161600000,
-          "doc_count" : 3096,
-          "number_of_unique_customers_per_day" : {
-            "value" : 98
-          },
-          "daily_revenue" : {
-            "value" : 57458.3
-          }
-        },
-        {
-          "key_as_string" : "12/2/2010 0:0",
-          "key" : 1291248000000,
-          "doc_count" : 2107,
-          "number_of_unique_customers_per_day" : {
-            "value" : 117
-          },
-          "daily_revenue" : {
-            "value" : 46207.28
-          }
-        },
-        {
-          "key_as_string" : "12/3/2010 0:0",
-          "key" : 1291334400000,
-          "doc_count" : 2168,
-          "number_of_unique_customers_per_day" : {
-            "value" : 55
-          },
-          "daily_revenue" : {
-            "value" : 44732.94
-          }
-        },
-....
+> ....
+>   "aggregations" : {
+>     "transactions_per_day" : {
+>       "buckets" : [
+>         {
+>           "key_as_string" : "12/1/2010 0:0",
+>           "key" : 1291161600000,
+>           "doc_count" : 3096,
+>           "number_of_unique_customers_per_day" : {
+>             "value" : 98
+>           },
+>           "daily_revenue" : {
+>             "value" : 57458.3
+>           }
+>         },
+>         {
+>           "key_as_string" : "12/2/2010 0:0",
+>           "key" : 1291248000000,
+>           "doc_count" : 2107,
+>           "number_of_unique_customers_per_day" : {
+>             "value" : 117
+>           },
+>           "daily_revenue" : {
+>             "value" : 46207.28
+>           }
+>         },
+>         {
+>           "key_as_string" : "12/3/2010 0:0",
+>           "key" : 1291334400000,
+>           "doc_count" : 2168,
+>           "number_of_unique_customers_per_day" : {
+>             "value" : 55
+>           },
+>           "daily_revenue" : {
+>             "value" : 44732.94
+>           }
+>         },
+> ....
+
+#### Sorting by metric value of a sub-aggregation
+
+You do not always need to sort by time interval, numerical interval, or by doc_count! You can also sort by metric value of sub-aggregations. 
+
+22. We wanted to find which day had the highest daily revenue!
+
+We must sort buckets based on the metric value of "daily_revenue" in descending("desc") order.
+
+> GET ecommerce_data/_search
+> {
+>   "size": 0,
+>   "aggs": {
+>     "transactions_per_day": {
+>       "date_histogram": {
+>         "field": "InvoiceDate",
+>         "calendar_interval": "day",
+>         "order": {
+>           "daily_revenue": "desc"
+>         }
+>       },
+>       "aggs": {
+>         "daily_revenue": {
+>           "sum": {
+>             "script": {
+>               "source": "doc['UnitPrice'].value * doc['Quantity'].value"
+>             }
+>           }
+>         },
+>         "number_of_unique_customers_per_day": {
+>           "cardinality": {
+>             "field": "CustomerID"
+>           }
+>         }
+>       }
+>     }
+>   }
+> }
+
+Result: 
+
+> ....
+>   "aggregations" : {
+>     "transactions_per_day" : {
+>       "buckets" : [
+>         {
+>           "key_as_string" : "11/14/2011 0:0",
+>           "key" : 1321228800000,
+>           "doc_count" : 3580,
+>           "number_of_unique_customers_per_day" : {
+>             "value" : 109
+>           },
+>           "daily_revenue" : {
+>             "value" : 111160.52
+>           }
+>         },
+>         {
+>           "key_as_string" : "9/20/2011 0:0",
+>           "key" : 1316476800000,
+>           "doc_count" : 1716,
+>           "number_of_unique_customers_per_day" : {
+>             "value" : 56
+>           },
+>           "daily_revenue" : {
+>             "value" : 108194.0
+>           }
+>         },
+>         {
+>           "key_as_string" : "11/7/2011 0:0",
+>           "key" : 1320624000000,
+>           "doc_count" : 2087,
+>           "number_of_unique_customers_per_day" : {
+>             "value" : 90
+>           },
+>           "daily_revenue" : {
+>             "value" : 83038.19
+>           }
+>         },
+> ....
+
