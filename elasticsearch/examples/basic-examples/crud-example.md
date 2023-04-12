@@ -256,4 +256,50 @@ Result:
 >   "_primary_term" : 1
 > }
 
+This **POST** request directs Elasticsearch to update(**_update**) a document with an id of **1** in the **favorite_candy** index. By including **"doc"** in the JSON object, it also clarifies that only the field and value specified in nested curly brackets should be updated. The rest of the information in the original document should be kept in tact.
 
+#### Delete a document
+
+The following syntax is used to delete a document.
+
+Syntax:
+
+> DELETE Name-of-the-Index/_doc/id-of-the-document-you-want-to-delete
+
+8. Delete document with id 1
+
+> DELETE favorite_candy/_doc/1
+
+Result:
+
+{
+  "_index" : "favorite_candy",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 5,
+  "result" : "deleted",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 5,
+  "_primary_term" : 1
+}
+
+You will see a **200-OK** response that states that document(**_doc**) with an id of **1** has been **deleted**. The version number is now **5**.
+
+9. Get document that not exist
+
+> GET favorite_candy/_doc/1
+
+Result:
+
+{
+  "_index" : "favorite_candy",
+  "_type" : "_doc",
+  "_id" : "1",
+  "found" : false
+}
+
+If you send a GET request for document 1 again, you will get a 404 error message because document 1 no longer exists!
