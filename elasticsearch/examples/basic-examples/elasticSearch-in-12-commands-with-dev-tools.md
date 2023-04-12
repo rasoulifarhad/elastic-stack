@@ -8,10 +8,6 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 
 1. **Verify the ES cluster is accessible**
 
-> curl -X GET "localhost:9200"
-
-In Dev Tools
-
 > GET /
 
 Result:
@@ -36,10 +32,6 @@ Result:
 
 2. **Create an index**
 
-> curl -X PUT "localhost:9200/my-index-000001?pretty"
-
-In Dev Tools
-
 > PUT /my-index-000001
 
 Result:
@@ -53,35 +45,6 @@ Result:
 3. **Create the mapping for the index**
 
 The index we just created has no mapping. A mapping is similar to a schema in SQL databases.
-
-> curl -XPUT "http://localhost:9200/my-index-000001/_mapping" -H 'Content-Type: application/json' -d'
-> {
->     "properties": {
->         "product_id": {
->             "type": "keyword"
->         },
->         "price": {
->             "type": "float"
->         },
->         "stocks": {
->             "type": "integer"
->         },
->         "published": {
->             "type": "boolean"
->         },
->         "title": {
->             "type": "text"
->         },
->         "sortable_title": {
->             "type": "text"
->         },
->         "tags": {
->             "type": "text"
->         }
->     }
-> }'
-
-In Dev Tools
 
 > PUT /my-index-000001/_mapping
 > {
@@ -115,10 +78,6 @@ Result:
 > {"acknowledged":true}
 
 4. **Show the mapping of the index**
-
-> curl -XGET "http://localhost:9200/my-index-000001/_mapping?pretty"
-
-In Dev Tools
 
 > GET /my-index-000001/_mapping?pretty
 
@@ -158,7 +117,7 @@ Result:
 
 5. **Create data for the index**
 
-> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
+> POST /my-index-000001/_doc
 > {
 >   "product_id": "123",
 >   "price": 99.75,
@@ -167,7 +126,7 @@ Result:
 >   "sortable_title": "Kenny Rogers Chicken Sauce",
 >   "title": "Kenny Rogers Chicken Sauce",
 >   "tags": "chicken sauce poultry cooked party"
-> }'
+> }
 
 Result:
 
@@ -186,7 +145,7 @@ Result:
 >   "_primary_term" : 1
 > }
 
-> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
+> POST /my-index-000001/_doc
 > {
 >   "product_id": "456",
 >   "price": 200.75,
@@ -195,7 +154,7 @@ Result:
 >   "sortable_title": "Best Selling Beer Flavor",
 >   "title": "Best Selling Beer Flavor",
 >   "tags": "beer best-seller party"
-> }'
+> }
 
 Result: 
 
@@ -214,8 +173,7 @@ Result:
 >   "_primary_term" : 1
 > }
 
-
-> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
+> POST /my-index-000001/_doc
 > {
 >   "product_id": "789",
 >   "price": 350.5,
@@ -224,7 +182,7 @@ Result:
 >   "sortable_title": "Female Lotion",
 >   "title": "Female Lotion",
 >   "tags": "lotion female"  
-> }'
+> }
 
 Result: 
 
@@ -243,51 +201,7 @@ Result:
 >   "_primary_term" : 1
 > }
 
-In Dev Tools
-
-> POST /my-index-000001/_doc
-> {
->   "product_id": "123",
->   "price": 99.75,
->   "stocks": 10,
->   "published": true,
->   "sortable_title": "Kenny Rogers Chicken Sauce",
->   "title": "Kenny Rogers Chicken Sauce",
->   "tags": "chicken sauce poultry cooked party"
-> }
-
-> POST /my-index-000001/_doc
-> {
->   "product_id": "456",
->   "price": 200.75,
->   "stocks": 0,
->   "published": true,
->   "sortable_title": "Best Selling Beer Flavor",
->   "title": "Best Selling Beer Flavor",
->   "tags": "beer best-seller party"
-> }
-
-> POST /my-index-000001/_doc
-> {
->   "product_id": "789",
->   "price": 350.5,
->   "stocks": 200,
->   "published": false,
->   "sortable_title": "Female Lotion",
->   "title": "Female Lotion",
->   "tags": "lotion female"  
-> }
-
 6. **Display all the data**
-
-> curl -XPOST "http://localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "query": {
->     "match_all": {}
->   }
-> }'
-
-In Dev Tools
 
 > POST /my-index-000001/_search
 > {
@@ -297,17 +211,6 @@ In Dev Tools
 > }
 
 7. **Exact search with product id**
-
-> curl -XPOST "http://localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "query": {
->     "term": {
->       "product_id": "456"
->     }
->   }
-> }'
-
-In Dev Tools
 
 > POST /my-index-000001/_search
 > {
@@ -359,17 +262,6 @@ Result:
 
 Fuzzy searches allow us to search for products by typing just a few words instead of the whole text of the field. Instead of typing the full name of the product name (i.e Incredible Tuna Mayo Jumbo 250), the customer just instead has to search for the part he recalls of the product (i.e Tuna Mayo).
 
-> curl -XPOST "http://localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "query": {
->     "match": {
->       "title": "Beer Flavor"
->     }
->   }
-> }'
-
-In Dev Tools:
-
 > POST /my-index-000001/_search
 > {
 >   "query": {
@@ -419,23 +311,6 @@ Result:
 In the default setting, we can get the product "Best Selling Beer Flavor" even with our incomplete query "Beer Flavor". There are other settings that allow us to tolerate misspellings or incomplete words to show results (i.e Bee Flavo)
 
 9. **Sorted by prices**
-
-> curl -XPOST "http://localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "query": {
->     "match_all": {}
->   },
->   "sort": [
->     {
->       "price": {
->         "order": "desc"
->       }
->     },
->     "_score"
->   ]
-> }'
-
-In Dev Tools
 
 > POST /my-index-000001/_search
 > {
@@ -533,42 +408,7 @@ Result:
 
 10. **Search for all "beer" products that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
 
-Let's add several more beer products. 
-
-> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "product_id": "111",
->   "price": 350.55,
->   "stocks": 10,
->   "published": true,
->   "sortable_title": "Tudor Beer Lights",
->   "title": "Tudor Beer Lights",
->   "tags": "beer tudor party"
-> }'
-
-> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "product_id": "222",
->   "price": 700.5,
->   "stocks": 500,
->   "published": false,
->   "sortable_title": "Stella Beer 6pack",
->   "title": "Stella Beer 6pack",
->   "tags": "beer stella party"
-> }'
-
-> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "product_id": "333",
->   "price": 340,
->   "stocks": 500,
->   "published": true,
->   "sortable_title": "Kampai Beer 6pack",
->   "title": "Kampai Beer 6pack",
->   "tags": "beer kampai party"
-> }'
-
-In Dev Tools
+**Let's add several more beer products.**
 
 > POST /my-index-000001/_doc
 > {
@@ -603,40 +443,7 @@ In Dev Tools
 >   "tags": "beer kampai party"
 > }
 
-> curl -XPOST "http://localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "match": {
->             "title": "Beer"
->           }
->         },
->         {
->           "term": {
->             "published": true
->           }
->         },
->         {
->           "range": {
->             "stocks": {
->               "gt": 0
->             }
->           }
->         }
->       ]
->     }
->   },
->   "sort": [
->     {
->       "price": "asc"
->     },
->     "_score"
->   ]
-> }'
- 
-In Dev Tools
+**Search:**
 
 > POST /my-index-000001/_search
 > {
@@ -734,5 +541,226 @@ Result:
 
 11. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
 
+Previous query just involved three conditions that must be ALL TRUE to hold. That's equivalent to "A and B and C".
+
+In this query, we still have three conditions that have to be all true, but the 1st condition is marked as true if it has either "poultry", "kampai", or "best-seller". In this example, we introduce the syntax for "OR":
+
+> POST /my-index-000001/_search
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>           "bool": {
+>             "should": [
+>               {
+>                "match": {
+>                  "tags": "poultry"
+>                } 
+>               },
+>               {
+>                 "match": {
+>                   "tags": "kampai"
+>                 }
+>               },
+>               {
+>                 "match": {
+>                   "tags": "best-seller"
+>                 }
+>               }
+>             ],
+>             "minimum_should_match": 1
+>           }
+>         },
+>         {
+>           "term": {
+>             "published": true
+>           }
+>         },
+>         {
+>           "range": {
+>             "stocks": {
+>               "gt": 0
+>             }
+>           }
+>         }
+>       ]
+>     }
+>   },
+>   "sort": [
+>     {
+>       "price": "asc"
+>     },
+>     "_score"
+>   ]
+> }
+
+Result:
+
+> {
+>   "took" : 1,
+>   "timed_out" : false,
+>   "_shards" : {
+>     "total" : 1,
+>     "successful" : 1,
+>     "skipped" : 0,
+>     "failed" : 0
+>   },
+>   "hits" : {
+>     "total" : {
+>       "value" : 2,
+>       "relation" : "eq"
+>     },
+>     "max_score" : null,
+>     "hits" : [
+>       {
+>         "_index" : "my-index-000001",
+>         "_type" : "_doc",
+>         "_id" : "i7kVdocBfrudywCYQDSY",
+>         "_score" : 2.7206926,
+>         "_source" : {
+>           "product_id" : "123",
+>           "price" : 99.75,
+>           "stocks" : 10,
+>           "published" : true,
+>           "sortable_title" : "Kenny Rogers Chicken Sauce",
+>           "title" : "Kenny Rogers Chicken Sauce",
+>           "tags" : "chicken sauce poultry cooked party"
+>         },
+>         "sort" : [
+>           99.75,
+>           2.7206926
+>         ]
+>       },
+>       {
+>         "_index" : "my-index-000001",
+>         "_type" : "_doc",
+>         "_id" : "kLl4docBfrudywCYpzT_",
+>         "_score" : 3.047984,
+>         "_source" : {
+>           "product_id" : "333",
+>           "price" : 340,
+>           "stocks" : 500,
+>           "published" : true,
+>           "sortable_title" : "Kampai Beer 6pack",
+>           "title" : "Kampai Beer 6pack",
+>           "tags" : "beer kampai party"
+>         },
+>         "sort" : [
+>           340.0,
+>           3.047984
+>         ]
+>       }
+>     ]
+>   }
+> }
+
+**Note:** 
+
+In this query, we still have a "must" keyword, but its first contains a "should" keyword. The whole query is equivalent to: (A or B or C) AND D AND E. The "should" implies that as long as one condition is met, the (A or B or C) statement returns true.
+
+A tweak we can do is adjust the "minimum_should_match" (msm) parameter, so we can require that two or three or N conditions be met for the statement to be true. In our example, if msm=2, it means a product has to have two matching tags to be considered true (i.e a product has to be both poultry and kampai).
+
 12. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], and in stock. The price should be between 0 to 300 only. Sorted by cheapest to most expensive**
+
+This query is similar to #11 but we added another criteria that the price of the products returned should only be between 0 and 300.
+
+> POST /my-index-000001/_search
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>           "bool": {
+>             "should": [
+>               {
+>                "match": {
+>                  "tags": "poultry"
+>                } 
+>               },
+>               {
+>                 "match": {
+>                   "tags": "kampai"
+>                 }
+>               },
+>               {
+>                 "match": {
+>                   "tags": "best-seller"
+>                 }
+>               }
+>             ],
+>             "minimum_should_match": 1
+>           }
+>         },
+>         {
+>           "term": {
+>             "published": true
+>           }
+>         },
+>         {
+>           "range": {
+>             "stocks": {
+>               "gt": 0
+>             }
+>           }
+>         },
+>         {
+>           "range": {
+>             "price": {
+>               "gt": 0,
+>               "lt": 300
+>             }
+>           }
+>         }
+>       ]
+>     }
+>   },
+>   "sort": [
+>     {
+>       "price": "asc"
+>     },
+>     "_score"
+>   ]
+> }
+
+Result:
+ 
+> {
+>   "took" : 1,
+>   "timed_out" : false,
+>   "_shards" : {
+>     "total" : 1,
+>     "successful" : 1,
+>     "skipped" : 0,
+>     "failed" : 0
+>   },
+>   "hits" : {
+>     "total" : {
+>       "value" : 1,
+>       "relation" : "eq"
+>     },
+>     "max_score" : null,
+>     "hits" : [
+>       {
+>         "_index" : "my-index-000001",
+>         "_type" : "_doc",
+>         "_id" : "i7kVdocBfrudywCYQDSY",
+>         "_score" : 3.7206926,
+>         "_source" : {
+>           "product_id" : "123",
+>           "price" : 99.75,
+>           "stocks" : 10,
+>           "published" : true,
+>           "sortable_title" : "Kenny Rogers Chicken Sauce",
+>           "title" : "Kenny Rogers Chicken Sauce",
+>           "tags" : "chicken sauce poultry cooked party"
+>         },
+>         "sort" : [
+>           99.75,
+>           3.7206926
+>         ]
+>       }
+>     ]
+>   }
+> }
 
