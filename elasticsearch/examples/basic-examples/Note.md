@@ -79,4 +79,20 @@ In cases where you do not need both field types, the default setting is wasteful
 
 This is why we define our own mapping as it helps us store and search data more efficiently.
 
+##### Text field types
+
+![text field types](images/text-field-types.jpeg)'
+
+By default, every field that contains string data type gets mapped twice as a **text** field and as a **keyword** multi-field.
+
+Each field type is primed for different types of requests.
+
+**Text** field type is used for full text search.
+
+**keyword** field type is used for aggregations, sorting, and exact searches.
+
+In scenarios where you do not need both field types, the default setting is wasteful. It will slow down indexing and use up more disk space.
+
+When deciding on a string field type, make sure you know for what purpose this field will be serving so you can choose the correct field type.
+
 
