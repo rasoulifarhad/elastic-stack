@@ -533,6 +533,205 @@ Result:
 
 10. **Search for all "beer" products that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
 
+Let's add several more beer products. 
+
+> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
+> {
+>   "product_id": "111",
+>   "price": 350.55,
+>   "stocks": 10,
+>   "published": true,
+>   "sortable_title": "Tudor Beer Lights",
+>   "title": "Tudor Beer Lights",
+>   "tags": "beer tudor party"
+> }'
+
+> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
+> {
+>   "product_id": "222",
+>   "price": 700.5,
+>   "stocks": 500,
+>   "published": false,
+>   "sortable_title": "Stella Beer 6pack",
+>   "title": "Stella Beer 6pack",
+>   "tags": "beer stella party"
+> }'
+
+> curl -XPOST "http://localhost:9200/my-index-000001/_doc?pretty" -H 'Content-Type: application/json' -d'
+> {
+>   "product_id": "333",
+>   "price": 340,
+>   "stocks": 500,
+>   "published": true,
+>   "sortable_title": "Kampai Beer 6pack",
+>   "title": "Kampai Beer 6pack",
+>   "tags": "beer kampai party"
+> }'
+
+In Dev Tools
+
+> POST /my-index-000001/_doc
+> {
+>   "product_id": "111",
+>   "price": 350.55,
+>   "stocks": 10,
+>   "published": true,
+>   "sortable_title": "Tudor Beer Lights",
+>   "title": "Tudor Beer Lights",
+>   "tags": "beer tudor party"
+> }
+
+> POST /my-index-000001/_doc
+> {
+>   "product_id": "222",
+>   "price": 700.5,
+>   "stocks": 500,
+>   "published": false,
+>   "sortable_title": "Stella Beer 6pack",
+>   "title": "Stella Beer 6pack",
+>   "tags": "beer stella party"
+> }
+
+> POST /my-index-000001/_doc
+> {
+>   "product_id": "333",
+>   "price": 340,
+>   "stocks": 500,
+>   "published": true,
+>   "sortable_title": "Kampai Beer 6pack",
+>   "title": "Kampai Beer 6pack",
+>   "tags": "beer kampai party"
+> }
+
+> curl -XPOST "http://localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>           "match": {
+>             "title": "Beer"
+>           }
+>         },
+>         {
+>           "term": {
+>             "published": true
+>           }
+>         },
+>         {
+>           "range": {
+>             "stocks": {
+>               "gt": 0
+>             }
+>           }
+>         }
+>       ]
+>     }
+>   },
+>   "sort": [
+>     {
+>       "price": "asc"
+>     },
+>     "_score"
+>   ]
+> }'
+ 
+In Dev Tools
+
+> POST /my-index-000001/_search
+> {
+>   "query": {
+>     "bool": {
+>       "must": [
+>         {
+>           "match": {
+>             "title": "Beer"
+>           }
+>         },
+>         {
+>           "term": {
+>             "published": true
+>           }
+>         },
+>         {
+>           "range": {
+>             "stocks": {
+>               "gt": 0
+>             }
+>           }
+>         }
+>       ]
+>     }
+>   },
+>   "sort": [
+>     {
+>       "price": "asc"
+>     },
+>     "_score"
+>   ]
+> }
+
+Result:
+
+> {
+>   "took" : 1,
+>   "timed_out" : false,
+>   "_shards" : {
+>     "total" : 1,
+>     "successful" : 1,
+>     "skipped" : 0,
+>     "failed" : 0
+>   },
+>   "hits" : {
+>     "total" : {
+>       "value" : 2,
+>       "relation" : "eq"
+>     },
+>     "max_score" : null,
+>     "hits" : [
+>       {
+>         "_index" : "my-index-000001",
+>         "_type" : "_doc",
+>         "_id" : "kLl4docBfrudywCYpzT_",
+>         "_score" : 1.893388,
+>         "_source" : {
+>           "product_id" : "333",
+>           "price" : 340,
+>           "stocks" : 500,
+>           "published" : true,
+>           "sortable_title" : "Kampai Beer 6pack",
+>           "title" : "Kampai Beer 6pack",
+>           "tags" : "beer kampai party"
+>         },
+>         "sort" : [
+>           340.0,
+>           1.893388
+>         ]
+>       },
+>       {
+>         "_index" : "my-index-000001",
+>         "_type" : "_doc",
+>         "_id" : "jrl4docBfrudywCYVTRP",
+>         "_score" : 1.893388,
+>         "_source" : {
+>           "product_id" : "111",
+>           "price" : 350.55,
+>           "stocks" : 10,
+>           "published" : true,
+>           "sortable_title" : "Tudor Beer Lights",
+>           "title" : "Tudor Beer Lights",
+>           "tags" : "beer tudor party"
+>         },
+>         "sort" : [
+>           350.55,
+>           1.893388
+>         ]
+>       }
+>     ]
+>   }
+> }
+
+
 11. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
 
 12. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], and in stock. The price should be between 0 to 300 only. Sorted by cheapest to most expensive**
