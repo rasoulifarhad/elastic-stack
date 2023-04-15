@@ -272,20 +272,20 @@ Syntax:
 
 Result:
 
-{
-  "_index" : "favorite_candy",
-  "_type" : "_doc",
-  "_id" : "1",
-  "_version" : 5,
-  "result" : "deleted",
-  "_shards" : {
-    "total" : 2,
-    "successful" : 1,
-    "failed" : 0
-  },
-  "_seq_no" : 5,
-  "_primary_term" : 1
-}
+> {
+>   "_index" : "favorite_candy",
+>   "_type" : "_doc",
+>   "_id" : "1",
+>   "_version" : 5,
+>   "result" : "deleted",
+>   "_shards" : {
+>     "total" : 2,
+>     "successful" : 1,
+>     "failed" : 0
+>   },
+>   "_seq_no" : 5,
+>   "_primary_term" : 1
+> }
 
 You will see a **200-OK** response that states that document(**_doc**) with an id of **1** has been **deleted**. The version number is now **5**.
 
@@ -295,11 +295,11 @@ You will see a **200-OK** response that states that document(**_doc**) with an i
 
 Result:
 
-{
-  "_index" : "favorite_candy",
-  "_type" : "_doc",
-  "_id" : "1",
-  "found" : false
-}
+> {
+>   "_index" : "favorite_candy",
+>   "_type" : "_doc",
+>   "_id" : "1",
+>   "found" : false
+> }
 
 If you send a GET request for document 1 again, you will get a 404 error message because document 1 no longer exists!
