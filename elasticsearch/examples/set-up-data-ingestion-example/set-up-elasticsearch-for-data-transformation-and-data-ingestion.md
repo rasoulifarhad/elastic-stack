@@ -123,6 +123,8 @@ Here is the list of fields that we do not need.
 - magType
 - title
 
+> "updated","tz","detail","felt","cdi","mmi","alert","status","tsunami","net","code","ids","sources","types","nst","dmin","rms","gap","magType","title"
+
 To remove these fields, we can use the **Remove** processor.
 
 Under the processor section, type **Remove** in the search bar. Click on the **Remove** processor
@@ -183,54 +185,371 @@ Before creating the **earthquake_data_pipeline**, make sure the order of the pro
 
 Next, we will create the **earthquake_data_pipeline** by clicking on the **Create pipeline** button.
 
+##### Final ingest pipeline
+
+PUT _ingest/pipeline/earthquake_data_pipeline
+{
+  "description": "My optional pipeline description",
+  "processors": [
+    {
+      "date": {
+        "field": "properties.time",
+        "formats": [
+          "UNIX_MS"
+        ]
+      }
+    },
+    {
+      "remove": {
+        "field": [
+          "type"
+        ],
+        "ignore_missing": true
+      }
+    },
+    {
+      "script": {
+        "source": "ctx['coordinates'] = [ctx.geometry.coordinates.get(0), ctx.geometry.coordinates.get(1)];\nctx['depth'] = ctx.geometry.coordinates.get(2);"
+      }
+    },
+    {
+      "rename": {
+        "field": "latitude",
+        "target_field": "coordinates.lat",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "longitude",
+        "target_field": "coordinates.lon",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.mag",
+        "target_field": "mag",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.place",
+        "target_field": "place",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.url",
+        "target_field": "url",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.sig",
+        "target_field": "sig",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.type",
+        "target_field": "type",
+        "ignore_missing": true
+      }
+    },
+    {
+      "set": {
+        "field": "_id",
+        "value": "{{{id}}}"
+      }
+    },
+    {
+      "remove": {
+        "field": [
+          "geometry",
+          "id",
+          "properties"
+        ],
+        "ignore_missing": true
+      }
+    }
+  ]
+}
+
+curl -XPUT "http://localhost:9200/_ingest/pipeline/earthquake_data_pipeline?pretty" -H 'Content-Type: application/json' -d'
+{
+  "description": "My optional pipeline description",
+  "processors": [
+    {
+      "date": {
+        "field": "properties.time",
+        "formats": [
+          "UNIX_MS"
+        ]
+      }
+    },
+    {
+      "remove": {
+        "field": [
+          "type"
+        ],
+        "ignore_missing": true
+      }
+    },
+    {
+      "script": {
+        "source": "ctx['coordinates'] = [ctx.geometry.coordinates.get(0), ctx.geometry.coordinates.get(1)];\nctx['depth'] = ctx.geometry.coordinates.get(2);"
+      }
+    },
+    {
+      "rename": {
+        "field": "latitude",
+        "target_field": "coordinates.lat",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "longitude",
+        "target_field": "coordinates.lon",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.mag",
+        "target_field": "mag",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.place",
+        "target_field": "place",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.url",
+        "target_field": "url",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.sig",
+        "target_field": "sig",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "properties.type",
+        "target_field": "type",
+        "ignore_missing": true
+      }
+    },
+    {
+      "set": {
+        "field": "_id",
+        "value": "{{{id}}}"
+      }
+    },
+    {
+      "remove": {
+        "field": [
+          "geometry",
+          "id",
+          "properties"
+        ],
+        "ignore_missing": true
+      }
+    }
+  ]
+}'
+
+POST _ingest/pipeline/earthquake_data_pipeline/_simulate
+{
+  "docs": [
+    {
+      "_source": {
+        "type": "Feature",
+        "properties": {
+          "mag": 1.13,
+          "place": "11km ENE of Coachella, CA",
+          "time": 1650316843970,
+          "updated": 1650317059011,
+          "tz": null,
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/ci40240408",
+          "detail": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/detail/ci40240408.geojson",
+          "felt": null,
+          "cdi": null,
+          "mmi": null,
+          "alert": null,
+          "status": "automatic",
+          "tsunami": 0,
+          "sig": 20,
+          "net": "ci",
+          "code": "40240408",
+          "ids": ",ci40240408,",
+          "sources": ",ci,",
+          "types": ",nearby-cities,origin,phase-data,scitech-link,",
+          "nst": 37,
+          "dmin": 0.07687,
+          "rms": 0.26,
+          "gap": 48,
+          "magType": "ml",
+          "type": "earthquake",
+          "title": "M 1.1 - 11km ENE of Coachella, CA"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -116.0736667,
+            33.7276667,
+            2.09
+          ]
+        },
+        "id": "ci40240408"
+      }
+    }
+  ]
+}
+
 ##### Step 4: Create an index called earthquakes with the desired mapping
 
 We will accomplish this step using **Kibana Dev Tools**.
 
 In the left panel of the Kibana console, copy and paste the following.
 
-PUT earthquakes 
-{
-  "mappings": {
-    "properties": {
-      "@timestamp": {
-        "type": "date"
-      },
-      "coordinates": {
-        "type": "geo_point"
-      },
-      "depth": {
-        "type": "float"
-      },
-      "mag": {
-        "type": "float"
-      },
-      "place": {
-        "type": "text",
-        "fields": {
-          "keyword": {
-            "type": "keyword"
-          }
-        }
-      },
-      "sig": {
-        "type": "short"
-      },
-      "type": {
-        "type": "keyword"
-      },
-      "url": {
-        "type" : "object",
-        "enabled": false
-      }
-    }
-  }
-}
+> PUT earthquakes 
+> {
+>   "mappings": {
+>     "properties": {
+>       "@timestamp": {
+>         "type": "date"
+>       },
+>       "coordinates": {
+>         "type": "geo_point"
+>       },
+>       "depth": {
+>         "type": "float"
+>       },
+>       "mag": {
+>         "type": "float"
+>       },
+>       "place": {
+>         "type": "text",
+>         "fields": {
+>           "keyword": {
+>             "type": "keyword"
+>           }
+>         }
+>       },
+>       "sig": {
+>         "type": "short"
+>       },
+>       "type": {
+>         "type": "keyword"
+>       },
+>       "url": {
+>         "type" : "object",
+>         "enabled": false
+>       }
+>     }
+>   }
+> }
+
+OR
+
+> curl -XPUT "http://localhost:9200/earthquakes?pretty" -H 'Content-Type: application/json' -d'
+> {
+>   "mappings": {
+>     "properties": {
+>       "@timestamp": {
+>         "type": "date"
+>       },
+>       "coordinates": {
+>         "type": "geo_point"
+>       },
+>       "depth": {
+>         "type": "float"
+>       },
+>       "mag": {
+>         "type": "float"
+>       },
+>       "place": {
+>         "type": "text",
+>         "fields": {
+>           "keyword": {
+>             "type": "keyword"
+>           }
+>         }
+>       },
+>       "sig": {
+>         "type": "short"
+>       },
+>       "type": {
+>         "type": "keyword"
+>       },
+>       "url": {
+>         "type" : "object",
+>         "enabled": false
+>       }
+>     }
+>   }
+> }'
+
+##### Submitting bulk requests with cURL
+
+> cat > ingest_earthquakes.sh <<EOF
+> #!/bin/bash
+> content=$(curl -sS https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson)
+> echo $content | jq -c  '.features[]' > all_month.geojson.ndjson
+> sed -i 's/^/{"index":{}}\n/'  all_month.geojson.ndjson
+> curl -s -H "Content-Type: application/x-ndjson" -XPOST "localhost:9200/earthquakes/_bulk?pipeline=earthquake_data_pipeline" --data-binary "@all_month.geojson.ndjson"; echo
+> rm -rf all_month.geojson.ndjson
+> EOF
+
+**Note:** If you’re providing text file input to curl, you must use the --data-binary flag instead of plain -d. The latter doesn’t preserve newlines. 
+
+#### NOTE:
+
+> jq -c '.[]' <<END
+> {
+>     [
+>         {
+>             "a1": 1
+>         },
+>         {
+>             "a2": 2
+>         }
+>     ]
+> }
+> END
+
+> jq -c '.a | .[]' <<END
+> {
+>     "a": [
+>         {
+>             "a1": 1
+>         },
+>         {
+>             "a2": 2
+>         }
+>     ]
+> }
+> END
 
 #### Summary
 
 We have created:
-
+curl -sS https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson
 - an **ingest pipeline**(earthquake_data_pipeline) to transform the retrieved data from the USGS API
 
 - an index called **earthquakes** with the desired mapping
@@ -240,4 +559,8 @@ Next , we will set up the server to retrieve earthquake data from the USGS API a
 ![data journey](images/data-journey.png)
 
 Once the data transformation is complete, the transformed data will be ingested into the **earthquakes** index.
+
+#### Dashboard
+
+[Earthquakes Data Visualization](earthquakes_data_visualization.ndjson)
 

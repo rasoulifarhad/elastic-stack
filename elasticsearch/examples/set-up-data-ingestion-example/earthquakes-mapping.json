@@ -1,0 +1,37 @@
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "coordinates": {
+        "type": "geo_point"
+      },
+      "depth": {
+        "type": "float"
+      },
+      "mag": {
+        "type": "float"
+      },
+      "place": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "sig": {
+        "type": "short"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "url": {
+        "type" : "object",
+        "enabled": false
+      }
+    }
+  }
+}
+
