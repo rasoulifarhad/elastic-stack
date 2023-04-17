@@ -141,9 +141,8 @@ We have added all the necessary processors to transform our data. Before creatin
 
 Next, we will create the **earthquake_data_pipeline** by clicking on the **Create pipeline** button.
 
-##### Final ingest pipeline
-
 ```markdown
+# Final ingest pipeline
 PUT _ingest/pipeline/earthquake_data_pipeline
 {
   "description": "My optional pipeline description",
@@ -332,6 +331,7 @@ curl -XPUT "http://localhost:9200/_ingest/pipeline/earthquake_data_pipeline?pret
 }'
 ```
 ```markdown
+# simulate pipeline
 POST _ingest/pipeline/earthquake_data_pipeline/_simulate
 {
   "docs": [
@@ -382,9 +382,8 @@ POST _ingest/pipeline/earthquake_data_pipeline/_simulate
 ```
 ### Step 4: Create an index called earthquakes with the desired mapping
 
-We will accomplish this step using **Kibana Dev Tools**.
+We will accomplish this step using **Kibana Dev Tools**. In the left panel of the Kibana console, copy and paste the following. and execute that.
 
-In the left panel of the Kibana console, copy and paste the following.
 ```markdown
 PUT earthquakes 
 {
@@ -424,7 +423,9 @@ PUT earthquakes
   }
 }
 ```
+
 OR
+
 ```markdown
 curl -XPUT "http://localhost:9200/earthquakes?pretty" -H 'Content-Type: application/json' -d'
 {
@@ -464,6 +465,7 @@ curl -XPUT "http://localhost:9200/earthquakes?pretty" -H 'Content-Type: applicat
   }
 }'
 ```
+
 ### Submitting bulk requests with cURL
 
 ```markdown
@@ -476,7 +478,25 @@ curl -s -H "Content-Type: application/x-ndjson" -XPOST "localhost:9200/earthquak
 rm -rf all_month.geojson.ndjson
 EOF
 ```
+
 **Note:** If you’re providing text file input to curl, you must use the --data-binary flag instead of plain -d. The latter doesn’t preserve newlines. 
+
+Once the data transformation is complete, the transformed data will be ingested into the **earthquakes** index.
+
+### Summary
+
+We have created:
+
+- an **ingest pipeline**(earthquake_data_pipeline) to transform the retrieved data from the USGS API
+- an index called **earthquakes** with the desired mapping
+
+Next , we will set up the server to retrieve earthquake data from the USGS API and send the data to the **earthquake_data_pipeline** in Elasticsearch.
+
+![data journey](images/data-journey.png)
+
+### Dashboard
+
+[Earthquakes Data Visualization](earthquakes_data_visualization.ndjson)
 
 ### NOTE:
 ```markdown
@@ -507,23 +527,3 @@ jq -c '.a | .[]' <<END
 }
 END
 ```
-### Summary
-
-We have created:
-```markdown
-curl -sS https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson
-```
-- an **ingest pipeline**(earthquake_data_pipeline) to transform the retrieved data from the USGS API
-
-- an index called **earthquakes** with the desired mapping
-
-Next , we will set up the server to retrieve earthquake data from the USGS API and send the data to the **earthquake_data_pipeline** in Elasticsearch.
-
-![data journey](images/data-journey.png)
-
-Once the data transformation is complete, the transformed data will be ingested into the **earthquakes** index.
-
-### Dashboard
-
-[Earthquakes Data Visualization](earthquakes_data_visualization.ndjson)
-
