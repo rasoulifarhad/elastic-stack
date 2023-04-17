@@ -1,7 +1,7 @@
 ### pipeline to script and loop around all fields in a context
 
 #### Checking the length of possible fields within a document
-
+```markdown
 POST _ingest/pipeline/_simulate
 {
   "pipeline": {
@@ -35,13 +35,13 @@ POST _ingest/pipeline/_simulate
     }
   ]
 }
-
+```
 **“ctx.keySet()”** method returns a **Set** interface containing all **“field-names”** available under the document. After obtaining the Set, we can start iterating it and apply our matching logics.
 
 This Set also contains meta data fields such as **“_index”** and **“_id”**, hence when we are applying some field matching logics, be aware of such fields too.
 
 #### How to remove(long fields) the corresponding fields from our document context 
-
+```markdown
 POST _ingest/pipeline/_simulate
 {
   "pipeline": {
@@ -89,13 +89,13 @@ POST _ingest/pipeline/_simulate
     }
   ]
 }
-
+```
 The magic is **ctx.remove(“fieldname”)**. Also note that we have applied a more precise rule on our field matching logic **!key.startsWith(“_”) && key.length()>10** so that all meta fields (e.g. _index) would not be considered.
 
 Also an **ArrayList** is introduced to store the target field names. You might ask why don’t we directly remove the field from the document context during the loop? The reason is if we try to do so, an exception would burst out describing a **concurrent modification** on the document context. Hence we would need to delay the removal process and this ArrayList keeps track on those field-names.
 
 #### How to determine if a field is a “leaf” field or a “branch” field.(remove the inner field)
-
+```markdown
 POST _ingest/pipeline/_simulate
 {
   "pipeline": {
@@ -159,7 +159,7 @@ POST _ingest/pipeline/_simulate
     }
   ]
 }
-
+```
 In order to check whether the field is a “leaf” — a normal field or a “branch” — another level of fields (e.g. object); we would need to check the field value’s type ‘value instanceof java.util.Map’.
 
 PS. The “instanceof” method helps to verify if the value provided matches a particular Java Class type.
@@ -181,7 +181,7 @@ Take an example: outer.very_very_long_field
 #### dynamic settings on indices approach
 
 Sometimes, we might not bother a mapping pollution introduced; however~ We do NOT want those meaningless fields to be searchable or aggregatable. Simply we let those meaningless fields act as a dummy, you can see them (available under the ‘_source’ field) but never able to apply any operations on them. If that is the case… we could alter the dynamic settings on indices.
-
+```markdown
 PUT test_dynamic 
 {
   "mappings": {
@@ -212,7 +212,8 @@ PUT test_dynamic
     }
   }  
 }
-
+```
+```markdown
 # all good, everything matches the mapping
 POST test_dynamic/_doc
 {
@@ -225,7 +226,8 @@ POST test_dynamic/_doc
     "department": "daily bugle"
   }
 }
-
+```
+```markdown
 # added a non-searchable "age" and a searchable field "address.post_code"
 POST test_dynamic/_doc
 {
@@ -235,7 +237,8 @@ POST test_dynamic/_doc
     "post_code": "344013"
   }
 }
-
+```
+```markdown
 GET test_dynamic/_search
 {
   "query": {
@@ -244,7 +247,8 @@ GET test_dynamic/_search
     }
   }
 }
-
+```
+```markdown
 GET test_dynamic/_search
 {
   "query": {
@@ -253,7 +257,8 @@ GET test_dynamic/_search
     }
   }
 }
-
+```
+```markdown
 # exception as work.salary is forbidden
 POST test_dynamic/_doc
 {
@@ -266,13 +271,13 @@ POST test_dynamic/_doc
     "salary": 10000000
   }
 }
-
+```
 We have a very simple mapping definition here — ‘“dynamic”: “false”’ is applied at the root level meaning that if there were unknown fields introduced later on, we simply ignore them for operations (not searchable or aggregatable for these fields). However, these fields’ value would still be inside the “_source”, the dummies~
 
 That explains why for this document:
-
+```markdown
 { “age”: 45, “name”: “Edward Elijah”, “address”: { “post_code”: “344013” }}
-
+```
 We could not search through the field “age” since “age” is a dummy field.
 
 On the “address” level, we set ‘“dynamic”: “true”’ meaning that unknown fields would be included for operations and hence updating our mappings (a mapping pollution). Hence we could search through the field “address.post_code” this time.
