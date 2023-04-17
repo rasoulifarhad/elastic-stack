@@ -26,21 +26,21 @@ A Cluster with 3 Nodes
 #### Preparing each node for ES cluster
 
 Open the sysctl.conf file as root:
-
-  > sudo vim /etc/sysctl.conf
-
+```markdown
+sudo vim /etc/sysctl.conf
+```
 Add the following line at the bottom:
-
-  > vm.max_map_count=262144
-
+```markdown
+vm.max_map_count=262144
+```
 Load the new sysctl values:
-
-  > sudo sysctl -p
-
+```markdown
+sudo sysctl -p
+```
 Install elasticsearch
-
-  > sudo rpm -ivh elasticsearch-7.16.2-x86_64.rpm
-
+```markdown
+sudo rpm -ivh elasticsearch-7.16.2-x86_64.rpm
+```
 #### Configure each node’s elasticsearch.yml file
 
 Let's open port 9200 to we can communicate with ElasticSearch:
@@ -50,13 +50,14 @@ sudo firewall-cmd --reload
 ```
  
 Open the elasticsearch.yml file:
-
-  > vim /etc/elasticsearch/elasticsearch.yml
+```markdown
+vim /etc/elasticsearch/elasticsearch.yml
+```
 
 Change the following line:
 ```markdown
 #cluster.name: my-application
-#node.name: node-1 <br />
+#node.name: node-1
 #network.host: 192.168.0.1
 #http.port: 9200
 #discovery.seed_hosts: ["host1", "host2"]
