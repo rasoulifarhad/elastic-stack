@@ -3,57 +3,62 @@
 #### Overview
 
 Types of Nodes:
+```markdown
+Master-Eligible Node 
 
-  > 
-  > Master-Eligible Node 
-  > 
-  >    Control of the cluster requires a minimum of 3 with one active at any given time.
-  > 
-  > Data Nodes
-  > 
-  >    Holds indexed data and performs data related operations Differentiated Hot and Warm Data nodes can be used -> More below.
-  > 
-  > Ingest Nodes
-  > 
-  >    Use ingest pipelines to transform and enrich data before indexing.
-  > 
-  > Coordinating Nodes
-  > 
-  >    Route requests, handle Search reduce phase, distribute bulk indexing. All nodes function as coordinating nodes by default.A node that has no attribute is a coordinator node and helps with the queries.
-  > 
-  > Machine Learning Nodes
-  > 
-  >    Run machine learning jobs
-  > 
-  > Transform node
-  >
-  >   Enables you to convert existing Elasticsearch indices into summarised indices. 
-  >
-  > Remote-eligible node
-  > 
-  >   A node with the remote_cluster_client role, which is activated by default, makes it eligible to act as a remote client. By default, any node in the cluster can act as a cross-cluster client and connect to remote clusters. This is particularly useful in some use cases when your production cluster needs access to remote clusters.
-  >
+   Control of the cluster requires a minimum of 3 with one active at any given time.
+```
+```markdown
+Data Nodes
+
+   Holds indexed data and performs data related operations Differentiated Hot and Warm Data nodes can be used -> More below.
+```
+```markdown
+Ingest Nodes
+
+   Use ingest pipelines to transform and enrich data before indexing.
+```
+```markdown
+Coordinating Nodes
+
+   Route requests, handle Search reduce phase, distribute bulk indexing. All nodes function as coordinating nodes by default.A node that has no attribute is a coordinator node and helps with the queries.
+```
+```markdown
+Machine Learning Nodes
+
+   Run machine learning jobs
+```
+```markdown
+Transform node
+
+  Enables you to convert existing Elasticsearch indices into summarised indices. 
+```
+```markdown
+Remote-eligible node
+
+  A node with the remote_cluster_client role, which is activated by default, makes it eligible to act as a remote client. By default, any node in the cluster can act as a cross-cluster client and connect to remote clusters. This is particularly useful in some use cases when your production cluster needs access to remote clusters.
+```
   
 ![Elastic Stack Topology](../images/topology.png)
 
 ###### Minimum of Master Nodes:
 
 Master nodes are the most critical nodes in your cluster. In order to calculate how many master nodes you need in your production cluster, here is a simple formula:
-
-  > N / 2 + 1
-  
+```markdown
+N / 2 + 1
+```
 Where N is the total number of “master-eligible” nodes in your cluster, you need to round that number down to the nearest integer.
 
-  > At least a minimum of 3 master nodes in order to avoid any split-brain situation. 
+At least a minimum of 3 master nodes in order to avoid any split-brain situation. 
   
 A quorum is (number of master-eligible nodes / 2) + 1. Here are some examples:
 
-  > If you have ten regular nodes ( ones that can either hold data and become master), the quorum is 6
-  >
-  > If you have three dedicated master nodes and a hundred data nodes, the quorum is 2.
-  >
-  > If you have two regular nodes, you are in a conundrum. A quorum would be 2, but this means a loss of one node will make your cluster inoperable. A setting of 1 will allow your cluster to function but doesn’t protect against the split-brain. It is best to have a minimum of three nodes.
-  >
+If you have ten regular nodes ( ones that can either hold data and become master), the quorum is 6
+
+If you have three dedicated master nodes and a hundred data nodes, the quorum is 2.
+
+If you have two regular nodes, you are in a conundrum. A quorum would be 2, but this means a loss of one node will make your cluster inoperable. A setting of 1 will allow your cluster to function but doesn’t protect against the split-brain. It is best to have a minimum of three nodes.
+
   
 #### Hardware
 
@@ -73,12 +78,10 @@ Disks are probably the most essential aspect of a cluster and especially so for 
 
 Disks are by far the slowest subsystem in a server. This means that if you have write-heavy loads such as logs retention, you are doing a lot of writing, and the disks can quickly become saturated, which in turn becomes the bottleneck of the cluster.
 
-  > Use SSDs. 
+Use SSDs. 
 
 Their far superior writing and re
 ading speed significantly increase your overall performance. SSD-backed nodes see an increase in bot query and indexing performance.
-
-
 
 **CPU**
 
@@ -108,35 +111,33 @@ What is a shard? Each shard is a separate Lucene index, made of little segments 
 
 But what are the benefits of sharding?
 
-  > 1. Availability: Replication of the shards to other nodes ensures that you always have the data even if you lose some nodes.
-  >
-  > 2. Performance: Distribution of your primary shards to other nodes implies that all shards can share the workload. They are improving the overall performance.
-  >
-  
+1. Availability: Replication of the shards to other nodes ensures that you always have the data even if you lose some nodes.
+
+2. Performance: Distribution of your primary shards to other nodes implies that all shards can share the workload. They are improving the overall performance.
+
   So:
-  
-    > if your scenario is write-heavy, keep the number of shards per index low. 
-    > 
-    > If you need better search performance, increase the number of shards, but keep the “physics” in mind. 
-    >
-    > If you need reliability, take the number of nodes/replicas into account.
-    
+```markdown
+- if your scenario is write-heavy, keep the number of shards per index low. 
+- If you need better search performance, increase the number of shards, but keep the “physics” in mind. 
+- If you need reliability, take the number of nodes/replicas into account.
+```
 #### Important Elasticsearch configuration
 
 Elasticsearch requires very little configuration to get started, but there are a number of items which must be considered before using your cluster in production:
 
-  > Path settings
-  > Cluster name setting
-  > Node name setting
-  > Network host settings
-  > Discovery settings
-  > Heap size settings
-  > JVM heap dump path setting
-  > GC logging settings
-  > Temporary directory settings
-  > JVM fatal error log setting
-  > Cluster backups
-
+```markdown
+Path settings
+Cluster name setting
+Node name setting
+Network host settings
+Discovery settings
+Heap size settings
+JVM heap dump path setting
+GC logging settings
+Temporary directory settings
+JVM fatal error log setting
+Cluster backups
+```
 
 #### Important system configuration
 
@@ -145,36 +146,37 @@ Ideally, Elasticsearch should run alone on a server and use all of the resources
 In order to do so, you need to configure your operating system to allow the user running Elasticsearch to access more resources than allowed by default.
 
 The following settings must be considered before going to production:
-
-> Configure system settings
-> Disable swapping
-> Increase file descriptors
-> Ensure sufficient virtual memory
-> Ensure sufficient threads
-> JVM DNS cache settings
-> Temporary directory not mounted with noexec
-> TCP retransmission timeout
-
+```markdown
+Configure system settings
+Disable swapping
+Increase file descriptors
+Ensure sufficient virtual memory
+Ensure sufficient threads
+JVM DNS cache settings
+Temporary directory not mounted with noexec
+TCP retransmission timeout
+```
 #### Bootstrap Checks
 
 These bootstrap checks inspect a variety of Elasticsearch and system settings and compare them to values that are safe for the operation of Elasticsearch. If Elasticsearch is in development mode, any bootstrap checks that fail appear as warnings in the Elasticsearch log. If Elasticsearch is in production mode, any bootstrap checks that fail will cause Elasticsearch to refuse to start.
 
 There are some bootstrap checks that are always enforced to prevent Elasticsearch from running with incompatible settings. These checks are documented individually.
 
-  > Heap size check
-  > File descriptor check
-  > Memory lock check
-  > Maximum number of threads check
-  > Max file size check
-  > Maximum size virtual memory check
-  > Maximum map count check
-  > Client JVM check
-  > Use serial collector check
-  > System call filter check
-  > OnError and OnOutOfMemoryError checks
-  > Early-access check
-  > G1GC check
-  
+```markdown
+- Heap size check
+- File descriptor check
+- Memory lock check
+- Maximum number of threads check
+- Max file size check
+- Maximum size virtual memory check
+- Maximum map count check
+- Client JVM check
+- Use serial collector check
+- System call filter check
+- OnError and OnOutOfMemoryError checks
+- Early-access check
+- G1GC check
+```
 #### Resilience in small clustersedit
 
 In smaller clusters, it is most important to be resilient to single-node failures.
@@ -197,14 +199,14 @@ You may configure one of your master-eligible nodes to be a voting-only node so 
 
 The cluster will be resilient to the loss of any node as long as:
 
-  > The cluster health status is green.
-  >
-  > There are at least two data nodes.
-  >
-  > Every index that is not a searchable snapshot index has at least one replica of each shard, in addition to the primary.
-  >
-  > The cluster has at least three master-eligible nodes, as long as at least two of these nodes are not voting-only master-eligible nodes.
-  >
-  > Clients are configured to send their requests to more than one node or are configured to use a load balancer that balances the requests across an appropriate set of nodes. The Elastic Cloud service provides such a load balancer.
-  > 
+The cluster health status is green.
+
+There are at least two data nodes.
+
+Every index that is not a searchable snapshot index has at least one replica of each shard, in addition to the primary.
+
+The cluster has at least three master-eligible nodes, as long as at least two of these nodes are not voting-only master-eligible nodes.
+
+Clients are configured to send their requests to more than one node or are configured to use a load balancer that balances the requests across an appropriate set of nodes. The Elastic Cloud service provides such a load balancer.
+
 
