@@ -10,16 +10,16 @@ Elasticsearch doesn't require us to create a mapping for our indices, because it
 Since mapping is quite flexible, we can also combine explicit mapping with dynamic mapping. So, we can create an index with explicit data types and, when we add documents, they may have new fields and Elasticsearch will store them according to their types.
 
 1. Run Elasticsearch And Kibana
-
+```markdown
 docker compose up -d
 docker compose logs --follow
-
+```
 #### The object data type'
 
 The object data type represents how Elasticsearch stores its JSON values, basically every document is an object, and we can have nested objects.
 
 2. Define index 
-
+```markdown
 curl -XPUT "http://localhost:9200/users?pretty" -H 'Content-Type: application/json' -d'
 {
   "mappings": {
@@ -35,13 +35,15 @@ curl -XPUT "http://localhost:9200/users?pretty" -H 'Content-Type: application/js
     }
   }
 }'
-
+```
 3. Examin mappings
-
+```markdown
 curl -XGET "http://localhost:9200/users/_mapping?pretty"
+```
 
 Result:
 
+```markdown
 {
   "users" : {
     "mappings" : {
@@ -66,10 +68,10 @@ Result:
     }
   }
 }
-
+```
 
 4. Index Data
-
+```markdown
 curl -XPUT "http://localhost:9200/users/_doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "name": "Lucas",
@@ -79,9 +81,11 @@ curl -XPUT "http://localhost:9200/users/_doc/1?pretty" -H 'Content-Type: applica
     "zipCode": "04896060"
   }
 }'
+```
 
 Results:
 
+```markdown
 {
   "_index" : "users",
   "_type" : "_doc",
@@ -96,13 +100,13 @@ Results:
   "_seq_no" : 0,
   "_primary_term" : 1
 }
-
+```
 #### How arrays of objects are flattened
 
 Elasticsearch has no concept of inner objects. Therefore, it flattens object hierarchies into a simple list of field names and values. 
 
 5. Index array of address
-
+```markdown
 curl -XPUT "http://localhost:9200/users/_doc/2?pretty" -H 'Content-Type: application/json' -d'
 {
   "name": "farhad",
@@ -118,23 +122,23 @@ curl -XPUT "http://localhost:9200/users/_doc/2?pretty" -H 'Content-Type: applica
     }
   ]
 }'
-
+```
 In this case, Elasticsearch would then store our fields like an array of countries and an array of zipCodes. document would be transformed internally into a document that looks more like this:
-
+```markdown
 {
   "name": "farhad",
   "birthday": "1992-10-01",
   "address.country": [ "Iran", "Usa" ],
   "address.zipCode": [ "2222222", "4444444" ],
 }
-
+```
 **address.country** and **address.zipCode** fields are flattened into multi-value fields, and the association between **Iran** country and **2222222** zipCode is lost.
 
 Example:
 
 6. we indexed a document representing an article that contains 2 reviews from 2 different users. 
-
-vcurl -XPUT "http://localhost:9200/articles/_doc/1?pretty" -H 'Content-Type: application/json' -d'
+```markdown
+curl -XPUT "http://localhost:9200/articles/_doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "name": "Elasticsearch article",
   "reviews": [
@@ -148,19 +152,19 @@ vcurl -XPUT "http://localhost:9200/articles/_doc/1?pretty" -H 'Content-Type: app
     }
   ]
 }'
-
+```
 Document would be transformed internally into a document that looks more like this:
-
+```markdown
 {
   "name": "Elasticsearch article",
   "reviews.name": [ "Lucas", "Eduardo"],
   "reviews.rating": [5, 3],
 }
-
+```
 **reviews.name** and **reviews.rating** fields are flattened into multi-value fields, and the association between **Eduardo**  and **3** is lost.
 
 7. get articles reviewed by Eduardo with rating greater than 4
-
+```markdown
 curl -XGET "http://localhost:9200/articles/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -182,9 +186,11 @@ curl -XGET "http://localhost:9200/articles/_search?pretty" -H 'Content-Type: app
     }
   }
 }'
+```
 
 Result:
 
+```markdown
 {
   "took" : 5,
   "timed_out" : false,
@@ -223,13 +229,13 @@ Result:
     ]
   }
 }
-
+```
 **This is not exactly what we are looking for.**
 
 Basically, since Elasticsearch flattened our document, it can't query based on these filter because they are not **related**. 
 
 8. Index data
-
+```markdown
 curl -XPUT "http://localhost:9200/my-index-000001/_doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "group" : "fans",
@@ -244,19 +250,19 @@ curl -XPUT "http://localhost:9200/my-index-000001/_doc/1?pretty" -H 'Content-Typ
     }
   ]
 }'
-
+```
 Document would be transformed internally into a document that looks more like this:
-
+```markdown
 {
   "group" :        "fans",
   "user.first" : [ "alice", "john" ],
   "user.last" :  [ "smith", "white" ]
 }
-
+```
 The **user.first** and **user.last** fields are flattened into multi-value fields, and the association between **alice** and **white** is lost. 
 
 9. query for alice AND smith
-
+```markdown
 curl -XGET "http://localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -276,9 +282,11 @@ curl -XGET "http://localhost:9200/my-index-000001/_search?pretty" -H 'Content-Ty
     }
   }
 }'
+```
 
 Result:
 
+```markdown
 {
   "took" : 2,
   "timed_out" : false,
@@ -317,7 +325,7 @@ Result:
     ]
   }
 }
-
+```
 #### Using nested fields for arrays of objects
 
 The **nested** type is a specialised version of the **object** data type that allows arrays of objects to be indexed in a way that they can be queried independently of each other.
@@ -327,7 +335,7 @@ If you need to index arrays of objects and to maintain the independence of each 
 Internally, nested objects index each object in the array as a separate hidden document, meaning that each nested object can be queried independently of the others with the **nested query**:
 
 10. Define nested vertion of articles index
-
+```markdown
 curl -XPUT "http://localhost:9200/articles_v2?pretty" -H 'Content-Type: application/json' -d'
 {
   "mappings": {
@@ -341,9 +349,9 @@ curl -XPUT "http://localhost:9200/articles_v2?pretty" -H 'Content-Type: applicat
     }
   }
 }'
-
+```
 11. index data
-
+```markdown
 curl -XPUT "http://localhost:9200/articles_v2/_doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "name": "Elasticsearch article",
@@ -358,9 +366,11 @@ curl -XPUT "http://localhost:9200/articles_v2/_doc/1?pretty" -H 'Content-Type: a
     }
   ]
 }'
+```
 
 Result:
 
+```markdown
 {
   "_index" : "articles_v2",
   "_type" : "_doc",
@@ -375,13 +385,13 @@ Result:
   "_seq_no" : 0,
   "_primary_term" : 1
 }
-
+```
 12. test mappings
-
+```markdown
 curl -XGET "http://localhost:9200/articles_v2/_mapping"
-
+```
 13. get articles reviewed by Eduardo with rating greater than 4
-
+```markdown
 curl -XGET "http://localhost:9200/articles_v2/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -408,9 +418,11 @@ curl -XGET "http://localhost:9200/articles_v2/_search?pretty" -H 'Content-Type: 
     }
   }
 }'
+```
 
 Result:
 
+```markdown
 {
   "took" : 641,
   "timed_out" : false,
@@ -429,11 +441,11 @@ Result:
     "hits" : [ ]
   }
 }
-
+```
 And the return shows as that we have no articles matching these conditions, which is **correct!**
 
 14. Define nested vertion of my-index-000001 index
-
+```markdown
 curl -XPUT "http://localhost:9200/my-index-000001_v2?pretty" -H 'Content-Type: application/json' -d'
 {
   "mappings": {
@@ -447,9 +459,9 @@ curl -XPUT "http://localhost:9200/my-index-000001_v2?pretty" -H 'Content-Type: a
     }
   }
 }'
-
+```
 15. index data into my-index-000001_v2
-
+```markdown
 curl -XPUT "http://localhost:9200/my-index-000001_v2/_doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "group" : "fans",
@@ -464,13 +476,13 @@ curl -XPUT "http://localhost:9200/my-index-000001_v2/_doc/1?pretty" -H 'Content-
     }
   ]
 }'
-
+```
 16. test my-index-000001_v2 mappings 
-
+```markdown
 curl -XGET "http://localhost:9200/my-index-000001_v2/_mapping"
-
+```
 17. query for alice AND smith
-
+```markdown
 curl -XGET "http://localhost:9200/my-index-000001_v2/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -495,9 +507,11 @@ curl -XGET "http://localhost:9200/my-index-000001_v2/_search?pretty" -H 'Content
     }
   }
 }'
+```
 
 Result:
 
+```markdown
 {
   "took" : 453,
   "timed_out" : false,
@@ -516,9 +530,9 @@ Result:
     "hits" : [ ]
   }
 }
-
+```
 18. query for alice AND White
-
+```markdown
 curl -XGET "http://localhost:9200/my-index-000001_v2/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -543,9 +557,11 @@ curl -XGET "http://localhost:9200/my-index-000001_v2/_search?pretty" -H 'Content
     }
   }
 }'
+```
 
 Result:
 
+```markdown
 {
   "took" : 1,
   "timed_out" : false,
@@ -584,15 +600,15 @@ Result:
     ]
   }
 }
-
+```
 19. clean
-
+```markdown
 curl -XDELETE "http://localhost:9200/user?pretty"
 curl -XDELETE "http://localhost:9200/articles?pretty"
 curl -XDELETE "http://localhost:9200/articles_v2?pretty"
 curl -XDELETE "http://localhost:9200/my-index-000001?pretty"
 curl -XDELETE "http://localhost:9200/my-index-000001_v2?pretty"
-
+```
 #### Interacting with nested documentsedit
 
 Nested documents can be:
