@@ -63,8 +63,12 @@ Set LimitMEMLOCK to infinity in the systemd configuration.
 
 Elasticsearch uses a lot of file descriptors or file handles. Running out of file descriptors can be disastrous and will most probably lead to data loss. Make sure to increase the limit on the number of open files descriptors for the user running Elasticsearch to 65,536 or higher.
 
-For the .zip and .tar.gz packages, set ulimit -n 65535 as root before starting Elasticsearch, or set nofile to 65535 in /etc/security/limits.conf.</br>
-
+For the .zip and .tar.gz packages, 
+```markdown
+Set ulimit -n 65535 as root before starting Elasticsearch
+Or 
+Set nofile to 65535 in /etc/security/limits.conf
+```
 You can check the max_file_descriptors configured for each node using the Nodes stats API, with:
 ```markdown
 GET _nodes/stats/process?filter_path=**.max_file_descriptors
@@ -79,7 +83,15 @@ On Linux, you can increase the limits by running the following command as root:
 ```markdown
 sysctl -w vm.max_map_count=262144
 ```  
-To set this value permanently, update the vm.max_map_count setting in /etc/sysctl.conf. To verify after rebooting, run sysctl vm.max_map_count. The RPM and Debian packages will configure this setting automatically. No further configuration is required.
+To set this value permanently, 
+```markdown
+Update the vm.max_map_count setting in /etc/sysctl.conf. 
+```
+To verify after rebooting, 
+```markdown
+Run sysctl vm.max_map_count. 
+```
+The RPM and Debian packages will configure this setting automatically. No further configuration is required.
 
 #### Ensure sufficient threads
 
