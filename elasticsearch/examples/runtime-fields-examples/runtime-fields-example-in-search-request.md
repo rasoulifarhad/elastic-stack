@@ -1,9 +1,9 @@
 1. Define index
-
+```markdown
 PUT my-index-000001
-
+```
 2. Ingest some data
-
+```markdown
 POST my-index-000001/_bulk?refresh=true
 {"index":{}}
 {"@timestamp":1516729294000,"model_number":"QVKC92Q","measures":{"voltage":"5.2","start": "300","end":"8675309"}}
@@ -17,7 +17,8 @@ POST my-index-000001/_bulk?refresh=true
 {"@timestamp":1516383694000,"model_number":"HG537PU","measures":{"voltage":"4.2","start": "400","end":"8625309"}}
 {"index":{}}
 {"@timestamp":1516297294000,"model_number":"HG537PU","measures":{"voltage":"4.0","start": "400","end":"8625309"}}
-
+```
+```markdown
 curl -X POST "localhost:9200/my-index-000001/_bulk?refresh=true&pretty" -H 'Content-Type: application/json' -d'
 {"index":{}}
 {"@timestamp":1516729294000,"model_number":"QVKC92Q","measures":{"voltage":"5.2","start": "300","end":"8675309"}}
@@ -32,9 +33,9 @@ curl -X POST "localhost:9200/my-index-000001/_bulk?refresh=true&pretty" -H 'Cont
 {"index":{}}
 {"@timestamp":1516297294000,"model_number":"HG537PU","measures":{"voltage":"4.0","start": "400","end":"8625309"}}
 '
-
+```
 3. Add the runtime field to the index mapping 
-
+```markdown
 PUT my-index-000001/_mapping
 {
   "runtime": {
@@ -46,7 +47,8 @@ PUT my-index-000001/_mapping
    }
   }
 }
-
+```
+```markdown
 curl -X PUT "localhost:9200/my-index-000001/_mapping?pretty" -H 'Content-Type: application/json' -d'
 {
   "runtime": {
@@ -59,19 +61,19 @@ curl -X PUT "localhost:9200/my-index-000001/_mapping?pretty" -H 'Content-Type: a
   }
 }
 '
-
+```
 4. Show the index mapping
-
+```markdown
 GET /my-index-000001
 GET /my-index-000001/_mapping
-
+```
 with curl: 
-
+```markdown
 curl -X GET "localhost:9200/my-index-000001?pretty"
 curl -X GET "localhost:9200/my-index-000001/_mapping?pretty"
-
+```
 5. Add aggregate based on runtime fields
-
+```markdown
 GET my-index-000001/_search
 {
   "aggs": {
@@ -87,9 +89,9 @@ GET my-index-000001/_search
     }
   }
 }
-
+```
 6. Add duration runtime field  in search context
-
+```markdown
 GET my-index-000001/_search
 {
   "runtime_mappings": {
@@ -110,12 +112,12 @@ GET my-index-000001/_search
     }
   }
 }
-
+```
 7. Delete the index as cleanup
-
+```markdown
 DELETE my-index-000001
-
+```
 with curl: 
-
+```markdown
 curl -X DELETE "localhost:9200/my-index-000001" 
-
+```
