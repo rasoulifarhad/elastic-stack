@@ -2,12 +2,15 @@
 
 1. Run Elasticsearch && Kibana 
 
+```markdown
 docker compose up -d
+```
 
 2. Add kibana_sample_data_logs && kibana_sample_data_ecommerce data Kibana /Home /Try sample data
 
 3. How many unique sku’s can be found in our e-commerce data?
 
+```markdown
 GET /kibana_sample_data_ecommerce/_search
 {
   "size": 0,
@@ -19,9 +22,11 @@ GET /kibana_sample_data_ecommerce/_search
     }
   }
 }
+```
 
 Result: 
 
+```markdown
 {
   "took" : 32,
   "timed_out" : false,
@@ -45,11 +50,12 @@ Result:
     }
   }
 }
-
+```
 **Note:** Needing to find the number of unique values for a particular field is a common requirement. The cardinality aggregation can be used to determine the number of unique elements. 
 
 4. Let’s check the stats of field “total_quantity” in our e-commerce data.
 
+```markdown
 GET /kibana_sample_data_ecommerce/_search
 {
   "size": 0,
@@ -61,9 +67,11 @@ GET /kibana_sample_data_ecommerce/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 {
   "took" : 6,
   "timed_out" : false,
@@ -91,9 +99,11 @@ Result:
     }
   }
 }
+```
 
 5. Calculate the average price of the products “eddie” purchased.
 
+```markdown
 GET /kibana_sample_data_ecommerce/_search
 {
   "size": 0,
@@ -114,9 +124,11 @@ GET /kibana_sample_data_ecommerce/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 {
   "took" : 6,
   "timed_out" : false,
@@ -143,9 +155,11 @@ Result:
     }
   }
 }
+```
 
 6. Top 5 buyers
 
+```markdown
 GET /kibana_sample_data_ecommerce/_search
 {
   "size": 0,
@@ -158,9 +172,11 @@ GET /kibana_sample_data_ecommerce/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 {
   -----
   "aggregations" : {
@@ -192,12 +208,14 @@ Result:
     }
   }
 }
+```
 
 7. Nested aggregation
 
- - Define index
+- Define index
 
-  PUT nested_aggregation
+```markdown
+PUT nested_aggregation
   {
     "mappings": {
       "properties": {
@@ -217,11 +235,13 @@ Result:
         }
       }
     }
-  }
+}
+```
 
- - Ingest Some data
- 
-  PUT nested_aggregation/_doc/1
+- Ingest Some data
+
+```markdown
+PUT nested_aggregation/_doc/1
   {
     "group": "Logz",
     "Employee": [
@@ -261,11 +281,13 @@ Result:
         "salary": "75000"
       }
     ]
-  }
+}
+```
 
- - Find min salary
- 
-  GET /nested_aggregation/_search
+- Find min salary
+
+```markdown
+GET /nested_aggregation/_search
   {
     "size": 0,
     "aggs": {
@@ -282,5 +304,5 @@ Result:
         }
       }
     }
-  }
-
+}
+```
