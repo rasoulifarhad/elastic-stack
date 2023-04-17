@@ -15,13 +15,13 @@ Depending on the assigned field type, each field is indexed and primed for diffe
 #### View the Mapping
 
 Syntax:
-
+```markdown
 GET Enter_name_of_the_index_here/_mapping
-
+```
 Example:
-
+```markdown
 GET temp_index/_mapping
-
+```
 #### Indexing Strings
 
 There are two kinds of string field types:
