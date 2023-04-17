@@ -16,6 +16,7 @@ get the summary of monthly expense
 
 **Sample data**
 
+```markdown
 {
   "name": "Pineapple",
   "botanical_name": "Ananas comosus",
@@ -32,6 +33,7 @@ get the summary of monthly expense
     "preferred_vendor": true
   }
 }
+```
 
 #### Defining your own mapping
 
@@ -51,12 +53,16 @@ The sample document must contain the fields that you want to define. These field
 
 Syntax:
 
+```markdown
 POST Name-of-test-index/_doc
 {
   "field": "value"
 }
+```
+
 Example:
 
+```markdown
 POST test_index/_doc
 {
   "name": "Pineapple",
@@ -74,23 +80,28 @@ POST test_index/_doc
     "preferred_vendor": true
   }
 }
+```
 
 ##### Step 2: View the dynamic mapping
 
 Syntax:
 
+```markdown
 GET Name-the-index-whose-mapping-you-want-to-view/_mapping
+```
 
 Example:
 
+```markdown
 GET test_index/_mapping
+```
 
 ##### Step 3: Edit the mapping
 
 Copy and paste the mapping from step 2 into the Kibana console. From the pasted results, remove the "test_index" along with its opening and closing brackets. Then, edit the mapping to satisfy the requirements outlined in the figure below.
 
 The optimized mapping should look like the following:
-
+```markdown
 {
   "mappings": {
     "properties": {
@@ -129,17 +140,22 @@ The optimized mapping should look like the following:
     }
   }
 }
+```
 
 ##### Step 4: Create a new index with the optimized mapping from step 3.
 
 Syntax:
 
+```markdown
 PUT Name-of-your-final-index
 {
   copy and paste your edited mapping here
 }
+```
+
 Example:
 
+```markdown
 PUT produce_index
 {
   "mappings": {
@@ -179,16 +195,21 @@ PUT produce_index
     }
   }
 }
+```
 
 ##### Step 5: Check the mapping of the new index to make sure the all the fields have been mapped correctly
 
 Syntax:
 
+```markdown
 GET Name-of-test-index/_mapping
+```
 
 Example:
 
+```markdown
 GET produce_index/_mapping
+```
 
 ##### Step 6: Index your dataset into the new index
 
@@ -196,6 +217,7 @@ For simplicity's sake, we will index two documents.
 
 Index the first document
 
+```markdown
 POST produce_index/_doc
 {
   "name": "Pineapple",
@@ -213,11 +235,12 @@ POST produce_index/_doc
     "preferred_vendor": true
   }
 }
-
+```
 Index the second document
 
 The second document has almost identical fields as the first document except that it has an extra field called "organic" set to true!
 
+```markdown
 POST produce_index/_doc
 {
   "name": "Mango",
@@ -236,11 +259,13 @@ POST produce_index/_doc
     "preferred_vendor": true
   }
 }
+```
 
 Let's see what happens to the mapping by sending this request below:
 
+```markdown
 GET produce_index/_mapping
-
+```
 
 #### What if you do need to make changes to the mapping of an existing field?
 
@@ -254,6 +279,7 @@ We removed the "enabled" parameter from the field "botanical_name" and changed i
 
 Example:
 
+```markdown
 PUT produce_v2
 {
   "mappings": {
@@ -298,13 +324,17 @@ PUT produce_v2
     }
   }
 }
+```
 
 ##### View the mapping of produce_v2:
 
+```markdown
 GET produce_v2/_mapping
+```
 
 ##### STEP 2: Reindex the data from the original index(produce_index) to the one you just created(produce_v2).
 
+```markdown
 POST _reindex
 {
   "source": {
@@ -314,6 +344,7 @@ POST _reindex
     "index": "produce_v2"
   }
 }
+```
 
 #### Runtime Field
 
@@ -321,6 +352,7 @@ POST _reindex
 
 Syntax:
 
+```markdown
 PUT Enter-name-of-index/_mapping
 {
   "runtime": {
@@ -332,9 +364,11 @@ PUT Enter-name-of-index/_mapping
     }
   }
 }
+```
 
 Example:
 
+```markdown
 PUT produce_v2/_mapping
 {
   "runtime": {
@@ -346,10 +380,12 @@ PUT produce_v2/_mapping
     }
   }
 }
-
+```
 ##### Step 2: Check the mapping:
 
+```markdown
 GET produce_v2/_mapping
+```
 
 Note that the runtime field is not listed under "properties" object which includes the fields in our documents. This is because the runtime field "total" is not indexed!
 
@@ -361,6 +397,7 @@ The following request runs a sum aggregation against the runtime field total of 
 
 Syntax:
 
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -372,9 +409,11 @@ GET Enter_name_of_the_index_here/_search
     }
   }
 }
+```
 
 Example:
 
+```markdown
 GET produce_v2/_search
 {
   "size": 0,
@@ -386,7 +425,7 @@ GET produce_v2/_search
     }
   }
 }
-
+```
 When this request is sent, a runtime field called "total" is created and calculated for documents within the scope of our request(entire index). Then, the sum aggregation is ran on the field "total" over all documents in our index.
 
 The runtime field is only created and calculated when a request made on the runtime field is being executed. Runtime fields are not indexed so these do not take up disk space.
