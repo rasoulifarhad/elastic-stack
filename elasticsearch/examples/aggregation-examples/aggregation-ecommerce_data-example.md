@@ -3,13 +3,13 @@
 [base link](https://dev.to/lisahjung/beginner-s-guide-running-aggregations-with-elasticsearch-and-kibana-16bn)
 
 1. Run Elasticsearch && Kibana 
-
+```markdown
 docker compose up -d
-
+```
 Open the Kibana console(AKA Dev Tools). 
 
 2. Define index
-
+```markdown
 PUT ecommerce_data
 {
   "mappings": {
@@ -42,13 +42,13 @@ PUT ecommerce_data
     }
   }
 }
-
+```
 3. Add [e-commerce dataset](https://www.kaggle.com/carrie1/ecommerce-data) to Elasticsearch* 
 
 The File Data Visualizer feature can be found in Kibana under the Machine Learning Data Visualizer section.
 
 4.  Reindex the data from the original index(ecommerce_original) to the one you just created(ecommerce_data).
-
+```markdown
 POST _reindex
 {
   "source": {
@@ -58,9 +58,9 @@ POST _reindex
     "index": "ecommerce_data"
   }
 }
-
+```
 5. Remove the negative values from the field "UnitPrice"
-
+```markdown
 POST /ecommerce_data/_delete_by_query
 {
   "query": {
@@ -71,9 +71,9 @@ POST /ecommerce_data/_delete_by_query
     }
   }
 }
-
+```
 6. Remove values greater than 500 from the field "UnitPrice"
-
+```markdown
 POST /ecommerce_data/_delete_by_query
 {
   "query": {
@@ -84,13 +84,13 @@ POST /ecommerce_data/_delete_by_query
     }
   }
 }
-
+```
 7. Get information about documents in an index 
 
 This will help us figure out what type of questions we could ask and identify the appropriate fields to run aggregations on to get the answers.
-
+```markdown
 GET ecommerce_data/_search
-
+```
 The ecommerce_data index contains transaction data from a company that operates in multiple countries.
 
 Each document is a transaction of an item and it contains the following fields:
@@ -109,7 +109,7 @@ Each document is a transaction of an item and it contains the following fields:
 8. Compute the sum of all unit prices in the index 
 
 Syntax:
-
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "aggs": {
@@ -132,11 +132,11 @@ GET /ecommerce_data/_search
     }  
   }
 }
-
+```
 9. Compute the lowest(min) unit price of an item 
 
 Syntax:
-
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -160,11 +160,11 @@ GET /ecommerce_data/_search
     }  
   }
 }
-
+```
 10. Compute the highest(max) unit price of an item 
 
 Syntax:
-
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -188,11 +188,11 @@ GET /ecommerce_data/_search
     }  
   }
 }
-
+```
 11. Compute the average unit price of items 
 
 Syntax:
-
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -216,11 +216,11 @@ GET /ecommerce_data/_search
     }  
   }
 }
-
+```
 12. Compute the count, min, max, avg, sum in one go
 
 Syntax:
-
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -244,11 +244,11 @@ GET /ecommerce_data/_search
     }  
   }
 }
-
+```
 13. et number of unique customers in our transaction data 
 
 Syntax:
-
+```markdown
 GET /Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -272,11 +272,11 @@ GET /ecommerce_data/_search
     }  
   }
 }
-
+```
 14. Calculate the average unit price of items sold in Germany.
 	
 Syntax:
-
+```markdown
 GET /Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -310,7 +310,7 @@ GET /ecommerce_data/_search
     }  
   }
 }
-
+```
 #### Bucket Aggregations 
 
 Bucket aggregations group documents into several subsets of documents called buckets. All documents in a bucket share a common criteria.
@@ -332,7 +332,7 @@ There are various ways you can group documents into buckets:
 15. Create a bucket for every 8 hour interval. 
 
 Syntax:
-
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -358,11 +358,11 @@ GET ecommerce_data/_search
     }
   }
 }
-
+```
 16. Create monthly buckets
 
 Syntax:
-
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -388,9 +388,9 @@ GET ecommerce_data/_search
     }
   }
 }
-
+```
 Change order:
-
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -406,11 +406,11 @@ GET ecommerce_data/_search
     }
   }
 }
-
+``
 17. Create buckets based on price interval of 10. 
 
 Syntax:
-
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -436,9 +436,11 @@ GET ecommerce_data/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 .....
 "aggregations" : {
   "transactions_per_price_interval" : {
@@ -464,9 +466,11 @@ Result:
         "doc_count" : 204
       },
  ......   
+```
 
-Change order: 	
+Change order: 
 
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -482,11 +486,12 @@ GET ecommerce_data/_search
     }
   }
 }
-
+```
 #### Range Aggregation 
 
 Syntax:
 
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "size": 0,
@@ -510,9 +515,9 @@ GET Enter_name_of_the_index_here/_search
     }
   }
 }
-
+```
 18. We want to know the number of transactions for items from varying price ranges(between 0 and $50, between $50-$200, and between $200 and up)
-
+```markdown
 GET ecommerce_data/_search 
 {
   "size": 0,
@@ -536,9 +541,11 @@ GET ecommerce_data/_search
     }
   }
 } 
+```
 
 Result: 
 
+```markdown
   ...
   "aggregations" : {
     "transactions_per_custom_price_ranges" : {
@@ -560,6 +567,7 @@ Result:
           "doc_count" : 307
         }
    ....
+```
 
 #### Terms Aggregation
 
@@ -572,6 +580,7 @@ values in descending order.
 
 Syntax:
 
+```markdown
 GET Enter_name_of_the_index_here/_search
 {
   "aggs": {
@@ -583,9 +592,11 @@ GET Enter_name_of_the_index_here/_search
     }
   }
 }
+```
 
 19. We want to identify 5 customers with the highest number of transactions(documents). 
 
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -598,9 +609,11 @@ GET ecommerce_data/_search
     }
   }
 }
+```
 
 Result: 
 
+```markdown
 ....
   "aggregations" : {
     "top_5_customers" : {
@@ -628,9 +641,11 @@ Result:
           "doc_count" : 2782
         }
 ....
+```
 
 Changing sort order 
 
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -646,6 +661,7 @@ GET ecommerce_data/_search
     }
   }
 }
+```
 
 #### Combined Aggregations 
 
@@ -655,6 +671,7 @@ GET ecommerce_data/_search
 
 - Step 2: Calculate the daily revenue.( we need to perform metric aggregations Within each bucket )
 
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -676,9 +693,11 @@ GET ecommerce_data/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 ....
   "aggregations" : {
     "transactions_per_day" : {
@@ -700,11 +719,13 @@ Result:
           }
         },
 ....
+```
 
 #### Calculating multiple metrics per bucket 
 
 21. We want to calculate the daily revenue and the number of unique customers per day
 
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -731,9 +752,11 @@ GET ecommerce_data/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 ....
   "aggregations" : {
     "transactions_per_day" : {
@@ -772,6 +795,7 @@ Result:
           }
         },
 ....
+```
 
 #### Sorting by metric value of a sub-aggregation
 
@@ -781,6 +805,7 @@ You do not always need to sort by time interval, numerical interval, or by doc_c
 
 We must sort buckets based on the metric value of "daily_revenue" in descending("desc") order.
 
+```markdown
 GET ecommerce_data/_search
 {
   "size": 0,
@@ -810,9 +835,11 @@ GET ecommerce_data/_search
     }
   }
 }
+```
 
 Result: 
 
+```markdown
 ....
   "aggregations" : {
     "transactions_per_day" : {
@@ -851,4 +878,4 @@ Result:
           }
         },
 ....
-
+```
