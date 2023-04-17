@@ -372,7 +372,7 @@ GET my-index-000001/_search
 6. Delete the index as cleanup
 ```markdown
 DELETE my-index-000001
-``
+```
 with curl: 
 ```markdown
 curl -X DELETE "localhost:9200/my-index-000001" 
