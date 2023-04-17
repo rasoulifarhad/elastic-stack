@@ -323,7 +323,7 @@ GET employee/_search
     }
   }
 }
-``
+```
 6. clean up
 ```markdown
 DELETE employee
