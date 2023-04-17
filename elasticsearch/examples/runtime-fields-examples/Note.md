@@ -2,22 +2,22 @@
 
 You map runtime fields by adding a runtime section under the mapping definition and defining a Painless script. This script has access to the entire context of a document, including the original _source and any mapped fields plus their values. At query time, the script runs and generates values for each scripted field that is required for the query.
 
-> PUT my-index-000001/
-> {
->   "mappings": {
->     "runtime": {
->       "day_of_week": {
->         "type": "keyword",
->         "script": {
->           "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
->         }
->       }
->     },
->     "properties": {
->       "@timestamp": {"type": "date"}
->     }
->   }
-> }
+PUT my-index-000001/
+{
+  "mappings": {
+    "runtime": {
+      "day_of_week": {
+        "type": "keyword",
+        "script": {
+          "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
+        }
+      }
+    },
+    "properties": {
+      "@timestamp": {"type": "date"}
+    }
+  }
+}
 
 The runtime section can be any of these data types:
 
@@ -32,16 +32,16 @@ The runtime section can be any of these data types:
 
 #### Define runtime fields without a scriptedit
 
-> PUT my-index-000001/
-> {
->   "mappings": {
->     "runtime": {
->       "day_of_week": {
->         "type": "keyword"
->       }
->     }
->   }
-> }
+PUT my-index-000001/
+{
+  "mappings": {
+    "runtime": {
+      "day_of_week": {
+        "type": "keyword"
+      }
+    }
+  }
+}
 
 When no script is provided, Elasticsearch implicitly looks in _source at query time for a field with the same name as the runtime field, and returns a value if one exists. If a field with the same name doesn’t exist, the response doesn’t include any values for that runtime field.
 
@@ -53,33 +53,33 @@ Scripts can throw errors at runtime, e.g. on accessing missing or invalid values
 
 #### Updating and removing runtime fieldsedit
 
-> PUT my-index-000001/_mapping
-> {
->  "runtime": {
->    "day_of_week": null
->  }
-> }
+PUT my-index-000001/_mapping
+{
+ "runtime": {
+   "day_of_week": null
+ }
+}
 
 #### Define runtime fields in a search request
 
-> GET my-index-000001/_search
-> {
->   "runtime_mappings": {
->     "day_of_week": {
->       "type": "keyword",
->       "script": {
->         "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
->       }
->     }
->   },
->   "aggs": {
->     "day_of_week": {
->       "terms": {
->         "field": "day_of_week"
->       }
->     }
->   }
-> }
+GET my-index-000001/_search
+{
+  "runtime_mappings": {
+    "day_of_week": {
+      "type": "keyword",
+      "script": {
+        "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
+      }
+    }
+  },
+  "aggs": {
+    "day_of_week": {
+      "terms": {
+        "field": "day_of_week"
+      }
+    }
+  }
+}
 
 #### Retrieve a runtime field
 
@@ -89,23 +89,23 @@ Use the fields parameter on the _search API to retrieve the values of runtime fi
 
 For example, the following request adds a runtime field called day_of_week. The runtime field includes a script that calculates the day of the week based on the value of the @timestamp field. We’ll include "dynamic":"runtime" in the request so that new fields are added to the mapping as runtime fields.
 
-> PUT my-index-000001/
-> {
->   "mappings": {
->     "dynamic": "runtime",
->     "runtime": {
->       "day_of_week": {
->         "type": "keyword",
->         "script": {
->           "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
->         }
->       }
->     },
->     "properties": {
->       "@timestamp": {"type": "date"}
->     }
->   }
-> }
+PUT my-index-000001/
+{
+  "mappings": {
+    "dynamic": "runtime",
+    "runtime": {
+      "day_of_week": {
+        "type": "keyword",
+        "script": {
+          "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
+        }
+      }
+    },
+    "properties": {
+      "@timestamp": {"type": "date"}
+    }
+  }
+}
 
 #### Index a runtime fieldedit
 
