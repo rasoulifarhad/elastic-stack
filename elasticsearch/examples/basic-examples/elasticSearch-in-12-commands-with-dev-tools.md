@@ -7,11 +7,11 @@ From [ElasticSearch: Zero to Hero in 12 Commands](https://dev.to/awscommunity-as
 In ElasticSearch, we store our data in indexes (similar to tables in your MySQL database). We populate indexes with documents (similar to rows). We will create and set up your first index in the subsequent commands.
 
 1. **Verify the ES cluster is accessible**
-
+```markdown
 GET /
-
+```
 Result:
-
+```markdown
 {
   "name" : "elasticsearch71602",
   "cluster_name" : "elasticsearch-cluster71602",
@@ -29,23 +29,23 @@ Result:
   },
   "tagline" : "You Know, for Search"
 }
-
+```
 2. **Create an index**
-
+```markdown
 PUT /my-index-000001
-
+```
 Result:
-
+```markdown
 {
   "acknowledged" : true,
   "shards_acknowledged" : true,
   "index" : "my-index-000001"
 }
-
+```
 3. **Create the mapping for the index**
 
 The index we just created has no mapping. A mapping is similar to a schema in SQL databases.
-
+```markdown
 PUT /my-index-000001/_mapping
 {
     "properties": {
@@ -72,17 +72,17 @@ PUT /my-index-000001/_mapping
         }
     }
 }
-
+```
 Result: 
-
+```markdown
 {"acknowledged":true}
-
+```
 4. **Show the mapping of the index**
-
+```markdown
 GET /my-index-000001/_mapping?pretty
-
+```
 Result:
-
+```markdown
 {
   "my-index-000001" : {
     "mappings" : {
@@ -112,11 +112,11 @@ Result:
     }
   }
 }
-
+```
 #### Data Operations with our ES Index
 
 5. **Create data for the index**
-
+```markdown
 POST /my-index-000001/_doc
 {
   "product_id": "123",
@@ -127,9 +127,9 @@ POST /my-index-000001/_doc
   "title": "Kenny Rogers Chicken Sauce",
   "tags": "chicken sauce poultry cooked party"
 }
-
+```
 Result:
-
+```markdown
 {
   "_index" : "my-index-000001",
   "_type" : "_doc",
@@ -144,7 +144,6 @@ Result:
   "_seq_no" : 1,
   "_primary_term" : 1
 }
-
 POST /my-index-000001/_doc
 {
   "product_id": "456",
@@ -155,9 +154,9 @@ POST /my-index-000001/_doc
   "title": "Best Selling Beer Flavor",
   "tags": "beer best-seller party"
 }
-
+```
 Result: 
-
+```markdown
 {
   "_index" : "my-index-000001",
   "_type" : "_doc",
@@ -172,7 +171,8 @@ Result:
   "_seq_no" : 1,
   "_primary_term" : 1
 }
-
+```
+```markdown
 POST /my-index-000001/_doc
 {
   "product_id": "789",
@@ -183,9 +183,9 @@ POST /my-index-000001/_doc
   "title": "Female Lotion",
   "tags": "lotion female"  
 }
-
+```
 Result: 
-
+```markdown
 {
   "_index" : "my-index-000001",
   "_type" : "_doc",
@@ -200,18 +200,18 @@ Result:
   "_seq_no" : 2,
   "_primary_term" : 1
 }
-
+```
 6. **Display all the data**
-
+```markdown
 POST /my-index-000001/_search
 {
   "query": {
     "match_all": {}
   }
 }
-
+```
 7. **Exact search with product id**
-
+```markdown
 POST /my-index-000001/_search
 {
   "query": {
@@ -220,9 +220,9 @@ POST /my-index-000001/_search
     }
   }
 }
-
+```
 Result: 
-
+```markdown
 {
   "took" : 0,
   "timed_out" : false,
@@ -257,11 +257,11 @@ Result:
     ]
   }
 }
-
+```
 8. **Fuzzy search with titles**
 
 Fuzzy searches allow us to search for products by typing just a few words instead of the whole text of the field. Instead of typing the full name of the product name (i.e Incredible Tuna Mayo Jumbo 250), the customer just instead has to search for the part he recalls of the product (i.e Tuna Mayo).
-
+```markdown
 POST /my-index-000001/_search
 {
   "query": {
@@ -270,9 +270,9 @@ POST /my-index-000001/_search
     }
   }
 }
-
+```
 Result:
-
+```markdown
 {
   "took" : 2,
   "timed_out" : false,
@@ -307,11 +307,11 @@ Result:
     ]
   }
 }
-
+```
 In the default setting, we can get the product "Best Selling Beer Flavor" even with our incomplete query "Beer Flavor". There are other settings that allow us to tolerate misspellings or incomplete words to show results (i.e Bee Flavo)
 
 9. **Sorted by prices**
-
+```markdown
 POST /my-index-000001/_search
 {
   "query": {
@@ -326,9 +326,9 @@ POST /my-index-000001/_search
     "_score"
   ]
 }
-
+```
 Result:
-
+```markdown
 {
   "took" : 1,
   "timed_out" : false,
@@ -405,11 +405,11 @@ Result:
     ]
   }
 }
-
+```
 10. **Search for all "beer" products that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
 
 **Let's add several more beer products.**
-
+```markdown
 POST /my-index-000001/_doc
 {
   "product_id": "111",
@@ -420,7 +420,8 @@ POST /my-index-000001/_doc
   "title": "Tudor Beer Lights",
   "tags": "beer tudor party"
 }
-
+```
+```markdown
 POST /my-index-000001/_doc
 {
   "product_id": "222",
@@ -431,7 +432,8 @@ POST /my-index-000001/_doc
   "title": "Stella Beer 6pack",
   "tags": "beer stella party"
 }
-
+```
+```markdown
 POST /my-index-000001/_doc
 {
   "product_id": "333",
@@ -442,9 +444,9 @@ POST /my-index-000001/_doc
   "title": "Kampai Beer 6pack",
   "tags": "beer kampai party"
 }
-
+```
 **Search:**
-
+```markdown
 POST /my-index-000001/_search
 {
   "query": {
@@ -477,9 +479,9 @@ POST /my-index-000001/_search
     "_score"
   ]
 }
-
+```
 Result:
-
+```markdown
 {
   "took" : 1,
   "timed_out" : false,
@@ -537,14 +539,14 @@ Result:
     ]
   }
 }
-
+```
 
 11. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
 
 Previous query just involved three conditions that must be ALL TRUE to hold. That's equivalent to "A and B and C".
 
 In this query, we still have three conditions that have to be all true, but the 1st condition is marked as true if it has either "poultry", "kampai", or "best-seller". In this example, we introduce the syntax for "OR":
-
+```markdown
 POST /my-index-000001/_search
 {
   "query": {
@@ -594,9 +596,9 @@ POST /my-index-000001/_search
     "_score"
   ]
 }
-
+```
 Result:
-
+```markdown
 {
   "took" : 1,
   "timed_out" : false,
@@ -654,7 +656,7 @@ Result:
     ]
   }
 }
-
+```
 **Note:** 
 
 In this query, we still have a "must" keyword, but its first contains a "should" keyword. The whole query is equivalent to: (A or B or C) AND D AND E. The "should" implies that as long as one condition is met, the (A or B or C) statement returns true.
@@ -664,7 +666,7 @@ A tweak we can do is adjust the "minimum_should_match" (msm) parameter, so we ca
 12. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], and in stock. The price should be between 0 to 300 only. Sorted by cheapest to most expensive**
 
 This query is similar to #11 but we added another criteria that the price of the products returned should only be between 0 and 300.
-
+```markdown
 POST /my-index-000001/_search
 {
   "query": {
@@ -722,9 +724,9 @@ POST /my-index-000001/_search
     "_score"
   ]
 }
-
+```
 Result:
- 
+ ```markdown
 {
   "took" : 1,
   "timed_out" : false,
@@ -763,4 +765,4 @@ Result:
     ]
   }
 }
-
+```
