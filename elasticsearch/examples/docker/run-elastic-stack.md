@@ -3,12 +3,14 @@
 See [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/docker.html)
 
 1. Create **.env** file
-
+```markdown
 VERSION=7.16.2
-
+```
 2. create **docker-compose.yml** file :
-
+```markdown
 version: '3.9'
+```
+```markdown
 services:
   elasticsearch:
     image: "docker.elastic.co/elasticsearch/elasticsearch:${VERSION}"
@@ -39,29 +41,30 @@ services:
       ELASTICSEARCH_HOSTS: http://singleElasticsearch:9200
     ports:
       - 5601:5601
-
+```
 3. Run **docker compose** to bring up the cluster:
 
+```markdown
 docker compose up -d
-
+```
 4. Submit a **_cat/nodes** request to see that the nodes are up and running:
-
+```markdown
 curl -X GET "localhost:9200/_cat/nodes?v=true&pretty"
-
+```
 5. For seeing elasticsearch && kibana logs:
-
+```markdown
 docker compose logs --follow
-
+```
 Log messages go to the console and are handled by the configured Docker logging driver.
 
 If you would prefer the Elasticsearch container to write logs to disk, set the **ES_LOG_STYLE** environment variable to **file**. This causes Elasticsearch to use the same logging configuration as other Elasticsearch distribution formats.
 
 6. To stop the cluster, run: 
- 
+```markdown 
 docker compose down. 
-
+```
 The data in the Docker volumes is preserved and loaded when you restart the cluster with **docker compose up**. To **delete the data volumes** when you bring down the cluster, specify the -v option:
-
+```markdown
 docker compose down -v.
-
+```
 
