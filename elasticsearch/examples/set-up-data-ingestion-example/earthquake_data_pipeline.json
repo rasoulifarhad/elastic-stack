@@ -1,3 +1,4 @@
+```markdown
 {
   "description": "My optional pipeline description",
   "processors": [
@@ -107,3 +108,4 @@
     }
   ]
 }
+```
