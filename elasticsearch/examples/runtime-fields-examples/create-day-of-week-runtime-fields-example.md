@@ -3,7 +3,7 @@
 #### Runtime field in index mapping
 
 1. Define index
-2. 
+
 ```markdown
 PUT date_to_day
 {
