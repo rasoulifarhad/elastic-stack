@@ -25,14 +25,14 @@ LimitMEMLOCK=infinity
 ```  
 Once finished, run the following command to reload units:
 ```markdown
-sudo systemctl daemon-reload
+$ sudo systemctl daemon-reload
 ```
 #### Disable swapping
 
 Disable all swap files
 
 ```markdown
-sudo swapoff -a
+$ sudo swapoff -a
 ```
 This doesn’t require a restart of Elasticsearch. To disable it permanently, you will need to edit the /etc/fstab file and comment out any lines that contain the word swap.
 
@@ -83,7 +83,7 @@ Elasticsearch uses a mmapfs directory by default to store its indices. The defau
 
 On Linux, you can increase the limits by running the following command as root:
 ```markdown
-sysctl -w vm.max_map_count=262144
+$ sysctl -w vm.max_map_count=262144
 ```  
 To set this value permanently, 
 ```markdown
@@ -109,7 +109,7 @@ To resolve these problems, either remove the noexec option from your /tmp filesy
 
 If you are running Elasticsearch directly from a shell, set $ES_TMPDIR as follows:
 ```markdown  
-export ES_TMPDIR=/usr/share/elasticsearch/tmp
+$ export ES_TMPDIR=/usr/share/elasticsearch/tmp
 ```  
 If you are using systemd to run Elasticsearch as a service, add the following line to the [Service] section in a service override file:
 ```markdown
@@ -127,6 +127,6 @@ The Linux default allows for communication over networks that may experience ver
 
 You can decrease the maximum number of TCP retransmissions to 5 by running the following command as root. Five retransmissions corresponds with a timeout of around six seconds.
 ```markdown
-sysctl -w net.ipv4.tcp_retries2=5
+$ sysctl -w net.ipv4.tcp_retries2=5
 ```  
 To set this value permanently, update the net.ipv4.tcp_retries2 setting in /etc/sysctl.conf. To verify after rebooting, run sysctl net.ipv4.tcp_retries2.
