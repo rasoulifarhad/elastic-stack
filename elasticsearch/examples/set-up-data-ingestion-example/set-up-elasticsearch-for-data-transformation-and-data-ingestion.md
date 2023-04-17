@@ -41,7 +41,7 @@ Click on the **Add a processor** option.
 ##### Task 1: Remove the fields that we do not need from the retrieved data
 
 Here is an example of an earthquake object from the USGS earthquake API:
-
+```markdown
    {
      "type":"Feature",
      "properties":{
@@ -83,9 +83,9 @@ Here is an example of an earthquake object from the USGS earthquake API:
     },
      "id":"ci40240408"
    }
-
+```
 The following is a sample document with the desired fields we want to store in Elasticsearch.
-
+```markdown
 {
   "mag": 1.13,
   "place": "11km ENE of Coachella, CA",
@@ -99,9 +99,9 @@ The following is a sample document with the desired fields we want to store in E
     "lon": -116.0736667
   }
 }
-
+```
 Here is the list of fields that we do not need.
-
+```markdown
 - updated
 - tz
 - detail
@@ -122,9 +122,7 @@ Here is the list of fields that we do not need.
 - gap
 - magType
 - title
-
-"updated","tz","detail","felt","cdi","mmi","alert","status","tsunami","net","code","ids","sources","types","nst","dmin","rms","gap","magType","title"
-
+```
 To remove these fields, we can use the **Remove** processor.
 
 Under the processor section, type **Remove** in the search bar. Click on the **Remove** processor
@@ -186,7 +184,7 @@ Before creating the **earthquake_data_pipeline**, make sure the order of the pro
 Next, we will create the **earthquake_data_pipeline** by clicking on the **Create pipeline** button.
 
 ##### Final ingest pipeline
-
+```markdown
 PUT _ingest/pipeline/earthquake_data_pipeline
 {
   "description": "My optional pipeline description",
@@ -279,7 +277,8 @@ PUT _ingest/pipeline/earthquake_data_pipeline
     }
   ]
 }
-
+```
+```markdown
 curl -XPUT "http://localhost:9200/_ingest/pipeline/earthquake_data_pipeline?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "My optional pipeline description",
@@ -372,7 +371,8 @@ curl -XPUT "http://localhost:9200/_ingest/pipeline/earthquake_data_pipeline?pret
     }
   ]
 }'
-
+```
+```markdown
 POST _ingest/pipeline/earthquake_data_pipeline/_simulate
 {
   "docs": [
@@ -420,13 +420,13 @@ POST _ingest/pipeline/earthquake_data_pipeline/_simulate
     }
   ]
 }
-
+```
 ##### Step 4: Create an index called earthquakes with the desired mapping
 
 We will accomplish this step using **Kibana Dev Tools**.
 
 In the left panel of the Kibana console, copy and paste the following.
-
+```markdown
 PUT earthquakes 
 {
   "mappings": {
@@ -464,9 +464,9 @@ PUT earthquakes
     }
   }
 }
-
+```
 OR
-
+```markdown
 curl -XPUT "http://localhost:9200/earthquakes?pretty" -H 'Content-Type: application/json' -d'
 {
   "mappings": {
@@ -504,9 +504,9 @@ curl -XPUT "http://localhost:9200/earthquakes?pretty" -H 'Content-Type: applicat
     }
   }
 }'
-
+```
 ##### Submitting bulk requests with cURL
-
+```markdown
 cat ingest_earthquakes.sh <<EOF
 #!/bin/bash
 content=$(curl -sS https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson)
@@ -515,11 +515,11 @@ sed -i 's/^/{"index":{}}\n/'  all_month.geojson.ndjson
 curl -s -H "Content-Type: application/x-ndjson" -XPOST "localhost:9200/earthquakes/_bulk?pipeline=earthquake_data_pipeline" --data-binary "@all_month.geojson.ndjson"; echo
 rm -rf all_month.geojson.ndjson
 EOF
-
+```
 **Note:** If you’re providing text file input to curl, you must use the --data-binary flag instead of plain -d. The latter doesn’t preserve newlines. 
 
 #### NOTE:
-
+```markdown
 jq -c '.[]' <<END
 {
     [
@@ -532,7 +532,8 @@ jq -c '.[]' <<END
     ]
 }
 END
-
+```
+```markdown
 jq -c '.a | .[]' <<END
 {
     "a": [
@@ -545,11 +546,13 @@ jq -c '.a | .[]' <<END
     ]
 }
 END
-
+```
 #### Summary
 
 We have created:
+```markdown
 curl -sS https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson
+```
 - an **ingest pipeline**(earthquake_data_pipeline) to transform the retrieved data from the USGS API
 
 - an index called **earthquakes** with the desired mapping
