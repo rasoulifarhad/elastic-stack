@@ -2,7 +2,7 @@
 
 #### Overview
 
-Types of Nodes:
+###### Types of Nodes:
 
 - Master-Eligible Node
 - Data Nodes
@@ -36,13 +36,11 @@ Where N is the total number of “master-eligible” nodes in your cluster, you 
 
 **Heap: Sizing and Swapping**
 
-Sizing your nodes is a tricky task.
-
 Making the right choice isn’t an easy task. You should always scale according to your requirements and your budget. One way to do it is by trial and error. Scale up or down your nodes and their number depending on the usage that you are seeing. After a few runs, you should end up with a configuration that utilizes just enough resources with good indexing and searching performances.
 
 When you attribute 8Gb to an elastic search node, the standard recommendation is to give 50% of the available memory to ElasticSearch heap while leaving the other 50% free. 
 
-Don’t allocate more than 32Gb (64Gb total) to your nodes.
+**Note: Don’t allocate more than 32Gb (64Gb total) to your nodes.**
 
 **Disks**
 
@@ -65,9 +63,7 @@ If you need to choose between faster CPUs or more cores, choose more cores. The 
 
 **Kibana**
 
-Most clusters use Kibana to visualize data.
-
-For heavy Kibana usage, recommended that using coordinator nodes. This will unload the query stress from your master nodes and improve the overall performance of cluster.
+Most clusters use Kibana to visualize data. For heavy Kibana usage, recommended that using coordinator nodes. This will unload the query stress from your master nodes and improve the overall performance of cluster.
 
 ![Kibana](images/kibana.png)
 
