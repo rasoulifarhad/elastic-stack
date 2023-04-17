@@ -44,10 +44,10 @@ Another option available on Linux systems is to ensure that the sysctl value vm.
 
 Another option is to use mlockall on Linux/Unix systems, or VirtualLock on Windows, to try to lock the process address space into RAM, preventing any Elasticsearch heap memory from being swapped out.
 
-To enable a memory lock, set bootstrap.memory_lock to true in elasticsearch.yml:
+To enable a memory lock,
 
 ```markdown
-bootstrap.memory_lock: true
+Set bootstrap.memory_lock to true in elasticsearch.yml
 ```
 
 After starting Elasticsearch, you can see whether this setting was applied successfully by checking the value of mlockall in the output from this request:
@@ -66,7 +66,9 @@ Elasticsearch uses a lot of file descriptors or file handles. Running out of fil
 For the .zip and .tar.gz packages, 
 ```markdown
 Set ulimit -n 65535 as root before starting Elasticsearch
-Or 
+
+OR
+
 Set nofile to 65535 in /etc/security/limits.conf
 ```
 You can check the max_file_descriptors configured for each node using the Nodes stats API, with:
