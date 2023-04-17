@@ -11,8 +11,10 @@ Since mapping is quite flexible, we can also combine explicit mapping with dynam
 
 1. Run Elasticsearch And Kibana
 
+```markdown
 docker compose up -d
 docker compose logs --follow
+```
 
 #### The object data type'
 
@@ -20,6 +22,7 @@ The object data type represents how Elasticsearch stores its JSON values, basica
 
 2. Define index 
 
+```markdown
 PUT users
 {
   "mappings": {
@@ -35,13 +38,16 @@ PUT users
     }
   }
 }
-
+```
 3. Examin mappings
 
+```markdown
 GET users/_mapping?pretty"
+```
 
 Result:
 
+```markdown
 {
   "users" : {
     "mappings" : {
@@ -66,10 +72,11 @@ Result:
     }
   }
 }
-
+```
 
 4. Index Data
 
+```markdown
 PUT users/_doc/1
 {
   "name": "Lucas",
@@ -79,9 +86,11 @@ PUT users/_doc/1
     "zipCode": "04896060"
   }
 }
+```
 
 Results:
 
+```markdown
 {
   "_index" : "users",
   "_type" : "_doc",
@@ -96,13 +105,14 @@ Results:
   "_seq_no" : 0,
   "_primary_term" : 1
 }
-
+```
 #### How arrays of objects are flattened
 
 Elasticsearch has no concept of inner objects. Therefore, it flattens object hierarchies into a simple list of field names and values. 
 
 5. Index array of address
 
+```markdown
 PUT users/_doc/2
 {
   "name": "farhad",
@@ -118,22 +128,24 @@ PUT users/_doc/2
     }
   ]
 }
-
+```
 In this case, Elasticsearch would then store our fields like an array of countries and an array of zipCodes. document would be transformed internally into a document that looks more like this:
 
+```markdown
 {
   "name": "farhad",
   "birthday": "1992-10-01",
   "address.country": [ "Iran", "Usa" ],
   "address.zipCode": [ "2222222", "4444444" ],
 }
-
+```
 **address.country** and **address.zipCode** fields are flattened into multi-value fields, and the association between **Iran** country and **2222222** zipCode is lost.
 
 Example:
 
 6. we indexed a document representing an article that contains 2 reviews from 2 different users. 
 
+```markdown
 PUT articles/_doc/1
 {
   "name": "Elasticsearch article",
@@ -148,19 +160,22 @@ PUT articles/_doc/1
     }
   ]
 }
-
+```
 Document would be transformed internally into a document that looks more like this:
 
+```markdown
 {
   "name": "Elasticsearch article",
   "reviews.name": [ "Lucas", "Eduardo"],
   "reviews.rating": [5, 3],
 }
+```
 
 **reviews.name** and **reviews.rating** fields are flattened into multi-value fields, and the association between **Eduardo**  and **3** is lost.
 
 7. get articles reviewed by Eduardo with rating greater than 4
 
+```markdown
 GET articles/_search
 {
   "query": {
@@ -182,9 +197,10 @@ GET articles/_search
     }
   }
 }
-
+```
 Result:
 
+```markdown
 {
   "took" : 5,
   "timed_out" : false,
@@ -223,6 +239,7 @@ Result:
     ]
   }
 }
+```
 
 **This is not exactly what we are looking for.**
 
@@ -230,6 +247,7 @@ Basically, since Elasticsearch flattened our document, it can't query based on t
 
 8. Index data
 
+```markdown
 PUT my-index-000001/_doc/1
 {
   "group" : "fans",
@@ -244,19 +262,21 @@ PUT my-index-000001/_doc/1
     }
   ]
 }
-
+```
 Document would be transformed internally into a document that looks more like this:
-
+```markdown
 {
   "group" :        "fans",
   "user.first" : [ "alice", "john" ],
   "user.last" :  [ "smith", "white" ]
 }
+```
 
 The **user.first** and **user.last** fields are flattened into multi-value fields, and the association between **alice** and **white** is lost. 
 
 9. query for alice AND smith
 
+```markdown
 GET my-index-000001/_search
 {
   "query": {
@@ -276,9 +296,11 @@ GET my-index-000001/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 {
   "took" : 2,
   "timed_out" : false,
@@ -317,7 +339,7 @@ Result:
     ]
   }
 }
-
+```
 #### Using nested fields for arrays of objects
 
 The **nested** type is a specialised version of the **object** data type that allows arrays of objects to be indexed in a way that they can be queried independently of each other.
@@ -328,6 +350,7 @@ Internally, nested objects index each object in the array as a separate hidden d
 
 10. Define nested vertion of articles index
 
+```markdown
 PUT articles_v2
 {
   "mappings": {
@@ -341,9 +364,11 @@ PUT articles_v2
     }
   }
 }
+```
 
 11. index data
 
+```markdown
 PUT articles_v2/_doc/1
 {
   "name": "Elasticsearch article",
@@ -358,9 +383,11 @@ PUT articles_v2/_doc/1
     }
   ]
 }
+```
 
 Result:
 
+```markdown
 {
   "_index" : "articles_v2",
   "_type" : "_doc",
@@ -375,13 +402,13 @@ Result:
   "_seq_no" : 0,
   "_primary_term" : 1
 }
-
+```
 12. test mappings
-
+```markdown
 GET articles_v2/_mapping"
-
+```
 13. get articles reviewed by Eduardo with rating greater than 4
-
+```markdown
 GET articles_v2/_search
 {
   "query": {
@@ -408,9 +435,11 @@ GET articles_v2/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 {
   "took" : 641,
   "timed_out" : false,
@@ -429,11 +458,12 @@ Result:
     "hits" : [ ]
   }
 }
-
+```
 And the return shows as that we have no articles matching these conditions, which is **correct!**
 
 14. Define nested vertion of my-index-000001 index
 
+```markdown
 PUT my-index-000001_v2
 {
   "mappings": {
@@ -447,9 +477,10 @@ PUT my-index-000001_v2
     }
   }
 }
+```
 
 15. index data into my-index-000001_v2
-
+```markdown
 PUT my-index-000001_v2/_doc/1
 {
   "group" : "fans",
@@ -464,13 +495,15 @@ PUT my-index-000001_v2/_doc/1
     }
   ]
 }
+```
 
 16. test my-index-000001_v2 mappings 
-
+```markdown
 GET my-index-000001_v2/_mapping"
-
+```
 17. query for alice AND smith
 
+```markdown
 GET my-index-000001_v2/_search
 {
   "query": {
@@ -495,9 +528,11 @@ GET my-index-000001_v2/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 {
   "took" : 453,
   "timed_out" : false,
@@ -516,9 +551,10 @@ Result:
     "hits" : [ ]
   }
 }
-
+```
 18. query for alice AND White
 
+```markdown
 GET my-index-000001_v2/_search
 {
   "query": {
@@ -543,9 +579,11 @@ GET my-index-000001_v2/_search
     }
   }
 }
+```
 
 Result:
 
+```markdown
 {
   "took" : 1,
   "timed_out" : false,
@@ -584,15 +622,16 @@ Result:
     ]
   }
 }
-
+```
 19. clean
-
+20. 
+```markdown
 DELETE user
 DELETE articles
 DELETE articles_v2
 DELETE my-index-000001
 DELETE my-index-000001_v2
-
+```
 #### Interacting with nested documentsedit
 
 Nested documents can be:
