@@ -2,47 +2,35 @@
 
 We will accomplish two tasks:
 
-- create an **ingest pipeline** to transform the retrieved data
+> 1. create an **ingest pipeline** to transform the retrieved data</br>
 
-- create an index called **earthquakes** with the desired mapping
+> 2. create an index called **earthquakes** with the desired mapping</br>
 
 ### Step 1: Review the data transformation requirements
 
-Our **ingest pipeline** will be used to transform the data retrieved from the USGS API.
+Our **ingest pipeline** will be used to transform the data retrieved from the USGS API. Before we create an **ingest pipeline**, let's review what changes we want to make to the data.
 
-Before we create an **ingest pipeline**, let's review what changes we want to make to the data.
+> 1. Remove the unnecessary info from the retrieved data</br>
 
-- remove the unnecessary info from the retrieved data
+> 2. Change the Unix epoch time in the field **time** to human readable timestamp</br>
 
-- change the Unix epoch time in the field **time** to human readable timestamp
-
-- create fields **coordinates.lat** and **coordinates.lon** as shown below
+> 3. Create fields **coordinates.lat** and **coordinates.lon** as shown below</br>
 
 ![coordinates field](images/coordinates-field.jpeg)
 
 ### Step 2: Create an ingest pipeline
 
-Ingest pipelines can be created and managed via Kibana's **Ingest Pipelines** feature or the **ingest APIs**.
+Ingest pipelines can be created and managed via Kibana's **Ingest Pipelines** feature or the **ingest APIs**. We will be using Kibana to create this pipeline.
 
-We will be using Kibana to create this pipeline.
-
-From the Kibana home page, click on the **Stack Management** option.
-
-From the **Stack Management page**, click on the **Ingest Pipelines** option.
-
-Click on the **Create pipeline** option and select the **New pipeline** option from the drop down menu.
-
-Name your pipeline to **earthquake_data_pipeline**.
+From the Kibana home page, click on the **Stack Management** option. From the **Stack Management page**, click on the **Ingest Pipelines** option. Click on the **Create pipeline** option and select the **New pipeline** option from the drop down menu. Name your pipeline to **earthquake_data_pipeline**.
 
 ### Step 3: Add the desired processors to the pipeline
 
-Click on the **Add a processor** option.
-
 ##### Task 1: Remove the fields that we do not need from the retrieved data
 
-Here is an example of an earthquake object from the USGS earthquake API:
 ```markdown
-   {
+# Here is an example of an earthquake object from the USGS earthquake API:
+{
      "type":"Feature",
      "properties":{
         "mag":1.13,
@@ -82,10 +70,11 @@ Here is an example of an earthquake object from the USGS earthquake API:
 
     },
      "id":"ci40240408"
-   }
+}
 ```
-The following is a sample document with the desired fields we want to store in Elasticsearch.
+
 ```markdown
+# The following is a sample document with the desired fields we want to store in Elasticsearch.
 {
   "mag": 1.13,
   "place": "11km ENE of Coachella, CA",
@@ -100,8 +89,9 @@ The following is a sample document with the desired fields we want to store in E
   }
 }
 ```
-Here is the list of fields that we do not need.
+
 ```markdown
+# Here is the list of fields that we do not need.
 - updated
 - tz
 - detail
