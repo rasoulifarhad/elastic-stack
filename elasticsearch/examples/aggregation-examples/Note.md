@@ -1,15 +1,15 @@
 ### Aggregation
 
 The Aggregation Syntax:
-
-> -----
-> "aggs”: {
->     “name_of_aggregation”: {
->       “type_of_aggregation”: {
->         “field”: “document_field_name”
-> }
-> -----
-
+```markdown
+-----
+"aggs”: {
+    “name_of_aggregation”: {
+      “type_of_aggregation”: {
+        “field”: “document_field_name”
+}
+-----
+```
 - **aggs:** This keyword shows that you are using an aggregation.
 
 - **name_of_aggregation:**T his is the name of aggregation which the user defines.
@@ -23,7 +23,7 @@ The Aggregation Syntax:
 #### Example
 
 The following example shows the total counts of the “clientip” address in the index “kibana_sample_data_logs.”
-
+```markdown
 GET /kibana_sample_data_logs/_search
 {
   "size": 0,
@@ -35,7 +35,7 @@ GET /kibana_sample_data_logs/_search
     }
   }
 }
-
+```
 #### Key Aggregation Types
 
 Aggregations can be divided into four groups: 
