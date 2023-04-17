@@ -40,13 +40,13 @@ sudo sysctl -p
 Install elasticsearch
 ```markdown
 sudo rpm -ivh elasticsearch-7.16.2-x86_64.rpm
-```markdown
+```
 #### Configure each node’s elasticsearch.yml file
 
 Let's open port 9200 to we can communicate with ElasticSearch:
 ```markdown
-  > sudo firewall-cmd --zone=public --add-port=9200/tcp --permanent
-  > sudo firewall-cmd --reload
+sudo firewall-cmd --zone=public --add-port=9200/tcp --permanent
+sudo firewall-cmd --reload
 ```
  
 Change elasticsearch cluster config
