@@ -26,110 +26,98 @@ A Cluster with 3 Nodes
 #### Preparing each node for ES cluster
 
 Open the sysctl.conf file as root:
-
-  > sudo vim /etc/sysctl.conf
-
+```markdown
+sudo vim /etc/sysctl.conf
+```
 Add the following line at the bottom:
-
-  > vm.max_map_count=262144
-
+```markdown
+vm.max_map_count=262144
+```
 Load the new sysctl values:
-
-  > sudo sysctl -p
-
+```markdown
+sudo sysctl -p
+```
 Install elasticsearch
-
-  > sudo rpm -ivh elasticsearch-7.16.2-x86_64.rpm
-
+```markdown
+sudo rpm -ivh elasticsearch-7.16.2-x86_64.rpm
+```
 #### Configure each node’s elasticsearch.yml file
 
 Let's open port 9200 to we can communicate with ElasticSearch:
-
-  > sudo firewall-cmd --zone=public --add-port=9200/tcp --permanent <br />
-  > sudo firewall-cmd --reload <br />
-  >
+```markdown
+sudo firewall-cmd --zone=public --add-port=9200/tcp --permanent
+sudo firewall-cmd --reload
+```
  
 Change elasticsearch cluster config
-
-  > sudo echo -e "$MY_IP $MY_HOSTNAME" >> /etc/hosts <br />
-  >
-  <br />
-  
-  > mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig~ <br />
-  > touch /etc/elasticsearch/elasticsearch.yml <br />
-  > chmod 660 /etc/elasticsearch/elasticsearch.yml <br />
-  >
+```markdown
+sudo echo -e "$MY_IP $MY_HOSTNAME" >> /etc/hosts
+```
+```markdown
+mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig~
+touch /etc/elasticsearch/elasticsearch.yml
+chmod 660 /etc/elasticsearch/elasticsearch.yml
+```
   
 Then: 
   
-  >
-  > echo 'node.name: es-node1' | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo 'cluster.name: op-es-cluster'|tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo 'network.host: "0.0.0.0"' |tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo 'discovery.seed_hosts: "es-node1, es-node2, es-node3"' | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo 'cluster.initial_master_nodes: "es-node1, es-node2, es-node3"' | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo 'bootstrap.memory_lock: true' | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo 'xpack.security.enabled: true' | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  >
-  <br />
-
+```markdown
+echo 'node.name: es-node1' | tee -a /etc/elasticsearch/elasticsearch.yml
+echo 'cluster.name: op-es-cluster'|tee -a /etc/elasticsearch/elasticsearch.yml
+echo 'network.host: "0.0.0.0"' |tee -a /etc/elasticsearch/elasticsearch.yml
+echo 'discovery.seed_hosts: "es-node1, es-node2, es-node3"' | tee -a /etc/elasticsearch/elasticsearch.yml
+echo 'cluster.initial_master_nodes: "es-node1, es-node2, es-node3"' | tee -a /etc/elasticsearch/elasticsearch.yml
+echo 'bootstrap.memory_lock: true' | tee -a /etc/elasticsearch/elasticsearch.yml
+echo 'xpack.security.enabled: true' | tee -a /etc/elasticsearch/elasticsearch.yml
+```
 Configure transport tls:
-  
-  >
-  > SSL_PATH=/etc/elasticsearch/certs <br />
-  > TRANSPORT_CERT_FILENAME=elastic-certificates.p12 <br />
-  > TRANSPORT_CERT_PATH=$SSL_PATH/$TRANSPORT_CERT_FILENAME <br />
-  > 
-  > mkdir -p $SSL_PATH <br />
-  > Move transport cert file to  $SSL_PATH <br />
-  > chown -R elasticsearch:elasticsearch $SSL_PATH <br />
-  >
-<br />
-  
-  > echo "xpack.security.transport.ssl.enabled: true"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.verification_mode: certificate"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.keystore.path: $TRANSPORT_CERT_PATH"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.truststore.path: $TRANSPORT_CERT_PATH"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.truststore.type: PKCS12"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.keystore.type: PKCS12"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > 
-  <br />
+```markdown
+SSL_PATH=/etc/elasticsearch/certs
+TRANSPORT_CERT_FILENAME=elastic-certificates.p12
+TRANSPORT_CERT_PATH=$SSL_PATH/$TRANSPORT_CERT_FILENAME
 
+mkdir -p $SSL_PATH <br />
+Move transport cert file to  $SSL_PATH
+chown -R elasticsearch:elasticsearch $SSL_PATH
+```  
+```markdown
+echo "xpack.security.transport.ssl.enabled: true"  | tee -a /etc/elasticsearch/elasticsearch.yml
+echo "xpack.security.transport.ssl.verification_mode: certificate"  | tee -a /etc/elasticsearch/elasticsearch.yml
+echo "xpack.security.transport.ssl.keystore.path: $TRANSPORT_CERT_PATH"  | tee -a /etc/elasticsearch/elasticsearch.yml
+echo "xpack.security.transport.ssl.truststore.path: $TRANSPORT_CERT_PATH"  | tee -a /etc/elasticsearch/elasticsearch.yml
+echo "xpack.security.transport.ssl.truststore.type: PKCS12"  | tee -a /etc/elasticsearch/elasticsearch.yml
+echo "xpack.security.transport.ssl.keystore.type: PKCS12"  | tee -a /etc/elasticsearch/elasticsearch.yml
+```
 Override systemd file:
-
-  > mkdir -p /etc/systemd/system/elasticsearch.service.d <br />
-  > touch /etc/systemd/system/elasticsearch.service.d/override.conf <br />
-<br />
-
-  > echo '[Service]' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf <br />
-  > echo 'LimitMEMLOCK=infinity' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf <br />
-  > echo 'LimitNPROC=infinity' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf <br />
-  > echo 'LimitNOFILE=infinity' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf <br />
-  > echo 'LimitCORE=0' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf <br />
-  > 
-<br />
-
+```markdown
+mkdir -p /etc/systemd/system/elasticsearch.service.d
+touch /etc/systemd/system/elasticsearch.service.d/override.conf
+```
+```markdown
+echo '[Service]' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf
+echo 'LimitMEMLOCK=infinity' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf
+echo 'LimitNPROC=infinity' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf
+echo 'LimitNOFILE=infinity' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf
+echo 'LimitCORE=0' | tee -a /etc/systemd/system/elasticsearch.service.d/override.conf
+```
 #### Configure the heap for each node
 
 Create file heap.options in  /etc/elasticsearch/jvm.options.d directory:
-
-  > mkdir -p /etc/elasticsearch/jvm.options.d <br />
-  > touch /etc/elasticsearch/jvm.options.d/heap.options <br />
-
-  > cat > /etc/elasticsearch/jvm.options.d/heap.options << EOF <br />
-  > -Xms2g <br />
-  > -Xmx2g <br />
-  > EOF <br />
-  > 
-<br />
-
+```markdown
+mkdir -p /etc/elasticsearch/jvm.options.d
+touch /etc/elasticsearch/jvm.options.d/heap.options
+```
+```markdown
+cat > /etc/elasticsearch/jvm.options.d/heap.options << EOF
+-Xms2g
+-Xmx2g
+EOF
+```
 #### Start Elasticsearch as a daemon on each node
 
 Start elasticsearch 
-
-  > systemctl daemon-reload <br />
-  > systemctl restart elasticsearch <br />
-  > systemctl enable elasticsearch <br />
-  > 
-
-
+```markdown
+systemctl daemon-reload
+systemctl restart elasticsearch
+systemctl enable elasticsearch
+```
