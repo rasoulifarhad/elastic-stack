@@ -1,3 +1,4 @@
+```markdown
 {
   "mappings": {
     "properties": {
@@ -34,4 +35,4 @@
     }
   }
 }
-
+```
