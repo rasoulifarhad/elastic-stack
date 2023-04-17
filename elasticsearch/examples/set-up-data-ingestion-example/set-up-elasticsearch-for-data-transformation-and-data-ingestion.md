@@ -1,12 +1,12 @@
-### Set up Elasticsearch for data transformation and data ingestion
+## Set up Elasticsearch for data transformation and data ingestion
 
 We will accomplish two tasks:
 
-1. create an **ingest pipeline** to transform the retrieved data
+- create an **ingest pipeline** to transform the retrieved data
 
-2. create an index called **earthquakes** with the desired mapping
+- create an index called **earthquakes** with the desired mapping
 
-#### Step 1: Review the data transformation requirements
+### Step 1: Review the data transformation requirements
 
 Our **ingest pipeline** will be used to transform the data retrieved from the USGS API.
 
@@ -20,7 +20,7 @@ Before we create an **ingest pipeline**, let's review what changes we want to ma
 
 ![coordinates field](images/coordinates-field.jpeg)
 
-#### Step 2: Create an ingest pipeline
+### Step 2: Create an ingest pipeline
 
 Ingest pipelines can be created and managed via Kibana's **Ingest Pipelines** feature or the **ingest APIs**.
 
@@ -34,7 +34,7 @@ Click on the **Create pipeline** option and select the **New pipeline** option f
 
 Name your pipeline to **earthquake_data_pipeline**.
 
-#### Step 3: Add the desired processors to the pipeline
+### Step 3: Add the desired processors to the pipeline
 
 Click on the **Add a processor** option.
 
@@ -421,7 +421,7 @@ POST _ingest/pipeline/earthquake_data_pipeline/_simulate
   ]
 }
 ```
-##### Step 4: Create an index called earthquakes with the desired mapping
+### Step 4: Create an index called earthquakes with the desired mapping
 
 We will accomplish this step using **Kibana Dev Tools**.
 
@@ -505,7 +505,8 @@ curl -XPUT "http://localhost:9200/earthquakes?pretty" -H 'Content-Type: applicat
   }
 }'
 ```
-##### Submitting bulk requests with cURL
+### Submitting bulk requests with cURL
+
 ```markdown
 cat ingest_earthquakes.sh <<EOF
 #!/bin/bash
@@ -518,7 +519,7 @@ EOF
 ```
 **Note:** If you’re providing text file input to curl, you must use the --data-binary flag instead of plain -d. The latter doesn’t preserve newlines. 
 
-#### NOTE:
+### NOTE:
 ```markdown
 jq -c '.[]' <<END
 {
@@ -547,7 +548,7 @@ jq -c '.a | .[]' <<END
 }
 END
 ```
-#### Summary
+### Summary
 
 We have created:
 ```markdown
@@ -563,7 +564,7 @@ Next , we will set up the server to retrieve earthquake data from the USGS API a
 
 Once the data transformation is complete, the transformed data will be ingested into the **earthquakes** index.
 
-#### Dashboard
+### Dashboard
 
 [Earthquakes Data Visualization](earthquakes_data_visualization.ndjson)
 
