@@ -39,7 +39,7 @@ Remote-eligible node
   A node with the remote_cluster_client role, which is activated by default, makes it eligible to act as a remote client. By default, any node in the cluster can act as a cross-cluster client and connect to remote clusters. This is particularly useful in some use cases when your production cluster needs access to remote clusters.
 ```
   
-![Elastic Stack Topology](../images/topology.png)
+![Elastic Stack Topology](images/topology.png)
 
 ###### Minimum of Master Nodes:
 
