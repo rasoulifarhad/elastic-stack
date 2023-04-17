@@ -97,7 +97,7 @@ Most clusters use Kibana to visualize data.
 
 For heavy Kibana usage, recommended that using coordinator nodes. This will unload the query stress from your master nodes and improve the overall performance of cluster.
 
-![Kibana](../images/kibana.png)
+![Kibana](images/kibana.png)
 
 #### Sharding Impact on Performance
 
