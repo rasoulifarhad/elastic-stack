@@ -1,7 +1,7 @@
 ### Runtime fields arithmetic
 
 1. 
-
+```markdown
 GET kibana_sample_data_logs\_search
 {
   "runtime_mappings": {
@@ -25,9 +25,9 @@ GET kibana_sample_data_logs\_search
     }
   }
 }
-
+```
 2. 
-
+```markdown
 GET kibana_sample_data_logs\_search
 {
   "runtime_mappings": {
@@ -65,3 +65,4 @@ GET kibana_sample_data_logs\_search
     }
   }
 }
+```
