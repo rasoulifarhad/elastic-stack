@@ -3,7 +3,8 @@
 #### Runtime field in index mapping
 
 1. Define index
-
+2. 
+```markdown
 PUT date_to_day
 {
   "mappings": {
@@ -18,11 +19,13 @@ PUT date_to_day
     }
   }
 }
+```
 
 2. Ingest some data
 
 with DevTools:
 
+```markdown
 POST date_to_day/_bulk
 {"index":{}}
 {"response_code": 200, "timestamp": "2021-01-01"}
@@ -44,9 +47,11 @@ POST date_to_day/_bulk
 {"response_code": 300, "timestamp": "2021-01-09"}
 {"index":{}}
 {"response_code": 400, "timestamp": "2021-01-09"}
+```
 
 with curl: 
 
+```markdown
 curl -X POST "localhost:9200/date_to_day/_bulk?refresh&pretty" -H 'Content-Type: application/json' -d'
 {"index":{}}
 {"response_code": 200, "timestamp": "2021-01-01"}
@@ -69,20 +74,25 @@ curl -X POST "localhost:9200/date_to_day/_bulk?refresh&pretty" -H 'Content-Type:
 {"index":{}}
 {"response_code": 400, "timestamp": "2021-01-09"}
 '
+```
 
 3. Show the index mapping
 
+```markdown
 GET /date_to_day
 GET /date_to_day/_mapping
+```
 
 with curl: 
 
+```markdown
 curl -X GET "localhost:9200/date_to_day?pretty"
 curl -X GET "localhost:9200/date_to_day/_mapping?pretty"
-
+```
 
 4. Create an ephemeral runtime field for day of week and aggregate on it
 
+```markdown
 GET date_to_day/_search
 {
   "runtime_mappings": {
@@ -102,10 +112,11 @@ GET date_to_day/_search
     }
   }
 }
-
+```
 
 with curl: 
 
+```markdown
 curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "runtime_mappings": {
@@ -126,9 +137,10 @@ curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: applic
   }
 }
 '
-
+```
 5. Add the runtime field to the index mapping
 
+```markdown
 PUT date_to_day/_mapping
 {
   "runtime": {
@@ -140,9 +152,11 @@ PUT date_to_day/_mapping
     }
   }
 }
+```
 
-with curl: 
+with curl:
 
+```markdown
 curl -X GET "localhost:9200/date_to_day/_mapping" -H 'Content-Type: application/json' -d'
 {
   "runtime": {
@@ -155,17 +169,23 @@ curl -X GET "localhost:9200/date_to_day/_mapping" -H 'Content-Type: application/
   }
 }
 '
+```
 
 6. Examine the mapping to see that the runtime field was added
 
+```markdown
 GET /date_to_day/_mapping
+```
 
 with curl: 
 
+```markdown
 curl -X GET "localhost:9200/date_to_day/_mapping?pretty"
+```
 
 7. using day_of_week runtime field for aggregation
 
+```markdown
 GET date_to_day/_search
 {
   "size": 0,
@@ -177,9 +197,11 @@ GET date_to_day/_search
     }
   }
 }
+```
 
 with curl: 
 
+```markdown
 curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "size": 0,
@@ -192,12 +214,16 @@ curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: applic
   }
 }
 '
+```
 
 8. Delete the index as cleanup
 
+```markdown
 DELETE date_to_day
+```
 
 with curl: 
 
+```markdown
 curl -X DELETE "localhost:9200/date_to_day" 
-
+```
