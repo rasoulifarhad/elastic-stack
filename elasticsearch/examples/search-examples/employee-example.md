@@ -3,25 +3,25 @@
 [base link](https://dev.to/lisahjung/beginner-s-guide-to-running-queries-with-elasticsearch-and-kibana-4kn9)
 
 1. Run Elasticsearch && Kibana 
- 
+```markdown
 docker compose up -d
- 
+``` 
 Open the Kibana console(AKA Dev Tools). 
 
 2. Define index
-
+```markdown
 curl -X PUT 'http://localhost:9200/employee?pretty' -H 'Content-Type: application/json'
-
+```
 Response:
-
+```markdown
 {
   "acknowledged" : true,
   "shards_acknowledged" : true,
   "index" : "employee"
 }
-
+```
 3. Index data
-
+```markdown
 curl -X PUT 'http://localhost:9200/employee/_doc/1?pretty' -H 'Content-Type: application/json' -d'
 {
  "first_name": "John",
@@ -31,9 +31,9 @@ curl -X PUT 'http://localhost:9200/employee/_doc/1?pretty' -H 'Content-Type: app
  "interests": ["sports", "music"]
 }
 '
-
+```
 Response:
-
+```markdown
 {
   "_index" : "employee",
   "_type" : "_doc",
@@ -48,7 +48,9 @@ Response:
   "_seq_no" : 0,
   "_primary_term" : 1
 }
+```
 
+```markdown
 curl -X PUT 'http://localhost:9200/employee/_doc/2?pretty' -H 'Content-Type: application/json' -d'
 {
  "first_name": "Jane",
@@ -58,9 +60,9 @@ curl -X PUT 'http://localhost:9200/employee/_doc/2?pretty' -H 'Content-Type: app
  "interests": ["music"]
 }
 '
-
+```
 Response:
-
+```markdown
 {
   "_index" : "employee",
   "_type" : "_doc",
@@ -75,7 +77,9 @@ Response:
   "_seq_no" : 1,
   "_primary_term" : 1
 }
+```
 
+```markdown
 curl -X PUT 'http://localhost:9200/employee/_doc/3?pretty' -H 'Content-Type: application/json' -d'
 {
  "first_name": "Douglas",
@@ -85,7 +89,8 @@ curl -X PUT 'http://localhost:9200/employee/_doc/3?pretty' -H 'Content-Type: app
  "interests": ["forestry"]
 }
 '
-
+```
+```markdown
 {
   "_index" : "employee",
   "_type" : "_doc",
@@ -100,15 +105,16 @@ curl -X PUT 'http://localhost:9200/employee/_doc/3?pretty' -H 'Content-Type: app
   "_seq_no" : 2,
   "_primary_term" : 1
 }
-
+```
 4. Search all employees
-
+```markdown
 curl -X GET 'http://localhost:9200/employee/_doc/_search?pretty' -H 'Content-Type: application/json'
-
+```
+```markdown
 GET /employee/_doc/_search
-
+```
 Response:
-
+```markdown
 {
   "took" : 459,
   "timed_out" : false,
@@ -174,15 +180,16 @@ Response:
     ]
   }
 }
-
+```
 5. Search with Query-string
-
+```markdown
 GET /employee/_search?q=last_name:Smith
-
+```
+```markdown
 curl -X GET 'http://localhost:9200/employee/_search?q=last_name:Smith&pretty'  -H 'Content-Type: application/json'
-
+```
 Response: 
-
+```markdown
 {
   "took" : 2,
   "timed_out" : false,
@@ -233,9 +240,9 @@ Response:
     ]
   }
 }
-
+```
 6. Search with query dsl
-
+```markdown
 GET /employee/_search
 {
   "query": {
@@ -244,7 +251,8 @@ GET /employee/_search
     }
   }
 }
- 
+```
+```markdown
 curl -XGET "http://localhost:9200/employee/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -253,9 +261,9 @@ curl -XGET "http://localhost:9200/employee/_search?pretty" -H 'Content-Type: app
     }
   }
 }'
-
+```
 Response: 
-
+```markdown
 {
   "took" : 1,
   "timed_out" : false,
@@ -306,11 +314,11 @@ Response:
     ]
   }
 }
-
+```
 #### Query dsl and filter
 
 7. query last name 'Smith' and 'age' older than 30 
-
+```markdown
 GET /employee/_search
 { 
   "query": {
@@ -334,7 +342,8 @@ GET /employee/_search
     }
   }
 }
-
+```
+```markdown
 curl -XGET "http://localhost:9200/employee/_search?pretty" -H 'Content-Type: application/json' -d'
 { 
   "query": {
@@ -358,9 +367,9 @@ curl -XGET "http://localhost:9200/employee/_search?pretty" -H 'Content-Type: app
     }
   }
 }'
-
+```
 Response: 
-
+```markdown
 {
   "took" : 2,
   "timed_out" : false,
@@ -395,7 +404,7 @@ Response:
     ]
   }
 }
-
+```
 #### Fuul-text search
 
 The **_score** field ranks searches results
@@ -403,7 +412,7 @@ The **_score** field ranks searches results
 The higher the score, the **better**
 
 8. query 'rock climbing' employes
-
+```markdown
 GET /employee/_search
 {
   "query": {
@@ -412,7 +421,8 @@ GET /employee/_search
     }
   }
 }
-
+```
+```markdown
 curl -XGET "http://localhost:9200/employee/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -421,9 +431,9 @@ curl -XGET "http://localhost:9200/employee/_search?pretty" -H 'Content-Type: app
     }
   }
 }'
-
+```
 Response:
-
+```markdown
 {
   "took" : 3,
   "timed_out" : false,
@@ -474,11 +484,11 @@ Response:
     ]
   }
 }
-
+```
 #### Phrase search
 
 9. query 'rock climbing' phrase 
-
+```markdown
 GET /employee/_search
 {
   "query": {
@@ -487,7 +497,8 @@ GET /employee/_search
     }
   }
 }
-
+```
+```markdown
 curl -XGET "http://localhost:9200/employee/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -496,9 +507,9 @@ curl -XGET "http://localhost:9200/employee/_search?pretty" -H 'Content-Type: app
     }
   }
 }'
-
+```
 Response:
-
+```markdown
 {
   "took" : 4,
   "timed_out" : false,
@@ -534,4 +545,4 @@ Response:
     ]
   }
 }
-
+```
