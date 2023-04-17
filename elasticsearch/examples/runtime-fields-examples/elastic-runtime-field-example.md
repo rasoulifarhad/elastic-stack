@@ -1,20 +1,20 @@
 ### elastic-runtime-field-example
 
 #### Static value
-
+```markdown
 emit("my value");
-
+```
 #### Copy value to another field
-
+```markdown
 if (doc.containsKey('source.field.name')) {
 	def source = doc['source.field.name'].value;
 	if (source != "") {
 		emit(source);
 	}
 }
-
+```
 The above example does not work if you want to copy a geo_point value. In order to do that the emit function needs to have to parameters. The following example shows a runtime field that is using a geo_point field that was wrongly mapped as text and keyword. The target of the copy to another field runtime field is to change the mapping to geo_point again.
-
+```markdown
 if (doc.containsKey('enriched.location.keyword')) {
     def source = doc['enriched.location.keyword'].value;
     def geo_point = source.splitOnToken(",");
@@ -24,27 +24,27 @@ if (doc.containsKey('enriched.location.keyword')) {
         emit(lat,lon);
     }
 }
-
+```
 #### Compare two field values
 The Elasticsearch query DSL is very powerful to search for anything you like. You can search for concrete keyword, for phrases, for ranges of values, IPs and times and much more. But there are also some things in comparison to a SQL based query that are not so easy in Elasticsearch or Kibana Query Language. One of these challenging search features is to look for documents that have the same value in two different fields. Therefore you need the ability to compare two field values.
 
 Comparing two field values can not be done in any of the query languages that Elastic supports. However using a runtime field you can achieve this. The concept is to compare the values using the runtime field and in the query you only search for the result of the runtime field.
-
+```markdown
 emit (doc['source.host.name'].value == doc['dest.host.name'].value);
-
+```
 This is a simple comparison of two field values. You may need to check the existence of both fields before doing the comparison. Otherwise you might run into shard failures on execution.
 
 #### Concatenate two fields
-
+```markdown
 emit (doc['geo.dest.keyword'].value + ':' + doc['geo.src.keyword'].value);
 
 def hostname = doc['host.name'].value;
 def ip = doc['client.ip'].value;
 
 emit(hostname + "/" + ip);
-
+```
 #### Regular expressions (Regex)
-
+```markdown
 def fieldname = "host.name";
 if (!doc.containsKey(fieldname)) {
     return
@@ -54,21 +54,21 @@ def m = /([A-Za-z0-9]+)/.matcher(doc[fieldname].value);
 if ( m.matches() ) {
     emit (m.group(1))
 }
-
+```
 For a simple check that a regex pattern is present in longer string you can also use this shorthanded syntax.
-
+```markdown
 if (doc['host.name'].value =~ /([A-Za-z0-9]+)/) { 
     emit("value detected");
 } else {
     emit ("value not detected");
 }
-
+```
 … or even shorter if you use the Boolean result of the comparison directly. Make sure to set the format of the field to Boolean.
-
+```markdown
 emit (doc['host.name'].value =~ /([A-Za-z0-9]+)/)
-
+```
 #### Grok
-
+```markdown
 String clientip=grok('%{COMMONAPACHELOG}').extract(doc["message"].value)?.clientip;
 if (clientip != null) emit(clientip);
 
@@ -81,25 +81,25 @@ if (doc['transaction.page.referer'].size()>0) {
     }
 }
 emit("");
-
+```
 Another example is accessing the message field directly from _source.
-
+```markdown
 String clientip=grok('Returning %{NUMBER:foobar} ads').extract(params._source.message)?.foobar;
 emit(clientip);
-
+```
 #### Dissect
-
+```markdown
 String clientip=dissect('%{clientip} %{ident} %{auth} [%{@timestamp}] "%{verb} %{request} HTTP/%{httpversion}" %{status} %{size}').extract(doc["message"].value)?.clientip;
 
 if (clientip != null) emit(clientip);
-
+```
 Dissect can be used to extract multiple data fields at once. This also works with runtime fields as the emit function is also able to take a map of fields as input parameter. This type of extraction and field generation can of course also be used for other use cases.
-
+```markdown
 Map fields=dissect('%{source.ip} %{url.domain} - %{client.id} %{port} [%{@timestamp}]').extract(params["_source"]["message"]);
 emit(fields);
-
+```
 #### Manipulate time aka applying date math
-
+```markdown
 emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))
 
 ZonedDateTime date =  doc['@timestamp'].value;
@@ -118,19 +118,19 @@ if (difference 86400000) {
     isOlderThan24hr = true;
 }
 emit(isOlderThan24hr);
-
+```
 #### Sorted day of week
 
 A day of the week that’s sortable in visualizations.  More date masks can be found [in the Java docs](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html).
-
+```markdown
 ZonedDateTime input = doc['timestamp'].value;
 String output = input.format(DateTimeFormatter.ofPattern('e')) + ' ' + input.format(DateTimeFormatter.ofPattern('E'));
 emit(output);
-
+```
 #### Return a static value when a condition is met
 
 This runtime field can be useful for integrating event style information into visualizations. The example is using “record_score” from ML Anomalies to only show the anomalies over a certain score….but don’t show the score itself on the visualization. This runtime field accounts for empty values in the first conditional. You can take this example runtime field and easily adapt to any other numeric field. You also could add multiple categories and expose this field as a keyword field.
-
+```markdown
 //Return a 1 when there is a specific value
 if (doc['record_score'].size()==0) {
 	emit(0);
@@ -141,7 +141,7 @@ if (doc['record_score'].size()==0) {
 		emit(0);
 	}
 }
-
+```
 #### Parse specific value from a list
 
 A field named `gh_labels.keyword` contains a list of text values.
@@ -155,7 +155,7 @@ But I want to do charts based on the `Team`. The steps are to create this “tea
 3. check that the size isn’t 0 (this is probably redundant)
 4. set variable labels equal to the value of the field
 5. for each label, if it contains the string “Team:”, emit that string. In my case I want to strip “Team:” off so I get the substring starting at position 5. Return so we don’t spend any time comparing other strings in the list.
-
+```markdown
 if (doc.containsKey('gh_labels.keyword')) {
 	if (!(doc['gh_labels.keyword'].empty)) {
 		if (!(doc['gh_labels.keyword'].size() == 0)) {
@@ -169,11 +169,11 @@ if (doc.containsKey('gh_labels.keyword')) {
 		}
 	}
 }
-
+```
 #### Creating field that detects low test coverage of code called low_coverage
 
 An easy way to see if code test-coverage is low for a given file.
-
+```markdown
 PUT my-index-000001/
 {
     "mappings": {
@@ -203,9 +203,9 @@ PUT my-index-000001/
     }
   }
 }
-
+```
 or 
-
+```markdown
 PUT my-index-000001/
 {
   "mappings": {
@@ -227,7 +227,8 @@ PUT my-index-000001/
     }
   }
 }
-
+```
+```markdown
 PUT /my-index-000001/_mapping
 {
   "runtime": {
@@ -239,7 +240,8 @@ PUT /my-index-000001/_mapping
       }
   }
 }
-
+```
+```markdown
 POST my-index-000001/_bulk?refresh=true
 {"index":{}}
 {"timestamp": 1516729294000, "lines": {"total": 200, "covered": 10}}
@@ -253,8 +255,8 @@ POST my-index-000001/_bulk?refresh=true
 {"timestamp": 1516383694000, "lines": {"total": 201, "covered": 110}}
 {"index":{}}
 {"timestamp": 1516297294000, "lines": {"total": 400, "covered": 100}}
-
-
+```
+```markdown
 def lines = doc["lines.total"].value;
 def covered = doc["lines.covered"].value;
 def threshold = lines / 2;
@@ -263,11 +265,11 @@ if (covered threshold) {
 } else {
 	emit(true);
 }
-
+```
 #### RUNNERS
 
 A runner joined a competition consisting of 3 races and was stored as follows (note we used objects to store the participations):
-
+```markdown
 {
  "participant": "Fast Runner",
  "participations": {
@@ -285,11 +287,12 @@ A runner joined a competition consisting of 3 races and was stored as follows (n
    }
  }
 }
-
+```
 We want to be able to search through runners and show individual race times but also an average of race times.
-
+```markdown
 PUT runtime_test
-
+```
+```markdown
 PUT runtime_test/_doc/1
 {
   "participant": "Fast Runner",
@@ -308,7 +311,8 @@ PUT runtime_test/_doc/1
     }
   }
 }
-
+```
+```markdown
 PUT runtime_test/_doc/2
 {
   "participant": "Slow Runner",
@@ -327,7 +331,8 @@ PUT runtime_test/_doc/2
     }
   }
 }
-
+```
+```markdown
 GET runtime_test/_search
 {
   "query": {
@@ -341,7 +346,8 @@ GET runtime_test/_search
     }
   }
 }
-
+```
+```markdown
 PUT runtime_test/_mapping
 {
   "runtime": {
@@ -353,7 +359,8 @@ PUT runtime_test/_mapping
     }
   }
 }
-
+```
+```markdown
 GET runtime_test/_search
 {
   "query": {
@@ -361,7 +368,8 @@ GET runtime_test/_search
   },
   "fields" : ["times_average"]
 }
-
+```
+```markdown
 GET runtime_test/_search
 {
   "query": {
@@ -379,18 +387,18 @@ GET runtime_test/_search
     }
   }
 }
-
+```
 We can remove our runtime field from the index mappings by setting it to null:
-
+```markdown
 PUT runtime_test/_mapping
 {
   "runtime": {
     "times_average": null
   }
 }
-
+```
 To use a runtime field for a particular query you just have to move the runtime block from the mappings to the query.
-
+```markdown
 GET runtime_test/_search
 {
   "runtime_mappings": {
@@ -419,13 +427,13 @@ GET runtime_test/_search
     "times_average"
   ]
 }
-
+```
 Override fields
 
 Let’s assume that in our example, our Fast Runner received a penalty of 250 seconds because of cheating in the first race and we want to start querying against that change right away. Just define a runtime field with the same name and it will shadow it.
 
 We have to filter the documents first to avoid penalizing other participants: 
-
+```markdown
 GET runtime_test/_search
 {
   "runtime_mappings": {
@@ -465,11 +473,11 @@ GET runtime_test/_search
     "times_average", "participations.race1.time_secs"
   ]
 }
-
+```
 Dynamic runtime fields
 
 To set runtime dynamic fields you have to specify the option when you create the index: 
-
+```markdown
 PUT runtime_index
 {
  "mappings": {
@@ -481,9 +489,9 @@ PUT runtime_index
    }
  }
 }
-
+```
 Let’s repeat the index creation, now including a runtime field:
-
+```markdown
 PUT runtime_index
 {
  "mappings": {
@@ -500,6 +508,6 @@ PUT runtime_index
    }
  }
 }
-
+```
 Now all documents you ingest with new fields, will be set up as runtime fields. These fields will use no disk space but be fully functional for queries!
 
