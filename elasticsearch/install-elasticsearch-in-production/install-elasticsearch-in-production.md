@@ -83,12 +83,11 @@ But what are the benefits of sharding?
 
 2. Performance: Distribution of your primary shards to other nodes implies that all shards can share the workload. They are improving the overall performance.
 
-  So:
-```markdown
+**So:**
 - If your scenario is write-heavy, keep the number of shards per index low. 
 - If you need better search performance, increase the number of shards, but keep the “physics” in mind. 
 - If you need reliability, take the number of nodes/replicas into account.
-```
+
 #### Important Elasticsearch configuration
 
 Elasticsearch requires very little configuration to get started, but there are a number of items which must be considered before using your cluster in production:
