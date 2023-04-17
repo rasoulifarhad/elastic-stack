@@ -3,7 +3,7 @@
 #### Runtime field in index mapping
 
 1. Define index
-
+```markdown
 PUT /my-index-000001/
 {
   "mappings": {
@@ -18,11 +18,11 @@ PUT /my-index-000001/
     }
   }
 }
-
+```
 2. Ingest some data
 
 with DevTools:
-
+```markdown
 POST /my-index-000001/_bulk?refresh
 {"index":{}}
 {"timestamp":"2020-04-30T14:30:17-05:00","message":"40.135.0.0 - - [30/Apr/2020:14:30:17 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
@@ -38,9 +38,9 @@ POST /my-index-000001/_bulk?refresh
 {"timestamp":"2020-04-30T14:31:27-05:00","message":"252.0.0.0 - - [30/Apr/2020:14:31:27 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
 {"index":{}}
 {"timestamp":"2020-04-30T14:31:28-05:00","message":"not a valid apache log"}
-
+```
 with curl: 
-
+```markdown
 curl -X POST "localhost:9200/my-index-000001/_bulk?refresh&pretty" -H 'Content-Type: application/json' -d'
 {"index":{}}
 {"timestamp":"2020-04-30T14:30:17-05:00","message":"40.135.0.0 - - [30/Apr/2020:14:30:17 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
@@ -57,19 +57,19 @@ curl -X POST "localhost:9200/my-index-000001/_bulk?refresh&pretty" -H 'Content-T
 {"index":{}}
 {"timestamp":"2020-04-30T14:31:28-05:00","message":"not a valid apache log"}
 '
-
+```
 3. Show the index mapping
-
+```markdown
 GET /my-index-000001
 GET /my-index-000001/_mapping
-
+```
 with curl: 
-
+```markdown
 curl -X GET "localhost:9200/my-index-000001?pretty"
 curl -X GET "localhost:9200/my-index-000001/_mapping?pretty"
-
+```
 4. Add the runtime field to the index mapping with a grok pattern
-
+```markdown
 PUT my-index-000001/_mappings
 {
   "runtime": {
@@ -82,9 +82,9 @@ PUT my-index-000001/_mappings
     }
   }
 }
-
+```
 with curl: 
-
+```markdown
 curl -X PUT "localhost:9200/my-index-000001/_mappings?pretty" -H 'Content-Type: application/json' -d'
 {
   "runtime": {
@@ -95,17 +95,17 @@ curl -X PUT "localhost:9200/my-index-000001/_mappings?pretty" -H 'Content-Type: 
   }
 }
 '
-
+```
 5.  Examine the mapping to see that the runtime field was added
-
+```markdown
 GET /my-index-000001/_mapping
-
+```
 with curl: 
-
+```markdown
 curl -X GET "localhost:9200/my-index-000001/_mapping?pretty"
-
+```
 6. Search for a specific IP addressedit
-
+```markdown
 GET my-index-000001/_search
 {
   "query": {
@@ -115,21 +115,21 @@ GET my-index-000001/_search
   },
   "fields" : ["*"]
 }
-
+```
 7. Delete the index as cleanup
-
+```markdown
 DELETE my-index-000001
-
+```
 with curl: 
-
+```markdown
 curl -X DELETE "localhost:9200/my-index-000001" 
-
+```
 #### Runtime field in search request
 
 Alternatively, you can define the same runtime field but in the context of a search request. 
 
 1. Define index
-
+```markdown
 PUT /my-index-000001/
 {
   "mappings": {
@@ -144,11 +144,11 @@ PUT /my-index-000001/
     }
   }
 }
-
+```
 2. Ingest some dataedit
 
 with DevTools:
-
+```markdown
 POST /my-index-000001/_bulk?refresh
 {"index":{}}
 {"timestamp":"2020-04-30T14:30:17-05:00","message":"40.135.0.0 - - [30/Apr/2020:14:30:17 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
@@ -164,9 +164,9 @@ POST /my-index-000001/_bulk?refresh
 {"timestamp":"2020-04-30T14:31:27-05:00","message":"252.0.0.0 - - [30/Apr/2020:14:31:27 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
 {"index":{}}
 {"timestamp":"2020-04-30T14:31:28-05:00","message":"not a valid apache log"}
-
+```
 with curl: 
-
+```markdown
 curl -X POST "localhost:9200/my-index-000001/_bulk?refresh&pretty" -H 'Content-Type: application/json' -d'
 {"index":{}}
 {"timestamp":"2020-04-30T14:30:17-05:00","message":"40.135.0.0 - - [30/Apr/2020:14:30:17 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
@@ -183,19 +183,19 @@ curl -X POST "localhost:9200/my-index-000001/_bulk?refresh&pretty" -H 'Content-T
 {"index":{}}
 {"timestamp":"2020-04-30T14:31:28-05:00","message":"not a valid apache log"}
 '
-
+```
 3. Show the index mapping
-
+```markdown
 GET /my-index-000001
 GET /my-index-000001/_mapping
-
+```
 with curl: 
-
+```markdown
 curl -X GET "localhost:9200/my-index-000001?pretty"
 curl -X GET "localhost:9200/my-index-000001/_mapping?pretty"
-
+```
 4. Create an ephemeral runtime field for clientip and search on it
-
+```markdown
 GET my-index-000001/_search
 {
   "runtime_mappings": {
@@ -214,9 +214,9 @@ GET my-index-000001/_search
   },
   "fields" : ["http.clientip"]
 }
-
+```
 with curl: 
-
+```markdown
 curl -X GET "localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "runtime_mappings": {
@@ -233,19 +233,19 @@ curl -X GET "localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: ap
   "fields" : ["http.clientip"]
 }
 '
-
+```
 5. Delete the index as cleanup
-
+```markdown
 DELETE my-index-000001
-
+```
 with curl: 
-
+```markdown
 curl -X DELETE "localhost:9200/my-index-000001" 
-
+```
 #### Define a composite runtime field in index mapping
 
 1. Define index
-
+```markdown
 PUT /my-index-000001/
 {
   "mappings": {
@@ -260,11 +260,11 @@ PUT /my-index-000001/
     }
   }
 }
-
+```
 2. Ingest some dataedit
 
 with DevTools:
-
+```markdown
 POST /my-index-000001/_bulk?refresh
 {"index":{}}
 {"timestamp":"2020-04-30T14:30:17-05:00","message":"40.135.0.0 - - [30/Apr/2020:14:30:17 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
@@ -280,9 +280,9 @@ POST /my-index-000001/_bulk?refresh
 {"timestamp":"2020-04-30T14:31:27-05:00","message":"252.0.0.0 - - [30/Apr/2020:14:31:27 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
 {"index":{}}
 {"timestamp":"2020-04-30T14:31:28-05:00","message":"not a valid apache log"}
-
+```
 with curl: 
-
+```markdown
 curl -X POST "localhost:9200/my-index-000001/_bulk?refresh&pretty" -H 'Content-Type: application/json' -d'
 {"index":{}}
 {"timestamp":"2020-04-30T14:30:17-05:00","message":"40.135.0.0 - - [30/Apr/2020:14:30:17 -0500] \"GET /images/hm_bg.jpg HTTP/1.0\" 200 24736"}
@@ -299,19 +299,19 @@ curl -X POST "localhost:9200/my-index-000001/_bulk?refresh&pretty" -H 'Content-T
 {"index":{}}
 {"timestamp":"2020-04-30T14:31:28-05:00","message":"not a valid apache log"}
 '
-
+```
 3. Show the index mapping
-
+```markdown
 GET /my-index-000001
 GET /my-index-000001/_mapping
-
+```
 with curl: 
-
+```markdown
 curl -X GET "localhost:9200/my-index-000001?pretty"
 curl -X GET "localhost:9200/my-index-000001/_mapping?pretty"
-
+```
 4. Define a composite runtime field
-
+```markdown
 PUT my-index-000001/_mappings
 {
   "runtime": {
@@ -332,9 +332,9 @@ PUT my-index-000001/_mappings
     }
   }
 }
-
+```
 with curl: 
-
+```markdown
 curl -X PUT "localhost:9200/my-index-000001/_mappings?pretty" -H 'Content-Type: application/json' -d'
 {
   "runtime": {
@@ -356,9 +356,9 @@ curl -X PUT "localhost:9200/my-index-000001/_mappings?pretty" -H 'Content-Type: 
   }
 }
 '
-
+```
 5. Search for a specific IP addressedit
-
+```markdown
 GET my-index-000001/_search
 {
   "query": {
@@ -368,13 +368,13 @@ GET my-index-000001/_search
   },
   "fields" : ["*"]
 }
-
+```
 6. Delete the index as cleanup
-
+```markdown
 DELETE my-index-000001
-
+``
 with curl: 
-
+```markdown
 curl -X DELETE "localhost:9200/my-index-000001" 
-
+```
 
