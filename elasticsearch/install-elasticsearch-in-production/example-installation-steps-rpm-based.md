@@ -44,98 +44,94 @@ Install elasticsearch
 #### Configure each node’s elasticsearch.yml file
 
 Let's open port 9200 to we can communicate with ElasticSearch:
-
-  > sudo firewall-cmd --zone=public --add-port=9200/tcp --permanent <br />
-  > sudo firewall-cmd --reload <br />
-  >
+```markdown
+sudo firewall-cmd --zone=public --add-port=9200/tcp --permanent <br />
+sudo firewall-cmd --reload <br />
+```
  
 Open the elasticsearch.yml file:
 
   > vim /etc/elasticsearch/elasticsearch.yml
 
 Change the following line:
-
-  > #cluster.name: my-application <br />
-  > #node.name: node-1 <br />
-  > #network.host: 192.168.0.1 <br />
-  > #http.port: 9200 <br />
-  > #discovery.seed_hosts: ["host1", "host2"] <br />
-  > #cluster.initial_master_nodes: ["node-1", "node-2"] <br />
-  > #bootstrap.memory_lock: true <br />
-  > #path.logs: /var/log/elasticsearch <br />
-  > #xpack.monitoring.enabled: true <br />
-  >
+```markdown
+#cluster.name: my-application <br />
+#node.name: node-1 <br />
+#network.host: 192.168.0.1 <br />
+#http.port: 9200 <br />
+#discovery.seed_hosts: ["host1", "host2"] <br />
+#cluster.initial_master_nodes: ["node-1", "node-2"] <br />
+#bootstrap.memory_lock: true <br />
+#path.logs: /var/log/elasticsearch <br />
+#xpack.monitoring.enabled: true <br />
+```
 
   To
-
-  >
-  > cluster.name: <CHANGE_THIS_TO_ELASTIC_CLUSTER_NAME> <br />
-  > node.name: <CHANGE_THIS_TO_ELASTIC_NODE_NAME>-<CHANGE_THIS_TO_ELASTIC_NODE_NUMBER> <br />
-  > network.host: <CHANGE_THIS_TO_ELASTIC_NODE_IP>,_local_ <br />
-  > http.port: 9200 <br />
-  > discovery.seed_hosts: ["<CHANGE_THIS_TO_ELASTIC_MASTER_IPS>"] <br />
-  > cluster.initial_master_nodes: ["<CHANGE_THIS_TO_ELASTIC_MASTER_NAME>"] <br />
-  > bootstrap.memory_lock: true <br />
-  > path.logs: /var/lib/elasticsearch/logs <br />
-  > xpack.monitoring.enabled: true <br />
-
+  
+```markdown
+cluster.name: <CHANGE_THIS_TO_ELASTIC_CLUSTER_NAME> <br />
+node.name: <CHANGE_THIS_TO_ELASTIC_NODE_NAME>-<CHANGE_THIS_TO_ELASTIC_NODE_NUMBER> <br />
+network.host: <CHANGE_THIS_TO_ELASTIC_NODE_IP>,_local_ <br />
+http.port: 9200 <br />
+discovery.seed_hosts: ["<CHANGE_THIS_TO_ELASTIC_MASTER_IPS>"] <br />
+cluster.initial_master_nodes: ["<CHANGE_THIS_TO_ELASTIC_MASTER_NAME>"] <br />
+bootstrap.memory_lock: true <br />
+path.logs: /var/lib/elasticsearch/logs <br />
+xpack.monitoring.enabled: true <br />
+```
 Configure transport tls:
-
-  > 
-  > SSL_PATH=/etc/elasticsearch/certs <br />
-  > TRANSPORT_CERT_FILENAME=elastic-certificates.p12 <br />
-  > TRANSPORT_CERT_PATH=$SSL_PATH/$TRANSPORT_CERT_FILENAME <br />
-  > 
-  > mkdir -p $SSL_PATH <br />
-  > Move transport cert file to  $SSL_PATH <br />
-  > chown -R elasticsearch:elasticsearch $SSL_PATH <br />
-  > 
-
-  > echo "xpack.security.transport.ssl.enabled: true"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.verification_mode: certificate"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.keystore.path: $TRANSPORT_CERT_PATH"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.truststore.path: $TRANSPORT_CERT_PATH"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.truststore.type: PKCS12"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > echo "xpack.security.transport.ssl.keystore.type: PKCS12"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
-  > 
-
-<br />
-<br />
-
+```markdown
+SSL_PATH=/etc/elasticsearch/certs <br />
+TRANSPORT_CERT_FILENAME=elastic-certificates.p12 <br />
+TRANSPORT_CERT_PATH=$SSL_PATH/$TRANSPORT_CERT_FILENAME <br />
+```
+```markdown
+mkdir -p $SSL_PATH <br />
+Move transport cert file to  $SSL_PATH <br />
+chown -R elasticsearch:elasticsearch $SSL_PATH <br />
+```
+```markdown
+echo "xpack.security.transport.ssl.enabled: true"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
+echo "xpack.security.transport.ssl.verification_mode: certificate"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
+echo "xpack.security.transport.ssl.keystore.path: $TRANSPORT_CERT_PATH"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
+echo "xpack.security.transport.ssl.truststore.path: $TRANSPORT_CERT_PATH"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
+echo "xpack.security.transport.ssl.truststore.type: PKCS12"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
+echo "xpack.security.transport.ssl.keystore.type: PKCS12"  | tee -a /etc/elasticsearch/elasticsearch.yml <br />
+```
 Override systemd file:
-
-  > mkdir -p /etc/systemd/system/elasticsearch.service.d <br />
-  > touch /etc/systemd/system/elasticsearch.service.d/override.conf <br />
-
-
-  > cat > /etc/systemd/system/elasticsearch.service.d/override.conf << EOF <br />
-  > [Service] <br />
-  > LimitMEMLOCK=infinity <br />
-  > LimitNPROC=infinity <br />
-  > LimitNOFILE=infinity <br />
-  > LimitCORE=0 <br />
-  > EOF <br />
-  >
+```markdown
+mkdir -p /etc/systemd/system/elasticsearch.service.d <br />
+touch /etc/systemd/system/elasticsearch.service.d/override.conf <br />
+```
+```markdown
+cat > /etc/systemd/system/elasticsearch.service.d/override.conf << EOF <br />
+[Service] <br />
+LimitMEMLOCK=infinity <br />
+LimitNPROC=infinity <br />
+LimitNOFILE=infinity <br />
+LimitCORE=0 <br />
+EOF <br />
+```
 
 #### Configure the heap for each node
 
 Create file heap.options in  /etc/elasticsearch/jvm.options.d directory:
-
-  > mkdir -p /etc/elasticsearch/jvm.options.d <br />
-  > touch /etc/elasticsearch/jvm.options.d/heap.options <br />
-  
-  > cat > /etc/elasticsearch/jvm.options.d/heap.options << EOF <br />
-  > -Xms2g <br />
-  > -Xmx2g <br />
-  > EOF <br />
-  > 
+```markdown
+mkdir -p /etc/elasticsearch/jvm.options.d <br />
+touch /etc/elasticsearch/jvm.options.d/heap.options <br />
+```
+```markdown  
+cat > /etc/elasticsearch/jvm.options.d/heap.options << EOF <br />
+-Xms2g <br />
+-Xmx2g <br />
+EOF <br />
+```
   
 #### Start Elasticsearch as a daemon on each node
 
 Start elasticsearch 
-
-  > systemctl daemon-reload <br />
-  > systemctl restart elasticsearch <br />
-  > systemctl enable elasticsearch <br />
-
-
+```markdown
+systemctl daemon-reload <br />
+systemctl restart elasticsearch <br />
+systemctl enable elasticsearch <br />
+```
