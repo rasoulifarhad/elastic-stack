@@ -3,41 +3,14 @@
 #### Overview
 
 Types of Nodes:
-```markdown
-Master-Eligible Node 
 
-   Control of the cluster requires a minimum of 3 with one active at any given time.
-```
-```markdown
-Data Nodes
-
-   Holds indexed data and performs data related operations Differentiated Hot and Warm Data nodes can be used -> More below.
-```
-```markdown
-Ingest Nodes
-
-   Use ingest pipelines to transform and enrich data before indexing.
-```
-```markdown
-Coordinating Nodes
-
-   Route requests, handle Search reduce phase, distribute bulk indexing. All nodes function as coordinating nodes by default.A node that has no attribute is a coordinator node and helps with the queries.
-```
-```markdown
-Machine Learning Nodes
-
-   Run machine learning jobs
-```
-```markdown
-Transform node
-
-  Enables you to convert existing Elasticsearch indices into summarised indices. 
-```
-```markdown
-Remote-eligible node
-
-  A node with the remote_cluster_client role, which is activated by default, makes it eligible to act as a remote client. By default, any node in the cluster can act as a cross-cluster client and connect to remote clusters. This is particularly useful in some use cases when your production cluster needs access to remote clusters.
-```
+- Master-Eligible Node
+- Data Nodes
+- Ingest Nodes
+- Coordinating Nodes
+- Machine Learning Nodes
+- Transform node
+- Remote-eligible node
   
 ![Elastic Stack Topology](images/topology.png)
 
