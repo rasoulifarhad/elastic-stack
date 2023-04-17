@@ -1,5 +1,5 @@
 1. 
-
+```markdown
 PUT my-index-000001/
 {
   "mappings": {
@@ -19,7 +19,8 @@ PUT my-index-000001/
     }
   }
 }
-
+```
+```markdown
 curl -X PUT "localhost:9200/my-index-000001/?pretty" -H 'Content-Type: application/json' -d'
 {
   "mappings": {
@@ -40,10 +41,10 @@ curl -X PUT "localhost:9200/my-index-000001/?pretty" -H 'Content-Type: applicati
   }
 }
 '
-
+```
 
 2. 
-
+```markdown
 POST my-index-000001/_bulk?refresh=true
 {"index":{}}
 {"timestamp": 1516729294000, "temperature": 200, "voltage": 5.2, "node": "a"}
@@ -57,7 +58,8 @@ POST my-index-000001/_bulk?refresh=true
 {"timestamp": 1516383694000, "temperature": 200, "voltage": 4.2, "node": "c"}
 {"index":{}}
 {"timestamp": 1516297294000, "temperature": 202, "voltage": 4.0, "node": "c"}
-
+```
+```markdown
 curl -X POST "localhost:9200/my-index-000001/_bulk?refresh=true&pretty" -H 'Content-Type: application/json' -d'
 {"index":{}}
 {"timestamp": 1516729294000, "temperature": 200, "voltage": 5.2, "node": "a"}
@@ -72,9 +74,9 @@ curl -X POST "localhost:9200/my-index-000001/_bulk?refresh=true&pretty" -H 'Cont
 {"index":{}}
 {"timestamp": 1516297294000, "temperature": 202, "voltage": 4.0, "node": "c"}
 '
-
+```
 3. 
-
+```markdown
 PUT my-index-000001/_mapping
 {
   "runtime": {
@@ -91,9 +93,9 @@ PUT my-index-000001/_mapping
     }
   }
 }
-
+```
 4. 
-
+```markdown
 GET my-index-000001/_search
 {
   "fields": [
@@ -102,7 +104,8 @@ GET my-index-000001/_search
   ],
   "size": 2
 }
-
+```
+```markdown
 curl -X GET "localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "fields": [
@@ -112,9 +115,9 @@ curl -X GET "localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: ap
   "size": 2
 }
 '
-
+```
 5. 
-
+```markdown
 GET my-index-000001/_search
 {
   "fields": [
@@ -123,7 +126,8 @@ GET my-index-000001/_search
   ],
   "size": 2
 }
-
+```
+```markdown
 curl -X PUT "localhost:9200/my-index-000001/_mapping?pretty" -H 'Content-Type: application/json' -d'
 {
   "runtime": {
@@ -139,11 +143,11 @@ curl -X PUT "localhost:9200/my-index-000001/_mapping?pretty" -H 'Content-Type: a
   }
 }
 '
-
+```
 1. 
 
  "on_script_error": "fail": Causes the entire document to be rejected if the script throws an error at index time. Setting the value to ignore will register the field in the document’s _ignored metadata field and continue indexing.
-
+```markdown
 PUT my-index-000001/
 {
   "mappings": {
@@ -175,7 +179,8 @@ PUT my-index-000001/
     }
   }
 }
-
+```
+```markdown
 curl -X PUT "localhost:9200/my-index-000001/?pretty" -H 'Content-Type: application/json' -d'
 {
   "mappings": {
@@ -206,9 +211,9 @@ curl -X PUT "localhost:9200/my-index-000001/?pretty" -H 'Content-Type: applicati
   }
 }
 '
-
+```
 2. 
-
+```markdown
 POST my-index-000001/_bulk?refresh=true
 { "index": {}}
 { "timestamp": 1516729294000, "temperature": 200, "voltage": 5.2, "node": "a"}
@@ -222,7 +227,8 @@ POST my-index-000001/_bulk?refresh=true
 { "timestamp": 1516383694000, "temperature": 200, "voltage": 4.2, "node": "c"}
 { "index": {}}
 { "timestamp": 1516297294000, "temperature": 202, "voltage": 4.0, "node": "c"}
-
+```
+```markdown
 curl -X POST "localhost:9200/my-index-000001/_bulk?refresh=true&pretty" -H 'Content-Type: application/json' -d'
 { "index": {}}
 { "timestamp": 1516729294000, "temperature": 200, "voltage": 5.2, "node": "a"}
@@ -237,9 +243,9 @@ curl -X POST "localhost:9200/my-index-000001/_bulk?refresh=true&pretty" -H 'Cont
 { "index": {}}
 { "timestamp": 1516297294000, "temperature": 202, "voltage": 4.0, "node": "c"}
 '
-
+```
 3. 
-
+```markdown
 POST my-index-000001/_search
 {
   "query": {
@@ -254,7 +260,8 @@ POST my-index-000001/_search
   "fields": [
     "voltage_corrected", "node"]
 }
-
+```
+```markdown
 curl -X POST "localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -270,4 +277,4 @@ curl -X POST "localhost:9200/my-index-000001/_search?pretty" -H 'Content-Type: a
     "voltage_corrected", "node"]
 }
 '
-
+```
