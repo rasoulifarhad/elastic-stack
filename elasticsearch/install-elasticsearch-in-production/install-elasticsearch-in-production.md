@@ -44,21 +44,20 @@ Remote-eligible node
 ###### Minimum of Master Nodes:
 
 Master nodes are the most critical nodes in your cluster. In order to calculate how many master nodes you need in your production cluster, here is a simple formula:
+
 ```markdown
 N / 2 + 1
 ```
 Where N is the total number of “master-eligible” nodes in your cluster, you need to round that number down to the nearest integer.
-
-At least a minimum of 3 master nodes in order to avoid any split-brain situation. 
+- At least a minimum of 3 master nodes in order to avoid any split-brain situation. 
   
-A quorum is (number of master-eligible nodes / 2) + 1. Here are some examples:
+- A quorum is (number of master-eligible nodes / 2) + 1. Here are some examples:
 
-If you have ten regular nodes ( ones that can either hold data and become master), the quorum is 6
+- If you have ten regular nodes ( ones that can either hold data and become master), the quorum is 6
 
-If you have three dedicated master nodes and a hundred data nodes, the quorum is 2.
+- If you have three dedicated master nodes and a hundred data nodes, the quorum is 2.
 
-If you have two regular nodes, you are in a conundrum. A quorum would be 2, but this means a loss of one node will make your cluster inoperable. A setting of 1 will allow your cluster to function but doesn’t protect against the split-brain. It is best to have a minimum of three nodes.
-
+- If you have two regular nodes, you are in a conundrum. A quorum would be 2, but this means a loss of one node will make your cluster inoperable. A setting of 1 will allow your cluster to function but doesn’t protect against the split-brain. It is best to have a minimum of three nodes.
   
 #### Hardware
 
@@ -78,7 +77,7 @@ Disks are probably the most essential aspect of a cluster and especially so for 
 
 Disks are by far the slowest subsystem in a server. This means that if you have write-heavy loads such as logs retention, you are doing a lot of writing, and the disks can quickly become saturated, which in turn becomes the bottleneck of the cluster.
 
-Use SSDs. 
+**Use SSDs*** 
 
 Their far superior writing and re
 ading speed significantly increase your overall performance. SSD-backed nodes see an increase in bot query and indexing performance.
@@ -117,7 +116,7 @@ But what are the benefits of sharding?
 
   So:
 ```markdown
-- if your scenario is write-heavy, keep the number of shards per index low. 
+- If your scenario is write-heavy, keep the number of shards per index low. 
 - If you need better search performance, increase the number of shards, but keep the “physics” in mind. 
 - If you need reliability, take the number of nodes/replicas into account.
 ```
