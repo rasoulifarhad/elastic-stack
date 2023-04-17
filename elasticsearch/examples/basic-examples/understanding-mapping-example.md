@@ -79,11 +79,11 @@ POST test_index/_doc
 
 Syntax:
 
-> GET Name-the-index-whose-mapping-you-want-to-view/_mapping
+GET Name-the-index-whose-mapping-you-want-to-view/_mapping
 
 Example:
 
-> GET test_index/_mapping
+GET test_index/_mapping
 
 ##### Step 3: Edit the mapping
 
@@ -184,11 +184,11 @@ PUT produce_index
 
 Syntax:
 
-> GET Name-of-test-index/_mapping
+GET Name-of-test-index/_mapping
 
 Example:
 
-> GET produce_index/_mapping
+GET produce_index/_mapping
 
 ##### Step 6: Index your dataset into the new index
 

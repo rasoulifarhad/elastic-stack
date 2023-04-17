@@ -2,13 +2,13 @@
 
 1. Run Elasticsearch && Kibana 
  
-> docker compose up -d
+docker compose up -d
  
-> Open the Kibana console(AKA Dev Tools). 
+Open the Kibana console(AKA Dev Tools). 
 
 2. Define index
 
-> curl -X PUT 'http://localhost:9200/schools?pretty' -H 'Content-Type: application/json'
+curl -X PUT 'http://localhost:9200/schools?pretty' -H 'Content-Type: application/json'
 
 3. Index data
 
@@ -90,121 +90,121 @@ PUT /schools/_doc/4
   "rating": "4.5"
 }
 
-> curl -XPUT "http://localhost:9200/schools/_doc/5?pretty	" -H 'Content-Type: application/json' -d'
-> {
->   "name": "City School",
->   "description": "ICSE",
->   "street": "West End",
->   "city": "Meerut",
->   "state": "UP",
->   "zip": "250002",
->   "location": [
->     28.9926174,
->     77.692485
->   ],
->   "fees": 3500,
->   "tags": [
->     "fully computerized"
->   ],
->   "rating": "4.5"
-> }'
+curl -XPUT "http://localhost:9200/schools/_doc/5?pretty	" -H 'Content-Type: application/json' -d'
+{
+  "name": "City School",
+  "description": "ICSE",
+  "street": "West End",
+  "city": "Meerut",
+  "state": "UP",
+  "zip": "250002",
+  "location": [
+    28.9926174,
+    77.692485
+  ],
+  "fees": 3500,
+  "tags": [
+    "fully computerized"
+  ],
+  "rating": "4.5"
+}'
 
-> PUT /schools/_doc/5
-> {
->   "name": "City School",
->   "description": "ICSE",
->   "street": "West End",
->   "city": "Meerut",
->   "state": "UP",
->   "zip": "250002",
->   "location": [
->     28.9926174,
->     77.692485
->   ],
->   "fees": 3500,
->   "tags": [
->     "fully computerized"
->   ],
->   "rating": "4.5"
-> }
+PUT /schools/_doc/5
+{
+  "name": "City School",
+  "description": "ICSE",
+  "street": "West End",
+  "city": "Meerut",
+  "state": "UP",
+  "zip": "250002",
+  "location": [
+    28.9926174,
+    77.692485
+  ],
+  "fees": 3500,
+  "tags": [
+    "fully computerized"
+  ],
+  "rating": "4.5"
+}
 
-> curl -XPUT "http://localhost:9200/school/_doc/10?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "name": "Saint Paul School",
->   "description": "ICSE Afiliation",
->   "street": "Dawarka",
->   "city": "Delhi",
->   "state": "Delhi",
->   "zip": "110075",
->   "location": [
->     28.5733056,
->     77.0122136
->   ],
->   "fees": 5000,
->   "tags": [
->     "Good Faculty",
->     "Great Sports"
->   ],
->   "rating": "4.5"
-> }'
+curl -XPUT "http://localhost:9200/school/_doc/10?pretty" -H 'Content-Type: application/json' -d'
+{
+  "name": "Saint Paul School",
+  "description": "ICSE Afiliation",
+  "street": "Dawarka",
+  "city": "Delhi",
+  "state": "Delhi",
+  "zip": "110075",
+  "location": [
+    28.5733056,
+    77.0122136
+  ],
+  "fees": 5000,
+  "tags": [
+    "Good Faculty",
+    "Great Sports"
+  ],
+  "rating": "4.5"
+}'
 
-> PUT school/_doc/10
-> {
->   "name": "Saint Paul School",
->   "description": "ICSE Afiliation",
->   "street": "Dawarka",
->   "city": "Delhi",
->   "state": "Delhi",
->   "zip": "110075",
->   "location": [
->     28.5733056,
->     77.0122136
->   ],
->   "fees": 5000,
->   "tags": [
->     "Good Faculty",
->     "Great Sports"
->   ],
->   "rating": "4.5"
-> }
+PUT school/_doc/10
+{
+  "name": "Saint Paul School",
+  "description": "ICSE Afiliation",
+  "street": "Dawarka",
+  "city": "Delhi",
+  "state": "Delhi",
+  "zip": "110075",
+  "location": [
+    28.5733056,
+    77.0122136
+  ],
+  "fees": 5000,
+  "tags": [
+    "Good Faculty",
+    "Great Sports"
+  ],
+  "rating": "4.5"
+}
 
-> curl -XPUT "http://localhost:9200/school/_doc/16?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "name": "Crescent School",
->   "description": "State Board Affiliation",
->   "street": "Tonk Road",
->   "city": "Jaipur",
->   "state": "RJ",
->   "zip": "176114",
->   "location": [
->     26.8535922,
->     75.7923988
->   ],
->   "fees": 2500,
->   "tags": [
->     "Well equipped labs"
->   ],
->   "rating": "4.5"
-> }'
+curl -XPUT "http://localhost:9200/school/_doc/16?pretty" -H 'Content-Type: application/json' -d'
+{
+  "name": "Crescent School",
+  "description": "State Board Affiliation",
+  "street": "Tonk Road",
+  "city": "Jaipur",
+  "state": "RJ",
+  "zip": "176114",
+  "location": [
+    26.8535922,
+    75.7923988
+  ],
+  "fees": 2500,
+  "tags": [
+    "Well equipped labs"
+  ],
+  "rating": "4.5"
+}'
 
-> PUT school/_doc/16
-> {
->   "name": "Crescent School",
->   "description": "State Board Affiliation",
->   "street": "Tonk Road",
->   "city": "Jaipur",
->   "state": "RJ",
->   "zip": "176114",
->   "location": [
->     26.8535922,
->     75.7923988
->   ],
->   "fees": 2500,
->   "tags": [
->     "Well equipped labs"
->   ],
->   "rating": "4.5"
-> }
+PUT school/_doc/16
+{
+  "name": "Crescent School",
+  "description": "State Board Affiliation",
+  "street": "Tonk Road",
+  "city": "Jaipur",
+  "state": "RJ",
+  "zip": "176114",
+  "location": [
+    26.8535922,
+    75.7923988
+  ],
+  "fees": 2500,
+  "tags": [
+    "Well equipped labs"
+  ],
+  "rating": "4.5"
+}
 
 #### Match All Query
 

@@ -11,8 +11,8 @@ Since mapping is quite flexible, we can also combine explicit mapping with dynam
 
 1. Run Elasticsearch And Kibana
 
-> docker compose up -d
-> docker compose logs --follow
+docker compose up -d
+docker compose logs --follow
 
 #### The object data type'
 
@@ -20,82 +20,82 @@ The object data type represents how Elasticsearch stores its JSON values, basica
 
 2. Define index 
 
-> PUT users
-> {
->   "mappings": {
->     "properties": {
->       "name": {"type": "text"},
->       "birthday": {"type": "date"},
->       "address": {
->         "properties": {
->           "country": {"type": "text"},
->           "zipCode": {"type": "text"}
->         }
->       }
->     }
->   }
-> }
+PUT users
+{
+  "mappings": {
+    "properties": {
+      "name": {"type": "text"},
+      "birthday": {"type": "date"},
+      "address": {
+        "properties": {
+          "country": {"type": "text"},
+          "zipCode": {"type": "text"}
+        }
+      }
+    }
+  }
+}
 
 3. Examin mappings
 
-> GET users/_mapping?pretty"
+GET users/_mapping?pretty"
 
 Result:
 
-> {
->   "users" : {
->     "mappings" : {
->       "properties" : {
->         "address" : {
->           "properties" : {
->             "country" : {
->               "type" : "text"
->             },
->             "zipCode" : {
->               "type" : "text"
->             }
->           }
->         },
->         "birthday" : {
->           "type" : "date"
->         },
->         "name" : {
->           "type" : "text"
->         }
->       }
->     }
->   }
-> }
+{
+  "users" : {
+    "mappings" : {
+      "properties" : {
+        "address" : {
+          "properties" : {
+            "country" : {
+              "type" : "text"
+            },
+            "zipCode" : {
+              "type" : "text"
+            }
+          }
+        },
+        "birthday" : {
+          "type" : "date"
+        },
+        "name" : {
+          "type" : "text"
+        }
+      }
+    }
+  }
+}
 
 
 4. Index Data
 
-> PUT users/_doc/1
-> {
->   "name": "Lucas",
->   "birthday": "1990-09-28",
->   "address": {
->     "country": "Brazil",
->     "zipCode": "04896060"
->   }
-> }
+PUT users/_doc/1
+{
+  "name": "Lucas",
+  "birthday": "1990-09-28",
+  "address": {
+    "country": "Brazil",
+    "zipCode": "04896060"
+  }
+}
 
 Results:
 
-> {
->   "_index" : "users",
->   "_type" : "_doc",
->   "_id" : "1",
->   "_version" : 1,
->   "result" : "created",
->   "_shards" : {
->     "total" : 2,
->     "successful" : 1,
->     "failed" : 0
->   },
->   "_seq_no" : 0,
->   "_primary_term" : 1
-> }
+{
+  "_index" : "users",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 0,
+  "_primary_term" : 1
+}
 
 #### How arrays of objects are flattened
 
@@ -103,30 +103,30 @@ Elasticsearch has no concept of inner objects. Therefore, it flattens object hie
 
 5. Index array of address
 
-> PUT users/_doc/2
-> {
->   "name": "farhad",
->   "birthday": "1992-10-01",
->   "address": [
->     {
->       "country": "Iran",
->       "zipCode": "2222222"
->     },
->     {
->       "country": "Usa",
->       "zipCode": "4444444"
->     }
->   ]
-> }
+PUT users/_doc/2
+{
+  "name": "farhad",
+  "birthday": "1992-10-01",
+  "address": [
+    {
+      "country": "Iran",
+      "zipCode": "2222222"
+    },
+    {
+      "country": "Usa",
+      "zipCode": "4444444"
+    }
+  ]
+}
 
 In this case, Elasticsearch would then store our fields like an array of countries and an array of zipCodes. document would be transformed internally into a document that looks more like this:
 
-> {
->   "name": "farhad",
->   "birthday": "1992-10-01",
->   "address.country": [ "Iran", "Usa" ],
->   "address.zipCode": [ "2222222", "4444444" ],
-> }
+{
+  "name": "farhad",
+  "birthday": "1992-10-01",
+  "address.country": [ "Iran", "Usa" ],
+  "address.zipCode": [ "2222222", "4444444" ],
+}
 
 **address.country** and **address.zipCode** fields are flattened into multi-value fields, and the association between **Iran** country and **2222222** zipCode is lost.
 
@@ -134,95 +134,95 @@ Example:
 
 6. we indexed a document representing an article that contains 2 reviews from 2 different users. 
 
-> PUT articles/_doc/1
-> {
->   "name": "Elasticsearch article",
->   "reviews": [
->     {
->       "name": "Lucas",
->       "rating": 5
->     },
->     {
->       "name": "Eduardo",
->       "rating": 3
->     }
->   ]
-> }
+PUT articles/_doc/1
+{
+  "name": "Elasticsearch article",
+  "reviews": [
+    {
+      "name": "Lucas",
+      "rating": 5
+    },
+    {
+      "name": "Eduardo",
+      "rating": 3
+    }
+  ]
+}
 
 Document would be transformed internally into a document that looks more like this:
 
-> {
->   "name": "Elasticsearch article",
->   "reviews.name": [ "Lucas", "Eduardo"],
->   "reviews.rating": [5, 3],
-> }
+{
+  "name": "Elasticsearch article",
+  "reviews.name": [ "Lucas", "Eduardo"],
+  "reviews.rating": [5, 3],
+}
 
 **reviews.name** and **reviews.rating** fields are flattened into multi-value fields, and the association between **Eduardo**  and **3** is lost.
 
 7. get articles reviewed by Eduardo with rating greater than 4
 
-> GET articles/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "match": {
->             "reviews.name": "Eduardo"
->           }
->         },
->         {
->           "range": {
->             "reviews.rating": {
->               "gt": 4
->             }
->           }
->         }
->       ]
->     }
->   }
-> }
+GET articles/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "reviews.name": "Eduardo"
+          }
+        },
+        {
+          "range": {
+            "reviews.rating": {
+              "gt": 4
+            }
+          }
+        }
+      ]
+    }
+  }
+}
 
 Result:
 
-> {
->   "took" : 5,
->   "timed_out" : false,
->   "_shards" : {
->     "total" : 1,
->     "successful" : 1,
->     "skipped" : 0,
->     "failed" : 0
->   },
->   "hits" : {
->     "total" : {
->       "value" : 1,
->       "relation" : "eq"
->     },
->     "max_score" : 1.287682,
->     "hits" : [
->       {
->         "_index" : "articles",
->         "_type" : "_doc",
->         "_id" : "BQbHg4cBL2gLFYPzCkVw",
->         "_score" : 1.287682,
->         "_source" : {
->           "name" : "Elasticsearch article",
->           "reviews" : [
->             {
->               "name" : "Lucas",
->               "rating" : 5
->             },
->             {
->               "name" : "Eduardo",
->               "rating" : 3
->             }
->           ]
->         }
->       }
->     ]
->   }
-> }
+{
+  "took" : 5,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.287682,
+    "hits" : [
+      {
+        "_index" : "articles",
+        "_type" : "_doc",
+        "_id" : "BQbHg4cBL2gLFYPzCkVw",
+        "_score" : 1.287682,
+        "_source" : {
+          "name" : "Elasticsearch article",
+          "reviews" : [
+            {
+              "name" : "Lucas",
+              "rating" : 5
+            },
+            {
+              "name" : "Eduardo",
+              "rating" : 3
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
 
 **This is not exactly what we are looking for.**
 
@@ -230,93 +230,93 @@ Basically, since Elasticsearch flattened our document, it can't query based on t
 
 8. Index data
 
-> PUT my-index-000001/_doc/1
-> {
->   "group" : "fans",
->   "user" : [ 
->     {
->       "first" : "John",
->       "last" :  "Smith"
->     },
->     {
->       "first" : "Alice",
->       "last" :  "White"
->     }
->   ]
-> }
+PUT my-index-000001/_doc/1
+{
+  "group" : "fans",
+  "user" : [ 
+    {
+      "first" : "John",
+      "last" :  "Smith"
+    },
+    {
+      "first" : "Alice",
+      "last" :  "White"
+    }
+  ]
+}
 
 Document would be transformed internally into a document that looks more like this:
 
-> {
->   "group" :        "fans",
->   "user.first" : [ "alice", "john" ],
->   "user.last" :  [ "smith", "white" ]
-> }
+{
+  "group" :        "fans",
+  "user.first" : [ "alice", "john" ],
+  "user.last" :  [ "smith", "white" ]
+}
 
 The **user.first** and **user.last** fields are flattened into multi-value fields, and the association between **alice** and **white** is lost. 
 
 9. query for alice AND smith
 
-> GET my-index-000001/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "match": {
->             "user.first": "alice"
->           }
->         },
->         {
->           "match": {
->             "user.last": "Smith"
->           }
->         }
->       ]
->     }
->   }
-> }
+GET my-index-000001/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "user.first": "alice"
+          }
+        },
+        {
+          "match": {
+            "user.last": "Smith"
+          }
+        }
+      ]
+    }
+  }
+}
 
 Result:
 
-> {
->   "took" : 2,
->   "timed_out" : false,
->   "_shards" : {
->     "total" : 1,
->     "successful" : 1,
->     "skipped" : 0,
->     "failed" : 0
->   },
->   "hits" : {
->     "total" : {
->       "value" : 1,
->       "relation" : "eq"
->     },
->     "max_score" : 0.5753642,
->     "hits" : [
->       {
->         "_index" : "my-index-000001",
->         "_type" : "_doc",
->         "_id" : "1",
->         "_score" : 0.5753642,
->         "_source" : {
->           "group" : "fans",
->           "user" : [
->             {
->               "first" : "John",
->               "last" : "Smith"
->             },
->             {
->               "first" : "Alice",
->               "last" : "White"
->             }
->           ]
->         }
->       }
->     ]
->   }
-> }
+{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 0.5753642,
+    "hits" : [
+      {
+        "_index" : "my-index-000001",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.5753642,
+        "_source" : {
+          "group" : "fans",
+          "user" : [
+            {
+              "first" : "John",
+              "last" : "Smith"
+            },
+            {
+              "first" : "Alice",
+              "last" : "White"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
 
 #### Using nested fields for arrays of objects
 
@@ -328,270 +328,270 @@ Internally, nested objects index each object in the array as a separate hidden d
 
 10. Define nested vertion of articles index
 
-> PUT articles_v2
-> {
->   "mappings": {
->     "properties": {
->       "name": {
->         "type": "text"
->       },
->       "reviews": {
->         "type": "nested"
->       }
->     }
->   }
-> }
+PUT articles_v2
+{
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "text"
+      },
+      "reviews": {
+        "type": "nested"
+      }
+    }
+  }
+}
 
 11. index data
 
-> PUT articles_v2/_doc/1
-> {
->   "name": "Elasticsearch article",
->   "reviews": [
->     {
->       "name": "Lucas",
->       "rating": 5
->     },
->     {
->       "name": "Eduardo",
->       "rating": 3
->     }
->   ]
-> }
+PUT articles_v2/_doc/1
+{
+  "name": "Elasticsearch article",
+  "reviews": [
+    {
+      "name": "Lucas",
+      "rating": 5
+    },
+    {
+      "name": "Eduardo",
+      "rating": 3
+    }
+  ]
+}
 
 Result:
 
-> {
->   "_index" : "articles_v2",
->   "_type" : "_doc",
->   "_id" : "Bgblg4cBL2gLFYPzwkUC",
->   "_version" : 1,
->   "result" : "created",
->   "_shards" : {
->     "total" : 2,
->     "successful" : 1,
->     "failed" : 0
->   },
->   "_seq_no" : 0,
->   "_primary_term" : 1
-> }
+{
+  "_index" : "articles_v2",
+  "_type" : "_doc",
+  "_id" : "Bgblg4cBL2gLFYPzwkUC",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 0,
+  "_primary_term" : 1
+}
 
 12. test mappings
 
-> GET articles_v2/_mapping"
+GET articles_v2/_mapping"
 
 13. get articles reviewed by Eduardo with rating greater than 4
 
-> GET articles_v2/_search
-> {
->   "query": {
->     "nested": {
->       "path": "reviews",
->       "query": {
->         "bool": {
->           "must": [
->             {
->               "match": {
->                 "reviews.name": "Eduardo"
->               }
->             },
->             {
->               "range": {
->                 "reviews.rating": {
->                   "gt": 4
->                 }
->               }
->             }
->           ]
->         }
->       }
->     }
->   }
-> }
+GET articles_v2/_search
+{
+  "query": {
+    "nested": {
+      "path": "reviews",
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "reviews.name": "Eduardo"
+              }
+            },
+            {
+              "range": {
+                "reviews.rating": {
+                  "gt": 4
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
 
 Result:
 
-> {
->   "took" : 641,
->   "timed_out" : false,
->   "_shards" : {
->     "total" : 1,
->     "successful" : 1,
->     "skipped" : 0,
->     "failed" : 0
->   },
->   "hits" : {
->     "total" : {
->       "value" : 0,
->       "relation" : "eq"
->     },
->     "max_score" : null,
->     "hits" : [ ]
->   }
-> }
+{
+  "took" : 641,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 0,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  }
+}
 
 And the return shows as that we have no articles matching these conditions, which is **correct!**
 
 14. Define nested vertion of my-index-000001 index
 
-> PUT my-index-000001_v2
-> {
->   "mappings": {
->     "properties": {
->       "group": {
->         "type": "keyword"
->       },
->       "user": {
->         "type": "nested"
->       }
->     }
->   }
-> }
+PUT my-index-000001_v2
+{
+  "mappings": {
+    "properties": {
+      "group": {
+        "type": "keyword"
+      },
+      "user": {
+        "type": "nested"
+      }
+    }
+  }
+}
 
 15. index data into my-index-000001_v2
 
-> PUT my-index-000001_v2/_doc/1
-> {
->   "group" : "fans",
->   "user" : [ 
->     {
->       "first" : "John",
->       "last" :  "Smith"
->     },
->     {
->       "first" : "Alice",
->       "last" :  "White"
->     }
->   ]
-> }
+PUT my-index-000001_v2/_doc/1
+{
+  "group" : "fans",
+  "user" : [ 
+    {
+      "first" : "John",
+      "last" :  "Smith"
+    },
+    {
+      "first" : "Alice",
+      "last" :  "White"
+    }
+  ]
+}
 
 16. test my-index-000001_v2 mappings 
 
-> GET my-index-000001_v2/_mapping"
+GET my-index-000001_v2/_mapping"
 
 17. query for alice AND smith
 
-> GET my-index-000001_v2/_search
-> {
->   "query": {
->     "nested": {
->       "path": "user",
->       "query": {
->         "bool": {
->           "must": [
->             {
->               "match": {
->                 "user.first": "Alice"
->               }
->             },
->             {
->               "match": {
->                 "user.last": "Smith"
->               }
->             }
->           ]
->         }
->       }
->     }
->   }
-> }
+GET my-index-000001_v2/_search
+{
+  "query": {
+    "nested": {
+      "path": "user",
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "user.first": "Alice"
+              }
+            },
+            {
+              "match": {
+                "user.last": "Smith"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
 
 Result:
 
-> {
->   "took" : 453,
->   "timed_out" : false,
->   "_shards" : {
->     "total" : 1,
->     "successful" : 1,
->     "skipped" : 0,
->     "failed" : 0
->   },
->   "hits" : {
->     "total" : {
->       "value" : 0,
->       "relation" : "eq"
->     },
->     "max_score" : null,
->     "hits" : [ ]
->   }
-> }
+{
+  "took" : 453,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 0,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  }
+}
 
 18. query for alice AND White
 
-> GET my-index-000001_v2/_search
-> {
->   "query": {
->     "nested": {
->       "path": "user",
->       "query": {
->         "bool": {
->           "must": [
->             {
->               "match": {
->                 "user.first": "Alice"
->               }
->             },
->             {
->               "match": {
->                 "user.last": "White"
->               }
->             }
->           ]
->         }
->       }
->     }
->   }
-> }
+GET my-index-000001_v2/_search
+{
+  "query": {
+    "nested": {
+      "path": "user",
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "user.first": "Alice"
+              }
+            },
+            {
+              "match": {
+                "user.last": "White"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
 
 Result:
 
-> {
->   "took" : 1,
->   "timed_out" : false,
->   "_shards" : {
->     "total" : 1,
->     "successful" : 1,
->     "skipped" : 0,
->     "failed" : 0
->   },
->   "hits" : {
->     "total" : {
->       "value" : 1,
->       "relation" : "eq"
->     },
->     "max_score" : 1.3862942,
->     "hits" : [
->       {
->         "_index" : "my-index-000001_v2",
->         "_type" : "_doc",
->         "_id" : "1",
->         "_score" : 1.3862942,
->         "_source" : {
->           "group" : "fans",
->           "user" : [
->             {
->               "first" : "John",
->               "last" : "Smith"
->             },
->             {
->               "first" : "Alice",
->               "last" : "White"
->             }
->           ]
->         }
->       }
->     ]
->   }
-> }
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.3862942,
+    "hits" : [
+      {
+        "_index" : "my-index-000001_v2",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.3862942,
+        "_source" : {
+          "group" : "fans",
+          "user" : [
+            {
+              "first" : "John",
+              "last" : "Smith"
+            },
+            {
+              "first" : "Alice",
+              "last" : "White"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
 
 19. clean
 
-> DELETE user
-> DELETE articles
-> DELETE articles_v2
-> DELETE my-index-000001
-> DELETE my-index-000001_v2
+DELETE user
+DELETE articles
+DELETE articles_v2
+DELETE my-index-000001
+DELETE my-index-000001_v2
 
 #### Interacting with nested documentsedit
 

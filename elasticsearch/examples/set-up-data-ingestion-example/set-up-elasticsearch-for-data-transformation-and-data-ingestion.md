@@ -123,7 +123,7 @@ Here is the list of fields that we do not need.
 - magType
 - title
 
-> "updated","tz","detail","felt","cdi","mmi","alert","status","tsunami","net","code","ids","sources","types","nst","dmin","rms","gap","magType","title"
+"updated","tz","detail","felt","cdi","mmi","alert","status","tsunami","net","code","ids","sources","types","nst","dmin","rms","gap","magType","title"
 
 To remove these fields, we can use the **Remove** processor.
 
@@ -427,124 +427,124 @@ We will accomplish this step using **Kibana Dev Tools**.
 
 In the left panel of the Kibana console, copy and paste the following.
 
-> PUT earthquakes 
-> {
->   "mappings": {
->     "properties": {
->       "@timestamp": {
->         "type": "date"
->       },
->       "coordinates": {
->         "type": "geo_point"
->       },
->       "depth": {
->         "type": "float"
->       },
->       "mag": {
->         "type": "float"
->       },
->       "place": {
->         "type": "text",
->         "fields": {
->           "keyword": {
->             "type": "keyword"
->           }
->         }
->       },
->       "sig": {
->         "type": "short"
->       },
->       "type": {
->         "type": "keyword"
->       },
->       "url": {
->         "type" : "object",
->         "enabled": false
->       }
->     }
->   }
-> }
+PUT earthquakes 
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "coordinates": {
+        "type": "geo_point"
+      },
+      "depth": {
+        "type": "float"
+      },
+      "mag": {
+        "type": "float"
+      },
+      "place": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "sig": {
+        "type": "short"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "url": {
+        "type" : "object",
+        "enabled": false
+      }
+    }
+  }
+}
 
 OR
 
-> curl -XPUT "http://localhost:9200/earthquakes?pretty" -H 'Content-Type: application/json' -d'
-> {
->   "mappings": {
->     "properties": {
->       "@timestamp": {
->         "type": "date"
->       },
->       "coordinates": {
->         "type": "geo_point"
->       },
->       "depth": {
->         "type": "float"
->       },
->       "mag": {
->         "type": "float"
->       },
->       "place": {
->         "type": "text",
->         "fields": {
->           "keyword": {
->             "type": "keyword"
->           }
->         }
->       },
->       "sig": {
->         "type": "short"
->       },
->       "type": {
->         "type": "keyword"
->       },
->       "url": {
->         "type" : "object",
->         "enabled": false
->       }
->     }
->   }
-> }'
+curl -XPUT "http://localhost:9200/earthquakes?pretty" -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "coordinates": {
+        "type": "geo_point"
+      },
+      "depth": {
+        "type": "float"
+      },
+      "mag": {
+        "type": "float"
+      },
+      "place": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "sig": {
+        "type": "short"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "url": {
+        "type" : "object",
+        "enabled": false
+      }
+    }
+  }
+}'
 
 ##### Submitting bulk requests with cURL
 
-> cat > ingest_earthquakes.sh <<EOF
-> #!/bin/bash
-> content=$(curl -sS https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson)
-> echo $content | jq -c  '.features[]' > all_month.geojson.ndjson
-> sed -i 's/^/{"index":{}}\n/'  all_month.geojson.ndjson
-> curl -s -H "Content-Type: application/x-ndjson" -XPOST "localhost:9200/earthquakes/_bulk?pipeline=earthquake_data_pipeline" --data-binary "@all_month.geojson.ndjson"; echo
-> rm -rf all_month.geojson.ndjson
-> EOF
+cat ingest_earthquakes.sh <<EOF
+#!/bin/bash
+content=$(curl -sS https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson)
+echo $content | jq -c  '.features[]' all_month.geojson.ndjson
+sed -i 's/^/{"index":{}}\n/'  all_month.geojson.ndjson
+curl -s -H "Content-Type: application/x-ndjson" -XPOST "localhost:9200/earthquakes/_bulk?pipeline=earthquake_data_pipeline" --data-binary "@all_month.geojson.ndjson"; echo
+rm -rf all_month.geojson.ndjson
+EOF
 
 **Note:** If you’re providing text file input to curl, you must use the --data-binary flag instead of plain -d. The latter doesn’t preserve newlines. 
 
 #### NOTE:
 
-> jq -c '.[]' <<END
-> {
->     [
->         {
->             "a1": 1
->         },
->         {
->             "a2": 2
->         }
->     ]
-> }
-> END
+jq -c '.[]' <<END
+{
+    [
+        {
+            "a1": 1
+        },
+        {
+            "a2": 2
+        }
+    ]
+}
+END
 
-> jq -c '.a | .[]' <<END
-> {
->     "a": [
->         {
->             "a1": 1
->         },
->         {
->             "a2": 2
->         }
->     ]
-> }
-> END
+jq -c '.a | .[]' <<END
+{
+    "a": [
+        {
+            "a1": 1
+        },
+        {
+            "a2": 2
+        }
+    ]
+}
+END
 
 #### Summary
 

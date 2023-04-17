@@ -19,16 +19,16 @@ The following USGS Earthquake API home page contains the link to the API that co
 
 GeoJSON is a format for encoding a variety of geographic data structures.
 
-> {
->   "type": "Feature",
->   "geometry": {
->     "type": "Point",
->     "coordinates": [125.6, 10.1]
->   },
->   "properties": {
->     "name": "Dinagat Islands"
->   }
-> }
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [125.6, 10.1]
+  },
+  "properties": {
+    "name": "Dinagat Islands"
+  }
+}
 
 GeoJSON supports the following geometry types: **Point**, **LineString**, **Polygon**, **MultiPoint**, **MultiLineString**, and **MultiPolygon**. Geometric objects with additional properties are **Feature** objects. Sets of features are contained by FeatureCollection objects.
 
@@ -42,68 +42,68 @@ GeoJSON is intended to be used as a programatic interface for applications.
 
 ##### Output
 
-> {
->   type: "FeatureCollection",
->   metadata: {
->     generated: Long Integer,
->     url: String,
->     title: String,
->     api: String,
->     count: Integer,
->     status: Integer
->   },
->   bbox: [
->     minimum longitude,
->     minimum latitude,
->     minimum depth,
->     maximum longitude,
->     maximum latitude,
->     maximum depth
->   ],
->   features: [
->     {
->       type: "Feature",
->       properties: {
->         mag: Decimal,
->         place: String,
->         time: Long Integer,
->         updated: Long Integer,
->         tz: Integer,
->         url: String,
->         detail: String,
->         felt:Integer,
->         cdi: Decimal,
->         mmi: Decimal,
->         alert: String,
->         status: String,
->         tsunami: Integer,
->         sig:Integer,
->         net: String,
->         code: String,
->         ids: String,
->         sources: String,
->         types: String,
->         nst: Integer,
->         dmin: Decimal,
->         rms: Decimal,
->         gap: Decimal,
->         magType: String,
->         type: String
->       },
->       geometry: {
->         type: "Point",
->         coordinates: [
->           longitude,
->           latitude,
->           depth
->         ]
->       },
->       id: String
->     },
->     …
->   ]
-> }
+{
+  type: "FeatureCollection",
+  metadata: {
+    generated: Long Integer,
+    url: String,
+    title: String,
+    api: String,
+    count: Integer,
+    status: Integer
+  },
+  bbox: [
+    minimum longitude,
+    minimum latitude,
+    minimum depth,
+    maximum longitude,
+    maximum latitude,
+    maximum depth
+  ],
+  features: [
+    {
+      type: "Feature",
+      properties: {
+        mag: Decimal,
+        place: String,
+        time: Long Integer,
+        updated: Long Integer,
+        tz: Integer,
+        url: String,
+        detail: String,
+        felt:Integer,
+        cdi: Decimal,
+        mmi: Decimal,
+        alert: String,
+        status: String,
+        tsunami: Integer,
+        sig:Integer,
+        net: String,
+        code: String,
+        ids: String,
+        sources: String,
+        types: String,
+        nst: Integer,
+        dmin: Decimal,
+        rms: Decimal,
+        gap: Decimal,
+        magType: String,
+        type: String
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [
+          longitude,
+          latitude,
+          depth
+        ]
+      },
+      id: String
+    },
+    …
+  ]
+}
 
 We want array of **features** converted to ndjson file. mens each **features** index be a compact json
  
-> cat all_month.geojson | jq -c  '.features[]' >> all_month.geojson.ndjson	
+cat all_month.geojson | jq -c  '.features[]' >all_month.geojson.ndjson	

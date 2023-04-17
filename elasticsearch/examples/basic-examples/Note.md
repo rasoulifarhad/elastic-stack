@@ -16,11 +16,11 @@ Depending on the assigned field type, each field is indexed and primed for diffe
 
 Syntax:
 
-> GET Enter_name_of_the_index_here/_mapping
+GET Enter_name_of_the_index_here/_mapping
 
 Example:
 
-> GET temp_index/_mapping
+GET temp_index/_mapping
 
 #### Indexing Strings
 

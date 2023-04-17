@@ -4,7 +4,7 @@
 
 1. Run Elasticsearch && Kibana 
 
-> docker compose up -d
+docker compose up -d
 
 Open the Kibana console(AKA Dev Tools). 
 
@@ -19,7 +19,7 @@ Write query DSLs in the left panel of the Kibana console. Click on the query to 
 4. Get information about documents in an index
 
 
-> GET news_headlines/_search
+GET news_headlines/_search
 
 Our document contains fields called:
 
@@ -37,29 +37,29 @@ The match query is a standard query for performing a full text search. This quer
 
 Syntax:
 
-> GET Enter_name_of_index_here/_search
-> {
->   "query": {
->     "match": {
->       "Specify the field you want to search": {
->         "query": "Enter search terms"
->       }
->     }
->   }
-> }
+GET Enter_name_of_index_here/_search
+{
+  "query": {
+    "match": {
+      "Specify the field you want to search": {
+        "query": "Enter search terms"
+      }
+    }
+  }
+}
 
 5. We want to search for news headlines about Ed Sheeran's song "Shape of you".
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "match": {
->       "headline": {
->         "query": "Shape of you"
->       }
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "match": {
+      "headline": {
+        "query": "Shape of you"
+      }
+    }
+  }
+}
 
 It asks to search for terms "Shape" or "of" or "you" in the field headline. 
 
@@ -75,29 +75,29 @@ If the order and the proximity in which the search terms are found(i.e. phrases)
 
 Syntax:
 
-> GET Enter_name_of_index_here/_search
-> {
->   "query": {
->     "match_phrase": {
->       "Specify the field you want to search": {
->         "query": "Enter search terms"
->       }
->     }
->   }
-> }
+GET Enter_name_of_index_here/_search
+{
+  "query": {
+    "match_phrase": {
+      "Specify the field you want to search": {
+        "query": "Enter search terms"
+      }
+    }
+  }
+}
 
 6. We want to search for news headlines about Ed Sheeran's song "Shape of you".
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "match_phrase": {
->       "headline": {
->         "query": "Shape of you"
->       }
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "match_phrase": {
+      "headline": {
+        "query": "Shape of you"
+      }
+    }
+  }
+}
 
 When the match_phrase parameter is used, all hits must meet the following criteria:
 
@@ -117,35 +117,35 @@ This score will determine the ranking of the document within the search results.
 
 Syntax:
 
-> GET Enter_the_name_of_the_index_here/_search
-> {
->   "query": {
->     "multi_match": {
->       "query": "Enter search terms here",
->       "fields": [
->         "List the field you want to search over",
->         "List the field you want to search over",
->         "List the field you want to search over"
->       ]
->     }
->   }
-> }
+GET Enter_the_name_of_the_index_here/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Enter search terms here",
+      "fields": [
+        "List the field you want to search over",
+        "List the field you want to search over",
+        "List the field you want to search over"
+      ]
+    }
+  }
+}
 
 7. Search terms "Michelle" or "Obama" in the fields headline, or short_description, or authors. 
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "multi_match": {
->       "query": "Michelle Obama",
->       "fields": [
->         "headline",
->         "short_description",
->         "authors"
->         ]
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Michelle Obama",
+      "fields": [
+        "headline",
+        "short_description",
+        "authors"
+        ]
+    }
+  }
+}
 
 While the multi_match query increased the recall, it decreased the precision of the hits. 
 
@@ -161,50 +161,50 @@ This can be done by boosting the score of the field headline(per-field boosting)
 
 Syntax:
 
-> GET Enter_the_name_of_the_index_here/_search
-> {
->   "query": {
->     "multi_match": {
->       "query": "Enter search terms",
->       "fields": [
->         "List field you want to boost^2",
->         "List field you want to search over",
->         "List field you want to search over"
->       ]
->     }
->   }
-> }
+GET Enter_the_name_of_the_index_here/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Enter search terms",
+      "fields": [
+        "List field you want to boost^2",
+        "List field you want to search over",
+        "List field you want to search over"
+      ]
+    }
+  }
+}
 
 8. Search terms "Michelle" or "Obama" in the fields headline, or short_description, or authors. documents that contain the search terms in the field headline are most relevant.
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "multi_match": {
->       "query": "Michelle Obama",
->       "fields": [
->         "headline^2",
->         "short_description",
->         "authors"
->         ]
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Michelle Obama",
+      "fields": [
+        "headline^2",
+        "short_description",
+        "authors"
+        ]
+    }
+  }
+}
 
 9. the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it. 
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "multi_match": {
->       "query": "party planning",
->       "fields": [
->         "headline^2",
->         "short_description"
->       ]
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "party planning",
+      "fields": [
+        "headline^2",
+        "short_description"
+      ]
+    }
+  }
+}
 
 #### Improving precision with phrase type match 
 
@@ -214,36 +214,36 @@ The phrase type performs a match_phrase query on each field and calculates a sco
 
 Syntax:
 
-> GET Enter_the_name_of_the_index_here/_search
-> {
->   "query": {
->     "multi_match": {
->       "query": "Enter search phrase",
->       "fields": [
->         "List field you want to boost^2",
->         "List field you want to search over", 
->         "List field you want to search over"
->       ],
->       "type": "phrase"
->     }
->   }
-> }
+GET Enter_the_name_of_the_index_here/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "Enter search phrase",
+      "fields": [
+        "List field you want to boost^2",
+        "List field you want to search over", 
+        "List field you want to search over"
+      ],
+      "type": "phrase"
+    }
+  }
+}
 
 10. the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it.
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "multi_match": {
->       "query": "party planning",
->       "fields": [
->         "headline^2",
->         "short_description"
->       ],
->       "type": "phrase"
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "party planning",
+      "fields": [
+        "headline^2",
+        "short_description"
+      ],
+      "type": "phrase"
+    }
+  }
+}
 
 ### Combined Queries 
 
@@ -278,25 +278,25 @@ These clauses are optional and can be mixed and matched to cater to your use cas
 
 Syntax:
 
-> GET name_of_index/_search
-> { 
->   "query": {
->     "bool": {
->       "must": [
->         {One or more queries can be specified here. A document MUST match all of these queries to be considered as a hit.}
->       ],
->       "must_not": [
->         {A document must NOT match any of the queries specified here. It it does, it is excluded from the search results.}
->       ],
->       "should": [
->         {A document does not have to match any queries specified here. However, it if it does match, this document is given a higher score.}
->       ],
->       "filter": [
->         {These filters(queries) place documents in either yes or no category. Ones that fall into the yes category are included in the hits. }
->       ]
->     }
->   }
-> }
+GET name_of_index/_search
+{ 
+  "query": {
+    "bool": {
+      "must": [
+        {One or more queries can be specified here. A document MUST match all of these queries to be considered as a hit.}
+      ],
+      "must_not": [
+        {A document must NOT match any of the queries specified here. It it does, it is excluded from the search results.}
+      ],
+      "should": [
+        {A document does not have to match any queries specified here. However, it if it does match, this document is given a higher score.}
+      ],
+      "filter": [
+        {These filters(queries) place documents in either yes or no category. Ones that fall into the yes category are included in the hits. }
+      ]
+    }
+  }
+}
 
 ##### A combination of query and aggregation request 
 
@@ -308,41 +308,41 @@ One way to figure that out is by searching for categories of headlines that ment
 
 Syntax:
 
-> GET Enter_name_of_the_index_here/_search
-> {
->   "query": {
->     "Enter match or match_phrase here": { "Enter the name of the field": "Enter the value you are looking for" }
->   },
->   "aggregations": {
->     "Name your aggregation here": {
->       "Specify aggregation type here": {
->         "field": "Name the field you want to aggregate here",
->         "size": State how many buckets you want returned here
->       }
->     }
->   }
-> }
+GET Enter_name_of_the_index_here/_search
+{
+  "query": {
+    "Enter match or match_phrase here": { "Enter the name of the field": "Enter the value you are looking for" }
+  },
+  "aggregations": {
+    "Name your aggregation here": {
+      "Specify aggregation type here": {
+        "field": "Name the field you want to aggregate here",
+        "size": State how many buckets you want returned here
+      }
+    }
+  }
+}
 
 11. Query all data that has the phrase "Michelle Obama" in the headline. Then, perform aggregations on the queried data and retrieve up to 100 categories that exist in the queried data.
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "match_phrase": {
->       "headline": {
->         "query": "Michelle Obama"
->       }
->     }
->   },
->   "aggs": {
->     "category_mentions": {
->       "terms": {
->         "field": "category",
->         "size": 100
->       }
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "match_phrase": {
+      "headline": {
+        "query": "Michelle Obama"
+      }
+    }
+  },
+  "aggs": {
+    "category_mentions": {
+      "terms": {
+        "field": "category",
+        "size": 100
+      }
+    }
+  }
+}
 
 ##### The must clause
 
@@ -352,49 +352,49 @@ All **queries** in the **must clause** must be satisfied for a document to be re
 
 Syntax:
 
-> GET Enter_name_of_the_index_here/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->         "Enter match or match_phrase here": {
->           "Enter the name of the field": "Enter the value you are looking for" 
->          }
->         },
->         {
->           "Enter match or match_phrase here": {
->             "Enter the name of the field": "Enter the value you are looking for" 
->           }
->         }
->       ]
->     }
->   }
-> }
+GET Enter_name_of_the_index_here/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+        "Enter match or match_phrase here": {
+          "Enter the name of the field": "Enter the value you are looking for" 
+         }
+        },
+        {
+          "Enter match or match_phrase here": {
+            "Enter the name of the field": "Enter the value you are looking for" 
+          }
+        }
+      ]
+    }
+  }
+}
 
 12. Query for political headline about "Michelle Obama" 
 
 All hits must match the phrase "Michelle Obama" in the field headline and match the term "POLITICS" in the field category. 
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "match_phrase": {
->             "headline": "Michelle Obama"
->           }
->         },
->         {
->           "match": {
->             "category": "POLITICS"
->           }
->         }
->       ]
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "headline": "Michelle Obama"
+          }
+        },
+        {
+          "match": {
+            "category": "POLITICS"
+          }
+        }
+      ]
+    }
+  }
+}
 
 ##### The must_not clause 
 
@@ -402,50 +402,50 @@ The **must_not** clause defines **queries**(criteria) a document MUST NOT match 
 
 Syntax:
 
-> GET Enter_name_of_the_index_here/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->         "Enter match or match_phrase here": {
->           "Enter the name of the field": "Enter the value you are looking for" 
->          }
->         },
->        "must_not":[
->          {
->           "Enter match or match_phrase here": {
->             "Enter the name of the field": "Enter the value you are looking for"
->           }
->         }
->       ]
->     }
->   }
-> }
+GET Enter_name_of_the_index_here/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+        "Enter match or match_phrase here": {
+          "Enter the name of the field": "Enter the value you are looking for" 
+         }
+        },
+       "must_not":[
+         {
+          "Enter match or match_phrase here": {
+            "Enter the name of the field": "Enter the value you are looking for"
+          }
+        }
+      ]
+    }
+  }
+}
 
 13. Get all headline about "Michelle Obama" except for the ones that belong in the "WEDDINGS" category.
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "match_phrase": {
->             "headline": "Michelle Obama"
->           }
->         }
->       ],
->       "must_not": [
->         {
->           "match": {
->             "category": "WEDDINGS"
->           }
->         }
->       ]
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "headline": "Michelle Obama"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "category": "WEDDINGS"
+          }
+        }
+      ]
+    }
+  }
+}
 
 ##### The should clause
 
@@ -453,49 +453,49 @@ The **should clause** adds "nice to have" **queries**(criteria). The documents d
 
 Syntax:
 
-> GET Enter_name_of_the_index_here/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->         "Enter match or match_phrase here: {
->           "Enter the name of the field": "Enter the value you are looking for" 
->          }
->         },
->        "should":[
->          {
->           "Enter match or match_phrase here": {
->             "Enter the name of the field": "Enter the value you are looking for"
->           }
->         }
->       ]
->     }
->   }
+GET Enter_name_of_the_index_here/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+        "Enter match or match_phrase here: {
+          "Enter the name of the field": "Enter the value you are looking for" 
+         }
+        },
+       "should":[
+         {
+          "Enter match or match_phrase here": {
+            "Enter the name of the field": "Enter the value you are looking for"
+          }
+        }
+      ]
+    }
+  }
 
 14. During the Black History Month, it is possible that the user may be looking up "Michelle Obama" in the context of "BLACK VOICES" category rather than in the context of "WEDDINGS", "TASTE", or "STYLE" categories. 
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "match_phrase": {
->             "headline": "Michelle Obama"
->           }
->         }
->       ],
->       "should": [
->         {
->           "match_phrase": {
->             "category": "BLACK VOICES"
->           }
->         }
->       ]
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "headline": "Michelle Obama"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match_phrase": {
+            "category": "BLACK VOICES"
+          }
+        }
+      ]
+    }
+  }
+}
 
 ##### The filter clause
 
@@ -507,55 +507,55 @@ The **filter clause** only includes documents that fall within the yes category.
 
 Syntax:
 
-> GET Enter_name_of_the_index_here/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->         "Enter match or match_phrase here": {
->           "Enter the name of the field": "Enter the value you are looking for" 
->          }
->         }
->         ],
->        "filter":{
->           "range":{
->              "date": {
->                "gte": "Enter lowest value of the range here",
->                "lte": "Enter highest value of the range here"
->           }
->         }
->       }
->     }
->   }
-> }
+GET Enter_name_of_the_index_here/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+        "Enter match or match_phrase here": {
+          "Enter the name of the field": "Enter the value you are looking for" 
+         }
+        }
+        ],
+       "filter":{
+          "range":{
+             "date": {
+               "gte": "Enter lowest value of the range here",
+               "lte": "Enter highest value of the range here"
+          }
+        }
+      }
+    }
+  }
+}
 
 14. Get all headlines about "Michelle Obama" which published within the date range "2014-03-25" and "2016-03-25"
 
-> GET news_headlines/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "match_phrase": {
->             "headline": "Michelle Obama"
->           }
->         }
->       ],
->       "filter": [
->         {
->           "range": {
->             "date": {
->               "gte": "2014-03-25",
->               "lte": "2016-03-25"
->             }
->           }
->         }
->       ]
->     }
->   }
-> }
+GET news_headlines/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "headline": "Michelle Obama"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "date": {
+              "gte": "2014-03-25",
+              "lte": "2016-03-25"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
 
 #### Fine-tuning the relevance of bool queries
 
@@ -569,71 +569,71 @@ This approach ensures that you maintain a high recall but also offers a way to p
 
 Syntax:
 
-> GET Enter_name_of_the_index_here/_search
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "Enter match or match_phrase here": {
->             "Enter the name of the field": "Enter the value you are looking for"
->           }
->         }
->       ],
->       "should": [
->         {
->           "Enter match or match_phrase here": {
->             "Enter the name of the field": "Enter the value you are looking for"
->           }
->         },
->         {
->           "Enter match or match_phrase here": {
->             "Enter the name of the field": "Enter the value you are looking for"
->           }
->         },
->         {
->           "Enter match or match_phrase here": {
->             "Enter the name of the field": "Enter the value you are looking for"
->           }
->         }
->       ]
->     }
->   }
-> }
+GET Enter_name_of_the_index_here/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "Enter match or match_phrase here": {
+            "Enter the name of the field": "Enter the value you are looking for"
+          }
+        }
+      ],
+      "should": [
+        {
+          "Enter match or match_phrase here": {
+            "Enter the name of the field": "Enter the value you are looking for"
+          }
+        },
+        {
+          "Enter match or match_phrase here": {
+            "Enter the name of the field": "Enter the value you are looking for"
+          }
+        },
+        {
+          "Enter match or match_phrase here": {
+            "Enter the name of the field": "Enter the value you are looking for"
+          }
+        }
+      ]
+    }
+  }
+}
 
 15. Get all headlines about "Michelle Obama", and favor articles that mention her biography "Becoming", and terms like "women" and "empower".
 
-> GET news_headlines/_search 
-> {
->   "query": {
->     "bool": {
->       "must": [
->         {
->           "match_phrase": {
->             "headline": "Michelle Obama"
->           }
->         }
->       ],
->       "should": [
->         {
->           "match": {
->             "headline": "Becoming"
->           }
->         },
->         {
->           "match": {
->             "headline": "women"
->           }
->         },
->         {
->           "match": {
->             "headline": "empower"
->           }
->         }
->       ]
->     }
->   }
-> }
+GET news_headlines/_search 
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_phrase": {
+            "headline": "Michelle Obama"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "headline": "Becoming"
+          }
+        },
+        {
+          "match": {
+            "headline": "women"
+          }
+        },
+        {
+          "match": {
+            "headline": "empower"
+          }
+        }
+      ]
+    }
+  }
+}
 
 
 
