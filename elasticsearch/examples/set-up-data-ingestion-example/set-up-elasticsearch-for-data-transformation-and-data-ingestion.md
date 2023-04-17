@@ -123,67 +123,26 @@ Here is the list of fields that we do not need.
 - magType
 - title
 ```
-To remove these fields, we can use the **Remove** processor.
-
-Under the processor section, type **Remove** in the search bar. Click on the **Remove** processor
-
-In the **Fields** section, we will add the names of the fields that we wish to remove.
- 
-Activate the **Ignore missing** option.
- 
-Click on the **Add** button.
- 
-You will see that the **Remove** processor has been added to the **earthquake_data_pipeline**.
+To remove these fields, we can use the **Remove** processor. Under the processor section, type **Remove** in the search bar. Click on the **Remove** processor. In the **Fields** section, we will add the names of the fields that we wish to remove. Activate the **Ignore missing** option. Click on the **Add** button. You will see that the **Remove** processor has been added to the **earthquake_data_pipeline**.
  
 ##### Task 2: Change the Unix epoch time in the field **time** to human readable timestamp
 
-In order to make this change, you should use the **date** processor.
-
-The **date** processor converts time from one format to another.
-
-Click on the **Add a processor** option.
-
-Under the **Processor** section, type in **Date** and click on the **Date** option from the drop down menu.
-
-In the **Field** section, type the name of the field we wish to convert (**time**).
-
-In the **Formats** section, we will specify the desired date formats. The format shown in the results card is called **UNIX_MS**.
-
-Type it into this section and hit enter. Then, click on the **Add** button to add the **date** processor to the **ingest pipeline**.
-
-You will see that the **Date** processor has been added to the **earthquake_data_pipeline**.
+In order to make this change, you should use the **date** processor. The **date** processor converts time from one format to another. Click on the **Add a processor** option. Under the **Processor** section, type in **Date** and click on the **Date** option from the drop down menu. In the **Field** section, type the name of the field we wish to convert (**time**). In the **Formats** section, we will specify the desired date formats. The format shown in the results card is called **UNIX_MS**. Type it into this section and hit enter. Then, click on the **Add** button to add the **date** processor to the **ingest pipeline**. You will see that the **Date** processor has been added to the **earthquake_data_pipeline**.
  
-When the data goes through the **date** processor, the content of the field **time** will be converted to the **UNIX_MS** format then stored in a new field called **@timestamp**.
+When the data goes through the **date** processor, the content of the field **time** will be converted to the **UNIX_MS** format then stored in a new field called **@timestamp**. 
 
-After this process is finished, we do not need the original field **time**. Therefore, we will remove the field **time** after the data goes through the **date** processor.
-
-From the **Create pipeline** page, click on the **Add a processor** option.
-
-Under the **Processor** section, type in **Remove** and hit enter.
-
-Under the **Fields** section, type in **time** and hit enter. Activate the **ignore missing** option. Then, click on the **Add** .
+After this process is finished, we do not need the original field **time**. Therefore, we will remove the field **time** after the data goes through the **date** processor. From the **Create pipeline** page, click on the **Add a processor** option. Under the **Processor** section, type in **Remove** and hit enter. Under the **Fields** section, type in **time** and hit enter. Activate the **ignore missing** option. Then, click on the **Add** .
 
 ##### Task 3: Create fields called coordinates.lat and coordinates.lon
 
-From the same page, click on the **Add a processor** option.
+From the same page, click on the **Add a processor** option. Under the **processor** section, type in **Rename** and hit enter. Under the **Field** section, type in **latitude**. Under the **Target** field section, type in **coordinates.lat**. This step will rename the field **latitude** in the incoming data to **coordinates.lat**. Activate the **Ignore missing** option then click on the **Add** button to add this processor to the **earthquake_data_pipeline**. Next, we will repeat the same process to add a Rename processor to rename the field **longitude** from the incoming data to **coordinates.lon**.
 
-Under the **processor** section, type in **Rename** and hit enter.
-
-Under the **Field** section, type in **latitude**. Under the **Target** field section, type in **coordinates.lat**.
-
-This step will rename the field **latitude** in the incoming data to **coordinates.lat**.
-
-Activate the **Ignore missing** option then click on the **Add** button to add this processor to the **earthquake_data_pipeline**.
-
-Next, we will repeat the same process to add a Rename processor to rename the field **longitude** from the incoming data to **coordinates.lon**.
-
-We have added all the necessary processors to transform our data.
-
-Before creating the **earthquake_data_pipeline**, make sure the order of the processors are listed in the order you want them to run.
+We have added all the necessary processors to transform our data. Before creating the **earthquake_data_pipeline**, make sure the order of the processors are listed in the order you want them to run.
 
 Next, we will create the **earthquake_data_pipeline** by clicking on the **Create pipeline** button.
 
 ##### Final ingest pipeline
+
 ```markdown
 PUT _ingest/pipeline/earthquake_data_pipeline
 {
