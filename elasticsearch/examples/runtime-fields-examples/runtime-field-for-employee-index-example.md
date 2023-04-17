@@ -1,6 +1,6 @@
 
 1. Creating sample employee index:
-
+```markdown
 PUT employee
 {
   "mappings": {
@@ -21,13 +21,13 @@ PUT employee
     }
   }
 }
-
+```
 2. Check the employee mapping
-
+```markdown
 GET employee/_mapping
-
+```
 3.  Insert a couple of sample documents into the employee index.
-
+```markdown
 PUT employee/_doc/1
 {
   "name":"Kiran Sangita",
@@ -51,9 +51,9 @@ PUT employee/_doc/3
   "fullname":"Pavan Arya",
   "age":"34"
 }
-
+```
 4. check mapping again and we will see age, full name as runtime fields.
-
+```markdown
 GET employee/_mapping
 
 {
@@ -85,9 +85,9 @@ GET employee/_mapping
     }
   }
 }
-
+```
 5.  Write a small query to search documents having an age greater than 29.
-
+```markdown
 GET employee/_search
 {
   "query": {
@@ -98,9 +98,9 @@ GET employee/_search
     }
   }
 }
-
+```
 Result: 
-
+```markdown
 {
   "took" : 884,
   "timed_out" : false,
@@ -144,9 +144,9 @@ Result:
     ]
   }
 }
-
+```
 6. Create the concatenation of two fields with a static string as follows:
-
+```markdown
 GET employee/_search
 {
   "runtime_mappings": {
@@ -166,9 +166,9 @@ GET employee/_search
     }
   }
 }
-
+```
 Result: 
-
+```markdown
 {
   "took" : 123,
   "timed_out" : false,
@@ -205,11 +205,11 @@ Result:
     ]
   }
 }
-
+```
 **Note:** 
 
 If we find that concatenated_field is a field that we want to use in multiple queries without having to define it per query, we can simply add it to the mapping by making the call:
-
+```markdown
 PUT employee/_mapping
 {
   "runtime": {
@@ -221,11 +221,11 @@ PUT employee/_mapping
     } 
   } 
 }
-
+```
 Now we will again check the mappings of the employee index, this time you will see concatenated_field will be added in the mapping.
 
 **Output**
-
+```markdown
 {
   "employee" : {
     "mappings" : {
@@ -262,9 +262,9 @@ Now we will again check the mappings of the employee index, this time you will s
     }
   }
 }
-
+```
 And then the query does not have to include the definition of the field, for example:
-
+```markdown
 GET employee/_search
 {
   "query": {
@@ -273,11 +273,11 @@ GET employee/_search
     }
   }
 }
-
+```
 Now let’s see the result as I mentioned earlier we will not see concatenated_field in the source document.
 
 **Output**
-
+```markdown
 {
   "took" : 3,
   "timed_out" : false,
@@ -309,9 +309,9 @@ Now let’s see the result as I mentioned earlier we will not see concatenated_f
     ]
   }
 }
-
+```
 If we want to see concatenated_field then we need to specify implicitly in the fields section.
-
+```markdown
 GET employee/_search
 {
   "fields": [
@@ -323,9 +323,9 @@ GET employee/_search
     }
   }
 }
-
+``
 6. clean up
-
+```markdown
 DELETE employee
-
+```
 
