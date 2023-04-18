@@ -429,3 +429,82 @@ Result:
 }
 ```
 
+##### Regexp Query
+
+7. 
+
+```markdown
+POST /book/_search
+{
+  "query": {
+    "regexp": {
+      "authors": "t[a-z]*y"
+    }
+  },
+  "_source": ["title", "authors"],
+  "highlight": {
+    "fields": {
+      "authors": {}
+    }
+  }
+}
+
+curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "regexp": {
+      "authors": "t[a-z]*y"
+    }
+  },
+  "_source": ["title", "authors"],
+  "highlight": {
+    "fields": {
+      "authors": {}
+    }
+  }
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "4",
+        "_score" : 1.0,
+        "_source" : {
+          "title" : "Solr in Action",
+          "authors" : [
+            "trey grainger",
+            "timothy potter"
+          ]
+        },
+        "highlight" : {
+          "authors" : [
+            "<em>trey</em> grainger",
+            "<em>timothy</em> potter"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
