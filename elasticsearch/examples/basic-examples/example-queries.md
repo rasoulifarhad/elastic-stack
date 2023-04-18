@@ -253,6 +253,8 @@ curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type:
 ```
 ##### Fuzzy Queries
 
+5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors. 
+
 ```markdown
 POST /book/_search
 {
@@ -303,4 +305,5 @@ Result:
         }
  .....       
 ```
+
 **Note:** Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match. 
