@@ -99,3 +99,31 @@ curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type:
   "_source": ["title", "summary", "publish_date"]
 }'
 ```
+
+3. Boosting
+
+```markdown
+GET /book/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "elasticsearch guide",
+      "fields": ["title", "summary^3"]
+    }
+  },
+  "_source": ["title", "summary", "publish_date"]
+}
+
+curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "multi_match": {
+      "query": "elasticsearch guide",
+      "fields": ["title", "summary^3"]
+    }
+  },
+  "_source": ["title", "summary", "publish_date"]
+}'
+
+4. Bool Query
+```
