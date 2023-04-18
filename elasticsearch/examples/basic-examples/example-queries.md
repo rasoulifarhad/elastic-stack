@@ -9,7 +9,7 @@ PUT /book
   "settings": { "number_of_shards": 1 }
 }
 
-curl -XPUT "http://singleElasticsearch71602:9200/book" -H 'Content-Type: application/json' -d'
+curl -XPUT "http://localhost:9200/book?pretty" -H 'Content-Type: application/json' -d'
 { 
   "settings": { "number_of_shards": 1 }
 }'
@@ -26,7 +26,7 @@ POST /book/_bulk
 {"index":{"_id":4}}
 {"title":"Solr in Action","authors":["trey grainger","timothy potter"],"summary":"Comprehensive guide to implementing a scalable search engine using Apache Solr","publish_date":"2014-04-05","num_reviews":23,"publisher":"manning"}
 
-curl -XPOST "http://singleElasticsearch71602:9200/book/_bulk" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: application/json' -d'
 {"index":{"_id":1}}
 {"title":"Elasticsearch: The Definitive Guide","authors":["clinton gormley","zachary tong"],"summary":"A distibuted real-time search and analytics engine","publish_date":"2015-02-07","num_reviews":20,"publisher":"oreilly"}
 {"index":{"_id":2}}
@@ -44,7 +44,7 @@ curl -XPOST "http://singleElasticsearch71602:9200/book/_bulk" -H 'Content-Type: 
 ```markdown
 GET /book/_search?q=guide
 
-curl -XGET "http://singleElasticsearch71602:9200/book/_search?q=guide"
+curl -XGET "http://localhost:9200/book/_search?q=guide"
 ```
 ```markdown
 GET /book/_search
@@ -57,7 +57,7 @@ GET /book/_search
   }
 }
 
-curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "multi_match": {
@@ -73,7 +73,7 @@ curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type:
 ```markdown
 GET /book/_search?q=title:in action
 
-curl -XGET "http://singleElasticsearch71602:9200/book/_search?q=title:in action"
+curl -XGET "http://localhost:9200/book/_search?q=title:in action"
 ```
 ```markdown
 GET /book/_search
@@ -88,7 +88,7 @@ GET /book/_search
   "_source": ["title", "summary", "publish_date"]
 }
 
-curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "match": {
@@ -116,7 +116,7 @@ GET /book/_search
   "_source": ["title", "summary", "publish_date"]
 }
 
-curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "multi_match": {
@@ -172,7 +172,7 @@ GET /book/_search
   }
 }
 
-curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "bool": {
@@ -233,7 +233,7 @@ GET /book/_search
   }
 }
 
-curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "bool": {
@@ -269,7 +269,7 @@ POST /book/_search
   "size": 1
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "multi_match": {
@@ -332,7 +332,7 @@ POST /book/_search
   }
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "wildcard": {
@@ -449,7 +449,7 @@ POST /book/_search
   }
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "regexp": {
@@ -528,7 +528,7 @@ POST /book/_search
   "_source": ["title", "summary", "publish_date"]
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "multi_match": {
@@ -609,7 +609,7 @@ POST /book/_search
   "_source": ["title", "summary", "publish_date"]
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "match_phrase_prefix": {
@@ -695,7 +695,7 @@ POST /book/_search
   }
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "query_string": {
@@ -779,7 +779,7 @@ POST /book/_search
   }
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "simple_query_string": {
@@ -842,5 +842,88 @@ Result:
 
 ##### Term/Terms Query
 
-12. 
+12. Search for all books in our index published by Manning Publications.
+
+```markdown
+POST /book/_search
+{
+  "query": {
+    "term": {
+      "publisher": {
+        "value": "manning"
+      }
+    }
+  },
+  "_source": ["title", "publish_date", "publisher"]
+}
+
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "term": {
+      "publisher": {
+        "value": "manning"
+      }
+    }
+  },
+  "_source": ["title", "publish_date", "publisher"]
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 3,
+      "relation" : "eq"
+    },
+    "max_score" : 0.35667494,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "2",
+        "_score" : 0.35667494,
+        "_source" : {
+          "publisher" : "manning",
+          "title" : "Taming Text: How to Find, Organize, and Manipulate It",
+          "publish_date" : "2013-01-24"
+        }
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "3",
+        "_score" : 0.35667494,
+        "_source" : {
+          "publisher" : "manning",
+          "title" : "Elasticsearch in Action",
+          "publish_date" : "2015-12-03"
+        }
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "4",
+        "_score" : 0.35667494,
+        "_source" : {
+          "publisher" : "manning",
+          "title" : "Solr in Action",
+          "publish_date" : "2014-04-05"
+        }
+      }
+    ]
+  }
+}
+```
 
