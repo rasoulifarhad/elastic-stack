@@ -251,3 +251,5 @@ curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type:
   }
 }'
 ```
+##### Fuzzy Queries
+
