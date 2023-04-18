@@ -100,6 +100,7 @@ curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type:
   "_source": ["title", "summary", "publish_date"]
 }'
 ```
+##### Boosting
 
 3. Boosting
 
@@ -125,6 +126,8 @@ curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type:
   },
   "_source": ["title", "summary", "publish_date"]
 }'
+
+##### Bool Query
 
 4. Bool Query
 ```
