@@ -253,3 +253,54 @@ curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type:
 ```
 ##### Fuzzy Queries
 
+```markdown
+POST /book/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "comprihensiv guide",
+      "fields": ["title", "summary"],
+      "fuzziness": "AUTO"
+    }
+  },
+  "_source": ["title", "summary", "publish_date"],
+  "size": 1
+}
+
+curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "multi_match": {
+      "query": "comprihensiv guide",
+      "fields": ["title", "summary"],
+      "fuzziness": "AUTO"
+    }
+  },
+  "_source": ["title", "summary", "publish_date"],
+  "size": 1
+}'
+```
+
+Result:
+```
+...
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 2.4344182,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "4",
+        "_score" : 2.4344182,
+        "_source" : {
+          "summary" : "Comprehensive guide to implementing a scalable search engine using Apache Solr",
+          "title" : "Solr in Action",
+          "publish_date" : "2014-04-05"
+        }
+ .....       
+```
+**Note:** Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match. 
