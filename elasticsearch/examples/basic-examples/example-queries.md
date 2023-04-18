@@ -670,3 +670,9 @@ Result:
 }
 ```
 
+**Note:** Using the match phrase prefix query for search autocompletion
+
+##### Query String
+
+The query_string query provides a means of executing multi_match queries, bool queries, boosting, fuzzy matching, wildcards, regexp, and range queries in a concise shorthand syntax. 
+
