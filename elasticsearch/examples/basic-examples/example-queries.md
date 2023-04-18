@@ -1264,23 +1264,117 @@ Result:
 }
 ```
 
-17. 
+17. Search for books that have at least 20 reviews, must not be published before 2015 and should be published by O'Reilly.
 
 ```markdown
+POST /book/_search?pretty
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "elasticsearch",
+            "fields": ["title", "summary"]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "num_reviews": {
+              "gte": 20
+            }
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "range": {
+            "publish_date": {
+              "lte": "2014-12-31"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "_source": ["title","summary","publisher", "num_reviews", "publish_date"]
+}
+
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "elasticsearch",
+            "fields": ["title", "summary"]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "num_reviews": {
+              "gte": 20
+            }
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "range": {
+            "publish_date": {
+              "lte": "2014-12-31"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "_source": ["title","summary","publisher", "num_reviews", "publish_date"]
+}'
 ```
 
 Result:
 
 ```markdown
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 0.74101156,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.74101156,
+        "_source" : {
+          "summary" : "A distibuted real-time search and analytics engine",
+          "publisher" : "oreilly",
+          "num_reviews" : 20,
+          "title" : "Elasticsearch: The Definitive Guide",
+          "publish_date" : "2015-02-07"
+        }
+      }
+    ]
+  }
+}
 ```
 
-18. 
+##### Function Score
 
-```markdown
-```
-
-Result:
-
-```markdown
-```
 
