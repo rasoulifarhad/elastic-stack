@@ -306,4 +306,13 @@ Result:
  .....       
 ```
 
-**Note:** Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match. 
+**Note:** Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match.
+
+##### Wildcard Query
+
+Wildcard queries allow you to specify a pattern to match instead of the entire term. ? matches any character and * matches zero or more characters.
+
+6. find all records that have an author whose name begins with the letter ‘t’:
+
+```markdown
+```
