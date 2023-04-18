@@ -1,6 +1,6 @@
 ### Example Queries
 
-#### Create an index
+##### Create an index
 
 1. Create a new index and index some documents using the [bulk API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html):
 ```markdown
@@ -37,6 +37,7 @@ curl -XPOST "http://singleElasticsearch71602:9200/book/_bulk" -H 'Content-Type: 
 {"title":"Solr in Action","authors":["trey grainger","timothy potter"],"summary":"Comprehensive guide to implementing a scalable search engine using Apache Solr","publish_date":"2014-04-05","num_reviews":23,"publisher":"manning"}
 '
 ```
+##### Basic match query
 
 2. Basic match query(searches for the string “guide” in all the fields)
 
