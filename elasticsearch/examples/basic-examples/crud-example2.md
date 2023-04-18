@@ -180,7 +180,7 @@ Response after updating the record
 }
 ```
 
-Get update document
+Get updated document
 
 ```markdown
 GET /person/_doc/1
