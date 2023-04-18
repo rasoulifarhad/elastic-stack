@@ -1,7 +1,6 @@
 # Introduction to Elasticsearch and the ELK Stack
 
-See [Introduction to Elasticsearch and the ELK Stack, Part 1](https://dzone.com/articles/introduction-to-elasticsearch-and-the-elk-stack)
-See [Introduction to Elasticsearch and the ELK Stack, Part 2](https://dzone.com/articles/introduction-to-elasticsearch-and-the-elk-stack-pa)
+From [Introduction to Elasticsearch and the ELK Stack, Part 1](https://dzone.com/articles/introduction-to-elasticsearch-and-the-elk-stack) and [Introduction to Elasticsearch and the ELK Stack, Part 2](https://dzone.com/articles/introduction-to-elasticsearch-and-the-elk-stack-pa)
 
 ### Elastic Stack
 
