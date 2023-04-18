@@ -315,4 +315,117 @@ Wildcard queries allow you to specify a pattern to match instead of the entire t
 6. find all records that have an author whose name begins with the letter ‘t’:
 
 ```markdown
+POST /book/_search
+{
+  "query": {
+    "wildcard": {
+      "authors": {
+        "value": "t*"
+      }
+    }
+  },
+  "_source": ["title", "authors"],
+  "highlight": {
+    "fields": {
+      "authors": {}
+    }
+  }
+}
+
+curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "wildcard": {
+      "authors": {
+        "value": "t*"
+      }
+    }
+  },
+  "_source": ["title", "authors"],
+  "highlight": {
+    "fields": {
+      "authors": {}
+    }
+  }
+}'
 ```
+Result:
+
+```markdown
+{
+  "took" : 6,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 3,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "title" : "Elasticsearch: The Definitive Guide",
+          "authors" : [
+            "clinton gormley",
+            "zachary tong"
+          ]
+        },
+        "highlight" : {
+          "authors" : [
+            "zachary <em>tong</em>"
+          ]
+        }
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "2",
+        "_score" : 1.0,
+        "_source" : {
+          "title" : "Taming Text: How to Find, Organize, and Manipulate It",
+          "authors" : [
+            "grant ingersoll",
+            "thomas morton",
+            "drew farris"
+          ]
+        },
+        "highlight" : {
+          "authors" : [
+            "<em>thomas</em> morton"
+          ]
+        }
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "4",
+        "_score" : 1.0,
+        "_source" : {
+          "title" : "Solr in Action",
+          "authors" : [
+            "trey grainger",
+            "timothy potter"
+          ]
+        },
+        "highlight" : {
+          "authors" : [
+            "<em>trey</em> grainger",
+            "<em>timothy</em> potter"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
