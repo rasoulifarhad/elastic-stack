@@ -9,7 +9,7 @@ POST /person/_doc/1
   "job_description": "Software Engineer"
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/person/_doc/1" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/person/_doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "name": "Farhad",
   "job_description": "Software Engineer"
@@ -39,7 +39,7 @@ Response after creating a document is
 ```markdown
 GET /person/_doc/1
 
-curl -XGET "http://singleElasticsearch71602:9200/person/_doc/1"
+curl -XGET "http://localhost:9200/person/_doc/1?pretty"
 ```
 
 Response after fetching a document with Id is
@@ -70,7 +70,7 @@ POST /person/_update/1
   }
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/person/_update/1" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/person/_update/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "doc": {
     "job_description": "Senior Software Engineer"
@@ -111,7 +111,7 @@ POST /person/_update/1
   }
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/person/_update/1" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/person/_update/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "script": {
     "source": "ctx._source.name = params.updatedName", 
@@ -153,7 +153,7 @@ POST /person/_update/1
   }
 }
 
-curl -XPOST "http://singleElasticsearch71602:9200/person/_update/1" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/person/_update/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "script": {
     "source": "ctx._source.fullname = ctx._source.name;ctx._source.remove('\''name'\'');"
@@ -185,7 +185,7 @@ Get updated document
 ```markdown
 GET /person/_doc/1
 
-curl -XGET "http://singleElasticsearch71602:9200/person/_doc/1"
+curl -XGET "http://localhost:9200/person/_doc/1?pretty"
 ```
 
 Response after getting a document
@@ -213,7 +213,7 @@ Response after getting a document
 ```markdown
 DELETE /person/_doc/1
 
-curl -XDELETE "http://singleElasticsearch71602:9200/person/_doc/1"
+curl -XDELETE "http://localhost:9200/person/_doc/1?pretty"
 ```
 
 Response after deleting a record 
