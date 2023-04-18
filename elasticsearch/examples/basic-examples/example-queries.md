@@ -927,3 +927,360 @@ Result:
 }
 ```
 
+13. Search for all books in our index published by oreilly or packt Publications.
+
+```markdown
+POST /book/_search?pretty
+{
+  "query": {
+    "terms": {
+      "publisher": ["oreilly", "packt"]
+    }
+  },
+  "_source": ["title", "publish_date", "publisher"]
+}
+
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "terms": {
+      "publisher": ["oreilly", "packt"]
+    }
+  },
+  "_source": ["title", "publish_date", "publisher"]
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "publisher" : "oreilly",
+          "title" : "Elasticsearch: The Definitive Guide",
+          "publish_date" : "2015-02-07"
+        }
+      }
+    ]
+  }
+}
+```
+
+##### Term Query - Sorted
+
+14. Search for all books in our index published by Manning Publications and sort with publish date.
+
+```markdown
+POST /book/_search?pretty
+{
+  "query": {
+    "term": {
+      "publisher": "manning"
+    }
+  },
+  "_source": ["title", "publish_date", "publisher"],
+  "sort": [
+    {
+      "publish_date": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "term": {
+      "publisher": "manning"
+    }
+  },
+  "_source": ["title", "publish_date", "publisher"],
+  "sort": [
+    {
+      "publish_date": {
+        "order": "desc"
+      }
+    }
+  ]
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 3,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "3",
+        "_score" : null,
+        "_source" : {
+          "publisher" : "manning",
+          "title" : "Elasticsearch in Action",
+          "publish_date" : "2015-12-03"
+        },
+        "sort" : [
+          1449100800000
+        ]
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "4",
+        "_score" : null,
+        "_source" : {
+          "publisher" : "manning",
+          "title" : "Solr in Action",
+          "publish_date" : "2014-04-05"
+        },
+        "sort" : [
+          1396656000000
+        ]
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "2",
+        "_score" : null,
+        "_source" : {
+          "publisher" : "manning",
+          "title" : "Taming Text: How to Find, Organize, and Manipulate It",
+          "publish_date" : "2013-01-24"
+        },
+        "sort" : [
+          1358985600000
+        ]
+      }
+    ]
+  }
+}
+```
+
+##### Range Query
+
+15. Search for books published in 2015.
+
+```markdown
+POST /book/_search?pretty
+{
+  "query": {
+    "range": {
+      "publish_date": {
+        "gte": "2015-01-01",
+        "lte": "2015-12-31"
+      }
+    }
+  },
+  "_source": ["title", "publish_date", "publisher"]
+}
+
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "range": {
+      "publish_date": {
+        "gte": "2015-01-01",
+        "lte": "2015-12-31"
+      }
+    }
+  },
+  "_source": ["title", "publish_date", "publisher"]
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "publisher" : "oreilly",
+          "title" : "Elasticsearch: The Definitive Guide",
+          "publish_date" : "2015-02-07"
+        }
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "3",
+        "_score" : 1.0,
+        "_source" : {
+          "publisher" : "manning",
+          "title" : "Elasticsearch in Action",
+          "publish_date" : "2015-12-03"
+        }
+      }
+    ]
+  }
+}
+```
+
+##### Bool Query
+
+16. Search for books with the term “Elasticsearch” in the title or summary but we want to filter our results to only those with 20 or more reviews.
+
+```markdown
+POST /book/_search?pretty
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "elasticsearch",
+            "fields": ["title", "summary"]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "num_reviews": {
+              "gte": 20
+            }
+          }
+        }
+      ]
+    }
+  },
+  "_source": ["title","summary","publisher", "num_reviews"]
+}
+
+curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "elasticsearch",
+            "fields": ["title", "summary"]
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "num_reviews": {
+              "gte": 20
+            }
+          }
+        }
+      ]
+    }
+  },
+  "_source": ["title","summary","publisher", "num_reviews"]
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 0.74101156,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.74101156,
+        "_source" : {
+          "summary" : "A distibuted real-time search and analytics engine",
+          "publisher" : "oreilly",
+          "num_reviews" : 20,
+          "title" : "Elasticsearch: The Definitive Guide"
+        }
+      }
+    ]
+  }
+}
+```
+
+17. 
+
+```markdown
+```
+
+Result:
+
+```markdown
+```
+
+18. 
+
+```markdown
+```
+
+Result:
+
+```markdown
+```
+
