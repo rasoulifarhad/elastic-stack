@@ -674,5 +674,173 @@ Result:
 
 ##### Query String
 
-The query_string query provides a means of executing multi_match queries, bool queries, boosting, fuzzy matching, wildcards, regexp, and range queries in a concise shorthand syntax. 
+The query_string query provides a means of executing multi_match queries, bool queries, boosting, fuzzy matching, wildcards, regexp, and range queries in a concise shorthand syntax.
+
+10. Search for the terms “search algorithm” in which one of the book authors is “grant ingersoll” or “tom morton.” apply a boost of 2 to the summary field.
+
+```markdown
+POST /book/_search
+{
+  "query": {
+    "query_string": {
+      "query": "(search~1 algorithm~1) AND (grant ingersoll) OR (tom morton)",
+      "fields": ["title", "authors", "summary^2"]
+    }
+  },
+  "_source": ["title", "summary", "authors"],
+  "highlight": {
+    "fields": {
+      "summary": {}
+    }
+  }
+}
+
+curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "query_string": {
+      "query": "(search~1 algorithm~1) AND (grant ingersoll) OR (tom morton)",
+      "fields": ["title", "authors", "summary^2"]
+    }
+  },
+  "_source": ["title", "summary", "authors"],
+  "highlight": {
+    "fields": {
+      "summary": {}
+    }
+  }
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 13,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 3.6027284,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "2",
+        "_score" : 3.6027284,
+        "_source" : {
+          "summary" : "organize text using approaches such as full-text search, proper name recognition, clustering, tagging, information extraction, and summarization",
+          "title" : "Taming Text: How to Find, Organize, and Manipulate It",
+          "authors" : [
+            "grant ingersoll",
+            "thomas morton",
+            "drew farris"
+          ]
+        },
+        "highlight" : {
+          "summary" : [
+            "organize text using approaches such as full-text <em>search</em>, proper name recognition, clustering, tagging"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+##### Simple Query String
+
+The simple_query_string query is a version of the query_string query that is more suitable for use in a single search box that is exposed to users because it replaces the use of AND/OR/NOT with +/|/-, respectively, and it discards invalid parts of a query instead of throwing an exception if a user makes a mistake.
+
+11. 
+
+```markdown
+POST /book/_search
+{
+  "query": {
+    "simple_query_string": {
+      "query": "(search~1 algorithm~1) + (grant ingersoll) | (tom morton)",
+      "fields": ["title", "authors", "summary^2"]
+    }
+  },
+  "_source": ["title", "summary", "authors"],
+  "highlight": {
+    "fields": {
+      "summary": {}
+    }
+  }
+}
+
+curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "simple_query_string": {
+      "query": "(search~1 algorithm~1) + (grant ingersoll) | (tom morton)",
+      "fields": ["title", "authors", "summary^2"]
+    }
+  },
+  "_source": ["title", "summary", "authors"],
+  "highlight": {
+    "fields": {
+      "summary": {}
+    }
+  }
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 5,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 3.6027284,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "2",
+        "_score" : 3.6027284,
+        "_source" : {
+          "summary" : "organize text using approaches such as full-text search, proper name recognition, clustering, tagging, information extraction, and summarization",
+          "title" : "Taming Text: How to Find, Organize, and Manipulate It",
+          "authors" : [
+            "grant ingersoll",
+            "thomas morton",
+            "drew farris"
+          ]
+        },
+        "highlight" : {
+          "summary" : [
+            "organize text using approaches such as full-text <em>search</em>, proper name recognition, clustering, tagging"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+##### Term/Terms Query
+
+12. 
 
