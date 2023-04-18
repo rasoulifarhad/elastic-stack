@@ -6,7 +6,7 @@
 version: '2.2'
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
     container_name: elasticsearch
     environment:
       - node.name=elasticsearch
@@ -24,7 +24,7 @@ services:
     ports:
       - 9200:9200
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.9.2
+    image: docker.elastic.co/kibana/kibana:7.17.6
     container_name: kibana
     environment:
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
@@ -56,14 +56,14 @@ curl localhost:8080
 3. Setting up the Filebeat container
 
 ```markdown
-sudo docker pull docker.elastic.co/beats/filebeat:7.9.2
+sudo docker pull docker.elastic.co/beats/filebeat:7.17.6
 ```
 
 Now to run the Filebeat container, we need to set up the elasticsearch host which is going to receive the shipped logs from filebeat. This command will do that –
 
 ```markdown
 sudo docker run \
-docker.elastic.co/beats/filebeat:7.9.2 \
+docker.elastic.co/beats/filebeat:7.17.6 \
 setup -E setup.kibana.host=host_ip:5601 \
 -E output.elasticsearch.hosts=["host_ip:9200"]
 ```
@@ -95,5 +95,5 @@ docker run -d \
   --volume="$(pwd)/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro" \
   --volume="/var/lib/docker/containers:/var/lib/docker/containers:ro" \
   --volume="/var/run/docker.sock:/var/run/docker.sock:ro" \
-  docker.elastic.co/beats/filebeat:7.9.2 filebeat -e --strict.perms=false
+  docker.elastic.co/beats/filebeat:7.17.6 filebeat -e --strict.perms=false
 ```
