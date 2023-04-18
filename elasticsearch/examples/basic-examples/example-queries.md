@@ -126,8 +126,128 @@ curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type:
   },
   "_source": ["title", "summary", "publish_date"]
 }'
-
+```
 ##### Bool Query
 
-4. Bool Query
+4. Search for a book with the word “Elasticsearch” OR “Solr” in the title, AND is authored by “clinton gormley” but NOT authored by “radu gheorge”
+
+```markdown
+GET /book/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {
+                "match": {
+                "title": "Elasticsearch"
+                }
+              },
+              {
+                "match": {
+                  "title": "Solr"
+                }
+              }
+            ],
+            "must": [
+              {
+                "match": {
+                  "authors": "clinton gormely"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "authors": "radu gheorge"
+          }
+        }
+      ]
+    }
+  }
+}
+
+curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {
+                "match": {
+                "title": "Elasticsearch"
+                }
+              },
+              {
+                "match": {
+                  "title": "Solr"
+                }
+              }
+            ],
+            "must": [
+              {
+                "match": {
+                  "authors": "clinton gormely"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "authors": "radu gheorge"
+          }
+        }
+      ]
+    }
+  }
+}'
+```
+
+```markdown
+# simplified version
+GET /book/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "bool": {
+          "should": [
+            {"match": {"title": "Elasticsearch"}},
+            {"match": {"title": "Solr"}}
+          ],
+          "must": {"match": {"authors": "clinton gormely"}}
+        }
+      },
+      "must_not": {"match": {"authors": "radu gheorge"}}
+    }
+  }
+}
+
+curl -XGET "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must": {
+        "bool": {
+          "should": [
+            {"match": {"title": "Elasticsearch"}},
+            {"match": {"title": "Solr"}}
+          ],
+          "must": {"match": {"authors": "clinton gormely"}}
+        }
+      },
+      "must_not": {"match": {"authors": "radu gheorge"}}
+    }
+  }
+}'
 ```
