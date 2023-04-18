@@ -508,3 +508,165 @@ Result:
 }
 ```
 
+##### Match Phrase Query
+
+The match phrase query requires that all the terms in the query string be present in the document, be in the order specified in the query string and be close to each other. By default, the terms are required to be exactly beside each other but you can specify the slop value which indicates how far apart terms are allowed to be while still considering the document a match.
+
+8. 
+
+```markdown
+POST /book/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "search engine",
+      "fields": ["title", "summary"],
+      "type": "phrase",
+      "slop": 3
+    }
+  },
+  "_source": ["title", "summary", "publish_date"]
+}
+
+curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "multi_match": {
+      "query": "search engine",
+      "fields": ["title", "summary"],
+      "type": "phrase",
+      "slop": 3
+    }
+  },
+  "_source": ["title", "summary", "publish_date"]
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 8,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 0.88067603,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "4",
+        "_score" : 0.88067603,
+        "_source" : {
+          "summary" : "Comprehensive guide to implementing a scalable search engine using Apache Solr",
+          "title" : "Solr in Action",
+          "publish_date" : "2014-04-05"
+        }
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.5142931,
+        "_source" : {
+          "summary" : "A distibuted real-time search and analytics engine",
+          "title" : "Elasticsearch: The Definitive Guide",
+          "publish_date" : "2015-02-07"
+        }
+      }
+    ]
+  }
+}
+```
+
+##### Match Phrase Prefix
+
+Match phrase prefix queries provide search-as-you-type or a poor man’s version of autocomplete at query time without needing to prepare your data in any way. Like the match_phrase query, it accepts a slop parameter to make the word order and relative positions somewhat less rigid. It also accepts the max_expansions parameter to limit the number of terms matched in order to reduce resource intensity.
+
+9. 
+
+```markdown
+POST /book/_search
+{
+  "query": {
+    "match_phrase_prefix": {
+      "summary": {
+        "query": "search en",
+        "slop": 3 ,
+        "max_expansions": 10
+      }
+    }
+  },
+  "_source": ["title", "summary", "publish_date"]
+}
+
+curl -XPOST "http://singleElasticsearch71602:9200/book/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_phrase_prefix": {
+      "summary": {
+        "query": "search en",
+        "slop": 3 ,
+        "max_expansions": 10
+      }
+    }
+  },
+  "_source": ["title", "summary", "publish_date"]
+}'
+```
+
+Result:
+
+```markdown
+{
+  "took" : 3,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 0.88067603,
+    "hits" : [
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "4",
+        "_score" : 0.88067603,
+        "_source" : {
+          "summary" : "Comprehensive guide to implementing a scalable search engine using Apache Solr",
+          "title" : "Solr in Action",
+          "publish_date" : "2014-04-05"
+        }
+      },
+      {
+        "_index" : "book",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.5142931,
+        "_source" : {
+          "summary" : "A distibuted real-time search and analytics engine",
+          "title" : "Elasticsearch: The Definitive Guide",
+          "publish_date" : "2015-02-07"
+        }
+      }
+    ]
+  }
+}
+```
+
