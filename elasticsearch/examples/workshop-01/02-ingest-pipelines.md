@@ -271,3 +271,154 @@ curl -XGET "localhost:9200/companies/_search?pretty"
 
 </details>
 
+#### Remove leading spaces with gsub processor
+
+```json
+
+PUT /_ingest/pipeline/split-city-string-to-array?pretty
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      }
+    }
+  ]
+}
+
+POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
+{
+  "docs": [
+    {
+      "_index": "index",
+      "_id": "id",
+      "_source": {
+        "company_name": "Elastic EV",
+        "address": "800 West El Camino Real, Suite 350",
+        "city": "Mountain View, Ca 94040",
+        "ticker_symbol": "ESTC",
+        "market_cap": "8B",
+        "city_array": [
+          "Mountain View",
+          " Ca 94040"
+        ]
+      }
+    }
+  ]
+}
+
+Error:
+
+{
+  "docs" : [
+    {
+      "error" : {
+        "root_cause" : [
+          {
+            "type" : "illegal_argument_exception",
+            "reason" : "field [city_array] of type [java.util.ArrayList] cannot be cast to [java.lang.String]"
+          }
+        ],
+        "type" : "illegal_argument_exception",
+        "reason" : "field [city_array] of type [java.util.ArrayList] cannot be cast to [java.lang.String]"
+      }
+    }
+  ]
+}
+
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      }
+    }
+  ]
+}'
+
+curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulate?pretty" -H 'Content-Type: application/json' -d'
+{
+  "docs": [
+    {
+      "_index": "index",
+      "_id": "id",
+      "_source": {
+        "company_name": "Elastic EV",
+        "address": "800 West El Camino Real, Suite 350",
+        "city": "Mountain View, Ca 94040",
+        "ticker_symbol": "ESTC",
+        "market_cap": "8B",
+        "city_array": [
+          "Mountain View",
+          " Ca 94040"
+        ]
+      }
+    }
+  ]
+}'
+
+Error:
+
+{
+  "docs" : [
+    {
+      "error" : {
+        "root_cause" : [
+          {
+            "type" : "illegal_argument_exception",
+            "reason" : "field [city_array] of type [java.util.ArrayList] cannot be cast to [java.lang.String]"
+          }
+        ],
+        "type" : "illegal_argument_exception",
+        "reason" : "field [city_array] of type [java.util.ArrayList] cannot be cast to [java.lang.String]"
+      }
+    }
+  ]
+}
+
+```
+
+</details>
