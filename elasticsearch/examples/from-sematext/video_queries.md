@@ -1,3 +1,5 @@
+
+```markdown
 curl localhost:9200/videos/_search?pretty -d '{
   "query": {
     "multi_match": {
@@ -8,3 +10,4 @@ curl localhost:9200/videos/_search?pretty -d '{
   },
   "fields": "title"
 }'
+```
