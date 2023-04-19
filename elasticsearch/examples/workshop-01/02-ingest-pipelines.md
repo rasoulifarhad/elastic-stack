@@ -595,3 +595,78 @@ Result:
 ```
 
 </details>
+
+#### Handling pipeline failures
+
+```json
+
+PUT /_ingest/pipeline/split-city-string-to-array?pretty
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "if": "ctx.city_array instanceof String", 
+        "ignore_failure": true, 
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      }
+    }
+  ]
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+PUT /_ingest/pipeline/split-city-string-to-array?pretty
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "if": "ctx.city_array instanceof String", 
+        "ignore_failure": true, 
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      }
+    }
+  ]
+}
+
+```
+
+</details>
