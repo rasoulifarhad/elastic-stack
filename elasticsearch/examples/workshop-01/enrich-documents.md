@@ -378,7 +378,7 @@ curl -XPOST "localhost:9200/full_stock_data/_update_by_query?pretty" -H 'Content
 
 ```
 
-<details>
+</details>
 
 #### Final
 
