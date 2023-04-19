@@ -2,8 +2,6 @@
 
 #### Add docs
 
-1. 
-
 ```json
 
 POST _bulk?pretty
@@ -63,8 +61,6 @@ curl -XPUT "localhost:9200/stocks/_doc/2?pretty" -H 'Content-Type: application/j
 
 #### Addd enrichment policy
 
-2.
-
 ```json
 PUT /_enrich/policy/add_company_data_policy?pretty
 {
@@ -114,8 +110,6 @@ curl -XGET "localhost:9200/.enrich-add_company_data_policy?pretty"
 </details>
 
 #### Add a pipeline that uses the enrichment policy
-
-3.
 
 ```json
 
@@ -185,6 +179,7 @@ POST /_reindex?pretty
 
 GET /full_stock_data/_search?pretty
 
+
 ```
 
 <details>
@@ -210,3 +205,125 @@ curl -XGET "localhost:9200/full_stock_data/_search?pretty"
 </details>
 
 #### Enrich incoming data
+
+```json
+
+PUT /full_stock_data/_doc/3?pretty&pipeline=enrich_stock_data
+{
+  "ticker": "SPLK",
+  "last_trade": 113
+}
+
+GET /full_stock_data/_doc/3?pretty
+
+PUT /full_stock_data/_settings?pretty
+{
+  "index.default_pipeline": "enrich_stock_data"
+}
+
+PUT /companies/_doc/4?pretty
+{
+  "company_name": "Datadog, Inc.",
+  "address": "620 8th Avenue, 45th Floor",
+  "city": "New York, NY 10018",
+  "ticker_symbol": "DDOG",
+  "market_cap": "40B"
+}
+
+PUT /_enrich/policy/add_company_data_policy/_execute?pretty
+
+POST /full_stock_data/_doc/4?pretty
+{
+  "ticker": "DDOG",
+  "last_trade": 113
+}
+
+GET /full_stock_data/_doc/4?pretty
+
+{
+  "_index" : "full_stock_data",
+  "_type" : "_doc",
+  "_id" : "4",
+  "_version" : 4,
+  "_seq_no" : 13,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "ticker" : "DDOG",
+    "last_trade" : 113,
+    "enriched" : 1,
+    "company" : {
+      "address" : "620 8th Avenue, 45th Floor",
+      "ticker_symbol" : "DDOG",
+      "market_cap" : "40B",
+      "city" : "New York, NY 10018",
+      "company_name" : "Datadog, Inc."
+    }
+  }
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+curl -XPUT "http://singleElasticsearch:9200/full_stock_data/_doc/3?pretty&pipeline=enrich_stock_data" -H 'Content-Type: application/json' -d'
+{
+  "ticker": "SPLK",
+  "last_trade": 113
+}'
+
+curl -XGET "http://singleElasticsearch:9200/full_stock_data/_doc/3?pretty"
+
+curl -XPUT "http://singleElasticsearch:9200/full_stock_data/_settings?pretty" -H 'Content-Type: application/json' -d'
+{
+  "index.default_pipeline": "enrich_stock_data"
+}'
+
+curl -XPUT "http://singleElasticsearch:9200/companies/_doc/4?pretty" -H 'Content-Type: application/json' -d'
+{
+  "company_name": "Datadog, Inc.",
+  "address": "620 8th Avenue, 45th Floor",
+  "city": "New York, NY 10018",
+  "ticker_symbol": "DDOG",
+  "market_cap": "40B"
+}'
+
+curl -XPUT "http://singleElasticsearch:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
+
+curl -XPOST "http://singleElasticsearch:9200/full_stock_data/_doc/4?pretty" -H 'Content-Type: application/json' -d'
+{
+  "ticker": "DDOG",
+  "last_trade": 113
+}'
+
+curl -XGET "http://singleElasticsearch:9200/full_stock_data/_doc/4?pretty"
+
+{
+  "_index" : "full_stock_data",
+  "_type" : "_doc",
+  "_id" : "4",
+  "_version" : 4,
+  "_seq_no" : 13,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "ticker" : "DDOG",
+    "last_trade" : 113,
+    "enriched" : 1,
+    "company" : {
+      "address" : "620 8th Avenue, 45th Floor",
+      "ticker_symbol" : "DDOG",
+      "market_cap" : "40B",
+      "city" : "New York, NY 10018",
+      "company_name" : "Datadog, Inc."
+    }
+  }
+}
+
+```
+
+</details>
+
