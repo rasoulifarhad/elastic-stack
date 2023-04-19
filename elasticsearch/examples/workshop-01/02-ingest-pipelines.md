@@ -1292,13 +1292,624 @@ Result:
 
 #### The remove processor
 
+```json
+
+PUT /_ingest/pipeline/split-city-string-to-array?pretty
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "if": "ctx.city_array instanceof String",
+        "ignore_failure": true,
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      },
+      "script": {
+        "tag": "script",
+        "ignore_failure": true,
+        "source": """
+          ctx['city_name'] = ctx['city_array'].0;
+          def split_statezip = ctx['city_array'].1.splitOnToken(' ');
+          ctx['state'] = split_statezip[0];
+          ctx['zip'] = split_statezip[1];
+          """
+      },
+      "uppercase": {
+        "field": "state"
+      },
+      "convert": {
+        "field": "zip",
+        "type": "long"
+      },
+      "remove": {
+        "field": ["city_array", "city"]
+      }
+    }
+  ]
+}
+
+POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
+{
+  "docs": [
+    {
+      "_index": "index",
+      "_id": "id",
+      "_source": {
+        "company_name": "Elastic EV",
+        "address": "800 West El Camino Real, Suite 350",
+        "city": "Mountain View, Ca 94040",
+        "ticker_symbol": "ESTC",
+        "market_cap": "8B",
+        "city_array": [
+          "Mountain View",
+          " Ca 94040"
+        ]
+      }
+    }
+  ]
+}
+
+Result:
+
+{
+  "docs" : [
+    {
+      "doc" : {
+        "_index" : "index",
+        "_type" : "_doc",
+        "_id" : "id",
+        "_source" : {
+          "zip" : 94040,
+          "city_name" : "Mountain View",
+          "address" : "800 West El Camino Real, Suite 350",
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "company_name" : "Elastic EV",
+          "state" : "CA"
+        },
+        "_ingest" : {
+          "_value" : null,
+          "timestamp" : "2023-04-19T23:03:09.817897742Z"
+        }
+      }
+    }
+  ]
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+  
+  ```json
+
+curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "if": "ctx.city_array instanceof String",
+        "ignore_failure": true,
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      },
+      "script": {
+        "tag": "script",
+        "ignore_failure": true,
+        "source": "\n          ctx['\''city_name'\''] = ctx['\''city_array'\''].0;\n          def split_statezip = ctx['\''city_array'\''].1.splitOnToken('\'' '\'');\n          ctx['\''state'\''] = split_statezip[0];\n          ctx['\''zip'\''] = split_statezip[1];\n          "
+      },
+      "uppercase": {
+        "field": "state"
+      },
+      "convert": {
+        "field": "zip",
+        "type": "long"
+      },
+      "remove": {
+        "field": ["city_array", "city"]
+      }
+    }
+  ]
+}'
+
+curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulate?pretty" -H 'Content-Type: application/json' -d'
+{
+  "docs": [
+    {
+      "_index": "index",
+      "_id": "id",
+      "_source": {
+        "company_name": "Elastic EV",
+        "address": "800 West El Camino Real, Suite 350",
+        "city": "Mountain View, Ca 94040",
+        "ticker_symbol": "ESTC",
+        "market_cap": "8B",
+        "city_array": [
+          "Mountain View",
+          " Ca 94040"
+        ]
+      }
+    }
+  ]
+}'
+
+Result:
+
+{
+  "docs" : [
+    {
+      "doc" : {
+        "_index" : "index",
+        "_type" : "_doc",
+        "_id" : "id",
+        "_source" : {
+          "zip" : 94040,
+          "city_name" : "Mountain View",
+          "address" : "800 West El Camino Real, Suite 350",
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "company_name" : "Elastic EV",
+          "state" : "CA"
+        },
+        "_ingest" : {
+          "_value" : null,
+          "timestamp" : "2023-04-19T23:03:09.817897742Z"
+        }
+      }
+    }
+  ]
+}
+  
+  ```
+  
+</details>
 
 #### The rename processor
 
+```json
+
+PUT /_ingest/pipeline/split-city-string-to-array?pretty
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "if": "ctx.city_array instanceof String",
+        "ignore_failure": true,
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      },
+      "script": {
+        "tag": "script",
+        "ignore_failure": true,
+        "source": """
+          ctx['city_name'] = ctx['city_array'].0;
+          def split_statezip = ctx['city_array'].1.splitOnToken(' ');
+          ctx['state'] = split_statezip[0];
+          ctx['zip'] = split_statezip[1];
+          """
+      },
+      "uppercase": {
+        "field": "state"
+      },
+      "convert": {
+        "field": "zip",
+        "type": "long"
+      },
+      "remove": {
+        "field": ["city_array", "city"]
+      },
+      "rename": {
+        "field": "city_name",
+        "target_field": "city"
+      }
+    }
+  ]
+}
+
+POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
+{
+  "docs": [
+    {
+      "_index": "index",
+      "_id": "id",
+      "_source": {
+        "company_name": "Elastic EV",
+        "address": "800 West El Camino Real, Suite 350",
+        "city": "Mountain View, Ca 94040",
+        "ticker_symbol": "ESTC",
+        "market_cap": "8B",
+        "city_array": [
+          "Mountain View",
+          " Ca 94040"
+        ]
+      }
+    }
+  ]
+}
+
+Result:
+
+{
+  "docs" : [
+    {
+      "doc" : {
+        "_index" : "index",
+        "_type" : "_doc",
+        "_id" : "id",
+        "_source" : {
+          "zip" : 94040,
+          "address" : "800 West El Camino Real, Suite 350",
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "city" : "Mountain View",
+          "company_name" : "Elastic EV",
+          "state" : "CA"
+        },
+        "_ingest" : {
+          "_value" : null,
+          "timestamp" : "2023-04-19T23:06:54.390812156Z"
+        }
+      }
+    }
+  ]
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+  
+  ```json
+
+curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "if": "ctx.city_array instanceof String",
+        "ignore_failure": true,
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      },
+      "script": {
+        "tag": "script",
+        "ignore_failure": true,
+        "source": "\n          ctx['\''city_name'\''] = ctx['\''city_array'\''].0;\n          def split_statezip = ctx['\''city_array'\''].1.splitOnToken('\'' '\'');\n          ctx['\''state'\''] = split_statezip[0];\n          ctx['\''zip'\''] = split_statezip[1];\n          "
+      },
+      "uppercase": {
+        "field": "state"
+      },
+      "convert": {
+        "field": "zip",
+        "type": "long"
+      },
+      "remove": {
+        "field": ["city_array", "city"]
+      },
+      "rename": {
+        "field": "city_name",
+        "target_field": "city"
+      }
+    }
+  ]
+}'
+
+curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulate?pretty" -H 'Content-Type: application/json' -d'
+{
+  "docs": [
+    {
+      "_index": "index",
+      "_id": "id",
+      "_source": {
+        "company_name": "Elastic EV",
+        "address": "800 West El Camino Real, Suite 350",
+        "city": "Mountain View, Ca 94040",
+        "ticker_symbol": "ESTC",
+        "market_cap": "8B",
+        "city_array": [
+          "Mountain View",
+          " Ca 94040"
+        ]
+      }
+    }
+  ]
+}'
+
+{
+  "docs" : [
+    {
+      "doc" : {
+        "_index" : "index",
+        "_type" : "_doc",
+        "_id" : "id",
+        "_source" : {
+          "zip" : 94040,
+          "address" : "800 West El Camino Real, Suite 350",
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "city" : "Mountain View",
+          "company_name" : "Elastic EV",
+          "state" : "CA"
+        },
+        "_ingest" : {
+          "_value" : null,
+          "timestamp" : "2023-04-19T23:06:54.390812156Z"
+        }
+      }
+    }
+  ]
+}
+
+  ```
+
 #### The full pipeline
 
+```json
+
+PUT /_ingest/pipeline/split-city-string-to-array?pretty
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "if": "ctx.city_array instanceof String",
+        "ignore_failure": true,
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      },
+      "script": {
+        "tag": "script",
+        "ignore_failure": true,
+        "source": """
+          ctx['city_name'] = ctx['city_array'].0;
+          def split_statezip = ctx['city_array'].1.splitOnToken(' ');
+          ctx['state'] = split_statezip[0];
+          ctx['zip'] = split_statezip[1];
+          """
+      },
+      "uppercase": {
+        "field": "state"
+      },
+      "convert": {
+        "field": "zip",
+        "type": "long"
+      },
+      "remove": {
+        "field": ["city_array", "city"]
+      },
+      "rename": {
+        "field": "city_name",
+        "target_field": "city"
+      }
+    }
+  ]
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+  
+  ```json
+
+curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "if": "ctx.city_array instanceof String",
+        "ignore_failure": true,
+        "field": "city_array",
+        "separator": ","
+      },
+      "foreach": {
+        "field": "city_array",
+        "processor": {
+          "gsub": {
+            "field": "_ingest._value",
+            "pattern": "^ ",
+            "replacement": ""
+          }
+        }
+      },
+      "script": {
+        "tag": "script",
+        "ignore_failure": true,
+        "source": "\n          ctx['\''city_name'\''] = ctx['\''city_array'\''].0;\n          def split_statezip = ctx['\''city_array'\''].1.splitOnToken('\'' '\'');\n          ctx['\''state'\''] = split_statezip[0];\n          ctx['\''zip'\''] = split_statezip[1];\n          "
+      },
+      "uppercase": {
+        "field": "state"
+      },
+      "convert": {
+        "field": "zip",
+        "type": "long"
+      },
+      "remove": {
+        "field": ["city_array", "city"]
+      },
+      "rename": {
+        "field": "city_name",
+        "target_field": "city"
+      }
+    }
+  ]
+}'
+
+  ```
 #### The result
+
+```json
+
+POST /companies/_update_by_query?pretty&pipeline=split-city-string-to-array
+
+GET /companies/_doc/1?pretty
+
+Result:
+
+{
+  "_index" : "companies",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 2,
+  "_seq_no" : 1,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "zip" : 94040,
+    "address" : "800 West El Camino Real, Suite 350",
+    "ticker_symbol" : "ESTC",
+    "city" : "Mountain View",
+    "market_cap" : "8B",
+    "company_name" : "Elastic EV",
+    "state" : "CA"
+  }
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+curl -XPOST "http://singleElasticsearch:9200/companies/_update_by_query?pretty&pipeline=split-city-string-to-array"
+
+curl -XGET "http://singleElasticsearch:9200/companies/_doc/1?pretty"
+
+Result:
+
+{
+  "_index" : "companies",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 2,
+  "_seq_no" : 1,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "zip" : 94040,
+    "address" : "800 West El Camino Real, Suite 350",
+    "ticker_symbol" : "ESTC",
+    "city" : "Mountain View",
+    "market_cap" : "8B",
+    "company_name" : "Elastic EV",
+    "state" : "CA"
+  }
+}
+
+```
+
+</details>
 
 #### Setting a pipeline as default for an index
 
+Instead of defining the pipeline, every time we ingest data, the pipeline can be set as a default per index:
+
+```json
+
+PUT companies/_settings
+{
+  "index.default_pipeline": "split-city-string-to-array"
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+curl -XPUT "localhost:9200/companies/_settings" -H 'Content-Type: application/json' -d'
+{
+  "index.default_pipeline": "split-city-string-to-array"
+}'
+
+```
+
+</details>
 
