@@ -1,16 +1,16 @@
-#### index the sample documents
+#### Index the sample documents
 
 ```markdown
 curl -s  -XPOST "localhost:9200/videos/_bulk?pretty" -H 'Content-Type: application/x-ndjson' --data-binary "@es_bulk_videos.json"; echo;
 ```
 
-#### get mapping
+#### Get mapping
 
 ```markdown
 curl "localhost:9200/videos/_mapping?pretty"
 ```
 
-#### update mapping and reindex
+#### Update mapping and reindex
 
 ```markdown
 curl -XDELETE "localhost:9200/videos?pretty"
@@ -48,13 +48,15 @@ curl -XPUT "http://localhost:9200/videos?pretty" -H 'Content-Type: application/j
 }'
 ```
 
+#### Create pipeline
+
 ```markdown
 curl -XPUT "localhost:9200/_ingest/pipeline/my-pipeline?pretty" -H 'Content-Type: application/json' -d'
 {
   "processors": [
     {
       "set": {
-        "description": "Set '\''_id'\'' to '\''id'\'' value",
+        "description": "Set '_id' to 'id' value",
         "field": "_id",
         "value": "{{{id}}}"
       }
@@ -63,12 +65,14 @@ curl -XPUT "localhost:9200/_ingest/pipeline/my-pipeline?pretty" -H 'Content-Type
 }'
 ```
 
+#### Index the sample documents
+
 ```markdown
 curl -s  -XPOST "localhost:9200/videos/_bulk?pretty&pipeline=my-pipeline" -H 'Content-Type: application/x-ndjson'  --data-binary "@es_bulk_videos.json"; echo;
 curl -XPOST "localhost:9200/videos/_refresh?pretty"
 ```
 
-#### URI search
+#### Search
 
 ```markdown
 curl -XGET "localhost:9200/videos/_search?q=elasticsearch&pretty"
