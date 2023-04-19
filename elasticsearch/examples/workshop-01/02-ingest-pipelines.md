@@ -1679,6 +1679,8 @@ curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulat
   ]
 }'
 
+Result:
+  
 {
   "docs" : [
     {
@@ -1705,6 +1707,8 @@ curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulat
 }
 
   ```
+
+</details>
 
 #### The full pipeline
 
@@ -1821,6 +1825,9 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
 }'
 
   ```
+  
+  </details>
+  
 #### The result
 
 ```json
