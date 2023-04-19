@@ -35,7 +35,7 @@ PUT /stocks/_doc/2?pretty
   
 ```json
   
-curl -XPOST "http://singleElasticsearch:9200/_bulk?pretty" -H 'Content-Type: application/json' -d'
+curl -XPOST "localhost:9200/_bulk?pretty" -H 'Content-Type: application/json' -d'
 {"index":{"_index":"companies","_id":"1"}}
 {"company_name":"Elastic EV","address":"800 West El Camino Real, Suite 350","city":"Mountain View, CA 94040","ticker_symbol":"ESTC","market_cap":"8B"}
 {"create":{"_index":"companies","_id":"2"}}
@@ -43,15 +43,15 @@ curl -XPOST "http://singleElasticsearch:9200/_bulk?pretty" -H 'Content-Type: app
 {"create":{"_index":"companies","_id":"3"}}
 {"company_name":"Splunk Inc","address":"270 Brannan Street","city":"San Francisco, CA 94107","ticker_symbol":"SPLK","market_cap":"18B"}
 '
-curl -XGET "http://singleElasticsearch:9200/companies/_search?pretty"
+curl -XGET "localhost:9200/companies/_search?pretty"
 
-curl -XPUT "http://singleElasticsearch:9200/stocks/_doc/1?pretty" -H 'Content-Type: application/json' -d'
+curl -XPUT "localhost:9200/stocks/_doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "ticker": "ESTC",
   "last_trade": 82.5
 }'
 
-curl -XPUT "http://singleElasticsearch:9200/stocks/_doc/2?pretty" -H 'Content-Type: application/json' -d'
+curl -XPUT "localhost:9200/stocks/_doc/2?pretty" -H 'Content-Type: application/json' -d'
 {
   "ticker": "MDB",
   "last_trade": 365
@@ -91,7 +91,7 @@ GET /.enrich-add_company_data_policy?pretty
   
 ```json
   
-curl -XPUT "http://singleElasticsearch:9200/_enrich/policy/add_company_data_policy?pretty" -H 'Content-Type: application/json' -d'
+curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy?pretty" -H 'Content-Type: application/json' -d'
 {
   "match": {
     "indices": "companies",
@@ -105,9 +105,65 @@ curl -XPUT "http://singleElasticsearch:9200/_enrich/policy/add_company_data_poli
   }
 }'
 
-curl -XPUT "http://singleElasticsearch:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
+curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
 
-curl -XGET "http://singleElasticsearch:9200/.enrich-add_company_data_policy?pretty"
+curl -XGET "localhost:9200/.enrich-add_company_data_policy?pretty"
+
+```
+
+</details>
+
+#### Add a pipeline that uses the enrichment policy
+
+3.
+
+```json
+
+PUT /_ingest/pipeline/enrich_stock_data?pretty
+{
+  "processors": [
+    {
+      "set": {
+        "field": "enriched",
+        "value": 1
+      }
+    },
+    {
+      "enrich": {
+        "policy_name": "add_company_data_policy",
+        "field": "ticker",
+        "target_field": "company"
+      }
+    }
+  ]
+}
+
+```
+
+
+<details>
+  <summary>cURL</summary>
+  
+```json
+
+curl -XPUT "localhost:9200/_ingest/pipeline/enrich_stock_data?pretty" -H 'Content-Type: application/json' -d'
+{
+  "processors": [
+    {
+      "set": {
+        "field": "enriched",
+        "value": 1
+      }
+    },
+    {
+      "enrich": {
+        "policy_name": "add_company_data_policy",
+        "field": "ticker",
+        "target_field": "company"
+      }
+    }
+  ]
+}'
 
 ```
 
