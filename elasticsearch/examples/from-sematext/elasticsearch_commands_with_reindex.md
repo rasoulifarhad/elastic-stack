@@ -68,7 +68,7 @@ curl -XPUT "localhost:9200/_ingest/pipeline/my-pipeline?pretty" -H 'Content-Type
 #### Reindex
 
 ```markdown
-curl -XPOST "http://localhost:9200/_reindex?pretty" -H 'Content-Type: application/json' -d'
+curl -XPOST "http://localhost:9200/_reindex?pretty&wait_for_completion=true" -H 'Content-Type: application/json' -d'
 {
   "source": {
     "index": "videos"
