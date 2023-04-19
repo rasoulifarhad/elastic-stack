@@ -670,3 +670,24 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
 ```
 
 </details>
+
+#### The script processor
+
+#### The uppercase processor
+
+
+#### The convert processor
+
+
+#### The remove processor
+
+
+#### The rename processor
+
+#### The full pipeline
+
+#### The result
+
+#### Setting a pipeline as default for an index
+
+
