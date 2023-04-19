@@ -1,5 +1,7 @@
 ### Enrich documents
 
+#### Add docs
+
 1. 
 
 ```json
@@ -27,6 +29,7 @@ PUT /stocks/_doc/2?pretty
 }
 
 ```
+
 <details>
   <summary>cURL</summary>
   
@@ -58,3 +61,54 @@ curl -XPUT "http://singleElasticsearch:9200/stocks/_doc/2?pretty" -H 'Content-Ty
   
 </details>
 
+#### Addd enrichment policy
+
+2.
+
+```json
+PUT /_enrich/policy/add_company_data_policy?pretty
+{
+  "match": {
+    "indices": "companies",
+    "match_field": "ticker_symbol",
+    "enrich_fields": [
+      "company_name",
+      "address",
+      "city",
+      "market_cap"
+    ]
+  }
+}
+
+PUT /_enrich/policy/add_company_data_policy/_execute?pretty
+
+GET /.enrich-add_company_data_policy?pretty
+
+```
+
+<details>
+  <summary>cURL</summary>
+  
+```json
+  
+curl -XPUT "http://singleElasticsearch:9200/_enrich/policy/add_company_data_policy?pretty" -H 'Content-Type: application/json' -d'
+{
+  "match": {
+    "indices": "companies",
+    "match_field": "ticker_symbol",
+    "enrich_fields": [
+      "company_name",
+      "address",
+      "city",
+      "market_cap"
+    ]
+  }
+}'
+
+curl -XPUT "http://singleElasticsearch:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
+
+curl -XGET "http://singleElasticsearch:9200/.enrich-add_company_data_policy?pretty"
+
+```
+
+</details>
