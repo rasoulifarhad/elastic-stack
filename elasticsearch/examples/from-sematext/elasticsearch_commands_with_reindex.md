@@ -11,11 +11,10 @@ curl -s -XPOST "localhost:9200/videos/_bulk?pretty" -H 'Content-Type: applicatio
 curl "localhost:9200/videos/_mapping?pretty"
 ```
 
-#### Update mapping and reindex
+#### Update mapping
 
 ```markdown
-curl -XDELETE "localhost:9200/videos?pretty"
-curl -XPUT "http://localhost:9200/videos?pretty" -H 'Content-Type: application/json' -d'
+curl -XPUT "http://localhost:9200/videos_new?pretty" -H 'Content-Type: application/json' -d'
 {
   "mappings": {
     "properties": {
@@ -66,21 +65,37 @@ curl -XPUT "localhost:9200/_ingest/pipeline/my-pipeline?pretty" -H 'Content-Type
 }'
 ```
 
-#### Index the sample documents
+#### Reindex
 
 ```markdown
-curl -s  -XPOST "localhost:9200/videos/_bulk?pretty&pipeline=my-pipeline" -H 'Content-Type: application/x-ndjson'  --data-binary "@es_bulk_videos.json"; echo;
-curl -XPOST "localhost:9200/videos/_refresh?pretty"
+curl -XPOST "http://localhost:9200/_reindex?pretty" -H 'Content-Type: application/json' -d'
+{
+  "source": {
+    "index": "videos"
+  },
+  "dest": {
+    "index": "videos_new",
+    "version_type": "external",
+    "op_type": "create",
+    "pipeline": "my-pipeline"
+  }
+}'
+```
+
+#### Reresh index
+
+```markdown
+curl -XPOST "localhost:9200/videos_new/_refresh?pretty"
 ```
 
 #### Search
 
 ```markdown
-curl -XGET "localhost:9200/videos/_search?q=elasticsearch&pretty"
+curl -XGET "localhost:9200/videos_new/_search?q=elasticsearch&pretty"
 ```
 
 ```markdown
-curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application/json' -d'
+curl -XGET "localhost:9200/videos_new/_search?pretty"  -H 'Content-Type: application/json' -d'
 {
     "query": {
         "bool": {
@@ -102,7 +117,7 @@ curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application
 ```
 
 ```markdown
-curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application/json' -d'
+curl -XGET "localhost:9200/videos_new/_search?pretty"  -H 'Content-Type: application/json' -d'
 {
     "query": {
         "function_score": {
@@ -129,7 +144,7 @@ curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application
 ```
 
 ```markdown
-curl localhost:9200/videos/_search?pretty -d '{
+curl localhost:9200/videos_new/_search?pretty -d '{
   "query": {
     "multi_match": {
       "query": "elasticsearch solr",
@@ -144,7 +159,7 @@ curl localhost:9200/videos/_search?pretty -d '{
 #### Aggregations
 
 ```markdown
-curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application/json' -d'
+curl -XGET "localhost:9200/videos_new/_search?pretty"  -H 'Content-Type: application/json' -d'
 {
     "size": 0,
     "aggregations" : {
@@ -156,7 +171,7 @@ curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application
 ```
 
 ```markdown
-curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application/json' -d'
+curl -XGET "localhost:9200/videos_new/_search?pretty"  -H 'Content-Type: application/json' -d'
 {
     "size": 0,
     "aggregations": {
@@ -171,7 +186,7 @@ curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application
 ```
 
 ```markdown
-curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application/json' -d'
+curl -XGET "localhost:9200/videos_new/_search?pretty"  -H 'Content-Type: application/json' -d'
 {
     "size": 0,
     "aggregations" : {
