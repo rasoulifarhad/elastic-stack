@@ -221,14 +221,14 @@ GET /companies/_search?pretty
 
 ```json
 
-curl -XPOST "http://singleElasticsearch:9200/companies/_update_by_query?pretty&pipeline=split-city-string-to-array" -H 'Content-Type: application/json' -d'
+curl -XPOST "localhost:9200/companies/_update_by_query?pretty&pipeline=split-city-string-to-array" -H 'Content-Type: application/json' -d'
 {
   "query": {
     "match_all": {}
   }
 }'
 
-curl -XGET "http://singleElasticsearch:9200/companies/_search?pretty"
+curl -XGET "localhost:9200/companies/_search?pretty"
 
 {
   "took" : 0,
