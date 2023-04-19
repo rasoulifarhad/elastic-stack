@@ -1,7 +1,7 @@
 #### Index the sample documents
 
 ```markdown
-curl -s  -XPOST "localhost:9200/videos/_bulk?pretty" -H 'Content-Type: application/x-ndjson' --data-binary "@es_bulk_videos.json"; echo;
+curl -s -XPOST "localhost:9200/videos/_bulk?pretty" -H 'Content-Type: application/x-ndjson' --data-binary "@es_bulk_videos.json"; echo;
 ```
 
 #### Get mapping
