@@ -388,6 +388,13 @@ curl -XPOST "localhost:9200/full_stock_data/_update_by_query?pretty" -H 'Content
 
 GET _cat/indices/.enrich-add_company_data_policy*,companies,full_stock_data?s=i&v&h=idx,storeSize&pretty
 
+DELETE /companies?pretty
+
+DELETE /stocks?pretty
+
+DELETE /full_stock_data?pretty
+
+
 ```
 
 <details>
@@ -396,6 +403,13 @@ GET _cat/indices/.enrich-add_company_data_policy*,companies,full_stock_data?s=i&
 ```json
 
 curl -XGET "localhost:9200/_cat/indices/.enrich-add_company_data_policy*,companies,full_stock_data?s=i&v&h=idx,storeSize&pretty"
+
+curl -XDELETE "localhost:9200/companies?pretty"
+
+curl -XDELETE "localhost:9200/stocks?pretty"
+
+curl -XDELETE "localhost:9200/full_stock_data?pretty"
+
 
 ```
 

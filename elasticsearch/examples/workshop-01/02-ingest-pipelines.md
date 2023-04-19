@@ -1,0 +1,115 @@
+### Ingest Pipelines
+
+From [Ingest Pipelines](https://cdax.ch/2022/01/30/elastic-workshop-2-ingest-pipelines/)
+
+#### Raw data
+
+```json
+
+"company_name": "Elastic EV", 
+"address": "800 West El Camino Real, Suite 350", 
+"city": "Mountain View, Ca 94040",
+"ticker_symbol": "ESTC", 
+"market_cap": "8B"
+
+```
+
+#### Create a pipeline with a set processor
+
+```json
+
+PUT /_ingest/pipeline/split-city-string-to-array?pretty
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city"
+      }
+    }
+  ]
+}
+
+PUT /companies/_doc/1?pretty&pipeline=split-city-string-to-array
+{
+  "company_name": "Elastic EV",
+  "address": "800 West El Camino Real, Suite 350",
+  "city": "Mountain View, Ca 94040",
+  "ticker_symbol": "ESTC",
+  "market_cap": "8B"
+}
+
+GET /companies/_doc/1?pretty
+
+{
+  "_index" : "companies",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "_seq_no" : 0,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "address" : "800 West El Camino Real, Suite 350",
+    "ticker_symbol" : "ESTC",
+    "market_cap" : "8B",
+    "city" : "Mountain View, Ca 94040",
+    "company_name" : "Elastic EV",
+    "city_array" : "Mountain View, Ca 94040"
+  }
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+  
+```json
+
+curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city"
+      }
+    }
+  ]
+}'
+
+curl -XPUT "localhost:9200/companies/_doc/1?pretty&pipeline=split-city-string-to-array" -H 'Content-Type: application/json' -d'
+{
+  "company_name": "Elastic EV",
+  "address": "800 West El Camino Real, Suite 350",
+  "city": "Mountain View, Ca 94040",
+  "ticker_symbol": "ESTC",
+  "market_cap": "8B"
+}'
+
+curl -XGET "localhost:9200/companies/_doc/1?pretty"
+
+{
+  "_index" : "companies",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "_seq_no" : 0,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "address" : "800 West El Camino Real, Suite 350",
+    "ticker_symbol" : "ESTC",
+    "market_cap" : "8B",
+    "city" : "Mountain View, Ca 94040",
+    "company_name" : "Elastic EV",
+    "city_array" : "Mountain View, Ca 94040"
+  }
+}
+
+```
+
+</details>
+
