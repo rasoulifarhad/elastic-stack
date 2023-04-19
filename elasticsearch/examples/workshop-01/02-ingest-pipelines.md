@@ -113,3 +113,161 @@ curl -XGET "localhost:9200/companies/_doc/1?pretty"
 
 </details>
 
+#### Split processor
+
+```json
+
+PUT /_ingest/pipeline/split-city-string-to-array?pretty
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "field": "city_array",
+        "separator": ","
+      }
+    }
+  ]
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+  
+```json
+
+curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
+{
+  "description": "Changes incoming company data",
+  "processors": [
+    {
+      "set": {
+        "field": "city_array",
+        "copy_from": "city",
+        "override": false
+      },
+      "split": {
+        "field": "city_array",
+        "separator": ","
+      }
+    }
+  ]
+}'
+
+```
+
+</details>
+
+#### Run a pipeline by _update_by_query
+
+```json
+
+POST companies/_update_by_query?pretty&pipeline=split-city-string-to-array
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+GET /companies/_search?pretty
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "address" : "800 West El Camino Real, Suite 350",
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "city" : "Mountain View, Ca 94040",
+          "company_name" : "Elastic EV",
+          "city_array" : [
+            "Mountain View",
+            " Ca 94040"
+          ]
+        }
+      }
+    ]
+  }
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+curl -XPOST "http://singleElasticsearch:9200/companies/_update_by_query?pretty&pipeline=split-city-string-to-array" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_all": {}
+  }
+}'
+
+curl -XGET "http://singleElasticsearch:9200/companies/_search?pretty"
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "address" : "800 West El Camino Real, Suite 350",
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "city" : "Mountain View, Ca 94040",
+          "company_name" : "Elastic EV",
+          "city_array" : [
+            "Mountain View",
+            " Ca 94040"
+          ]
+        }
+      }
+    ]
+  }
+}
+
+```
+
+</details>
+
