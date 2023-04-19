@@ -269,20 +269,20 @@ GET /full_stock_data/_doc/4?pretty
 
 ```json
 
-curl -XPUT "http://singleElasticsearch:9200/full_stock_data/_doc/3?pretty&pipeline=enrich_stock_data" -H 'Content-Type: application/json' -d'
+curl -XPUT "localhost:9200/full_stock_data/_doc/3?pretty&pipeline=enrich_stock_data" -H 'Content-Type: application/json' -d'
 {
   "ticker": "SPLK",
   "last_trade": 113
 }'
 
-curl -XGET "http://singleElasticsearch:9200/full_stock_data/_doc/3?pretty"
+curl -XGET "localhost:9200/full_stock_data/_doc/3?pretty"
 
-curl -XPUT "http://singleElasticsearch:9200/full_stock_data/_settings?pretty" -H 'Content-Type: application/json' -d'
+curl -XPUT "localhost:9200/full_stock_data/_settings?pretty" -H 'Content-Type: application/json' -d'
 {
   "index.default_pipeline": "enrich_stock_data"
 }'
 
-curl -XPUT "http://singleElasticsearch:9200/companies/_doc/4?pretty" -H 'Content-Type: application/json' -d'
+curl -XPUT "localhost:9200/companies/_doc/4?pretty" -H 'Content-Type: application/json' -d'
 {
   "company_name": "Datadog, Inc.",
   "address": "620 8th Avenue, 45th Floor",
@@ -291,15 +291,15 @@ curl -XPUT "http://singleElasticsearch:9200/companies/_doc/4?pretty" -H 'Content
   "market_cap": "40B"
 }'
 
-curl -XPUT "http://singleElasticsearch:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
+curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
 
-curl -XPOST "http://singleElasticsearch:9200/full_stock_data/_doc/4?pretty" -H 'Content-Type: application/json' -d'
+curl -XPOST "localhost:9200/full_stock_data/_doc/4?pretty" -H 'Content-Type: application/json' -d'
 {
   "ticker": "DDOG",
   "last_trade": 113
 }'
 
-curl -XGET "http://singleElasticsearch:9200/full_stock_data/_doc/4?pretty"
+curl -XGET "localhost:9200/full_stock_data/_doc/4?pretty"
 
 {
   "_index" : "full_stock_data",
@@ -327,3 +327,74 @@ curl -XGET "http://singleElasticsearch:9200/full_stock_data/_doc/4?pretty"
 
 </details>
 
+#### Fix documents that could not be enriched by the last run
+
+```json
+
+PUT /_enrich/policy/add_company_data_policy/_execute?pretty
+
+GET /.enrich-add_company_data_policy?pretty
+
+POST full_stock_data/_update_by_query?pretty
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "exists": {
+            "field": "company"
+          }
+        }
+      ]
+    }
+  }
+}
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
+
+curl -XGET "localhost:9200/.enrich-add_company_data_policy?pretty"
+
+curl -XPOST "localhost:9200/full_stock_data/_update_by_query?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "exists": {
+            "field": "company"
+          }
+        }
+      ]
+    }
+  }
+}'
+
+```
+
+<details>
+
+#### Final
+
+```json
+
+GET _cat/indices/.enrich-add_company_data_policy*,companies,full_stock_data?s=i&v&h=idx,storeSize&pretty
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+curl -XGET "localhost:9200/_cat/indices/.enrich-add_company_data_policy*,companies,full_stock_data?s=i&v&h=idx,storeSize&pretty"
+
+```
+
+</details>
