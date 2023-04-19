@@ -140,7 +140,6 @@ PUT /_ingest/pipeline/enrich_stock_data?pretty
 
 ```
 
-
 <details>
   <summary>cURL</summary>
   
@@ -168,3 +167,46 @@ curl -XPUT "localhost:9200/_ingest/pipeline/enrich_stock_data?pretty" -H 'Conten
 ```
 
 </details>
+
+#### Enrich existing documents
+
+```json
+
+POST /_reindex?pretty
+{
+  "source": {
+    "index": "stocks"
+  },
+  "dest": {
+    "index": "full_stock_data",
+    "pipeline": "enrich_stock_data"
+  }
+}
+
+GET /full_stock_data/_search?pretty
+
+```
+
+<details>
+  <summary>cURL</summary>
+
+```json
+
+curl -XPOST "localhost:9200/_reindex?pretty" -H 'Content-Type: application/json' -d'
+{
+  "source": {
+    "index": "stocks"
+  },
+  "dest": {
+    "index": "full_stock_data",
+    "pipeline": "enrich_stock_data"
+  }
+}'
+
+curl -XGET "localhost:9200/full_stock_data/_search?pretty"
+
+```
+
+</details>
+
+#### Enrich incoming data
