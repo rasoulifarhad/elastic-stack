@@ -1,5 +1,7 @@
 ### Enrich documents
 
+From [ElasticWorkshop](https://github.com/PascalThalmann/ElasticWorkshop/tree/gh-pages/1_enrich_documents)
+
 #### Add docs
 
 ```json
