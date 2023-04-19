@@ -127,6 +127,19 @@ curl -XGET "localhost:9200/videos/_search?pretty"  -H 'Content-Type: application
 }'
 ```
 
+```markdown
+curl localhost:9200/videos/_search?pretty -d '{
+  "query": {
+    "multi_match": {
+      "query": "elasticsearch solr",
+      "fields": ["tags^5", "uploaded_by^3", "title"],
+      "tie_breaker": 0.3
+    }
+  },
+  "fields": "title"
+}'
+```
+
 #### Aggregations
 
 ```markdown
