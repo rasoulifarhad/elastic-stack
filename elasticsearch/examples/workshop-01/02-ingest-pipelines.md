@@ -164,7 +164,7 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
 
 </details>
 
-#### Run a pipeline by _update_by_query
+#### Run _update_by_query
 
 ```json
 
