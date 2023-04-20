@@ -350,3 +350,150 @@ curl -XPOST "http://singleElasticsearch:9200/persons/_update_by_query?pretty" -H
 	
 </details>
 
+#### Calling scripts with the update API
+
+```json
+POST persons/_update/1?pretty
+{
+  "script": {
+    "id": "calc_age_script",
+    "params": {
+      "today": 2024
+    }
+  }
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XPOST "http://singleElasticsearch:9200/persons/_update/1?pretty" -H 'Content-Type: application/json' -d'
+{
+  "script": {
+    "id": "calc_age_script",
+    "params": {
+      "today": 2024
+    }
+  }
+}'
+```
+
+</details>
+
+#### Calling Scripts with the reindex API
+
+```json
+POST _reindex?pretty
+{
+  "source": {
+    "index": "persons"
+  },
+  "dest": {
+    "index": "persons_with_age"
+  },
+  "script": {
+    "id": "calc_age_script",
+    "params": {
+      "today": 2044
+    }
+  }
+}
+
+GET persons_with_age/_search?pretty
+
+Response:
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "persons_with_age",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "John",
+          "sur_name" : "Smith",
+          "age" : 119,
+          "year_of_birth" : 1925
+        }
+      }
+    ]
+  }
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XPOST "http://singleElasticsearch:9200/_reindex?pretty" -H 'Content-Type: application/json' -d'
+{
+  "source": {
+    "index": "persons"
+  },
+  "dest": {
+    "index": "persons_with_age"
+  },
+  "script": {
+    "id": "calc_age_script",
+    "params": {
+      "today": 2044
+    }
+  }
+}'
+
+curl -XGET "http://singleElasticsearch:9200/persons_with_age/_search?pretty"
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "persons_with_age",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "John",
+          "sur_name" : "Smith",
+          "age" : 119,
+          "year_of_birth" : 1925
+        }
+      }
+    ]
+  }
+}
+```
+
+</details>
+
+#### Calling scripts with the _search API
+
+#### Calling scripts with a search-template
