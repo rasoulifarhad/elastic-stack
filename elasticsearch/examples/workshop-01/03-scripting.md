@@ -1092,7 +1092,102 @@ Result:
 
 </details>
 
+The update-context also provides the variable **“ctx.now”** with the current timestamp. update_by_query and reindex do not provide this variable.
+
+The update-, update_by_query- and the reindex-contexts are providing the special variable “op”. Which lets you delete the document if needed:
+
+```
+"script" : {
+  "source": """
+  ctx.op = 'delete'      
+  """
+}
+```
+
 ##### reindex-context
+
+The reindex-context does not provide any further variables or methods other than the update or update_by_query does. Here is just an example for a script that accesses the “ctx._source”-map by the “dot-notion”:
+
+```json
+POST _reindex?pretty
+{
+  "source": {
+    "index": "companies"
+  },
+  "dest": {
+    "index": "companies_new"
+  },
+  "script": {
+    "source": """
+      double outstanding = ctx._source.market_cap / ctx._source.share_price;
+      ctx._source.outstanding_reindexed = (long)outstanding 
+    """
+  }
+}
+
+GET companies_new/_doc/1?pretty
+
+Result:
+
+{
+  "_index" : "companies_new",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "_seq_no" : 0,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "ticker_symbol" : "ESTC",
+    "market_cap" : 8000000000,
+    "outstanding" : 96969696,
+    "outstanding_reindexed" : 96969696,
+    "share_price" : 82.5
+  }
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XPOST "http://singleElasticsearch:9200/_reindex?pretty" -H 'Content-Type: application/json' -d'
+{
+  "source": {
+    "index": "companies"
+  },
+  "dest": {
+    "index": "companies_new"
+  },
+  "script": {
+    "source": "double outstanding = ctx._source.market_cap / ctx._source.share_price;ctx._source.outstanding_reindexed = (long)outstanding"
+  }
+}'
+
+curl -XGET "http://singleElasticsearch:9200/companies_new/_doc/1?pretty"
+
+Result:
+
+{
+  "_index" : "companies_new",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "_seq_no" : 0,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "ticker_symbol" : "ESTC",
+    "market_cap" : 8000000000,
+    "outstanding" : 96969696,
+    "outstanding_reindexed" : 96969696,
+    "share_price" : 82.5
+  }
+}
+```
+
+</details>
+
 ##### runetime_field-context
 ##### fields-context
 ##### ingest-processor-context
