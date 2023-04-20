@@ -652,6 +652,7 @@ PUT _scripts/calc_age_template
   }
 }
 
+# Validate a search templateedit
 POST _render/template?pretty
 {
   "id": "calc_age_template",
@@ -757,6 +758,7 @@ curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_template" -H 'Cont
   }
 }'
 
+# Validate a search templateedit
 curl -XPOST "http://singleElasticsearch:9200/_render/template?pretty" -H 'Content-Type: application/json' -d'
 {
   "id": "calc_age_template",
