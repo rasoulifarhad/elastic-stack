@@ -498,4 +498,281 @@ curl -XGET "http://singleElasticsearch:9200/persons_with_age/_search?pretty"
 
 To get the script working we need to update the script and the variables. We need the “doc-map” and the “.value” method to access the values:
 
+```json
+PUT _scripts/calc_age_script?pretty
+{
+  "script": {
+    "lang": "painless",
+    "source": """
+      params['today'] - doc['year_of_birth'].value;
+    """
+  }
+}
+
+GET /persons/_search?pretty
+{
+  "script_fields": {
+    "age": {
+      "script": {
+        "id": "calc_age_script",
+        "params": {
+          "today": 2044
+        }
+      }
+    }
+  }
+}
+
+Response:
+
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "persons",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "age" : [
+            119
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_script?pretty" -H 'Content-Type: application/json' -d'
+{
+  "script": {
+    "lang": "painless",
+    "source": "\n      params['\''today'\''] - doc['\''year_of_birth'\''].value;\n    "
+  }
+}'
+
+curl -XGET "http://singleElasticsearch:9200/persons/_search?pretty" -H 'Content-Type: application/json' -d'
+{
+  "script_fields": {
+    "age": {
+      "script": {
+        "id": "calc_age_script",
+        "params": {
+          "today": 2044
+        }
+      }
+    }
+  }
+}'
+
+Response:
+
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "persons",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "age" : [
+            119
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+</details>
+
 #### Calling scripts with a search-template
+
+Stored scripts are not supported for runtime mappings. Therefore, the script has to be stored inline. However, we can use search templates. Search templates are scripts, but written in “mustache”
+
+```json
+PUT _scripts/calc_age_template
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "runtime_mappings": {
+        "age": {
+          "type": "long",
+          "script": {
+            "source": """ 
+             long age = {{act_year}} - doc['year_of_birth'].value;
+             emit(age)
+            """
+          }
+        }
+      },
+      "fields": [
+        "age"
+      ]
+    }
+  },
+  "params": {
+    "act_year": "today"
+  }
+}
+
+GET persons/_search/template
+{
+  "source": "fields",
+  "id": "calc_age_template",
+  "params": {
+    "act_year": 2022
+  }
+}
+
+Response:
+
+{
+  "took" : 5,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "persons",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "John",
+          "sur_name" : "Smith",
+          "age" : 99,
+          "year_of_birth" : 1925
+        },
+        "fields" : {
+          "age" : [
+            97
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_template" -H 'Content-Type: application/json' -d'
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "runtime_mappings": {
+        "age": {
+          "type": "long",
+          "script": {
+            "source": " \n             long age = {{act_year}} - doc['\''year_of_birth'\''].value;\n             emit(age)\n            "
+          }
+        }
+      },
+      "fields": [
+        "age"
+      ]
+    }
+  },
+  "params": {
+    "act_year": "today"
+  }
+}'
+
+curl -XGET "http://singleElasticsearch:9200/persons/_search/template" -H 'Content-Type: application/json' -d'
+{
+  "source": "fields",
+  "id": "calc_age_template",
+  "params": {
+    "act_year": 2022
+  }
+}'
+
+Response:
+
+{
+  "took" : 5,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "persons",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "John",
+          "sur_name" : "Smith",
+          "age" : 99,
+          "year_of_birth" : 1925
+        },
+        "fields" : {
+          "age" : [
+            97
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+</details>
