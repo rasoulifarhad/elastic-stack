@@ -838,3 +838,53 @@ Response:
 ```
 
 </details>
+
+#### Context
+
+A context provides variables and fields, classes and methods, and what kind of values can be returned. So to speak: your script may run perfectly in a pipeline, but it fails in a runtime field. And even worse; your stored script works flawlessly in your pipeline, but if you use it for an update, it fails.
+
+To make it short: a context provides and sets the boundaries in which your script will operate.
+
+examples:
+
+- ingest-processor (pipelines)
+- update
+- update_by_query
+- reindex
+- runtime fields
+- fields
+
+##### the challenge
+
+To show you how to handle the different contexts, we will solve the same challenge in all the contexts. This is our data:
+
+```json
+PUT companies/_doc/1?pretty
+{
+  "ticker_symbol": "ESTC",
+  "market_cap": 8000000000,
+  "share_price": 82.5
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XPUT "http://singleElasticsearch:9200/companies/_doc/1?pretty" -H 'Content-Type: application/json' -d'
+{
+  "ticker_symbol": "ESTC",
+  "market_cap": 8000000000,
+  "share_price": 82.5
+}'
+```
+
+</details>
+
+##### ingest-processor-context
+##### update- and update_by_query-contex
+##### reindex-context
+##### runetime_field-context
+##### fields-context
+##### ingest-processor-context
+##### ingest-processor-context
