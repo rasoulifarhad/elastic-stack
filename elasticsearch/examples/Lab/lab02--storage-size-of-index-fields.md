@@ -424,6 +424,7 @@ yellow open   name_keyword_idx XIFC4-UERpuuHa39HNTUQg   1   1         20        
 
 ```
 
+#### Comparing the storage size between the indices with _disk_usage
 
 ```json
 
@@ -445,12 +446,7 @@ Response:
       "stored_fields_in_bytes" : 747,
       "doc_values" : "310b",
       "doc_values_in_bytes" : 310,
-      "points" : "72b",
-      "points_in_bytes" : 72,
-      "norms" : "20b",
-      "norms_in_bytes" : 20,
-      "term_vectors" : "0b",
-      "term_vectors_in_bytes" : 0
+      ....
     }
   },
   "first_name_idx" : {
@@ -466,12 +462,7 @@ Response:
       "stored_fields_in_bytes" : 747,
       "doc_values" : "20b",
       "doc_values_in_bytes" : 20,
-      "points" : "72b",
-      "points_in_bytes" : 72,
-      "norms" : "20b",
-      "norms_in_bytes" : 20,
-      "term_vectors" : "0b",
-      "term_vectors_in_bytes" : 0
+      ....
     }
   },
   "name_idx" : {
@@ -487,12 +478,7 @@ Response:
       "stored_fields_in_bytes" : 747,
       "doc_values" : "20b",
       "doc_values_in_bytes" : 20,
-      "points" : "72b",
-      "points_in_bytes" : 72,
-      "norms" : "0b",
-      "norms_in_bytes" : 0,
-      "term_vectors" : "0b",
-      "term_vectors_in_bytes" : 0
+      ....
     }
   },
   "name_keyword_idx" : {
@@ -508,12 +494,7 @@ Response:
       "stored_fields_in_bytes" : 747,
       "doc_values" : "310b",
       "doc_values_in_bytes" : 310,
-      "points" : "72b",
-      "points_in_bytes" : 72,
-      "norms" : "0b",
-      "norms_in_bytes" : 0,
-      "term_vectors" : "0b",
-      "term_vectors_in_bytes" : 0
+      ....
     }
   }
 }
