@@ -496,4 +496,6 @@ curl -XGET "http://singleElasticsearch:9200/persons_with_age/_search?pretty"
 
 #### Calling scripts with the _search API
 
+To get the script working we need to update the script and the variables. We need the “doc-map” and the “.value” method to access the values:
+
 #### Calling scripts with a search-template
