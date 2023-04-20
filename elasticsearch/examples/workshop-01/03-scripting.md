@@ -621,7 +621,9 @@ Response:
 
 #### Calling scripts with a search-template
 
-Stored scripts are not supported for runtime mappings. Therefore, the script has to be stored inline. However, we can use search templates. Search templates are scripts, but written in “mustache”
+Stored scripts are not supported for runtime mappings. Therefore, the script has to be stored inline. However, we can use search templates. Search templates are scripts, but written in “mustache”.
+
+The request’s source supports the same parameters as the search API's request body. source also supports Mustache variables, typically enclosed in double curly brackets: {{my-var}}. When you run a templated search, Elasticsearch replaces these variables with values from params.
 
 ```json
 PUT _scripts/calc_age_template
