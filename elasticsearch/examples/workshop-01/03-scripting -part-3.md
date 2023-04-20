@@ -151,3 +151,245 @@ GET companies/_search
   }
 }
 ```
+
+#### The Java Matcher Class
+
+The [Java Matcher Class](https://www.elastic.co/guide/en/elasticsearch/painless/master/painless-api-reference-shared-java-util-regex.html) provides everything you need for pattern matching.
+
+```json
+GET companies/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "match": {
+      "script": {
+        "source": """
+          String market_cap_string = doc['market_cap.keyword'].value;
+          Pattern p = /([0-9]+)([A-za-z]+)$/;
+          def result = p.matcher(market_cap_string).matches();
+          return (result);
+        """
+      }
+    }
+  }
+}
+
+result:
+
+{
+  "took" : 5,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "match" : [
+            true
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+```json
+GET companies/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "match": {
+      "script": {
+        "source": """
+          String market_cap_string = doc['market_cap.keyword'].value;
+          Pattern p = /([0-9]+)([A-za-z]+)$/;
+          def result = p.matcher(market_cap_string).group(1);
+          return (result);
+        """
+      }
+    }
+  }
+}
+
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "script_exception",
+        "reason" : "runtime error",
+        "script_stack" : [
+          "java.base/java.util.regex.Matcher.group(Matcher.java:644)",
+          "result = p.matcher(market_cap_string).group(1);\n          ",
+          "                                     ^---- HERE"
+        ],
+        "script" : " ...",
+        "lang" : "painless",
+        "position" : {
+          "offset" : 168,
+          "start" : 131,
+          "end" : 189
+        }
+      }
+    ],
+    "type" : "search_phase_execution_exception",
+    "reason" : "all shards failed",
+    "phase" : "query",
+    "grouped" : true,
+    "failed_shards" : [
+      {
+        "shard" : 0,
+        "index" : "companies",
+        "node" : "XcecSOW_R0Ck2HnwBo7rNg",
+        "reason" : {
+          "type" : "script_exception",
+          "reason" : "runtime error",
+          "script_stack" : [
+            "java.base/java.util.regex.Matcher.group(Matcher.java:644)",
+            "result = p.matcher(market_cap_string).group(1);\n          ",
+            "                                     ^---- HERE"
+          ],
+          "script" : " ...",
+          "lang" : "painless",
+          "position" : {
+            "offset" : 168,
+            "start" : 131,
+            "end" : 189
+          },
+          "caused_by" : {
+            "type" : "illegal_state_exception",
+            "reason" : "No match found"
+          }
+        }
+      }
+    ]
+  },
+  "status" : 400
+}
+```
+
+
+```json
+GET companies/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "match": {
+      "script": {
+        "source": """
+          String market_cap_string = doc['market_cap.keyword'].value;
+          Pattern p = /([A-za-z]+)$/;
+          def result = p.matcher(market_cap_string).replaceAll('');
+          return (result);
+        """
+      }
+    }
+  }
+}
+
+Result:
+
+{
+  "took" : 5,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "match" : [
+            "8"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+```json
+GET companies/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "market_cap_in_billions": {
+      "script": {
+        "source": """
+          String market_cap_string = doc['market_cap.keyword'].value;
+          Pattern p = /([0-9]+)([A-za-z]+)$/;
+          def market_cap = p.matcher(market_cap_string).replaceAll('$1');
+          return (market_cap);
+        """
+      }
+    }
+  }
+}
+
+Result:
+
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "market_cap_in_billions" : [
+            "8"
+          ]
+        }
+      }
+    ]
+  }
+}
+```
