@@ -150,3 +150,19 @@ POST /_scripts/painless/_execute
 }
 ```
 
+```
+{
+  "script": {
+    "source": """
+      long l1 = 80000000L;
+      long l2 = 2000L;
+      long a = Long.divideUnsigned(l1,l2);
+      return a ;
+    """
+  }
+}
+
+{
+  "result" : "40000"
+}
+```
