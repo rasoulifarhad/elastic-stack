@@ -1193,6 +1193,22 @@ Result:
 The runtime_field-context uses “doc-map” for accessing document fields. This map is read-only.
 
 ```json
+ "runtime_mappings": {
+    "outstanding": {
+      "type": "long",
+      "script": {
+        "lang": "painless", 
+        "source": 
+	"""
+          long result;
+          double outstanding = doc.market_cap.value / doc['share_price'].value;
+          result = (long)outstanding; 
+          emit(result);
+	"""
+      }
+    }
+  },
+  "fields": ["outstanding"]
 ```
 
 The runtime_field-context is the only one that uses the emit-method for returning results. emit can’t return null-values and at least one object must be returned, therefore test the values before you emit them.
