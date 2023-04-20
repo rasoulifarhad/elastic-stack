@@ -882,6 +882,119 @@ curl -XPUT "http://singleElasticsearch:9200/companies/_doc/1?pretty" -H 'Content
 </details>
 
 ##### ingest-processor-context
+
+Pipelines can access the source of a document direct via the “ctx-map” variable and by “dot-notion”:
+
+```json
+PUT _ingest/pipeline/calc_outstanding_pipeline?pretty
+{
+  "processors": [
+    {
+      "script": {
+        "source": """
+          double outstanding = ctx.market_cap / ctx.share_price;
+          ctx['outstanding'] = (long) outstanding;
+        """
+      }
+    }
+  ]
+}
+
+POST companies/_update_by_query?pretty&pipeline=calc_outstanding_pipeline
+
+GET companies/_search?pretty
+
+Result:
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "ticker_symbol" : "ESTC",
+          "market_cap" : 8000000000,
+          "outstanding" : 96969696,
+          "share_price" : 82.5
+        }
+      }
+    ]
+  }
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XPUT "http://singleElasticsearch:9200/_ingest/pipeline/calc_outstanding_pipeline?pretty" -H 'Content-Type: application/json' -d'
+{
+  "processors": [
+    {
+      "script": {
+        "source": "\n          double outstanding = ctx.market_cap / ctx.share_price;\n          ctx['\''outstanding'\''] = (long) outstanding;\n        "
+      }
+    }
+  ]
+}'
+
+curl -XPOST "http://singleElasticsearch:9200/companies/_update_by_query?pretty&pipeline=calc_outstanding_pipeline"
+
+curl -XGET "http://singleElasticsearch:9200/companies/_search?pretty"
+
+Result:
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "ticker_symbol" : "ESTC",
+          "market_cap" : 8000000000,
+          "outstanding" : 96969696,
+          "share_price" : 82.5
+        }
+      }
+    ]
+  }
+}
+```
+
+</details>
+
 ##### update- and update_by_query-contex
 ##### reindex-context
 ##### runetime_field-context
