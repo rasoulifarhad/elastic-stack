@@ -1,6 +1,6 @@
 ### Storage size of index fields with _disk_usage API
 
-from [](https://opster.com/guides/elasticsearch/data-architecture/elasticsearch-field-size-calculating-storage-size-of-index-fields/)
+from [elasticsearch-field-size-calculating-storage-size-of-index-fields](https://opster.com/guides/elasticsearch/data-architecture/elasticsearch-field-size-calculating-storage-size-of-index-fields/)
 
 ####  Create indices
 
