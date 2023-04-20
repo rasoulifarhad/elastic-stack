@@ -893,7 +893,7 @@ PUT _ingest/pipeline/calc_outstanding_pipeline?pretty
       "script": {
         "source": """
           double outstanding = ctx.market_cap / ctx.share_price;
-          ctx['outstanding'] = (long) outstanding;
+          ctx.outstanding = (long) outstanding;
         """
       }
     }
@@ -948,7 +948,7 @@ curl -XPUT "http://singleElasticsearch:9200/_ingest/pipeline/calc_outstanding_pi
   "processors": [
     {
       "script": {
-        "source": "\n          double outstanding = ctx.market_cap / ctx.share_price;\n          ctx['\''outstanding'\''] = (long) outstanding;\n        "
+        "source": "double outstanding = ctx.market_cap / ctx.share_price; ctx.outstanding = (long) outstanding;"
       }
     }
   ]
@@ -994,6 +994,15 @@ Result:
 ```
 
 </details>
+
+The fields can also be addressed with “ctx[field-name]”, called the “bracket-notion”:
+
+```markdown
+double outstanding = ctx['market_cap'] / ctx['share_price'];
+ctx['outstanding'] = (long)outstanding
+```
+
+The **“bracket-notion”** allows greater flexibility. Fields like ctx[‘a b’] are possible, while the **“dot-notion”** prevents a call like “ctx.a b”. To be safe, use the “dot-notion” as much as possible.
 
 ##### update- and update_by_query-contex
 ##### reindex-context
