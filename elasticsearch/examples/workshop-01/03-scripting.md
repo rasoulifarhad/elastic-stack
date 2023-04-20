@@ -1005,6 +1005,93 @@ ctx['outstanding'] = (long)outstanding
 The **“bracket-notion”** allows greater flexibility. Fields like ctx[‘a b’] are possible, while the **“dot-notion”** prevents a call like “ctx.a b”. To be safe, use the “dot-notion” as much as possible.
 
 ##### update- and update_by_query-contex
+
+The update-, update_by_query- and the reindex-contexts use the map “ctx._source” to access the document fields:
+
+```json
+DELETE companies/_doc/1?pretty
+
+PUT companies/_doc/1?pretty
+{
+  "ticker_symbol": "ESTC",
+  "market_cap": 8000000000,
+  "share_price": 82.5
+}
+
+POST companies/_update/1?pretty
+{
+  "script": {
+    "source": """
+       double outstanding = ctx._source.market_cap / ctx._source.share_price;
+       ctx._source.outstanding=(long)outstanding;
+    """
+  }
+}
+
+GET companies/_doc/1?pretty
+
+Result:
+
+{
+  "_index" : "companies",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 7,
+  "_seq_no" : 6,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "ticker_symbol" : "ESTC",
+    "market_cap" : 8000000000,
+    "share_price" : 82.5,
+    "outstanding" : 96969696
+  }
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XDELETE "http://singleElasticsearch:9200/companies/_doc/1?pretty"
+
+curl -XPUT "http://singleElasticsearch:9200/companies/_doc/1?pretty" -H 'Content-Type: application/json' -d'
+{
+  "ticker_symbol": "ESTC",
+  "market_cap": 8000000000,
+  "share_price": 82.5
+}'
+
+curl -XPOST "http://singleElasticsearch:9200/companies/_update/1?pretty" -H 'Content-Type: application/json' -d'
+{
+  "script": {
+    "source": "\n       double outstanding = ctx._source.market_cap / ctx._source.share_price;\n       ctx._source.outstanding=(long)outstanding;\n    "
+  }
+}'
+
+curl -XGET "http://singleElasticsearch:9200/companies/_doc/1?pretty"
+
+Result:
+
+{
+  "_index" : "companies",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 7,
+  "_seq_no" : 6,
+  "_primary_term" : 1,
+  "found" : true,
+  "_source" : {
+    "ticker_symbol" : "ESTC",
+    "market_cap" : 8000000000,
+    "share_price" : 82.5,
+    "outstanding" : 96969696
+  }
+}
+```
+
+</details>
+
 ##### reindex-context
 ##### runetime_field-context
 ##### fields-context
