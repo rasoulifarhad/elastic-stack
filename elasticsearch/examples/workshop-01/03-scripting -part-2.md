@@ -263,3 +263,36 @@ Result:
 }
 ```
 
+Strings provide many useful methods.
+
+```java
+// int length()
+// null substring(int)
+String mc = doc['market_cap_string.keyword'].value;
+int len = mc.length();
+def mc_clean = mc.substring(0, len - 1);
+emit(mc_clean)
+```
+
+#### Casting
+
+With casting a data type can be converted. For example, a variable of type long should be converted to a type float with double precision:
+
+```json
+POST /_scripts/painless/_execute
+{
+  "script": {
+    "source": """
+      long l = 50000L ;
+      double d = (double) l;
+      return d ;
+    """
+  }
+}
+
+Result:
+
+{
+  "result" : "50000.0"
+}
+```
