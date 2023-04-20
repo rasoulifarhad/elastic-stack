@@ -393,3 +393,125 @@ Result:
   }
 }
 ```
+
+#### String contains() Method
+
+```json
+GET companies/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "market_cap": {
+      "script": {
+        "source": """
+          long market_cap, mc_long;
+          String mc_long_as_string ;
+          String market_cap_string = doc['market_cap.keyword'].value;
+          if(market_cap_string.contains("B")) {
+            mc_long_as_string = market_cap_string.replace('B', '');
+            mc_long = (long)Integer.parseInt(mc_long_as_string);
+            market_cap = mc_long * 1000000000;
+          }
+          return (market_cap);
+        """
+      }
+    }
+  }
+}
+
+Result:
+
+{
+  "took" : 7,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "market_cap" : [
+            8000000000
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+#### String endWith method
+
+```json
+GET companies/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "script_fields": {
+    "market_cap": {
+      "script": {
+        "source": """
+          long market_cap, mc_long;
+          String mc_long_as_string ;
+          String market_cap_string = doc['market_cap.keyword'].value;
+          if(market_cap_string.endsWith("B")) {
+            mc_long_as_string = market_cap_string.replace('B', '');
+            mc_long = (long)Integer.parseInt(mc_long_as_string);
+            market_cap = mc_long * 1000000000;
+          }
+          return (market_cap);
+        """
+      }
+    }
+  }
+}
+
+Result:
+
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "market_cap" : [
+            8000000000
+          ]
+        }
+      }
+    ]
+  }
+}
+```
