@@ -309,4 +309,44 @@ curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_script?pretty" -H 
 }'
 ```
 
+</details>
+
+#### Calling scripts with the update_by_query API
+
+The document fields are now called by “ctx._source[field-name]”. 
+
+```json
+POST persons/_update_by_query?pretty
+{
+  "query": {
+    "match_all": {}
+  },
+  "script": {
+    "id": "calc_age_script", 
+    "params": {
+      "today": 2022
+    }
+  }
+}
+```
+
 <details>
+   <summary>cURL</summary>
+
+```json
+curl -XPOST "http://singleElasticsearch:9200/persons/_update_by_query?pretty" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_all": {}
+  },
+  "script": {
+    "id": "calc_age_script", 
+    "params": {
+      "today": 2022
+    }
+  }
+}'
+```
+	
+</details>
+
