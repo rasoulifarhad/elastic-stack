@@ -166,3 +166,52 @@ POST /_scripts/painless/_execute
   "result" : "40000"
 }
 ```
+
+#### Arrays
+
+Reference type objects are objects that are containing multiple fields of data and methods to manipulate them. Examples for reference data are Arrays, ArrayLists, and HashMaps. Unlike with primitive types, we need the “new” operator to define them.
+
+The standard Arrays in painless are pretty old-school. The size of the Array must be defined when it is initialized, and there are no methods to extend it.
+
+```json
+POST /_scripts/painless/_execute
+{
+  "script": {
+    "source": """
+      int[] intArray = new int[] {1, 2, 3};
+      //return intArray[1] ;
+      int[][] intArray2d = new int[2][5];
+      intArray2d[0][0] = 12 ;
+      return intArray2d[0][0] ;
+    """
+  }
+}
+
+Result:
+
+{
+  "result" : "12"
+}
+```
+
+#### ArrayLists
+
+```json
+POST /_scripts/painless/_execute
+{
+  "script": {
+    "source": """
+    List list = new ArrayList() ;
+    list.add(10);
+    list.add(20);
+    return list.get(0) + list.get(1);
+    """
+  }
+}
+
+Result:
+
+{
+  "result" : "30"
+}
+```
