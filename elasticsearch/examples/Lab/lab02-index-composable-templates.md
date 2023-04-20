@@ -170,3 +170,163 @@ GET all_orders/_search
 }
 
 ```
+
+### Creating component templates
+
+
+##### Settings template
+
+```json
+
+PUT _component_template/settings_component_template
+{
+  "template": {
+    "settings": {
+      "number_of_shards": 5, 
+      "number_of_replicas": 2
+    }
+  }
+}
+
+```
+
+##### Mappings template
+
+```json
+
+PUT _component_template/mappings_component_template
+{
+  "template": {
+    "mappings": {
+      "properties": {
+        "order_date": {
+          "type": "date",
+          "format": ["dd-MM-yyyy"]
+        }
+      }
+    }
+  }
+}
+
+```
+
+##### Aliases template (orders)
+
+```json
+
+PUT _component_template/aliases_component_template
+{
+  "template": {
+    "aliases": {
+      "all_orders": {},
+      "sales_orders": {}
+    }
+  }
+}
+
+```
+
+##### Composable index template (orders)
+
+```json
+
+PUT _index_template/composed_orders_template
+{
+  "index_patterns": [
+    "*orders"
+  ],
+  "priority": 500,
+  "composed_of": [
+    "settings_component_template",
+    "mappings_component_template",
+    "aliases_component_template"
+  ]
+}
+
+```
+
+##### Aliases template (customers)
+
+```json
+
+PUT _component_template/aliases_component_template2
+{
+  "template": {
+    "aliases": {
+      "all_customers": {}
+    }
+  }
+}
+
+```
+
+##### Composable index template (customers)
+
+```json
+
+PUT _index_template/composed_customers_template
+{
+  "index_patterns": [
+    "*customers*"
+  ],
+  "priority": 200,
+  "composed_of": [
+    "settings_component_template",
+    "aliases_component_template2"
+  ]
+}
+
+```
+
+##### Template priority 
+
+When you have multiple templates matching the indices that are being created, Elasticsearch applies all the configurations from all matching templates but overrides anything that has higher priority.
+
+
+```json
+
+PUT _index_template/my_orders_template_1
+{
+  "index_patterns": ["*orders"],
+  "priority": 1000,
+  "template": { ... }
+}
+
+PUT _index_template/my_orders_template2
+{
+  "index_patterns": ["*orders"],
+  "priority": 300,
+  "template": { ... }
+}
+
+```
+
+##### Precedence of templates
+
+Does the configuration defined in the component template override the one defined on the main index template itself? Or the other way around? Well, there are some rules:
+
+ - An index created with configurations explicitly takes precedence over everything – this means if you create an index with explicit configuration, don’t expect them to be overridden by the templates.
+
+- Legacy templates (templates created before version 7.8) carry a lower priority than the composable templates.
+
+
+##### Summary
+
+- An index contains mappings, settings and aliases: the mappings define the fields schema, settings set the index parameters such as number of shards and replicas, and aliases give alternate names to the index.
+
+- Templates allow us to create indices with predefined configurations. Naming an index with a name that matches the index-pattern defined in a specific template will automatically configure that index according to the template.
+
+- Elasticsearch introduced composable index templates in version 7.8. Composable index templates allow modularity and versioning of templates. 
+
+- The composable templates consist of none or more component templates. 
+
+- An index template can have its own configuration defined too. 
+
+- A component template is a reusable template with predefined configuration, just like a composable index template. 
+
+- However, component templates are expected to be part of an index template; They are useless if they are not “composed” into an index template. 
+
+- Component templates have no index pattern defined in them – which is another reason they are “expected” to be part of an index template.
+
+- Each of the templates has a priority – a positive number. The higher the number, the greater the precedence for that template to be applied.
+
