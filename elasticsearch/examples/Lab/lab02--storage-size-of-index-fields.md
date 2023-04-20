@@ -410,7 +410,7 @@ POST /_reindex
 
 We can check the primary storage size of each index using the CAT indices API:
 
-```json
+```
 
 GET _cat/indices/*_idx?v
 
@@ -500,4 +500,3 @@ Response:
 }
 
 ```
-
