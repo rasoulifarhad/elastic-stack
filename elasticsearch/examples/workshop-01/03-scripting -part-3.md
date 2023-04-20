@@ -515,3 +515,70 @@ Result:
   }
 }
 ```
+
+#### Examples
+
+```json
+
+GET companies/_search
+{
+  "runtime_mappings": {
+    "market_cap": {
+      "type": "long",
+      "script": {
+        "source": """
+          long market_cap_long;
+          String mc_string = doc['market_cap.keyword'].value;  
+          String mc_long_as_string = /[BM]$/.matcher(mc_string).replaceAll('');
+          long mc_long = (long)Integer.parseInt(mc_long_as_string);
+          if(mc_string =~ /B/){
+            market_cap_long = mc_long * 1000000000;
+          }
+          emit(market_cap_long);
+        """
+      }
+    }
+  }, 
+  "fields": [
+    "market_cap"
+  ]
+}
+
+Result:
+
+{
+  "took" : 5,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "share_price" : 85.41
+        },
+        "fields" : {
+          "market_cap" : [
+            8000000000
+          ]
+        }
+      }
+    ]
+  }
+}
+```
