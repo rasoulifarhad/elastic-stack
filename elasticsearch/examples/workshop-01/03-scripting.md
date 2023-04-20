@@ -91,8 +91,9 @@ Response:
 
 #### Working with data
 
-```json
+To read the value of a field, you need to access the “doc-map”, then the field-name and you should also use the “.value” notion to read fields in the runtime_mapping API.
 
+```json
 PUT persons/_doc/1?pretty
 {
   "name": "John",
@@ -165,7 +166,6 @@ Response:
 <summary>cURL</summary>
 
 ```json
-
 curl -XPUT "http://singleElasticsearch:9200/persons/_doc/1?pretty" -H 'Content-Type: application/json' -d'
 {
   "name": "John",
@@ -226,7 +226,87 @@ curl -XGET "http://singleElasticsearch:9200/persons/_search?pretty" -H 'Content-
     ]
   }
 }
-
 ```
 	
 </details>
+
+#### Storing Scripts
+
+We can store the script in a pipeline with a script processor:
+
+```json
+PUT _ingest/pipeline/calc_age_pipeline?pretty
+{
+  "processors": [
+    {
+      "script": {
+        "source": """
+          ctx['age'] = params.today - ctx['year_of_birth'];
+        """,
+        "params": {
+          "today": 2022
+        }
+      }
+    }
+  ]
+}
+```
+
+<details>
+<summary>cURL</summary>
+
+```json
+curl -XPUT "http://singleElasticsearch:9200/_ingest/pipeline/calc_age_pipeline?pretty" -H 'Content-Type: application/json' -d'
+{
+  "processors": [
+    {
+      "script": {
+        "source": "\n          ctx['\''age'\''] = params.today - ctx['\''year_of_birth'\''];\n        ",
+        "params": {
+          "today": 2022
+        }
+      }
+    }
+  ]
+}'
+```
+
+</details>
+
+In pipelines you address now the fields not anymore over the “doc-map”, but over “ctx-map”. The painless contexts and their different variables and ways to access data can be confusing.
+
+Note:
+- if your script is used in a pipeline, request the field-values with “ctx[field-name]”
+- if your script is used in an _update or _update_by_query API, request field-values by “ctx._source[field-name]”
+- if your script is used in the _search API with a query or runtime-mapping statement, request the field-values by doc[field-name].value
+- parameters can ingested by dot-notion, for example params.today, or by bracket-notion like params[‘today’].
+- Params in a stored script cannot be accessed over params.xxx or params[xxx]. Pass them when you call the script as you see it in the example for calling scripts by the APIs.
+
+You can store the script under the “calc_age_script” in the cluster state and call it later by its ID:
+
+```json
+PUT _scripts/calc_age_script?pretty
+{
+  "script": {
+    "lang": "painless",
+    "source": """
+      ctx._source['age'] = params['today'] - ctx._source['year_of_birth'];
+    """
+  }
+}
+```
+
+<details>
+<summary>cURL</summary>
+
+```json
+curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_script?pretty" -H 'Content-Type: application/json' -d'
+{
+  "script": {
+    "lang": "painless",
+    "source": "\n      ctx._source['\''age'\''] = params['\''today'\''] - ctx._source['\''year_of_birth'\''];\n    "
+  }
+}'
+```
+
+<details>
