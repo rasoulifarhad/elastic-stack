@@ -582,3 +582,252 @@ Result:
   }
 }
 ```
+
+####  Script for scripted_fields
+
+```json
+PUT _scripts/calculate_market_cap_long
+{
+  "script": {
+    "lang": "painless",
+    "source": """
+      long market_cap;
+      Pattern p = /[BM]$/;
+      String mc_string = doc['market_cap.keyword'].value ;
+      String mc_long_as_string = p.matcher(mc_string).replaceAll('');
+      long mc_long = (long)Integer.parseInt(mc_long_as_string);
+      if(mc_string =~ /B$/) {
+        market_cap = mc_long * 1000000000;
+      }
+      return (market_cap);
+    """
+  }
+}
+
+GET companies/_search
+{
+  "script_fields": {
+    "market_cap": {
+      "script": {
+        "id": "calculate_market_cap_long"
+      }
+    }
+  }
+}
+
+Result:
+
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "market_cap" : [
+            8000000000
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Script for update, update_by_api and reindex APIs
+
+```json
+PUT _scripts/calculate_market_cap_long2
+{
+  "script": {
+    "lang": "painless",
+    "source": """
+      long market_cap;
+      Pattern p = /[BM]$/;
+      String mc_string = ctx._source['market_cap'] ;
+      String mc_long_as_string = p.matcher(mc_string).replaceAll('');
+      long mc_long = (long)Integer.parseInt(mc_long_as_string);
+      if(mc_string =~ /B$/) {
+        market_cap = mc_long * 1000000000;
+      }
+      ctx._source['market_cap_long'] = market_cap ;
+    """
+  }
+}
+
+POST _reindex
+{
+  "source": {
+    "index": "companies"
+  },
+  "dest": {
+    "index": "companies_2"
+  },
+  "script": {
+    "id": "calculate_market_cap_long2"
+  }
+}
+
+GET /companies_2/_search
+
+Result:
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies_2",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "share_price" : 85.41,
+          "market_cap_long" : 8000000000
+        }
+      }
+    ]
+  }
+}
+
+POST companies/_update_by_query
+{
+  "script": {
+    "id": "calculate_market_cap_long2"
+  }
+}
+
+GET /companies/_search
+
+Result:
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "share_price" : 85.41,
+          "market_cap_long" : 8000000000
+        }
+      }
+    ]
+  }
+}
+```
+
+#### Script for pipeline
+
+```json
+PUT _ingest/pipeline/calculate_market_cap_long_pipeline
+{
+  "processors": [
+    {
+      "script": {
+        "lang": "painless",
+        "source": """
+          long market_cap;
+          Pattern p = /[BM]$/;
+          String mc_string = ctx['market_cap'] ;
+          String mc_long_as_string = p.matcher(mc_string).replaceAll('');
+          long mc_long = (long)Integer.parseInt(mc_long_as_string);
+          if(mc_string =~ /B$/) {
+            market_cap = mc_long * 1000000000;
+          }
+          ctx['market_cap_long'] = market_cap ;
+        """
+      }
+    }
+  ]
+}
+
+PUT companies_3/_doc/1?pipeline=calculate_market_cap_long_pipeline
+{
+  "ticker_symbol": "ESTC",
+  "market_cap": "8B",
+  "share_price": 85.41
+}
+
+GET companies_3/_search
+
+Result:
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies_3",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "ticker_symbol" : "ESTC",
+          "market_cap" : "8B",
+          "share_price" : 85.41,
+          "market_cap_long" : 8000000000
+        }
+      }
+    ]
+  }
+}
+```
