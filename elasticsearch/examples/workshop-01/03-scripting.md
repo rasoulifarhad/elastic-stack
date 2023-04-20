@@ -1193,23 +1193,141 @@ Result:
 The runtime_field-context uses “doc-map” for accessing document fields. This map is read-only.
 
 ```json
- "runtime_mappings": {
+GET companies/_search
+{
+  "query": {
+    "match": {
+      "ticker_symbol.keyword": "ESTC"
+    }
+  }, 
+  "runtime_mappings": {
     "outstanding": {
       "type": "long",
       "script": {
         "lang": "painless", 
-        "source": 
-	"""
-          long result;
-          double outstanding = doc.market_cap.value / doc['share_price'].value;
-          result = (long)outstanding; 
-          emit(result);
-	"""
+        "source": """
+        long result;
+        double outstanding = doc.market_cap.value / doc['share_price'].value;
+        result = (long)outstanding; 
+        emit(result);
+        """
       }
     }
   },
   "fields": ["outstanding"]
+}
+
+Result:
+
+{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 0.2876821,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.2876821,
+        "_source" : {
+          "ticker_symbol" : "ESTC",
+          "market_cap" : 8000000000,
+          "outstanding" : 96969696,
+          "outstanding_reindexed" : 96969696,
+          "share_price" : 82.5
+        },
+        "fields" : {
+          "outstanding" : [
+            96969696
+          ]
+        }
+      }
+    ]
+  }
+}
 ```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XGET "http://singleElasticsearch:9200/companies/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match": {
+      "ticker_symbol.keyword": "ESTC"
+    }
+  }, 
+  "runtime_mappings": {
+    "outstanding": {
+      "type": "long",
+      "script": {
+        "lang": "painless", 
+        "source": """
+        long result;
+        double outstanding = doc.market_cap.value / doc['share_price'].value;
+        result = (long)outstanding; 
+        emit(result);
+        """
+      }
+    }
+  },
+  "fields": ["outstanding"]
+}
+
+Result:
+
+{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 0.2876821,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.2876821,
+        "_source" : {
+          "ticker_symbol" : "ESTC",
+          "market_cap" : 8000000000,
+          "outstanding" : 96969696,
+          "outstanding_reindexed" : 96969696,
+          "share_price" : 82.5
+        },
+        "fields" : {
+          "outstanding" : [
+            96969696
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+</details>
 
 The runtime_field-context is the only one that uses the emit-method for returning results. emit can’t return null-values and at least one object must be returned, therefore test the values before you emit them.
 
