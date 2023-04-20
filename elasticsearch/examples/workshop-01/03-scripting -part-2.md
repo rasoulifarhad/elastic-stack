@@ -96,3 +96,24 @@ Result:
   "result" : "80000000"
 }
 ```
+
+```
+POST /_scripts/painless/_execute
+{
+  "script": {
+    "source": """
+      long l1 = 80000000L;
+      long l2 = 2000L;
+      int a = l1.compareTo(l2);
+      return a ;
+    """
+  }
+}
+
+Result:
+
+{
+  "result" : "1"
+}
+```
+
