@@ -239,3 +239,27 @@ Result:
   "result" : "2"
 }
 ```
+
+#### String data type
+
+Strings are a reference data type. You declare them with string literals, there is no need for the new operator to declare them. You can concatenate strings with the ‘+’ operator:
+
+```json
+POST /_scripts/painless/_execute
+{
+  "script": {
+    "source": """
+      String hello = 'Hello';
+      String world = 'world';
+      return hello + ' ' + world ;
+    """
+  }
+}
+
+Result:
+
+{
+  "result" : "Hello world"
+}
+```
+
