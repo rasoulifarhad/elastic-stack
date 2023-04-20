@@ -1189,6 +1189,116 @@ Result:
 </details>
 
 ##### runetime_field-context
+
+The runtime_field-context uses “doc-map” for accessing document fields. This map is read-only.
+
+```json
+```
+
+The runtime_field-context is the only one that uses the emit-method for returning results. emit can’t return null-values and at least one object must be returned, therefore test the values before you emit them.
+
 ##### fields-context
-##### ingest-processor-context
-##### ingest-processor-context
+
+Scripted fields are very similar to the runtime-field context. However, grok and dissect patterns are not available – runtime_fields do provide these methods.
+
+```json
+GET companies/_search
+{
+  "script_fields": {
+    "free_float": {
+      "script": {
+        "source": """
+          long result;
+          double outstanding = doc.market_cap.value / doc['share_price'].value;
+          result = (long)outstanding; 
+          return (result)
+        """
+      }
+    }
+  }
+}
+
+Result:
+
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "free_float" : [
+            96969696
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+<details>
+   <summary>cURL</summary>
+
+```json
+curl -XGET "http://singleElasticsearch:9200/companies/_search" -H 'Content-Type: application/json' -d'
+{
+  "script_fields": {
+    "free_float": {
+      "script": {
+        "source": "long result;double outstanding = doc.market_cap.value / doc['\''share_price'\''].value;result = (long)outstanding;return (result)"
+      }
+    }
+  }
+}'
+
+Result:
+
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "companies",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "fields" : {
+          "free_float" : [
+            96969696
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+</details>
