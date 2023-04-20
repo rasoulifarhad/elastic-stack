@@ -52,6 +52,13 @@ Result:
 }
 ```
 
+#### non-static methods
+
+- int compareTo(Long)
+- double doubleValue()
+- boolean equals(Object)
+- null toString()
+- ..
 
 |primitive    | reference object
 |-------------|-----------
@@ -114,6 +121,32 @@ Result:
 
 {
   "result" : "1"
+}
+```
+
+#### static methods
+
+- static long max(long, long)
+- static long divideUnsigned(long, long)
+- static int compare(long, long)
+- static int numberOfTrailingZeros(long)
+-  ..
+
+```
+POST /_scripts/painless/_execute
+{
+  "script": {
+    "source": """
+      long l1 = 80000000L;
+      long l2 = 2000L;
+      long max = Long.max(l1,l2);
+      return max ;
+    """
+  }
+}
+
+{
+  "result" : "80000000"
 }
 ```
 
