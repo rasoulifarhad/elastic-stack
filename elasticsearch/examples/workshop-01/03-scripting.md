@@ -652,6 +652,35 @@ PUT _scripts/calc_age_template
   }
 }
 
+POST _render/template?pretty
+{
+  "id": "calc_age_template",
+  "params": {
+    "act_year": 2022
+  }
+}
+
+Result:
+
+{
+  "template_output" : {
+    "runtime_mappings" : {
+      "age" : {
+        "type" : "long",
+        "script" : {
+          "source" : """ 
+             long age = 2022 - doc['year_of_birth'].value;
+             emit(age)
+            """
+        }
+      }
+    },
+    "fields" : [
+      "age"
+    ]
+  }
+}
+
 GET persons/_search/template
 {
   "source": "fields",
@@ -727,6 +756,35 @@ curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_template" -H 'Cont
     "act_year": "today"
   }
 }'
+
+curl -XPOST "http://singleElasticsearch:9200/_render/template?pretty" -H 'Content-Type: application/json' -d'
+{
+  "id": "calc_age_template",
+  "params": {
+    "act_year": 2022
+  }
+}'
+
+Result:
+
+{
+  "template_output" : {
+    "runtime_mappings" : {
+      "age" : {
+        "type" : "long",
+        "script" : {
+          "source" : """ 
+             long age = 2022 - doc['year_of_birth'].value;
+             emit(age)
+            """
+        }
+      }
+    },
+    "fields" : [
+      "age"
+    ]
+  }
+}
 
 curl -XGET "http://singleElasticsearch:9200/persons/_search/template" -H 'Content-Type: application/json' -d'
 {
