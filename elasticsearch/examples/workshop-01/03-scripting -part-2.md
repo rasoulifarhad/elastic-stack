@@ -215,3 +215,27 @@ Result:
   "result" : "30"
 }
 ```
+
+#### HashMaps
+
+A HashMap stores key/value pairs like dictionaries in Python or Hashes in Perl. The size will not be defined and like with the other reference type objects, we use the new operator to initialize them.
+
+```json
+POST /_scripts/painless/_execute
+{
+  "script": {
+    "source": """
+    Map map = new HashMap() ;
+    map.put('one', 1);
+    map.put('two', 2);
+    return map.get('two');
+    """
+  }
+}
+
+Result:
+
+{
+  "result" : "2"
+}
+```
