@@ -150,6 +150,8 @@ curl -XPOST "localhost:9200/demo-ingest-regions/_bulk" -s -u elastic:$ELASTIC_PA
 
 ```json
 
+curl -s -XGET "localhost:9200/demo-ingest-person/_count" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' | jq '.'
+
 GET /demo-ingest-person/_count
 
 {
@@ -166,6 +168,15 @@ GET /demo-ingest-person/_count
 
 ```json
 
+curl -s -XGET "localhost:9200/demo-ingest-person/_search" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_all": {}
+  },
+  "from": 0,
+  "size": 1
+}' | jq '.'
+
 GET /demo-ingest-person/_search
 {
   "query": {
@@ -176,6 +187,8 @@ GET /demo-ingest-person/_search
 }
 
 OR 
+
+curl -s -XGET "localhost:9200/demo-ingest-person/_search?size=1" -u elastic:$ELASTIC_PASSWORD | jq '.'
 
 GET /demo-ingest-person/_search?size=1
 
@@ -217,6 +230,8 @@ Response:
 
 ```json
 
+curl -s -XGET "localhost:9200/demo-ingest-regions/_count" -u elastic:$ELASTIC_PASSWORD | jq '.'
+
 GET /demo-ingest-regions/_count
 
 Response:
@@ -236,6 +251,16 @@ Response:
 
 ```json
 
+curl -s -XGET "localhost:9200/demo-ingest-regions/_search" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_all": {}
+  },
+  "from": 0,
+  "size": 1
+}' | jq '.'
+
+
 GET /demo-ingest-regions/_search
 {
   "query": {
@@ -246,6 +271,8 @@ GET /demo-ingest-regions/_search
 }
 
 OR 
+
+curl -s -XGET "localhost:9200/demo-ingest-regions/_search?size=1" -u elastic:$ELASTIC_PASSWORD | jq '.'
 
 GET /demo-ingest-regions/_search?size=1
 
@@ -431,6 +458,16 @@ We can define an enrich policy. It reads from demo-ingest-regions index and trie
 
 ```json
 
+curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
+{
+  "geo_match": {
+    "indices": "demo-ingest-regions",
+    "match_field": "location",
+    "enrich_fields": ["region", "name"]
+  }
+}' | jq '.'
+
+
 PUT /_enrich/policy/demo-ingest-regions-policy
 {
   "geo_match": {
@@ -446,6 +483,8 @@ We need to execute this policy
 
 ```json
 
+curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy/_execute" -u elastic:$ELASTIC_PASSWORD | jq '.'
+
 PUT _enrich/policy/demo-ingest-regions-policy/_execute
 
 {
@@ -458,7 +497,7 @@ PUT _enrich/policy/demo-ingest-regions-policy/_execute
 
 ```json
 
-PUT /_ingest/pipeline/demo-ingest-circle
+PUT /_ingest/pipeline/demo-ingest-enrich
 {
   "processors": [
     {
@@ -478,7 +517,7 @@ Test pipeline:
 
 ```json
 
-POST /_ingest/pipeline/demo-ingest-circle/_simulate
+POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 {
   "docs": [
     {
@@ -548,7 +587,7 @@ Response:
 
 ```json
 
-PUT /_ingest/pipeline/demo-ingest-circle
+PUT /_ingest/pipeline/demo-ingest-enrich
 {
   "processors": [
     {
@@ -574,7 +613,7 @@ Test pipeline:
 
 ```json
 
-POST /_ingest/pipeline/demo-ingest-circle/_simulate
+POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 {
   "docs": [
     {
@@ -658,7 +697,7 @@ Response:
 
 ```json
 
-PUT /_ingest/pipeline/demo-ingest-circle
+PUT /_ingest/pipeline/demo-ingest-enrich
 {
   "processors": [
     {
@@ -692,7 +731,7 @@ Test pipeline:
 
 ```json
 
-POST /_ingest/pipeline/demo-ingest-circle/_simulate
+POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 {
   "docs": [
     {
@@ -773,7 +812,7 @@ Response:
 
 ```json
 
-PUT /_ingest/pipeline/demo-ingest-circle
+PUT /_ingest/pipeline/demo-ingest-enrich
 {
   "processors": [
     {
@@ -812,7 +851,7 @@ Test pipeline:
 
 ```json
 
-POST /_ingest/pipeline/demo-ingest-circle/_simulate
+POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 {
   "docs": [
     {
@@ -883,7 +922,41 @@ Response:
 
 ```json
 
-PUT /_ingest/pipeline/demo-ingest-circle
+
+curl -s -XPUT "localhost:9200/_ingest/pipeline/demo-ingest-enrich" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
+{
+  "processors": [
+    {
+      "enrich": {
+        "policy_name": "demo-ingest-regions-policy",
+        "field": "geo_location",
+        "target_field": "geo_data",
+        "shape_relation": "INTERSECTS"
+      }
+    },
+    {
+      "rename": {
+        "field": "geo_data.region",
+        "target_field": "region",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "geo_data.name",
+        "target_field": "region_name",
+        "ignore_missing": true
+      }
+    },
+    {
+      "remove": {
+        "field": "geo_data"
+      }
+    }
+  ]
+}' | jq '.'.
+
+PUT /_ingest/pipeline/demo-ingest-enrich
 {
   "processors": [
     {
@@ -922,6 +995,18 @@ PUT /_ingest/pipeline/demo-ingest-circle
 
 ```json
 
+curl -s -XPOST "localhost:9200/_reindex?wait_for_completion=true" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
+{
+  "source": {
+    "index": "demo-ingest-person"
+  },
+  "dest": {
+    "index": "demo-ingest-person-new",
+    "pipeline": "demo-ingest-enrich"
+  }
+}' | jq '.'.
+
+
 POST /_reindex?wait_for_completion=true
 {
   "source": {
@@ -929,13 +1014,15 @@ POST /_reindex?wait_for_completion=true
   },
   "dest": {
     "index": "demo-ingest-person-new",
-    "pipeline": "demo-ingest-circle"
+    "pipeline": "demo-ingest-enrich"
   }
 }
 
 ```
 
 ```json
+
+curl -s -XGET "localhost:9200/demo-ingest-person-new/_search?size=2" -u elastic:$ELASTIC_PASSWORD | jq '.'
 
 GET /demo-ingest-person-new/_search?size=2
 
@@ -994,6 +1081,18 @@ Response:
 
 ```json
 
+curl -s -XPUT "localhost:9200/circles" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
+{
+  "mappings": {
+    "properties": {
+      "circle": {
+        "type": "geo_shape"
+      }
+    }
+  }
+}' | jq '.'
+
+
 PUT circles
 {
   "mappings": {
@@ -1008,6 +1107,21 @@ PUT circles
 ```
 
 ```json
+
+curl -s -XPUT "localhost:9200/_ingest/pipeline/polygonize_circles" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
+{
+  "description": "translate circle to polygon",
+  "processors": [
+    {
+      "circle": {
+        "field": "circle",
+        "error_distance": 28.0,
+        "shape_type": "geo_shape"
+      }
+    }
+  ]
+}' | jq '.'
+
 
 PUT _ingest/pipeline/polygonize_circles
 {
@@ -1028,6 +1142,12 @@ PUT _ingest/pipeline/polygonize_circles
 ##### Example: Circle defined in Well Known Text
 
 ```json
+
+curl -s -XPUT "localhost:9200/circles/_doc/1?pipeline=polygonize_circles" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
+{
+  "circle": "CIRCLE (30 10 40)"
+}' | jq '.'
+
 
 PUT circles/_doc/1?pipeline=polygonize_circles
 {
@@ -1053,6 +1173,8 @@ PUT circles/_doc/1?pipeline=polygonize_circles
 
 ```json
 
+curl -s -XGET "localhost:9200/circles/_doc/1" -u elastic:$ELASTIC_PASSWORD  | jq '.'
+
 GET /circles/_doc/1
 
 {
@@ -1074,6 +1196,16 @@ GET /circles/_doc/1
 
 ```json
 
+curl -s -XPUT "localhost:9200/circles/_doc/2?pipeline=polygonize_circles" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
+{
+  "circle": {
+    "type": "circle",
+    "radius": "40m",
+    "coordinates": [30, 10]
+  }
+}' | jq '.'
+
+
 PUT /circles/_doc/2?pipeline=polygonize_circles
 {
   "circle": {
@@ -1086,6 +1218,8 @@ PUT /circles/_doc/2?pipeline=polygonize_circles
 ```
 
 ```json
+
+curl -s -XGET "localhost:9200/circles/_doc/2" -u elastic:$ELASTIC_PASSWORD  | jq '.'
 
 GET circles/_doc/2
 
