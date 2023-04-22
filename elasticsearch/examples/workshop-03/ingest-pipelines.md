@@ -1077,6 +1077,89 @@ Response:
 }
 
 ```
+
+#### Aggregate based on region_name
+
+```json
+
+curl -s -XGET "localhost:9200/demo-ingest-person-new/_search" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d'
+{
+  "aggs": {
+    "regions": {
+      "terms": {
+        "field": "region_name",
+        "size": 10
+      }
+    }
+  },
+  "size": 0
+}' | jq '.'
+
+
+GET /demo-ingest-person-new/_search
+{
+  "aggs": {
+    "regions": {
+      "terms": {
+        "field": "region_name",
+        "size": 10
+      }
+    }
+  },
+  "size": 0
+}
+
+Response:
+
+{
+  "took": 15,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 240,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "regions": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 0,
+      "buckets": [
+        {
+          "key": "Loire-Atlantique",
+          "doc_count": 115
+        },
+        {
+          "key": "Val-d’Oise",
+          "doc_count": 67
+        },
+        {
+          "key": "Paris",
+          "doc_count": 47
+        },
+        {
+          "key": "Hauts-de-Seine",
+          "doc_count": 8
+        },
+        {
+          "key": "Val-de-Marne",
+          "doc_count": 3
+        }
+      ]
+    }
+  }
+}
+
+```
+
 #### Circle processor
 
 ```json
