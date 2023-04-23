@@ -1,12 +1,6 @@
-### Ingest Pipelines
+### Ingest with kibana `upload a file` feture
 
-
-#### Dataset
-
-
-#### Setup
-
-##### Run Elastic Stack
+#### Run Elastic Stack
 
 ```
 
@@ -14,7 +8,7 @@ docker-compose down -v
 docker compose up -d
 
 ```
-##### download opensky states
+#### Download opensky states
 
 The script makes a request to OpenSky API and appends to a CSV file the contents. Once the file is generate it will use ogr2ogr to convert the CSV into a GeoJSON file.
 
@@ -43,29 +37,40 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
 
 ```
 
-##### ingest documents
+#### Ingest documents
+
+Go to Home page `http://localhost:5601/app/home#/`
 
 ![kibana upload a file 01](images/kibana-upload-a-file-01.png)
 
+
 ![kibana upload a file 02](images/kibana-upload-a-file-02.png)
+
 
 ![kibana upload a file 03-01](images/kibana-upload-a-file-03-01.png)
 
+
 ![kibana upload a file 03-02](images/kibana-upload-a-file-03-02.png)
+
 
 ![kibana upload a file 04](images/kibana-upload-a-file-04.png)
 
+
 ![kibana upload a file 05](images/kibana-upload-a-file-05.png)
+
 
 ![kibana upload a file 06](images/kibana-upload-a-file-06.png)
 
+
 ![kibana upload a file 07](images/kibana-upload-a-file-07.png)
+
 
 ![kibana upload a file 08](images/kibana-upload-a-file-08.png)
 
+
 ![kibana upload a file 09](images/kibana-upload-a-file-09.png)
 
-##### flight tracking mappings
+#### flight tracking mappings
 
 flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
 
