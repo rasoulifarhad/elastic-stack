@@ -59,7 +59,7 @@ Then click `import` button.
 ![kibana upload a file 03-02](images/kibana-upload-a-file-03-02.png)
 
 </br>
-Then choose `Advanced` tap for customizing import like index name, mapping, pipeline....
+Then choose `Advanced` tap for customizing import like index name, mapping, pipeline.
 
 ![kibana upload a file 04](images/kibana-upload-a-file-04.png)
 
