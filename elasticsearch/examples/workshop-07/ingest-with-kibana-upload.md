@@ -99,66 +99,69 @@ Then click `import` button.
 
 flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
 
+<details>
+  <summary>mappings</summary>
+
 ```json
 
 {
-  "mappings": {
-    "properties": {
-      "@timestamp": {
-        "type": "date"
-      },
-      "baroAltitude": {
-        "type": "double"
-      },
-      "callsign": {
-        "type": "keyword"
-      },
-      "country": {
-        "type": "keyword"
-      },
-      "geoAltitude": {
-        "type": "double"
-      },
-      "heading": {
-        "type": "double"
-      },
-      "icao24": {
-        "type": "keyword"
-      },
-      "lastContact": {
-        "type": "date",
-        "format": "epoch_second"
-      },
-      "timePosition": {
-        "type": "date",
-        "format": "epoch_second"
-      },
-      "onGround": {
-        "type": "boolean"
-      },
-      "positionSource": {
-        "type": "keyword"
-      },
-      "spi": {
-        "type": "boolean"
-      },
-      "transponderCode": {
-        "type": "keyword"
-      },
-      "velocity": {
-        "type": "double"
-      },
-      "verticalRate": {
-        "type": "double"
-      },
-      "location": {
-        "type": "geo_point"
-      }
+  "properties": {
+    "@timestamp": {
+      "type": "date"
+    },
+    "baroAltitude": {
+      "type": "double"
+    },
+    "callsign": {
+      "type": "keyword"
+    },
+    "country": {
+      "type": "keyword"
+    },
+    "geoAltitude": {
+      "type": "double"
+    },
+    "heading": {
+      "type": "double"
+    },
+    "icao24": {
+      "type": "keyword"
+    },
+    "lastContact": {
+      "type": "date",
+      "format": "epoch_second"
+    },
+    "timePosition": {
+      "type": "date",
+      "format": "epoch_second"
+    },
+    "onGround": {
+      "type": "boolean"
+    },
+    "positionSource": {
+      "type": "keyword"
+    },
+    "spi": {
+      "type": "boolean"
+    },
+    "transponderCode": {
+      "type": "keyword"
+    },
+    "velocity": {
+      "type": "double"
+    },
+    "verticalRate": {
+      "type": "double"
+    },
+    "location": {
+      "type": "geo_point"
     }
   }
 }
 
 ```
+
+</details>
 
 ##### 2. Flight tracking ingest pipeline
 
