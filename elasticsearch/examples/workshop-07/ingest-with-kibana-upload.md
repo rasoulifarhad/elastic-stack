@@ -44,33 +44,53 @@ Go to Home page `http://localhost:5601/app/home#/`
 ![kibana upload a file 01](images/kibana-upload-a-file-01.png)
 
 
+Then click on `upload a file` link
+
 ![kibana upload a file 02](images/kibana-upload-a-file-02.png)
 
+
+In `upload file` tap click on `select or drag and drop a file` and select file you want to upload(`flight_tracking_2023-04-22_20_42.csv`).
 
 ![kibana upload a file 03-01](images/kibana-upload-a-file-03-01.png)
 
 
+After that click `import` button.
+
 ![kibana upload a file 03-02](images/kibana-upload-a-file-03-02.png)
 
+
+Then choose `Advanced` tap for customizing import like index name, mapping, pipeline....
 
 ![kibana upload a file 04](images/kibana-upload-a-file-04.png)
 
 
+- In `index name` text box enter `flight_tracking`.
+- In `Mappings` text area enter `flight_tracking` mapping [from here](#flight-tracking-mappings).
+- In `Ingest pipeline` text area enter pipeline [from here](#flight-tracking-ingest-pipeline).
+
+Then click `import` button.
+
 ![kibana upload a file 05](images/kibana-upload-a-file-05.png)
 
+
+Import complated .Now you can explotre your data.for thiss clike on `Viwe index in Discover`.
 
 ![kibana upload a file 06](images/kibana-upload-a-file-06.png)
 
 
+In discover
+
 ![kibana upload a file 07](images/kibana-upload-a-file-07.png)
 
+
+A single document
 
 ![kibana upload a file 08](images/kibana-upload-a-file-08.png)
 
 
 ![kibana upload a file 09](images/kibana-upload-a-file-09.png)
 
-#### flight tracking mappings
+#### Flight tracking mappings
 
 flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
 
@@ -135,7 +155,7 @@ flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
 
 ```
 
-#### ingest pipeline
+#### Flight tracking ingest pipeline
 
 ```json
 
