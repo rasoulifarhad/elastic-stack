@@ -162,6 +162,9 @@ flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
 
 ##### 2. Flight tracking ingest pipeline
 
+<details>
+  <summary>pipeline</summary>
+
 ```json
 
 {
@@ -420,6 +423,8 @@ flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
 
 ```
 
+</details>
+
 #### simulation
 
 ```json
@@ -439,9 +444,11 @@ POST /_ingest/pipeline/flight-tracking-ingest-pipeline/_simulate
 
 **OR:**
 
+<details>
+  <summary>POST _ingest/pipeline/_simulate</summary>
+
 ```json
 
-POST _ingest/pipeline/_simulate
 {
   "pipeline": {
     "description": "sads",
@@ -696,6 +703,17 @@ POST _ingest/pipeline/_simulate
       }
     ]
   },
+  
+```
+
+</details>
+
+
+<details>
+  <summary>docs</summary>
+ 
+```json
+  
   "docs": [
     {
       "_source": {
@@ -706,4 +724,6 @@ POST _ingest/pipeline/_simulate
 }
 
 ```
+
+</details>
 
