@@ -39,30 +39,32 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
 
 #### Ingest documents
 
-Go to Home page `http://localhost:5601/app/home#/`
+Go to Home page `http://localhost:5601/app/home#/` and then click on `upload a file` link
 
 ![kibana upload a file 01](images/kibana-upload-a-file-01.png)
 
 
-Then click on `upload a file` link
+In `upload file` tap click on `select or drag and drop a file` and select file you want to upload(`flight_tracking_2023-04-22_20_42.csv`).
 
 ![kibana upload a file 02](images/kibana-upload-a-file-02.png)
 
 
-In `upload file` tap click on `select or drag and drop a file` and select file you want to upload(`flight_tracking_2023-04-22_20_42.csv`).
+Then click `import` button.
 
 ![kibana upload a file 03-01](images/kibana-upload-a-file-03-01.png)
 
-
-After that click `import` button.
+</br>
+</br>
 
 ![kibana upload a file 03-02](images/kibana-upload-a-file-03-02.png)
 
-
+</br>
 Then choose `Advanced` tap for customizing import like index name, mapping, pipeline....
 
 ![kibana upload a file 04](images/kibana-upload-a-file-04.png)
 
+</br>
+In `Advanced` tab:
 
 - In `index name` text box enter `flight_tracking`.
 - In `Mappings` text area enter `flight_tracking` mapping [from here](#flight-tracking-mappings).
@@ -72,21 +74,22 @@ Then click `import` button.
 
 ![kibana upload a file 05](images/kibana-upload-a-file-05.png)
 
-
-Import complated .Now you can explotre your data.for thiss clike on `Viwe index in Discover`.
+</br>
 
 ![kibana upload a file 06](images/kibana-upload-a-file-06.png)
 
-
-In discover
+</br>
+Import complated .Now you can explotre your data.for thiss clike on `Viwe index in Discover`.
 
 ![kibana upload a file 07](images/kibana-upload-a-file-07.png)
 
-
-A single document
+</br>
+In discover
 
 ![kibana upload a file 08](images/kibana-upload-a-file-08.png)
 
+</br>
+A single document
 
 ![kibana upload a file 09](images/kibana-upload-a-file-09.png)
 
