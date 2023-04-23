@@ -93,7 +93,9 @@ Then click `import` button.
 
 ![kibana upload a file 09](images/kibana-upload-a-file-09.png)
 
-#### Flight tracking mappings
+#### Appendix
+
+##### 1. Flight tracking mappings
 
 flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
 
@@ -158,7 +160,7 @@ flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
 
 ```
 
-#### Flight tracking ingest pipeline
+##### 2. Flight tracking ingest pipeline
 
 ```json
 
