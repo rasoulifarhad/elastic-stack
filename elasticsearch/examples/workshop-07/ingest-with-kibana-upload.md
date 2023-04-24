@@ -39,7 +39,9 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
 
 #### Ingest documents
 
-##### Go to Home page `http://localhost:5601/app/home#/` and then click on `upload a file` link
+##### Upload a data file
+
+Go to Home page `http://localhost:5601/app/home#/` and then click on `upload a file` link
 
 ![kibana upload a file 01](images/kibana-upload-a-file-01.png)
 
