@@ -397,3 +397,113 @@ Response:
 }
 
 ```
+
+#### Bulk index documents in index `devoxx-france-2023`
+
+```json
+
+POST /devoxx-france-2023/_bulk
+{"index":{}}
+{"content":"Welcome to Devoxx France 2023|Un moteur de recherche de documents d'entreprise|2023-04-12|4.5"}
+{"index":{}}
+{"content":"Welcome to Devoxx France 2023|The Developer Portal: Open the Gate to Productivity|2023-04-13|5.0"}
+
+Response: 
+
+{
+  "took" : 34,
+  "ingest_took" : 0,
+  "errors" : false,
+  "items" : [
+    {
+      "index" : {
+        "_index" : "devoxx-france-2023",
+        "_type" : "_doc",
+        "_id" : "3t2-sYcBvOKul2sKEIIG",
+        "_version" : 1,
+        "result" : "created",
+        "_shards" : {
+          "total" : 2,
+          "successful" : 1,
+          "failed" : 0
+        },
+        "_seq_no" : 0,
+        "_primary_term" : 1,
+        "status" : 201
+      }
+    },
+    {
+      "index" : {
+        "_index" : "devoxx-france-2023",
+        "_type" : "_doc",
+        "_id" : "392-sYcBvOKul2sKEIIG",
+        "_version" : 1,
+        "result" : "created",
+        "_shards" : {
+          "total" : 2,
+          "successful" : 1,
+          "failed" : 0
+        },
+        "_seq_no" : 1,
+        "_primary_term" : 1,
+        "status" : 201
+      }
+    }
+  ]
+}
+
+```
+
+#### Check indexed documents
+
+```json
+
+GET /devoxx-france-2023/_search
+
+Response:
+
+{
+  "took" : 186,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "devoxx-france-2023",
+        "_type" : "_doc",
+        "_id" : "3t2-sYcBvOKul2sKEIIG",
+        "_score" : 1.0,
+        "_source" : {
+          "date" : "2023-04-12T00:00:00.000Z",
+          "note" : 4.5,
+          "session" : "Un moteur de recherche de documents d'entreprise",
+          "message" : "Welcome to Devoxx France 2023"
+        }
+      },
+      {
+        "_index" : "devoxx-france-2023",
+        "_type" : "_doc",
+        "_id" : "392-sYcBvOKul2sKEIIG",
+        "_score" : 1.0,
+        "_source" : {
+          "date" : "2023-04-13T00:00:00.000Z",
+          "note" : 5.0,
+          "session" : "The Developer Portal: Open the Gate to Productivity",
+          "message" : "Welcome to Devoxx France 2023"
+        }
+      }
+    ]
+  }
+}
+
+```
