@@ -7,11 +7,11 @@
 
 #### Steps steps
 
-![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-01.png)
+![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-02-01.png)
 
 </br>
 
-![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-02.png)
+![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-01-02.png)
 
 </br>
 
