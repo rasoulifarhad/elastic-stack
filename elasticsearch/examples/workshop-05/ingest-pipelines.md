@@ -292,4 +292,108 @@ Response:
     }
   ]
 }
+
+```
+
+4. Final pipeline
+
+```json
+
+PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
+{
+  "processors": [
+    {
+      "dissect": {
+        "field": "content",
+        "pattern": "%{message}|%{session}|%{date}|%{note}"
+      }
+    },
+    {
+      "remove": {
+        "field": "content"
+      }
+    },
+    {
+      "date": {
+        "field": "date",
+        "formats": [
+          "yyyy-MM-dd"
+        ],
+        "target_field": "date"
+      }
+    },
+    {
+      "convert": {
+        "field": "note",
+        "type": "float"
+      }
+    }
+  ]
+}
+
+```
+
+#### Add index `devoxx-france-2023`
+
+
+```json
+
+PUT /devoxx-france-2023
+
+Response:
+
+{
+  "acknowledged" : true,
+  "shards_acknowledged" : true,
+  "index" : "devoxx-france-2023"
+}
+
+```
+
+#### Add ingest pipeline as the default pipeline for index `devoxx-france-2023`
+
+```json
+
+PUT /devoxx-france-2023/_settings
+{
+  "index.default_pipeline": "devoxx-france-2023-ingest-pipeline"
+}
+
+```
+
+#### Check index `devoxx-france-2023`
+
+```json
+
+GET /devoxx-france-2023
+
+Response:
+
+{
+  "devoxx-france-2023" : {
+    "aliases" : { },
+    "mappings" : { },
+    "settings" : {
+      "index" : {
+        "routing" : {
+          "allocation" : {
+            "include" : {
+              "_tier_preference" : "data_content"
+            }
+          }
+        },
+        "number_of_shards" : "1",
+        "provided_name" : "devoxx-france-2023",
+        "default_pipeline" : "devoxx-france-2023-ingest-pipeline",
+        "creation_date" : "1682313721244",
+        "number_of_replicas" : "1",
+        "uuid" : "h4tzhKqfT7GrcGCfqQMPXg",
+        "version" : {
+          "created" : "7160299"
+        }
+      }
+    }
+  }
+}
+
 ```
