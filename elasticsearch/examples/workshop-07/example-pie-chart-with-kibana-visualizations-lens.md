@@ -5,6 +5,8 @@
 
 </br>
 
+#### Steps
+
 ![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-01.png)
 
 </br>
