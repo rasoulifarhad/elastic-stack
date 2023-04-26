@@ -1036,6 +1036,24 @@ POST /_sql?format=txt
 
 ```
 
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT CONCAT(firstname, lastname) AS name, gender, age, balance FROM peoples ORDER BY balance desc LIMIT 1000"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT gender, PERCENTILE_RANK(balance, 40000) AS rank  FROM peoples GROUP BY gender ORDER BY rank asc LIMIT 1000"
+}
+
+```
+
 <!--
 
 ### Locations documets 
