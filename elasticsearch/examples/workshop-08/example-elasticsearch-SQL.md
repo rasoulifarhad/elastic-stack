@@ -572,14 +572,158 @@ ASCII          |SCALAR
 
 ##### Index Accounts
 
+```json
+
+curl -XPOST "localhost:9200/accounts/_bulk" -s -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/x-ndjson'  --data-binary "@dataset/accounts.json"; echo
+
+```
+
 ##### SQL
 
 1. 
 
+```json
+
+POST /_sql?format=txt
+{
+  "query": "DESCRIBE accounts"
+}
+
+```
+
+Respoinse:
+
+```
+     column      |     type      |    mapping    
+-----------------+---------------+---------------
+account_number   |BIGINT         |long           
+address          |VARCHAR        |text           
+address.keyword  |VARCHAR        |keyword        
+age              |BIGINT         |long           
+balance          |BIGINT         |long           
+city             |VARCHAR        |text           
+city.keyword     |VARCHAR        |keyword        
+email            |VARCHAR        |text           
+email.keyword    |VARCHAR        |keyword        
+employer         |VARCHAR        |text           
+employer.keyword |VARCHAR        |keyword        
+firstname        |VARCHAR        |text           
+firstname.keyword|VARCHAR        |keyword        
+gender           |VARCHAR        |text           
+gender.keyword   |VARCHAR        |keyword        
+lastname         |VARCHAR        |text           
+lastname.keyword |VARCHAR        |keyword        
+state            |VARCHAR        |text           
+state.keyword    |VARCHAR        |keyword        
+
+```
+
 2. 
+
+```jsoj
+
+POST /_sql?format=txt
+{
+  "query": "SELECT SUM(balance) FROM accounts"
+}
+
+```
+
+Response:
+
+```
+ SUM(balance)  
+---------------
+25714837       
+
+```
 
 3. 
 
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT MAX(age), MIN(age), AVG(age) FROM accounts"
+}
+
+```
+
+Response:
+
+```
+   MAX(age)    |   MIN(age)    |   AVG(age)    
+---------------+---------------+---------------
+40             |20             |30.171         
+
+```
+
+4. 
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT PERCENTILE(age, 95) AS \"95th\" FROM accounts"
+}
+
+```
+
+Response:
+
+```
+     95th      
+---------------
+39.0           
+
+```
+
+5. 
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT gender , count(*)  FROM accounts  GROUP BY gender"
+}
+
+```
+
+Response:
+
+```
+
+    gender     |   count(*)    
+---------------+---------------
+F              |493            
+M              |507            
+
+```
+
+6. 
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT gender, age, COUNT(*), SUM(balance) FROM accounts WHERE age IN (35,36) GROUP BY gender,age"
+}
+
+```
+
+Response:
+
+```
+
+    gender     |      age      |   COUNT(*)    | SUM(balance)  
+---------------+---------------+---------------+---------------
+F              |35             |24             |472771         
+F              |36             |21             |505660         
+M              |35             |28             |678337         
+M              |36             |31             |647425         
+
+```
+<!--
 
 ### Locations documets 
 
@@ -658,5 +802,6 @@ ASCII          |SCALAR
 
 3. 
 
+-->
 
 
