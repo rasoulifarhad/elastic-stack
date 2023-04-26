@@ -1,9 +1,10 @@
 ## Elasticsearch SQL
-https://github.com/NLPchina/elasticsearch-sql/tree/master/src/test/java/org/nlpcn/es4sql
+
+[from](https://github.com/NLPchina/elasticsearch-sql/tree/master/src/test/java/org/nlpcn/es4sql)
 
 ### Book Library documets
 
-##### Index Books
+##### Bulk Index Books
 
 ```json
 
@@ -28,7 +29,11 @@ POST /_sql?format=txt
   "query": "SELECT * FROM library WHERE release_date < '2000-01-01'"
 }
 
+```
+
 Response:
+
+```
 
     author     |     name      |  page_count   |      release_date      
 ---------------+---------------+---------------+------------------------
