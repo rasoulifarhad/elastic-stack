@@ -1,15 +1,15 @@
 version: "3.9"
 services:
   filebeat:
-#    image: elastic/filebeat:${VERSION:-7.16.2}
-    image: docker.elastic.co/beats/filebeat:${VERSION:-7.16.2}
+#    image: elastic/filebeat:${VERSION:-7.17.9}
+    image: docker.elastic.co/beats/filebeat:${VERSION:-7.17.9}
     # https://github.com/docker/swarmkit/issues/1951
     #hostname: "{{.Node.Hostname}}-filebeat"
     container_name: dibafilebeat${PERFIX:-71602}
     # Need to override user so we can access the log files, and docker.sock
     user: root
     networks:
-      - es7162_es
+      - es7179_es
     volumes:
       - ./config/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
       - ./data/:/usr/share/filebeat/data
@@ -34,9 +34,9 @@ services:
     # disable strict permission checks
     command: ["--strict.perms=false"]
 networks:
-  es7162_es:
+  es7179_es:
     external: true
-    name: es7162_es
+    name: es7179_es
 
 
 
