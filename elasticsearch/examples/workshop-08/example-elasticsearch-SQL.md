@@ -115,7 +115,7 @@ holdersName.keyword|VARCHAR        |keyword
 
 ##### SQL
 
-1. 
+**1.** 
 
 ```json
 
@@ -139,7 +139,7 @@ snoopy         |4
 
 ```
 
-2. 
+**2.** 
 
 ```json
 
@@ -163,7 +163,7 @@ rex            |2
 
 ```
 
-3. 
+**3.** 
 
 ```json
 
@@ -186,7 +186,7 @@ Response:
 
 ```
 
-4. 
+**4.** 
 
 ```json
 
@@ -209,7 +209,7 @@ Response:
 
 ```
 
-5. 
+**5.** 
 
 ```json
 
@@ -232,7 +232,7 @@ Response:
 
 ```
 
-6. 
+**6.** 
 
 ```json
 
@@ -254,7 +254,7 @@ snoopy         |1
 
 ```
 
-7. 
+**7.** 
 
 ```json
 
@@ -302,7 +302,7 @@ POST /game_of_thrones/_bulk
 
 ##### SQL
 
-1. 
+**1.** 
 
 ```json
 
@@ -351,7 +351,7 @@ words.keyword         |VARCHAR        |keyword
 
 ```
  
-2. 
+**2.** 
 
 ```json
 
@@ -377,7 +377,7 @@ null           |null           |null           |null           |null
 
 ```
 
-3. 
+**3.** 
 
 ```json
 
@@ -398,7 +398,7 @@ Eddard         |Stark          |null           |1              |Stark
 
 ```
 
-4. 
+**4.** 
 
 ```json
 
@@ -418,7 +418,7 @@ Daenerys       |Targaryen      |1              |null           |Targaryen
 
 ```
 
-5. 
+**5.** 
 
 ```json
 
@@ -445,7 +445,7 @@ null           |null
 
 ```
 
-6. 
+**6.** 
 
 ```json
 
@@ -494,7 +494,7 @@ words.keyword         |VARCHAR        |keyword
 
 ```
 
-7. 
+**7.** 
 
 ```json
 
@@ -543,7 +543,7 @@ NVL              |CONDITIONAL
 
 ```
 
-8. 
+**8.** 
 
 ```json
 POST /_sql?format=txt
@@ -580,7 +580,7 @@ curl -XPOST "localhost:9200/accounts/_bulk" -s -u elastic:$ELASTIC_PASSWORD -H '
 
 ##### SQL
 
-1. 
+**1.** 
 
 ```json
 
@@ -618,7 +618,7 @@ state.keyword    |VARCHAR        |keyword
 
 ```
 
-2. 
+**2.** 
 
 ```jsoj
 
@@ -638,7 +638,7 @@ Response:
 
 ```
 
-3. 
+**3.** 
 
 ```json
 
@@ -658,7 +658,7 @@ Response:
 
 ```
 
-4. 
+**4.** 
 
 ```json
 
@@ -678,7 +678,7 @@ Response:
 
 ```
 
-5. 
+**5.** 
 
 ```json
 
@@ -700,7 +700,7 @@ M              |507
 
 ```
 
-6. 
+**6.** 
 
 ```json
 
@@ -737,7 +737,7 @@ curl -XPOST "localhost:9200/peoples/_bulk" -s -u elastic:$ELASTIC_PASSWORD -H 'C
 
 ##### SQL
 
-1. 
+**1.** 
  
 ```json
 
@@ -776,7 +776,7 @@ state.keyword    |VARCHAR        |keyword
 
 ```
 
-2. 
+**2.** 
 
 ```json
 
@@ -807,7 +807,7 @@ account_number |      address       |      age      |    balance    |     city  
 
 ```
 
-3. 
+**3.** 
 
 ```json
 
@@ -829,7 +829,7 @@ account_number |      address       |      age      |    balance    |     city  
 
 ```
 
-4. 
+**4.** 
 
 ```json
 
@@ -840,7 +840,7 @@ POST /_sql?format=txt
 
 ```
 
-5. 
+**5.** 
 
 ```json
 
@@ -862,7 +862,7 @@ account_number |    address    |      age      |    balance    |     city      |
 
 ```
 
-6. 
+**6.** 
 
 ```json
 
