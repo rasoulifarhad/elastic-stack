@@ -2,7 +2,7 @@
 
 [from](https://github.com/NLPchina/elasticsearch-sql/tree/master/src/test/java/org/nlpcn/es4sql)
 
-### Book Library documets
+### Book Library
 
 ##### Bulk Index Books
 
@@ -59,10 +59,10 @@ Frank Herbert  |Dune           |604            |1965-06-01T00:00:00.000Z
 
 ```
 
-### Dogs documets 
+### Dogs
 
 
-##### Index Dogs
+##### Bulk Index Dogs
 
 ```json
 
@@ -87,6 +87,12 @@ POST /_sql?format=txt
   """
 }
 
+```
+
+Response:
+
+```
+
    dog_name    |      age      
 ---------------+---------------
 rex            |2              
@@ -104,6 +110,12 @@ POST /_sql?format=txt
       SELECT dog_name,age FROM dogs order by age desc
   """
 }
+
+```
+
+Response:
+
+```
 
    dog_name    |      age      
 ---------------+---------------
@@ -123,6 +135,12 @@ POST /_sql?format=txt
   """
 }
 
+```
+
+Response:
+
+```
+
    COUNT(*)    
 ---------------
 2              
@@ -140,6 +158,11 @@ POST /_sql?format=txt
   """
 }
 
+```
+
+Response:
+
+```
 
     myAlias    
 ---------------
@@ -158,6 +181,11 @@ POST /_sql?format=txt
   """
 }
 
+```
+
+Response:
+
+```
 
      count     |    myAlias    
 ---------------+---------------
@@ -174,6 +202,11 @@ POST /_sql?format=txt
   "query": "SELECT dog_name, count(*) as count FROM dogs GROUP BY  dog_name  order by dog_name asc"
 }
 
+```
+
+Response:
+
+```
 
    dog_name    |     count     
 ---------------+---------------
