@@ -723,24 +723,324 @@ M              |35             |28             |678337
 M              |36             |31             |647425         
 
 ```
+
+### Peoples documets 
+
+##### Index peoples
+
+```json
+
+source .env
+curl -XPOST "localhost:9200/peoples/_bulk" -s -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/x-ndjson'  --data-binary "@dataset/peoples.json" | jq '{took: .took, errors: .errors}' ; echo
+
+```
+
+##### SQL
+
+1. 
+ 
+```json
+
+POST /_sql?format=txt
+{
+  "query": "DESCRIBE peoples"
+}
+
+```
+
+Response:
+
+```
+
+     column      |     type      |    mapping    
+-----------------+---------------+---------------
+account_number   |BIGINT         |long           
+address          |VARCHAR        |text           
+address.keyword  |VARCHAR        |keyword        
+age              |BIGINT         |long           
+balance          |BIGINT         |long           
+city             |VARCHAR        |text           
+city.keyword     |VARCHAR        |keyword        
+email            |VARCHAR        |text           
+email.keyword    |VARCHAR        |keyword        
+employer         |VARCHAR        |text           
+employer.keyword |VARCHAR        |keyword        
+firstname        |VARCHAR        |text           
+firstname.keyword|VARCHAR        |keyword        
+gender           |VARCHAR        |text           
+gender.keyword   |VARCHAR        |keyword        
+lastname         |VARCHAR        |text           
+lastname.keyword |VARCHAR        |keyword        
+state            |VARCHAR        |text           
+state.keyword    |VARCHAR        |keyword        
+
+```
+
+2. 
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT * FROM peoples WHERE age > 25 LIMIT 1000"
+}
+
+```
+
+Response:
+
+```
+
+account_number |      address       |      age      |    balance    |     city      |            email            |   employer    |   firstname   |    gender     |   lastname    |     state     
+---------------+--------------------+---------------+---------------+---------------+-----------------------------+---------------+---------------+---------------+---------------+---------------
+1              |880 Holmes Lane     |32             |39225          |Brogan         |amberduke@pyrami.com         |Pyrami         |Daenerys       |M              |Targaryen      |IL             
+6              |671 Bristol Street  |36             |5686           |Dante          |hattiebond@netagy.com        |Netagy         |Hattie         |M              |Bond           |TN             
+13             |789 Madison Street  |28             |32838          |Nogal          |nanettebates@quility.com     |Quility        |Nanette        |F              |Bates          |VA             
+18             |467 Hutchinson Court|33             |4180           |Orick          |daleadams@boink.com          |Boink          |Dale           |M              |Adams          |MD             
+20             |282 Kings Place     |36             |16418          |Ribera         |elinorratliff@scentric.com   |Scentric       |Elinor         |M              |Ratliff        |WA             
+25             |171 Putnam Avenue   |39             |40540          |Nicholson      |virginiaayala@filodyne.com   |Filodyne       |Virginia       |F              |Ayala          |PA             
+32             |702 Quentin Street  |34             |48086          |Veguita        |dillardmcpherson@quailcom.com|Quailcom       |Dillard        |F              |Mcpherson      |IN             
+37             |826 Fillmore Place  |39             |18612          |Tooleville     |mcgeemooney@reversus.com     |Reversus       |Mcgee          |M              |Mooney         |OK             
+44             |502 Baycliff Terrace|37             |34487          |Yardville      |aureliaharding@orbalix.com   |Orbalix        |Aurelia        |M              |Harding        |DE             
+51             |334 River Street    |31             |14097          |Jacksonburg    |burtonmeyers@bezal.com       |Bezal          |Burton         |F              |Meyers         |MO             
+56             |857 Tabor Court     |32             |14992          |Sunnyside      |josienelson@emtrac.com       |Emtrac         |Josie          |M              |Nelson         |UT             
+
+```
+
+3. 
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT * FROM peoples WHERE firstname LIKE 'Da%'  LIMIT 1000"
+}
+
+```
+
+Response:
+
+```
+
+account_number |      address       |      age      |    balance    |     city      |       email        |   employer    |   firstname   |    gender     |   lastname    |     state     
+---------------+--------------------+---------------+---------------+---------------+--------------------+---------------+---------------+---------------+---------------+---------------
+1              |880 Holmes Lane     |32             |39225          |Brogan         |amberduke@pyrami.com|Pyrami         |Daenerys       |M              |Targaryen      |IL             
+18             |467 Hutchinson Court|33             |4180           |Orick          |daleadams@boink.com |Boink          |Dale           |M              |Adams          |MD             
+
+```
+
+4. 
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT * FROM peoples WHERE firstname NOT LIKE 'Da%'  LIMIT 1000"
+}
+
+```
+
+5. 
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT * FROM peoples WHERE age=32 AND gender='M' LIMIT 1000"
+}
+
+```
+
+Response:
+
+```
+
+account_number |    address    |      age      |    balance    |     city      |        email         |   employer    |   firstname   |    gender     |   lastname    |     state     
+---------------+---------------+---------------+---------------+---------------+----------------------+---------------+---------------+---------------+---------------+---------------
+1              |880 Holmes Lane|32             |39225          |Brogan         |amberduke@pyrami.com  |Pyrami         |Daenerys       |M              |Targaryen      |IL             
+56             |857 Tabor Court|32             |14992          |Sunnyside      |josienelson@emtrac.com|Emtrac         |Josie          |M              |Nelson         |UT             
+
+```
+
+6. 
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT firstname, lastname, age FROM peoples WHERE age BETWEEN 35 AND 40 LIMIT 1000"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT firstname, lastname, age FROM peoples WHERE age NOT BETWEEN 35 AND 40 LIMIT 1000"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT firstname, lastname, age FROM peoples WHERE age IN (39, 36) LIMIT 1000"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT firstname, lastname, age FROM peoples WHERE age NOT IN (39, 36) LIMIT 1000"
+}
+
+```
+
+Null safe Equality (<=>)edit
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT 'elastic' <=> null AS equals"
+}
+
+```
+
+Response: 
+
+```
+
+    equals     
+---------------
+false          
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT null <=> null AS equals"
+}
+
+```
+
+Response:
+
+```
+
+    equals     
+---------------
+true           
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT SUM(account_number+age) AS sum FROM peoples  LIMIT 1000"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT first(age) AS childest, last(age) AS oldest FROM peoples  LIMIT 1000"
+}
+
+```
+
+Response:
+
+```
+
+   childest    |    oldest     
+---------------+---------------
+23             |39             
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT gender, first(age)  FROM peoples GROUP by gender ORDER BY gender LIMIT 1000"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT count(ALL age) count_all, count(DISTINCT age) count_distinct FROM peoples  LIMIT 1000"
+}
+
+```
+
+```json
+
+# Quantify the shape of the distribution of input values in the field age.
+POST /_sql?format=txt
+{
+  "query": "SELECT MIN(age), MAX(age), KURTOSIS(age) FROM peoples  LIMIT 1000"
+}
+
+# Quantify the shape of the distribution of input values in the field balance.
+POST /_sql?format=txt
+{
+  "query": "SELECT MIN(balance), MAX(balance), KURTOSIS(balance) FROM peoples  LIMIT 1000"
+}
+
+```
+
+```json
+
+# Measure the variability of the input values in the field age.
+POST /_sql?format=txt
+{
+  "query": "SELECT MIN(age), MAX(age), AVG(age), MAD(age) FROM peoples  LIMIT 1000"
+}
+
+# Measure the variability of the input values in the field balance.
+POST /_sql?format=txt
+{
+  "query": "SELECT MIN(balance), MAX(balance), AVG(balance), MAD(balance) FROM peoples  LIMIT 1000"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT gender, PERCENTILE(balance, 95) FROM peoples GROUP BY gender LIMIT 1000"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+  "query": "SELECT gender, PERCENTILE(balance, 95), PERCENTILE(age, 95)  FROM peoples GROUP BY gender LIMIT 1000"
+}
+
+```
+
 <!--
 
 ### Locations documets 
 
 ##### Index locations
-
-##### SQL
-
-1. 
-
-2. 
-
-3. 
-
-
-### Peoples documets 
-
-##### Index peoples
 
 ##### SQL
 
