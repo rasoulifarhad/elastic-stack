@@ -1,6 +1,6 @@
 ### Data stream
 
-[FROM](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/getting-started-index-lifecycle-management.html#ilm-gs-create-policy)
+From [Tutorial: Automate rollover with ILM](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/getting-started-index-lifecycle-management.html)
 
 To automate rollover and management of a data stream with ILM, you:
 

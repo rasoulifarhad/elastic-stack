@@ -1,5 +1,7 @@
 ### Manage time series data without data streams
 
+From [Tutorial: Automate rollover with ILM](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/getting-started-index-lifecycle-management.html#manage-time-series-data-without-data-streams)
+
 To automate rollover and management of time series indices with ILM using an index alias, you:
 
 1. Create a lifecycle policy that defines the appropriate phases and actions. See [Create a lifecycle policy](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/getting-started-index-lifecycle-management.html#ilm-gs-create-policy) above.
