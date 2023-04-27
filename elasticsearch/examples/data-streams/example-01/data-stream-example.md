@@ -2,24 +2,8 @@
 
 [from](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/data-streams.html#data-streams)
 
-#### Recap
 
-##### Backing indices
-
-![Backing indices](images/data-streams-diagram.svg)
-
-##### Read requests
-
-![Read requests](images/data-streams-search-request.svg)
-
-
-##### Write index
-
-![Write index](images/data-streams-index-request.svg)
-
-#### Steps for setup
-
-**1.** Create an index lifecycle policyedit
+#### Create an index lifecycle policyedit
 
 ```json
 
@@ -73,7 +57,7 @@ PUT _ilm/policy/my-lifecycle-policy
 
 ```
 
-**2.** Create component templates
+#### Create component templates
 
 ```json
 
@@ -121,7 +105,7 @@ PUT _component_template/my-settings
 
 ```
 
-**3.** Create an index template
+#### Create an index template
 
 ```json
 
@@ -139,7 +123,7 @@ PUT _index_template/my-index-template
 
 ```
 
-**4.** Create the data stream
+#### Create the data stream
 
 To automatically create your data stream, submit an indexing request that targets the stream’s name. This name must match one of your index template’s index patterns.
 
