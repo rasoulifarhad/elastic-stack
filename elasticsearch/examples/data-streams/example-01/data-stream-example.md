@@ -136,6 +136,12 @@ PUT my-data-stream/_bulk
 { "create":{ } }
 { "@timestamp": "2099-05-06T16:25:42.000Z", "message": "192.0.2.255 - - [06/May/2099:16:25:42 +0000] \"GET /favicon.ico HTTP/1.0\" 200 3638" }
 
+POST my-data-stream/_doc
+{
+  "@timestamp": "2099-05-06T16:21:15.000Z",
+  "message": "192.0.2.42 - - [06/May/2099:16:21:15 +0000] \"GET /images/bg.jpg HTTP/1.0\" 200 24736"
+}
+
 ```
 
 You can also manually create the stream using the create data stream API. The stream’s name must still match one of your template’s index patterns.
@@ -466,55 +472,53 @@ Response:
 }
 
 ```
-<!--
-#### Add documents to a data stream
+
+#### Delete by query
 
 ```json
 
-POST /my-data-stream/_doc/
-{
-  "@timestamp": "2099-03-08T11:06:07.000Z",
-  "user": {
-    "id": "8a4f500d"
-  },
-  "message": "Login successful"
-}
-```
-
-```json
-PUT /my-data-stream/_bulk?refresh
-{"create":{ }}
-{ "@timestamp": "2099-03-08T11:04:05.000Z", "user": { "id": "vlb44hny" }, "message": "Login attempt failed" }
-{"create":{ }}
-{ "@timestamp": "2099-03-08T11:06:07.000Z", "user": { "id": "8a4f500d" }, "message": "Login successful" }
-{"create":{ }}
-{ "@timestamp": "2099-03-09T11:07:08.000Z", "user": { "id": "l7gk7f82" }, "message": "Logout successful" }
-```
-
-#### Update documents in a data stream by query
-
-```json
-POST /my-data-stream/_update_by_query
+POST /my-data-stream/_delete_by_query
 {
   "query": {
     "match": {
-      "user.id": "l7gk7f82"
-    }
-  },
-  "script": {
-    "source": "ctx._source.user.id = params.new_id",
-    "params": {
-      "new_id": "XgdX0NoX"
+      "user.id": "XXXXXXXX"
     }
   }
 }
+
 ```
 
-#### Delete documents in a data stream by query
+Response: 
 
 ```json
-POST /my-data-stream/_delete_by_query
+
 {
+  "took" : 759,
+  "timed_out" : false,
+  "total" : 1,
+  "deleted" : 1,
+  "batches" : 1,
+  "version_conflicts" : 0,
+  "noops" : 0,
+  "retries" : {
+    "bulk" : 0,
+    "search" : 0
+  },
+  "throttled_millis" : 0,
+  "requests_per_second" : -1.0,
+  "throttled_until_millis" : 0,
+  "failures" : [ ]
+}
+
+```
+
+#### Update or delete from backing index
+
+```json
+
+GET my-data-stream/_search
+{
+  "seq_no_primary_term": true,
   "query": {
     "match": {
       "user.id": "vlb44hny"
@@ -523,6 +527,106 @@ POST /my-data-stream/_delete_by_query
 }
 
 ```
+
+Response:
+
+```json
+
+{
+  "took" : 3,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 2,
+    "successful" : 2,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.2039728,
+    "hits" : [
+      {
+        "_index" : ".ds-my-data-stream-2023.04.27-000001",
+        "_type" : "_doc",
+        "_id" : "poQHwocBGGHBqxsynaEP",
+        "_seq_no" : 3,
+        "_primary_term" : 1,
+        "_score" : 1.2039728,
+        "_source" : {
+          "@timestamp" : "2099-03-08T11:04:05.000Z",
+          "user" : {
+            "id" : "vlb44hny"
+          },
+          "message" : "Login attempt failed"
+        }
+      }
+    ]
+  }
+}
+
+```
+
+**Update:**
+
+```json
+
+PUT /.ds-my-data-stream-2023.04.27-000001/_doc/poQHwocBGGHBqxsynaEP?if_seq_no=3&if_primary_term=1
+{
+  "@timestamp": "2099-03-08T11:06:07.000Z",
+  "user": {
+    "id": "8a4f500d"
+  },
+  "message": "Login successful"
+}
+
+Response:
+
+{
+  "_index" : ".ds-my-data-stream-2023.04.27-000001",
+  "_type" : "_doc",
+  "_id" : "poQHwocBGGHBqxsynaEP",
+  "_version" : 2,
+  "result" : "updated",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 8,
+  "_primary_term" : 1
+}
+
+```
+
+**Delete:**
+
+```json
+
+DELETE /.ds-my-data-stream-2023.04.27-000001/_doc/poQHwocBGGHBqxsynaEP
+
+Response:
+
+{
+  "_index" : ".ds-my-data-stream-2023.04.27-000001",
+  "_type" : "_doc",
+  "_id" : "poQHwocBGGHBqxsynaEP",
+  "_version" : 3,
+  "result" : "deleted",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 9,
+  "_primary_term" : 1
+}
+
+```
+
+<!--
 
 #### Update or delete documents in a backing index
 
