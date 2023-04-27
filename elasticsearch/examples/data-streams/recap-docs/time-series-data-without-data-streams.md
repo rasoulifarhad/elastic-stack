@@ -19,7 +19,7 @@ To automate rollover and management of time series indices with ILM using an ind
 You can create the policy through Kibana or with the []create or update policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-put-lifecycle.html). 
 To create the policy from Kibana, open the menu and go to **Stack Management > Index Lifecycle Policies**. Click **Create policy**.
 
-![Create policy](create-policy.png)
+![Create policy](images/create-policy.png)
 
 ```json
 
@@ -56,7 +56,7 @@ To enable automatic rollover, the template configures two ILM settings:
 
 You can use the Kibana Create template wizard to add the template. To access the wizard, open the menu and go to **Stack Management > Index Management**. In the **Index Templates** tab, click **Create template**.
 
-![Create template](create-template-wizard.png)
+![Create template](images/create-template-wizard.png)
 
 ```json
 PUT _index_template/timeseries_template

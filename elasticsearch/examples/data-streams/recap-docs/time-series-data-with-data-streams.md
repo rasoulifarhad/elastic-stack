@@ -18,7 +18,7 @@ To automate rollover and management of a data stream with ILM, you:
 You can create the policy through Kibana or with the []create or update policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/ilm-put-lifecycle.html). 
 To create the policy from Kibana, open the menu and go to **Stack Management > Index Lifecycle Policies**. Click **Create policy**.
 
-![Create policy](create-policy.png)
+![Create policy](images/create-policy.png)
 
 ```json
 
@@ -54,7 +54,7 @@ To enable the ILM to manage the data stream, the template configures one ILM set
 
 You can use the Kibana Create template wizard to add the template. From Kibana, open the menu and go to **Stack Management > Index Management** . In the **Index Templates** tab, click **Create template**.
 
-![Create template](create-index-template.png)
+![Create template](images/create-index-template.png)
 
 ```json
 
