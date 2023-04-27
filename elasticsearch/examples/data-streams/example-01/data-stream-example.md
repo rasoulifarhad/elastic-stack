@@ -57,7 +57,7 @@ PUT _ilm/policy/my-lifecycle-policy
 
 ```
 
-#### Create component templates
+#### Create component templates (mappings)
 
 ```json
 
@@ -85,7 +85,7 @@ PUT _component_template/my-mappings
 
 ```
 
-**And**
+#### Create component templates (settings)
 
 ```json
 
@@ -146,7 +146,326 @@ PUT _data_stream/my-data-stream
 
 ```
 
+Add document
 
+```json
+
+POST /my-data-stream/_doc
+{
+  "@timestamp": "2099-03-08T11:06:07.000Z",
+  "user": {
+    "id": "8a4f500d"
+  },
+  "message": "Login successful"
+}
+
+```
+
+Add bulk document
+
+```json
+
+PUT /my-data-stream/_bulk?refresh
+{"create":{ }}
+{ "@timestamp": "2099-03-08T11:04:05.000Z", "user": { "id": "vlb44hny" }, "message": "Login attempt failed" }
+{"create":{ }}
+{ "@timestamp": "2099-03-08T11:06:07.000Z", "user": { "id": "8a4f500d" }, "message": "Login successful" }
+{"create":{ }}
+{ "@timestamp": "2099-03-09T11:07:08.000Z", "user": { "id": "l7gk7f82" }, "message": "Logout successful" }
+
+```
+#### Get information about a data streame
+
+```json
+
+GET _data_stream/my-data-stream
+
+```
+
+Response:
+
+```json
+
+{
+  "data_streams" : [
+    {
+      "name" : "my-data-stream",
+      "timestamp_field" : {
+        "name" : "@timestamp"
+      },
+      "indices" : [
+        {
+          "index_name" : ".ds-my-data-stream-2023.04.27-000001",
+          "index_uuid" : "t0PGRL8DTH6qFk_CV7Y4iQ"
+        }
+      ],
+      "generation" : 1,
+      "_meta" : {
+        "my-custom-meta-field" : "More arbitrary metadata",
+        "description" : "Template for my time series data"
+      },
+      "status" : "YELLOW",
+      "template" : "my_index_template",
+      "ilm_policy" : "my-lifecycle-policy",
+      "hidden" : false,
+      "system" : false,
+      "replicated" : false
+    }
+  ]
+}
+
+```
+
+#### Data stream statistics
+
+```json
+
+GET _data_stream/my-data-stream/_stats?human=true
+
+```
+
+Response:
+
+```json
+
+{
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "data_stream_count" : 1,
+  "backing_indices" : 1,
+  "total_store_size" : "9.8kb",
+  "total_store_size_bytes" : 10060,
+  "data_streams" : [
+    {
+      "data_stream" : "my-data-stream",
+      "backing_indices" : 1,
+      "store_size" : "9.8kb",
+      "store_size_bytes" : 10060,
+      "maximum_timestamp" : 4081767942000
+    }
+  ]
+}
+
+```
+
+#### Roll over manually
+
+```json
+
+POST /my-data-stream/_rollover
+
+```
+
+Response:
+
+```json
+
+{
+  "acknowledged" : true,
+  "shards_acknowledged" : true,
+  "old_index" : ".ds-my-data-stream-2023.04.27-000001",
+  "new_index" : ".ds-my-data-stream-2023.04.27-000002",
+  "rolled_over" : true,
+  "dry_run" : false,
+  "conditions" : { }
+}
+
+```
+
+```json
+
+GET _data_stream/my-data-stream
+
+```
+
+Response:
+
+```json
+
+{
+  "data_streams" : [
+    {
+      "name" : "my-data-stream",
+      "timestamp_field" : {
+        "name" : "@timestamp"
+      },
+      "indices" : [
+        {
+          "index_name" : ".ds-my-data-stream-2023.04.27-000001",
+          "index_uuid" : "t0PGRL8DTH6qFk_CV7Y4iQ"
+        },
+        {
+          "index_name" : ".ds-my-data-stream-2023.04.27-000002",
+          "index_uuid" : "Tbb-YpR-QdWOfiz08WZg4g"
+        }
+      ],
+      "generation" : 2,
+      "_meta" : {
+        "my-custom-meta-field" : "More arbitrary metadata",
+        "description" : "Template for my time series data"
+      },
+      "status" : "YELLOW",
+      "template" : "my_index_template",
+      "ilm_policy" : "my-lifecycle-policy",
+      "hidden" : false,
+      "system" : false,
+      "replicated" : false
+    }
+  ]
+}
+
+```
+
+#### Search data stream
+
+```json
+
+GET my-data-stream/_search
+{
+  "query": {
+    "match": {
+      "user.id": "l7gk7f82"
+    }
+  }
+}
+
+```
+
+Response:
+
+```json
+
+{
+  "took" : 9,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 2,
+    "successful" : 2,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.2039728,
+    "hits" : [
+      {
+        "_index" : ".ds-my-data-stream-2023.04.27-000001",
+        "_type" : "_doc",
+        "_id" : "qIQHwocBGGHBqxsynaEP",
+        "_score" : 1.2039728,
+        "_source" : {
+          "@timestamp" : "2099-03-09T11:07:08.000Z",
+          "user" : {
+            "id" : "l7gk7f82"
+          },
+          "message" : "Logout successful"
+        }
+      }
+    ]
+  }
+}
+
+```
+
+#### Update document by query
+
+```json
+
+POST /my-data-stream/_update_by_query
+{
+  "query": {
+    "match": {
+      "user.id": "l7gk7f82"
+    }
+  },
+  "script": {
+    "source": "ctx._source.user.id = params.new_id",
+    "params": {
+      "new_id": "XXXXXXXX"
+    }
+    
+  }
+}
+
+```
+
+Response:
+
+```json
+
+{
+  "took" : 48,
+  "timed_out" : false,
+  "total" : 1,
+  "updated" : 1,
+  "deleted" : 0,
+  "batches" : 1,
+  "version_conflicts" : 0,
+  "noops" : 0,
+  "retries" : {
+    "bulk" : 0,
+    "search" : 0
+  },
+  "throttled_millis" : 0,
+  "requests_per_second" : -1.0,
+  "throttled_until_millis" : 0,
+  "failures" : [ ]
+}
+
+```
+
+Check if updated:
+
+```json
+
+GET my-data-stream/_search?q=_id:qIQHwocBGGHBqxsynaEP
+
+```
+
+Response:
+
+```json
+
+{
+  "took" : 16,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 2,
+    "successful" : 2,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : ".ds-my-data-stream-2023.04.27-000001",
+        "_type" : "_doc",
+        "_id" : "qIQHwocBGGHBqxsynaEP",
+        "_score" : 1.0,
+        "_source" : {
+          "@timestamp" : "2099-03-09T11:07:08.000Z",
+          "message" : "Logout successful",
+          "user" : {
+            "id" : "XXXXXXXX"
+          }
+        }
+      }
+    ]
+  }
+}
+
+```
 <!--
 #### Add documents to a data stream
 
