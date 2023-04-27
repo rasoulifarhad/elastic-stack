@@ -344,6 +344,10 @@ To convert an index alias with a write index to a data stream with the same name
 
 POST _data_stream/_migrate/my-time-series-data
 
+#### And see
+
+[Change mappings and settings for a data stream](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/data-streams-change-mappings-and-settings.html)
+
 -->
 
 
