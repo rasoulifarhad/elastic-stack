@@ -75,6 +75,28 @@ POST /_sql?format=txt
 
 ```
 
+**Query parameters:**
+
+```json
+
+POST /_sql?format=txt
+{
+	"query": "SELECT YEAR(release_date) AS year FROM library WHERE page_count > 300 AND author = 'Frank Herbert' GROUP BY year HAVING COUNT(*) > 0"
+}
+
+```
+
+```json
+
+POST /_sql?format=txt
+{
+	"query": "SELECT YEAR(release_date) AS year FROM library WHERE page_count > ? AND author = ? GROUP BY year HAVING COUNT(*) > ?",
+	"params": [300, "Frank Herbert", 0]
+}
+
+```
+
+
 ### Dogs
 
 
