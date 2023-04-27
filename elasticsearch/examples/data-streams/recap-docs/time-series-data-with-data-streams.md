@@ -1,6 +1,8 @@
-### Data stream
+## Automate rollover with ILM
 
 From [Tutorial: Automate rollover with ILM](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/getting-started-index-lifecycle-management.html)
+
+### Data stream
 
 To automate rollover and management of a data stream with ILM, you:
 

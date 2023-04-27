@@ -1,6 +1,8 @@
-### Manage time series data without data streams
+## Automate rollover with ILM
 
 From [Tutorial: Automate rollover with ILM](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/getting-started-index-lifecycle-management.html#manage-time-series-data-without-data-streams)
+
+### Manage time series data without data streams
 
 To automate rollover and management of time series indices with ILM using an index alias, you:
 
