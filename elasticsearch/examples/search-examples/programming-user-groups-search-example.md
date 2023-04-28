@@ -1239,4 +1239,329 @@ GET /programming-user-groups/_termvectors/1?fields=created_on
 
 </details>
 
+#### Search
+
+##### search `clojure` or `group` (ignore case) in `description` field.
+
+```json
+
+GET /programming-user-groups/_search
+{
+  "query": {
+    "match": {
+      "description": "group clojure"
+    }
+  }
+}
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "took" : 9,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 2.592012,
+    "hits" : [
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 2.592012,
+        "_source" : {
+          "name" : "Denver Clojure",
+          "organizer" : [
+            "Daniel",
+            "Lee"
+          ],
+          "description" : "Group of Clojure enthusiasts from Denver who want to hack on code together and learn more about Clojure",
+          "created_on" : "2012-06-15",
+          "tags" : [
+            "clojure",
+            "denver",
+            "functional programming",
+            "jvm",
+            "java"
+          ],
+          "members" : [
+            "Lee",
+            "Daniel",
+            "Mike"
+          ],
+          "location_group" : "Denver, Colorado, USA"
+        }
+      },
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "3",
+        "_score" : 1.0396191,
+        "_source" : {
+          "name" : "Elasticsearch San Francisco",
+          "organizer" : "Mik",
+          "description" : "Elasticsearch group for ES users of all knowledge levels",
+          "created_on" : "2012-08-07",
+          "tags" : [
+            "elasticsearch",
+            "big data",
+            "lucene",
+            "open source"
+          ],
+          "members" : [
+            "Lee",
+            "Igor"
+          ],
+          "location_group" : "San Francisco, California, USA"
+        }
+      }
+    ]
+  }
+}
+
+```
+
+</details>
+
+##### search `clojure` and `group` (ignore case) . the more the higher the score.
+
+```json
+
+GET /programming-user-groups/_search
+{
+  "query": {
+    "query_string": {
+      "query": "clojure AND group"
+    }
+  }
+}
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "took" : 18,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 2.8546424,
+    "hits" : [
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 2.8546424,
+        "_source" : {
+          "name" : "Denver Clojure",
+          "organizer" : [
+            "Daniel",
+            "Lee"
+          ],
+          "description" : "Group of Clojure enthusiasts from Denver who want to hack on code together and learn more about Clojure",
+          "created_on" : "2012-06-15",
+          "tags" : [
+            "clojure",
+            "denver",
+            "functional programming",
+            "jvm",
+            "java"
+          ],
+          "members" : [
+            "Lee",
+            "Daniel",
+            "Mike"
+          ],
+          "location_group" : "Denver, Colorado, USA"
+        }
+      }
+    ]
+  }
+}
+
+```
+
+</details>
+
+##### search `group clojure` in `description` field - suppose at most 1 words between
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+##### find all created after 2011, first chunk: 10
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+##### find all organized by Lee (not lee)
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+##### name has to contain elasticsearch and organizer cannot be Lee
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+##### event must contain group and organizer should be Lee
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+##### filter events that has tag clojure or lucene
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+#### aggregations
+
+##### group by tags and display count in each bucket
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+##### group by tags and display date of the newest group in each bucket
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+##### group by tags and display id and date of the newest group in each bucket
+
+```json
+
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+
+```
+
+</details>
+
+
 
