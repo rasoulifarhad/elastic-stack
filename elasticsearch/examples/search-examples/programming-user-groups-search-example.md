@@ -61,7 +61,12 @@ POST _analyze
   "text": "The quick brown fox."
 }
 
-Response:
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
 
 {
   "tokens" : [
@@ -113,7 +118,12 @@ POST _analyze
   "text": "Is this déja vu?"
 }
 
-Response: 
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
 
 {
   "tokens" : [
@@ -160,7 +170,12 @@ POST programming-user-groups/_analyze
   "text": "The old brown cow"
 }
 
-Response: 
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
 
 {
   "tokens" : [
@@ -198,7 +213,12 @@ POST programming-user-groups/_analyze
   "text": "The old brown cow"
 }
 
-Response: 
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
 
 {
   "tokens" : [
@@ -346,7 +366,12 @@ PUT /programming-user-groups/_doc/5
 
 GET /programming-user-groups
 
-Response:
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
 
 {
   "programming-user-groups" : {
@@ -420,262 +445,189 @@ Response:
 
 ```json
 
-# 1 
 GET programming-user-groups/_analyze
 {
   "analyzer": "std_english",
   "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
 }
 
-# 2 
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "tokens" : [
+    {
+      "token" : "2",
+      "start_offset" : 4,
+      "end_offset" : 5,
+      "type" : "<NUM>",
+      "position" : 1
+    },
+    {
+      "token" : "quick",
+      "start_offset" : 6,
+      "end_offset" : 11,
+      "type" : "<ALPHANUM>",
+      "position" : 2
+    },
+    {
+      "token" : "brown",
+      "start_offset" : 12,
+      "end_offset" : 17,
+      "type" : "<ALPHANUM>",
+      "position" : 3
+    },
+    {
+      "token" : "foxes",
+      "start_offset" : 18,
+      "end_offset" : 23,
+      "type" : "<ALPHANUM>",
+      "position" : 4
+    },
+    {
+      "token" : "jumped",
+      "start_offset" : 24,
+      "end_offset" : 30,
+      "type" : "<ALPHANUM>",
+      "position" : 5
+    },
+    {
+      "token" : "over",
+      "start_offset" : 31,
+      "end_offset" : 35,
+      "type" : "<ALPHANUM>",
+      "position" : 6
+    },
+    {
+      "token" : "lazy",
+      "start_offset" : 40,
+      "end_offset" : 44,
+      "type" : "<ALPHANUM>",
+      "position" : 8
+    },
+    {
+      "token" : "dog's",
+      "start_offset" : 45,
+      "end_offset" : 50,
+      "type" : "<ALPHANUM>",
+      "position" : 9
+    },
+    {
+      "token" : "bone",
+      "start_offset" : 51,
+      "end_offset" : 55,
+      "type" : "<ALPHANUM>",
+      "position" : 10
+    }
+  ]
+}
+
+```
+
+```json
+
 GET programming-user-groups/_analyze
 {
   "field": "description", 
   "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
 }
 
-# 3 
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "tokens" : [
+    {
+      "token" : "2",
+      "start_offset" : 4,
+      "end_offset" : 5,
+      "type" : "<NUM>",
+      "position" : 1
+    },
+    {
+      "token" : "quick",
+      "start_offset" : 6,
+      "end_offset" : 11,
+      "type" : "<ALPHANUM>",
+      "position" : 2
+    },
+    {
+      "token" : "brown",
+      "start_offset" : 12,
+      "end_offset" : 17,
+      "type" : "<ALPHANUM>",
+      "position" : 3
+    },
+    {
+      "token" : "foxes",
+      "start_offset" : 18,
+      "end_offset" : 23,
+      "type" : "<ALPHANUM>",
+      "position" : 4
+    },
+    {
+      "token" : "jumped",
+      "start_offset" : 24,
+      "end_offset" : 30,
+      "type" : "<ALPHANUM>",
+      "position" : 5
+    },
+    {
+      "token" : "over",
+      "start_offset" : 31,
+      "end_offset" : 35,
+      "type" : "<ALPHANUM>",
+      "position" : 6
+    },
+    {
+      "token" : "lazy",
+      "start_offset" : 40,
+      "end_offset" : 44,
+      "type" : "<ALPHANUM>",
+      "position" : 8
+    },
+    {
+      "token" : "dog's",
+      "start_offset" : 45,
+      "end_offset" : 50,
+      "type" : "<ALPHANUM>",
+      "position" : 9
+    },
+    {
+      "token" : "bone",
+      "start_offset" : 51,
+      "end_offset" : 55,
+      "type" : "<ALPHANUM>",
+      "position" : 10
+    }
+  ]
+}
+
+```
+
+```json
+
 GET programming-user-groups/_analyze
 {
   "field": "description.standard", 
   "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
 }
 
-# 4
-GET programming-user-groups/_analyze
-{
-  "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
-}
-  
-```  
+```
 
-Response: 
+<details>
+  <summary>Response:</summary>
 
 ```json
 
-# 1 
-{
-  "tokens" : [
-    {
-      "token" : "2",
-      "start_offset" : 4,
-      "end_offset" : 5,
-      "type" : "<NUM>",
-      "position" : 1
-    },
-    {
-      "token" : "quick",
-      "start_offset" : 6,
-      "end_offset" : 11,
-      "type" : "<ALPHANUM>",
-      "position" : 2
-    },
-    {
-      "token" : "brown",
-      "start_offset" : 12,
-      "end_offset" : 17,
-      "type" : "<ALPHANUM>",
-      "position" : 3
-    },
-    {
-      "token" : "foxes",
-      "start_offset" : 18,
-      "end_offset" : 23,
-      "type" : "<ALPHANUM>",
-      "position" : 4
-    },
-    {
-      "token" : "jumped",
-      "start_offset" : 24,
-      "end_offset" : 30,
-      "type" : "<ALPHANUM>",
-      "position" : 5
-    },
-    {
-      "token" : "over",
-      "start_offset" : 31,
-      "end_offset" : 35,
-      "type" : "<ALPHANUM>",
-      "position" : 6
-    },
-    {
-      "token" : "lazy",
-      "start_offset" : 40,
-      "end_offset" : 44,
-      "type" : "<ALPHANUM>",
-      "position" : 8
-    },
-    {
-      "token" : "dog's",
-      "start_offset" : 45,
-      "end_offset" : 50,
-      "type" : "<ALPHANUM>",
-      "position" : 9
-    },
-    {
-      "token" : "bone",
-      "start_offset" : 51,
-      "end_offset" : 55,
-      "type" : "<ALPHANUM>",
-      "position" : 10
-    }
-  ]
-}
-
-
-# 2
-{
-  "tokens" : [
-    {
-      "token" : "2",
-      "start_offset" : 4,
-      "end_offset" : 5,
-      "type" : "<NUM>",
-      "position" : 1
-    },
-    {
-      "token" : "quick",
-      "start_offset" : 6,
-      "end_offset" : 11,
-      "type" : "<ALPHANUM>",
-      "position" : 2
-    },
-    {
-      "token" : "brown",
-      "start_offset" : 12,
-      "end_offset" : 17,
-      "type" : "<ALPHANUM>",
-      "position" : 3
-    },
-    {
-      "token" : "foxes",
-      "start_offset" : 18,
-      "end_offset" : 23,
-      "type" : "<ALPHANUM>",
-      "position" : 4
-    },
-    {
-      "token" : "jumped",
-      "start_offset" : 24,
-      "end_offset" : 30,
-      "type" : "<ALPHANUM>",
-      "position" : 5
-    },
-    {
-      "token" : "over",
-      "start_offset" : 31,
-      "end_offset" : 35,
-      "type" : "<ALPHANUM>",
-      "position" : 6
-    },
-    {
-      "token" : "lazy",
-      "start_offset" : 40,
-      "end_offset" : 44,
-      "type" : "<ALPHANUM>",
-      "position" : 8
-    },
-    {
-      "token" : "dog's",
-      "start_offset" : 45,
-      "end_offset" : 50,
-      "type" : "<ALPHANUM>",
-      "position" : 9
-    },
-    {
-      "token" : "bone",
-      "start_offset" : 51,
-      "end_offset" : 55,
-      "type" : "<ALPHANUM>",
-      "position" : 10
-    }
-  ]
-}
-
-# 3
-{
-  "tokens" : [
-    {
-      "token" : "the",
-      "start_offset" : 0,
-      "end_offset" : 3,
-      "type" : "<ALPHANUM>",
-      "position" : 0
-    },
-    {
-      "token" : "2",
-      "start_offset" : 4,
-      "end_offset" : 5,
-      "type" : "<NUM>",
-      "position" : 1
-    },
-    {
-      "token" : "quick",
-      "start_offset" : 6,
-      "end_offset" : 11,
-      "type" : "<ALPHANUM>",
-      "position" : 2
-    },
-    {
-      "token" : "brown",
-      "start_offset" : 12,
-      "end_offset" : 17,
-      "type" : "<ALPHANUM>",
-      "position" : 3
-    },
-    {
-      "token" : "foxes",
-      "start_offset" : 18,
-      "end_offset" : 23,
-      "type" : "<ALPHANUM>",
-      "position" : 4
-    },
-    {
-      "token" : "jumped",
-      "start_offset" : 24,
-      "end_offset" : 30,
-      "type" : "<ALPHANUM>",
-      "position" : 5
-    },
-    {
-      "token" : "over",
-      "start_offset" : 31,
-      "end_offset" : 35,
-      "type" : "<ALPHANUM>",
-      "position" : 6
-    },
-    {
-      "token" : "the",
-      "start_offset" : 36,
-      "end_offset" : 39,
-      "type" : "<ALPHANUM>",
-      "position" : 7
-    },
-    {
-      "token" : "lazy",
-      "start_offset" : 40,
-      "end_offset" : 44,
-      "type" : "<ALPHANUM>",
-      "position" : 8
-    },
-    {
-      "token" : "dog's",
-      "start_offset" : 45,
-      "end_offset" : 50,
-      "type" : "<ALPHANUM>",
-      "position" : 9
-    },
-    {
-      "token" : "bone",
-      "start_offset" : 51,
-      "end_offset" : 55,
-      "type" : "<ALPHANUM>",
-      "position" : 10
-    }
-  ]
-}
-
-# 4
 {
   "tokens" : [
     {
@@ -760,13 +712,116 @@ Response:
 
 ```
 
+```json
+
+GET programming-user-groups/_analyze
+{
+  "text": "The 2 QUICK Brown-Foxes jumped over the lazy dog's bone."
+}
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "tokens" : [
+    {
+      "token" : "the",
+      "start_offset" : 0,
+      "end_offset" : 3,
+      "type" : "<ALPHANUM>",
+      "position" : 0
+    },
+    {
+      "token" : "2",
+      "start_offset" : 4,
+      "end_offset" : 5,
+      "type" : "<NUM>",
+      "position" : 1
+    },
+    {
+      "token" : "quick",
+      "start_offset" : 6,
+      "end_offset" : 11,
+      "type" : "<ALPHANUM>",
+      "position" : 2
+    },
+    {
+      "token" : "brown",
+      "start_offset" : 12,
+      "end_offset" : 17,
+      "type" : "<ALPHANUM>",
+      "position" : 3
+    },
+    {
+      "token" : "foxes",
+      "start_offset" : 18,
+      "end_offset" : 23,
+      "type" : "<ALPHANUM>",
+      "position" : 4
+    },
+    {
+      "token" : "jumped",
+      "start_offset" : 24,
+      "end_offset" : 30,
+      "type" : "<ALPHANUM>",
+      "position" : 5
+    },
+    {
+      "token" : "over",
+      "start_offset" : 31,
+      "end_offset" : 35,
+      "type" : "<ALPHANUM>",
+      "position" : 6
+    },
+    {
+      "token" : "the",
+      "start_offset" : 36,
+      "end_offset" : 39,
+      "type" : "<ALPHANUM>",
+      "position" : 7
+    },
+    {
+      "token" : "lazy",
+      "start_offset" : 40,
+      "end_offset" : 44,
+      "type" : "<ALPHANUM>",
+      "position" : 8
+    },
+    {
+      "token" : "dog's",
+      "start_offset" : 45,
+      "end_offset" : 50,
+      "type" : "<ALPHANUM>",
+      "position" : 9
+    },
+    {
+      "token" : "bone",
+      "start_offset" : 51,
+      "end_offset" : 55,
+      "type" : "<ALPHANUM>",
+      "position" : 10
+    }
+  ]
+}
+  
+```  
+
 #### Verify terms document 1
 
 ```json
 
 GET /programming-user-groups/_termvectors/1?fields=description
 
-Response:
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
 
 {
   "_index" : "programming-user-groups",
@@ -930,5 +985,232 @@ Try this:
 ```json
 
 GET /programming-user-groups/_termvectors/1?fields=description.standard
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "_index" : "programming-user-groups",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "found" : true,
+  "took" : 0,
+  "term_vectors" : {
+    "description.standard" : {
+      "field_statistics" : {
+        "sum_doc_freq" : 70,
+        "doc_count" : 5,
+        "sum_ttf" : 74
+      },
+      "terms" : {
+        "about" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 16,
+              "start_offset" : 90,
+              "end_offset" : 95
+            }
+          ]
+        },
+        "and" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 13,
+              "start_offset" : 75,
+              "end_offset" : 78
+            }
+          ]
+        },
+        "clojure" : {
+          "term_freq" : 2,
+          "tokens" : [
+            {
+              "position" : 2,
+              "start_offset" : 9,
+              "end_offset" : 16
+            },
+            {
+              "position" : 17,
+              "start_offset" : 96,
+              "end_offset" : 103
+            }
+          ]
+        },
+        "code" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 11,
+              "start_offset" : 61,
+              "end_offset" : 65
+            }
+          ]
+        },
+        "denver" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 5,
+              "start_offset" : 34,
+              "end_offset" : 40
+            }
+          ]
+        },
+        "enthusiasts" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 3,
+              "start_offset" : 17,
+              "end_offset" : 28
+            }
+          ]
+        },
+        "from" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 4,
+              "start_offset" : 29,
+              "end_offset" : 33
+            }
+          ]
+        },
+        "group" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 0,
+              "start_offset" : 0,
+              "end_offset" : 5
+            }
+          ]
+        },
+        "hack" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 9,
+              "start_offset" : 53,
+              "end_offset" : 57
+            }
+          ]
+        },
+        "learn" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 14,
+              "start_offset" : 79,
+              "end_offset" : 84
+            }
+          ]
+        },
+        "more" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 15,
+              "start_offset" : 85,
+              "end_offset" : 89
+            }
+          ]
+        },
+        "of" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 1,
+              "start_offset" : 6,
+              "end_offset" : 8
+            }
+          ]
+        },
+        "on" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 10,
+              "start_offset" : 58,
+              "end_offset" : 60
+            }
+          ]
+        },
+        "to" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 8,
+              "start_offset" : 50,
+              "end_offset" : 52
+            }
+          ]
+        },
+        "together" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 12,
+              "start_offset" : 66,
+              "end_offset" : 74
+            }
+          ]
+        },
+        "want" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 7,
+              "start_offset" : 45,
+              "end_offset" : 49
+            }
+          ]
+        },
+        "who" : {
+          "term_freq" : 1,
+          "tokens" : [
+            {
+              "position" : 6,
+              "start_offset" : 41,
+              "end_offset" : 44
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+
+```
+
+And Try this: 
+
+```json
+
+GET /programming-user-groups/_termvectors/1?fields=created_on
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "_index" : "programming-user-groups",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "found" : true,
+  "took" : 0,
+  "term_vectors" : { }
+}
 
 ```
