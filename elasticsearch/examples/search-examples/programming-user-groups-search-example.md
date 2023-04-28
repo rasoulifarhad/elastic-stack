@@ -2205,7 +2205,18 @@ GET /programming-user-groups/_search
 
 ```json
 
-
+GET /programming-user-groups/_search
+{
+  "size": 0,
+  "aggs": {
+    "by_tags": {
+      "terms": {
+        "field": "tags",
+        "size": 100
+      }
+    }
+  }
+}
 ```
 
 <details>
@@ -2213,6 +2224,96 @@ GET /programming-user-groups/_search
 
 ```json
 
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 5,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "by_tags" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 0,
+      "buckets" : [
+        {
+          "key" : "big data",
+          "doc_count" : 3
+        },
+        {
+          "key" : "open source",
+          "doc_count" : 3
+        },
+        {
+          "key" : "denver",
+          "doc_count" : 2
+        },
+        {
+          "key" : "elasticsearch",
+          "doc_count" : 2
+        },
+        {
+          "key" : "lucene",
+          "doc_count" : 2
+        },
+        {
+          "key" : "solr",
+          "doc_count" : 2
+        },
+        {
+          "key" : "apache lucene",
+          "doc_count" : 1
+        },
+        {
+          "key" : "clojure",
+          "doc_count" : 1
+        },
+        {
+          "key" : "cloud computing",
+          "doc_count" : 1
+        },
+        {
+          "key" : "data visualization",
+          "doc_count" : 1
+        },
+        {
+          "key" : "enterprise search",
+          "doc_count" : 1
+        },
+        {
+          "key" : "functional programming",
+          "doc_count" : 1
+        },
+        {
+          "key" : "hadoop",
+          "doc_count" : 1
+        },
+        {
+          "key" : "java",
+          "doc_count" : 1
+        },
+        {
+          "key" : "jvm",
+          "doc_count" : 1
+        },
+        {
+          "key" : "text analytics",
+          "doc_count" : 1
+        }
+      ]
+    }
+  }
+}
 
 ```
 
@@ -2222,6 +2323,25 @@ GET /programming-user-groups/_search
 
 ```json
 
+GET /programming-user-groups/_search
+{
+  "size": 0,
+  "aggs": {
+    "by_tags": {
+      "terms": {
+        "field": "tags",
+        "size": 10
+      },
+      "aggs": {
+        "newest_group_date": {
+          "max": {
+            "field": "created_on"
+          }
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -2230,15 +2350,145 @@ GET /programming-user-groups/_search
 
 ```json
 
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 5,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "by_tags" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 6,
+      "buckets" : [
+        {
+          "key" : "big data",
+          "doc_count" : 3,
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "open source",
+          "doc_count" : 3,
+          "newest_group_date" : {
+            "value" : 1.3442976E12,
+            "value_as_string" : "2012-08-07 00:00:00"
+          }
+        },
+        {
+          "key" : "denver",
+          "doc_count" : 2,
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "elasticsearch",
+          "doc_count" : 2,
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "lucene",
+          "doc_count" : 2,
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "solr",
+          "doc_count" : 2,
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "apache lucene",
+          "doc_count" : 1,
+          "newest_group_date" : {
+            "value" : 1.2591072E12,
+            "value_as_string" : "2009-11-25 00:00:00"
+          }
+        },
+        {
+          "key" : "clojure",
+          "doc_count" : 1,
+          "newest_group_date" : {
+            "value" : 1.3397184E12,
+            "value_as_string" : "2012-06-15 00:00:00"
+          }
+        },
+        {
+          "key" : "cloud computing",
+          "doc_count" : 1,
+          "newest_group_date" : {
+            "value" : 1.2701664E12,
+            "value_as_string" : "2010-04-02 00:00:00"
+          }
+        },
+        {
+          "key" : "data visualization",
+          "doc_count" : 1,
+          "newest_group_date" : {
+            "value" : 1.2701664E12,
+            "value_as_string" : "2010-04-02 00:00:00"
+          }
+        }
+      ]
+    }
+  }
+}
 
 ```
 
 </details>
 
-##### group by tags and display id and date of the newest group in each bucket
+##### group by tags and display date of the newest and oldest group in each bucket
 
 ```json
 
+GET /programming-user-groups/_search
+{
+  "size": 0,
+  "aggs": {
+    "by_tags": {
+      "terms": {
+        "field": "tags",
+        "size": 10
+      },
+      "aggs": {
+        "newest_group_date": {
+          "max": {
+            "field": "created_on"
+          }
+        },
+        "oldest_group_date": {
+          "min": {
+            "field": "created_on"
+          }
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -2247,6 +2497,486 @@ GET /programming-user-groups/_search
 
 ```json
 
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 5,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "by_tags" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 6,
+      "buckets" : [
+        {
+          "key" : "big data",
+          "doc_count" : 3,
+          "oldest_group_date" : {
+            "value" : 1.2701664E12,
+            "value_as_string" : "2010-04-02 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "open source",
+          "doc_count" : 3,
+          "oldest_group_date" : {
+            "value" : 1.2591072E12,
+            "value_as_string" : "2009-11-25 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.3442976E12,
+            "value_as_string" : "2012-08-07 00:00:00"
+          }
+        },
+        {
+          "key" : "denver",
+          "doc_count" : 2,
+          "oldest_group_date" : {
+            "value" : 1.3397184E12,
+            "value_as_string" : "2012-06-15 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "elasticsearch",
+          "doc_count" : 2,
+          "oldest_group_date" : {
+            "value" : 1.3442976E12,
+            "value_as_string" : "2012-08-07 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "lucene",
+          "doc_count" : 2,
+          "oldest_group_date" : {
+            "value" : 1.3442976E12,
+            "value_as_string" : "2012-08-07 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "solr",
+          "doc_count" : 2,
+          "oldest_group_date" : {
+            "value" : 1.2591072E12,
+            "value_as_string" : "2009-11-25 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.3633056E12,
+            "value_as_string" : "2013-03-15 00:00:00"
+          }
+        },
+        {
+          "key" : "apache lucene",
+          "doc_count" : 1,
+          "oldest_group_date" : {
+            "value" : 1.2591072E12,
+            "value_as_string" : "2009-11-25 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.2591072E12,
+            "value_as_string" : "2009-11-25 00:00:00"
+          }
+        },
+        {
+          "key" : "clojure",
+          "doc_count" : 1,
+          "oldest_group_date" : {
+            "value" : 1.3397184E12,
+            "value_as_string" : "2012-06-15 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.3397184E12,
+            "value_as_string" : "2012-06-15 00:00:00"
+          }
+        },
+        {
+          "key" : "cloud computing",
+          "doc_count" : 1,
+          "oldest_group_date" : {
+            "value" : 1.2701664E12,
+            "value_as_string" : "2010-04-02 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.2701664E12,
+            "value_as_string" : "2010-04-02 00:00:00"
+          }
+        },
+        {
+          "key" : "data visualization",
+          "doc_count" : 1,
+          "oldest_group_date" : {
+            "value" : 1.2701664E12,
+            "value_as_string" : "2010-04-02 00:00:00"
+          },
+          "newest_group_date" : {
+            "value" : 1.2701664E12,
+            "value_as_string" : "2010-04-02 00:00:00"
+          }
+        }
+      ]
+    }
+  }
+}
+
+```
+
+</details>
+
+
+##### group by tags and display id and date of the newest group in each bucket
+
+```json
+
+GET /programming-user-groups/_search
+{
+  "size": 0,
+  "aggs": {
+    "by_tags": {
+      "terms": {
+        "field": "tags",
+        "size": 10
+      },
+      "aggs": {
+        "latest_event": {
+          "top_hits": {
+            "size": 1,
+            "_source": [ "_id", "created_on" ],
+            "sort": [ {"created_on": {"order": "desc"}} ]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "took" : 55,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 5,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "by_tags" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 6,
+      "buckets" : [
+        {
+          "key" : "big data",
+          "doc_count" : 3,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 3,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "2",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2013-03-15"
+                  },
+                  "sort" : [
+                    1363305600000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "open source",
+          "doc_count" : 3,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 3,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "3",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2012-08-07"
+                  },
+                  "sort" : [
+                    1344297600000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "denver",
+          "doc_count" : 2,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 2,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "2",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2013-03-15"
+                  },
+                  "sort" : [
+                    1363305600000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "elasticsearch",
+          "doc_count" : 2,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 2,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "2",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2013-03-15"
+                  },
+                  "sort" : [
+                    1363305600000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "lucene",
+          "doc_count" : 2,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 2,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "2",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2013-03-15"
+                  },
+                  "sort" : [
+                    1363305600000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "solr",
+          "doc_count" : 2,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 2,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "2",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2013-03-15"
+                  },
+                  "sort" : [
+                    1363305600000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "apache lucene",
+          "doc_count" : 1,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 1,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "5",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2009-11-25"
+                  },
+                  "sort" : [
+                    1259107200000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "clojure",
+          "doc_count" : 1,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 1,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "1",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2012-06-15"
+                  },
+                  "sort" : [
+                    1339718400000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "cloud computing",
+          "doc_count" : 1,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 1,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "4",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2010-04-02"
+                  },
+                  "sort" : [
+                    1270166400000
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : "data visualization",
+          "doc_count" : 1,
+          "latest_event" : {
+            "hits" : {
+              "total" : {
+                "value" : 1,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "programming-user-groups",
+                  "_type" : "_doc",
+                  "_id" : "4",
+                  "_score" : null,
+                  "_source" : {
+                    "created_on" : "2010-04-02"
+                  },
+                  "sort" : [
+                    1270166400000
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
 
 ```
 
