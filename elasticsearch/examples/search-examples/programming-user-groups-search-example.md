@@ -1412,6 +1412,16 @@ GET /programming-user-groups/_search
 
 ```json
 
+GET /programming-user-groups/_search
+{
+  "query": {
+    "match_phrase": {
+      "description": {
+        "query": "group clojure"
+      }
+    }
+  }
+}
 
 ```
 
@@ -1420,15 +1430,44 @@ GET /programming-user-groups/_search
 
 ```json
 
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 0,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  }
+}
 
 ```
 
 </details>
 
-##### find all created after 2011, first chunk: 10
+**With slop = 1**
 
 ```json
 
+GET /programming-user-groups/_search
+{
+  "query": {
+    "match_phrase": {
+      "description": {
+        "query": "group clojure",
+        "slop": 1
+      }
+    }
+  }
+}
 
 ```
 
@@ -1437,15 +1476,73 @@ GET /programming-user-groups/_search
 
 ```json
 
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.3058243,
+    "hits" : [
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.3058243,
+        "_source" : {
+          "name" : "Denver Clojure",
+          "organizer" : [
+            "Daniel",
+            "Lee"
+          ],
+          "description" : "Group of Clojure enthusiasts from Denver who want to hack on code together and learn more about Clojure",
+          "created_on" : "2012-06-15",
+          "tags" : [
+            "clojure",
+            "denver",
+            "functional programming",
+            "jvm",
+            "java"
+          ],
+          "members" : [
+            "Lee",
+            "Daniel",
+            "Mike"
+          ],
+          "location_group" : "Denver, Colorado, USA"
+        }
+      }
+    ]
+  }
+}
 
 ```
 
 </details>
 
-##### find all organized by Lee (not lee)
+
+##### Search for group created after 2011.
 
 ```json
 
+GET /programming-user-groups/_search
+{
+  "query": {
+    "range": {
+      "created_on": {
+        "gte": "2011-01-01"
+      }
+    }
+  }
+}
 
 ```
 
@@ -1454,6 +1551,319 @@ GET /programming-user-groups/_search
 
 ```json
 
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 3,
+      "relation" : "eq"
+    },
+    "max_score" : 1.0,
+    "hits" : [
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "Denver Clojure",
+          "organizer" : [
+            "Daniel",
+            "Lee"
+          ],
+          "description" : "Group of Clojure enthusiasts from Denver who want to hack on code together and learn more about Clojure",
+          "created_on" : "2012-06-15",
+          "tags" : [
+            "clojure",
+            "denver",
+            "functional programming",
+            "jvm",
+            "java"
+          ],
+          "members" : [
+            "Lee",
+            "Daniel",
+            "Mike"
+          ],
+          "location_group" : "Denver, Colorado, USA"
+        }
+      },
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "2",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "Elasticsearch Denver",
+          "organizer" : "Lee",
+          "description" : "Get together to learn more about using Elasticsearch, the applications and neat things you can do with ES!",
+          "created_on" : "2013-03-15",
+          "tags" : [
+            "denver",
+            "elasticsearch",
+            "big data",
+            "lucene",
+            "solr"
+          ],
+          "members" : [
+            "Lee",
+            "Mike"
+          ],
+          "location_group" : "Denver, Colorado, USA"
+        }
+      },
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "3",
+        "_score" : 1.0,
+        "_source" : {
+          "name" : "Elasticsearch San Francisco",
+          "organizer" : "Mik",
+          "description" : "Elasticsearch group for ES users of all knowledge levels",
+          "created_on" : "2012-08-07",
+          "tags" : [
+            "elasticsearch",
+            "big data",
+            "lucene",
+            "open source"
+          ],
+          "members" : [
+            "Lee",
+            "Igor"
+          ],
+          "location_group" : "San Francisco, California, USA"
+        }
+      }
+    ]
+  }
+}
+
+```
+
+</details>
+
+##### find all organized by Lee
+
+```json
+
+GET /programming-user-groups/_search
+{
+  "query": {
+    "term": {
+      "organizer": {
+        "value": "lee"
+      }
+    }
+  }
+}
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 0.9395274,
+    "hits" : [
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "2",
+        "_score" : 0.9395274,
+        "_source" : {
+          "name" : "Elasticsearch Denver",
+          "organizer" : "Lee",
+          "description" : "Get together to learn more about using Elasticsearch, the applications and neat things you can do with ES!",
+          "created_on" : "2013-03-15",
+          "tags" : [
+            "denver",
+            "elasticsearch",
+            "big data",
+            "lucene",
+            "solr"
+          ],
+          "members" : [
+            "Lee",
+            "Mike"
+          ],
+          "location_group" : "Denver, Colorado, USA"
+        }
+      },
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.68786836,
+        "_source" : {
+          "name" : "Denver Clojure",
+          "organizer" : [
+            "Daniel",
+            "Lee"
+          ],
+          "description" : "Group of Clojure enthusiasts from Denver who want to hack on code together and learn more about Clojure",
+          "created_on" : "2012-06-15",
+          "tags" : [
+            "clojure",
+            "denver",
+            "functional programming",
+            "jvm",
+            "java"
+          ],
+          "members" : [
+            "Lee",
+            "Daniel",
+            "Mike"
+          ],
+          "location_group" : "Denver, Colorado, USA"
+        }
+      }
+    ]
+  }
+}
+
+```
+
+</details>
+
+##### find all not organized by Lee
+
+```json
+
+GET /programming-user-groups/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "match": {
+            "organizer": "Lee"
+          }
+        }
+      ]
+    }
+  }
+}
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 3,
+      "relation" : "eq"
+    },
+    "max_score" : 0.0,
+    "hits" : [
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "3",
+        "_score" : 0.0,
+        "_source" : {
+          "name" : "Elasticsearch San Francisco",
+          "organizer" : "Mik",
+          "description" : "Elasticsearch group for ES users of all knowledge levels",
+          "created_on" : "2012-08-07",
+          "tags" : [
+            "elasticsearch",
+            "big data",
+            "lucene",
+            "open source"
+          ],
+          "members" : [
+            "Lee",
+            "Igor"
+          ],
+          "location_group" : "San Francisco, California, USA"
+        }
+      },
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "4",
+        "_score" : 0.0,
+        "_source" : {
+          "name" : "Boulder/Denver big data get-together",
+          "organizer" : "Andy",
+          "description" : "Come learn and share your experience with nosql & big data technologies, no experience required",
+          "created_on" : "2010-04-02",
+          "tags" : [
+            "big data",
+            "data visualization",
+            "open source",
+            "cloud computing",
+            "hadoop"
+          ],
+          "members" : [
+            "Greg",
+            "Bill"
+          ],
+          "location_group" : "Boulder, Colorado, USA"
+        }
+      },
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "5",
+        "_score" : 0.0,
+        "_source" : {
+          "name" : "Enterprise search London get-together",
+          "organizer" : "Tyler",
+          "description" : "Enterprise search get-togethers are an opportunity to get together with other people doing search.",
+          "created_on" : "2009-11-25",
+          "tags" : [
+            "enterprise search",
+            "apache lucene",
+            "solr",
+            "open source",
+            "text analytics"
+          ],
+          "members" : [
+            "Clint",
+            "James"
+          ],
+          "location_group" : "London, England, UK"
+        }
+      }
+    ]
+  }
+}
 
 ```
 
@@ -1463,6 +1873,27 @@ GET /programming-user-groups/_search
 
 ```json
 
+GET /programming-user-groups/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "name": "elasticsearch"
+          }
+        }
+      ], 
+      "must_not": [
+        {
+          "match": {
+            "organizer": "Lee"
+          }
+        }
+      ]
+    }
+  }
+}
 
 ```
 
@@ -1471,6 +1902,48 @@ GET /programming-user-groups/_search
 
 ```json
 
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 0.9395274,
+    "hits" : [
+      {
+        "_index" : "programming-user-groups",
+        "_type" : "_doc",
+        "_id" : "3",
+        "_score" : 0.9395274,
+        "_source" : {
+          "name" : "Elasticsearch San Francisco",
+          "organizer" : "Mik",
+          "description" : "Elasticsearch group for ES users of all knowledge levels",
+          "created_on" : "2012-08-07",
+          "tags" : [
+            "elasticsearch",
+            "big data",
+            "lucene",
+            "open source"
+          ],
+          "members" : [
+            "Lee",
+            "Igor"
+          ],
+          "location_group" : "San Francisco, California, USA"
+        }
+      }
+    ]
+  }
+}
 
 ```
 
@@ -1562,6 +2035,5 @@ GET /programming-user-groups/_search
 ```
 
 </details>
-
 
 
