@@ -1,4 +1,4 @@
-### Search
+	### Search
 
 See [elasticsearch7 query filter aggregation workshop](https://github.com/mtumilowicz/elasticsearch7-query-filter-aggregation-workshop)
 
@@ -103,6 +103,8 @@ POST _analyze
 
 ```
 
+</details>
+
 Test combinations of:
 
 - A tokenizer
@@ -160,6 +162,8 @@ POST _analyze
 
 ```
 
+</details>
+
 Custom analyzer can be referred to when running the analyze API on a specific index:
 
 ```json
@@ -204,6 +208,8 @@ POST programming-user-groups/_analyze
 }
 
 ```
+
+</details>
 
 ```json
 
@@ -254,6 +260,8 @@ POST programming-user-groups/_analyze
 }
 
 ```
+
+</details>
 
 ```json
 
@@ -441,6 +449,8 @@ GET /programming-user-groups
 
 ```
 
+</details>
+
 #### Analyze example text 
 
 ```json
@@ -528,6 +538,8 @@ GET programming-user-groups/_analyze
 
 ```
 
+</details>
+
 ```json
 
 GET programming-user-groups/_analyze
@@ -612,6 +624,8 @@ GET programming-user-groups/_analyze
 }
 
 ```
+
+</details>
 
 ```json
 
@@ -712,6 +726,8 @@ GET programming-user-groups/_analyze
 
 ```
 
+</details>
+
 ```json
 
 GET programming-user-groups/_analyze
@@ -808,7 +824,9 @@ GET programming-user-groups/_analyze
   ]
 }
   
-```  
+```
+
+</details>
 
 #### Verify terms document 1
 
@@ -979,6 +997,8 @@ GET /programming-user-groups/_termvectors/1?fields=description
 }
 
 ```
+
+</details>
 
 Try this:
 
@@ -1190,6 +1210,8 @@ GET /programming-user-groups/_termvectors/1?fields=description.standard
 
 ```
 
+</details>
+
 And Try this: 
 
 ```json
@@ -1214,3 +1236,7 @@ GET /programming-user-groups/_termvectors/1?fields=created_on
 }
 
 ```
+
+</details>
+
+
