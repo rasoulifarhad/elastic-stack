@@ -1,0 +1,53 @@
+PUT /beers
+{
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "name": {
+        "type": "text"
+      },
+      "country": {
+        "type": "keyword"
+      },
+      "price": {
+        "type": "float"
+      },
+      "city": {
+        "type": "keyword"
+      },
+      "name_breweries": {
+        "type": "text"
+      },
+      "coordinates": {
+        "type": "geo_point"
+      }
+    }
+  }
+}
+
+curl -XPUT "http://singleElasticsearch71602:9200/beers" -H 'Content-Type: application/json' -d'
+{
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "name": {
+        "type": "text"
+      },
+      "country": {
+        "type": "keyword"
+      },
+      "price": {
+        "type": "float"
+      },
+      "city": {
+        "type": "keyword"
+      },
+      "name_breweries": {
+        "type": "text"
+      },
+      "coordinates": {
+        "type": "geo_point"
+      }
+    }
+  }
+}'
