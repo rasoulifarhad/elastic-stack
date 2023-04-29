@@ -19,10 +19,15 @@
 
 ### Replication
 
+An index of one terabyte divided into four shards of each 256 gigabytes. The shards are now primary shards and each have a replica shard.
+
 ![replication-01](images/replication/replication-01.png)
+
+We have a cluster with two nodes. We only have a single index consisting of two shards, each with two replicas. We have a client on the left-hand side, which would typically be a server communicating with the cluster. In this case, we want to delete a document from the index. At this point, Elasticsearch needs to find the correct replication group, and thereby also the primary shard. This is done with so-called routing, which is not something that we will get into right now, so you can consider that a black box. Just know that something happens there that finds the appropriate replication group and its primary shard – Shard A in this example. The operation is then routed to the primary shard where it is validated and then executed. Once the operation completes on the primary shard itself, the operation is sent to the replica shards within the replication group. In this case that means that the delete operation is sent to Replica A1 and Replica A2. When the operation successfully completes on both of these replicas, the primary shard — i.e. Shard A — acknowledges that the request was successful to the client.
 
 ![replication-02](images/replication/replication-02.png)
 
+To sum up, a replica shard or replica is a copy of a shard. A shard with a replica is referred to as a primary shard, and a primary shard and its replicas, is referred to as a replication group. The purpose of replication is both to ensure high availability and to improve search query performance, although the main purpose is often to be more fault tolerant. This is accomplished by never storing a replica shard on the same node as its primary shard. Each shard within an index has a single replica by default, given that the cluster contains more than a single node.
 
 ### Analysis
 
