@@ -1,14 +1,14 @@
-### Elasticsearch
+## Elasticsearch
 
 
-#### architecture
+### architecture
 
 ![architecture-01](images/architecture/architecture-01.png)
 
 ![architecture-02](images/architecture/architecture-02.png)
 
 
-#### sharding
+### sharding
 
 ![sharding-01](images/sharding/sharding-01.png)
 
@@ -17,14 +17,14 @@
 ![sharding-routing](images/sharding/sharding-routing.png)
 
 
-#### replication
+### replication
 
 ![replication-01](images/replication/replication-01.png)
 
 ![replication-02](images/replication/replication-02.png)
 
 
-#### analysis
+### analysis
 
 ![architecture-01](images/analysis/introduction-to-analysis.png)
 
@@ -33,7 +33,7 @@
 ![architecture-01](images/analysis/analyzer-flow-example.png)
 
 
-#### inverted-index
+### inverted-index
 
 ![inverted-index-01](images/inverted-index/inverted-index-01.png)
 
