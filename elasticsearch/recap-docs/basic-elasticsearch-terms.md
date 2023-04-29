@@ -3,7 +3,11 @@
 
 ### Architecture
 
+##### Nodes & Clusters
+
 ![architecture-01](images/architecture/architecture-01.png)
+
+##### Indices & Documents
 
 ![architecture-02](images/architecture/architecture-02.png)
 
