@@ -1,5 +1,9 @@
 ## Elasticsearch
 
+See [introduction-elasticsearch-architecture](https://codingexplained.com/coding/elasticsearch/introduction-elasticsearch-architecture)
+See [understanding-sharding-in-elasticsearch](https://codingexplained.com/coding/elasticsearch/understanding-sharding-in-elasticsearch)
+See [understanding-replication-in-elasticsearch](https://codingexplained.com/coding/elasticsearch/understanding-replication-in-elasticsearch)
+...
 
 ### Architecture
 
