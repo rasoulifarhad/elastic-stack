@@ -52,15 +52,20 @@ To sum up, a replica shard or replica is a copy of a shard. A shard with a repli
 
 When we index a document, Elasticsearch takes the full text fields of the document and runs them through an analysis process. The text fields are tokenized into terms, and the terms are converted to lowercase letters. At least that’s the default behavior. The results of this analysis process are added to something called the inverted index, which is what we run search queries against.
 
-![architecture-01](images/analysis/introduction-to-analysis.png)
+![introduction-to-analysis](images/analysis/introduction-to-analysis.png)
 
 An analyzer consists of three things; character filters, token filters, and a tokenizer. 
 
-![architecture-02](images/analysis/analyzer-flow.png)
+![analyzer-flow](images/analysis/analyzer-flow.png)
 
 The default behavior with the standard analyzer.
 
-![architecture-01](images/analysis/analyzer-flow-example.png)
+![analyzer-flow-example](images/analysis/analyzer-flow-example.png)
+
+Another example 
+
+![analyzer-flow-example-02](images/analysis/analyzer-flow-example-02.png)
+
 
 ##### Example
 
@@ -104,4 +109,8 @@ If we searched for “delicious recipe,” the results would be as follows.
 ![inverted-index-03](images/inverted-index/inverted-index-03.png)
 
 An analyzer is applied to full-text fields, and the results of this analysis process are stored within an inverted index. An inverted index consists of all of the terms for a given field across all documents within an index. So when performing a search query, we are not actually searching the documents themselves, but rather an inverted index. This is important to understand because otherwise you might be left puzzled as to why some queries don’t match what you expect.
+
+An example
+
+![inverted-index-04](images/inverted-index/inverted-index-04.png)
 
