@@ -1099,6 +1099,7 @@ Response:
 3. 
 
 ```json
+
 curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
 {
   "from": 0, 
@@ -1163,6 +1164,54 @@ curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:cha
       }
     }
   }
+}' | jq  '.hits.hits[] | ._source | [.FlightNum, .DestCountry, .DestCityName, .DestAirportID, .AvgTicketPrice, .OriginCountry, .OriginCityName, .OriginAirportID]'
+
+```
+
+Response:
+
+```json
+
+[
+  "9HY9SWR",
+  "AU",
+  "Sydney",
+  "SYD",
+  841.2656419677076,
+  "DE",
+  "Frankfurt am Main",
+  "FRA"
+]
+[
+  "X98CCZO",
+  "IT",
+  "Venice",
+  "VE05",
+  882.9826615595518,
+  "ZA",
+  "Cape Town",
+  "CPT"
+]
+
+```
+
+OR:
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
 }' | jq -c '.hits.hits[] | ._source | [.FlightNum, .DestCountry, .DestCityName, .DestAirportID, .AvgTicketPrice, .OriginCountry, .OriginCityName, .OriginAirportID]'
 
 ```
@@ -1193,7 +1242,7 @@ curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:cha
       }
     }
   }
-}' | jq -c '.hits.hits[] | ._source | [.FlightNum, .DestCountry, .DestCityName, .DestAirportID, .AvgTicketPrice, .OriginCountry, .OriginCityName, .OriginAirportID] | @csv'
+}' | jq --raw-output '.hits.hits[] | ._source | [.FlightNum, .DestCountry, .DestCityName, .DestAirportID, .AvgTicketPrice, .OriginCountry, .OriginCityName, .OriginAirportID] | @csv'
 
 ```
 
@@ -1201,7 +1250,385 @@ Response:
 
 ```
 
-"\"9HY9SWR\",\"AU\",\"Sydney\",\"SYD\",841.2656419677076,\"DE\",\"Frankfurt am Main\",\"FRA\""
-"\"X98CCZO\",\"IT\",\"Venice\",\"VE05\",882.9826615595518,\"ZA\",\"Cape Town\",\"CPT\""
+"9HY9SWR","AU","Sydney","SYD",841.2656419677076,"DE","Frankfurt am Main","FRA"
+"X98CCZO","IT","Venice","VE05",882.9826615595518,"ZA","Cape Town","CPT"
 
 ```
+
+7. 
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq  '.hits.hits[] | ._source | keys'
+
+```
+
+Response:
+
+```json
+
+[
+  "AvgTicketPrice",
+  "Cancelled",
+  "Carrier",
+  "Dest",
+  "DestAirportID",
+  "DestCityName",
+  "DestCountry",
+  "DestLocation",
+  "DestRegion",
+  "DestWeather",
+  "DistanceKilometers",
+  "DistanceMiles",
+  "FlightDelay",
+  "FlightDelayMin",
+  "FlightDelayType",
+  "FlightNum",
+  "FlightTimeHour",
+  "FlightTimeMin",
+  "Origin",
+  "OriginAirportID",
+  "OriginCityName",
+  "OriginCountry",
+  "OriginLocation",
+  "OriginRegion",
+  "OriginWeather",
+  "dayOfWeek",
+  "timestamp"
+]
+[
+  "AvgTicketPrice",
+  "Cancelled",
+  "Carrier",
+  "Dest",
+  "DestAirportID",
+  "DestCityName",
+  "DestCountry",
+  "DestLocation",
+  "DestRegion",
+  "DestWeather",
+  "DistanceKilometers",
+  "DistanceMiles",
+  "FlightDelay",
+  "FlightDelayMin",
+  "FlightDelayType",
+  "FlightNum",
+  "FlightTimeHour",
+  "FlightTimeMin",
+  "Origin",
+  "OriginAirportID",
+  "OriginCityName",
+  "OriginCountry",
+  "OriginLocation",
+  "OriginRegion",
+  "OriginWeather",
+  "dayOfWeek",
+  "timestamp"
+]
+
+```
+
+OR:
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq  '.hits.hits[] | ._source | keys'
+
+```
+
+Response:
+
+```
+
+["AvgTicketPrice","Cancelled","Carrier","Dest","DestAirportID","DestCityName","DestCountry","DestLocation","DestRegion","DestWeather","DistanceKilometers","DistanceMiles","FlightDelay","FlightDelayMin","FlightDelayType","FlightNum","FlightTimeHour","FlightTimeMin","Origin","OriginAirportID","OriginCityName","OriginCountry","OriginLocation","OriginRegion","OriginWeather","dayOfWeek","timestamp"]
+["AvgTicketPrice","Cancelled","Carrier","Dest","DestAirportID","DestCityName","DestCountry","DestLocation","DestRegion","DestWeather","DistanceKilometers","DistanceMiles","FlightDelay","FlightDelayMin","FlightDelayType","FlightNum","FlightTimeHour","FlightTimeMin","Origin","OriginAirportID","OriginCityName","OriginCountry","OriginLocation","OriginRegion","OriginWeather","dayOfWeek","timestamp"]
+
+```
+
+In fact, we have the structure that we want and are now only really one "indirection" away from our goal. Let's put this into the CSV output context to see, by piping the result into @csv:
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq --raw-output '.hits.hits[] | ._source | keys | @csv'
+
+```
+
+Response:
+
+```
+
+"AvgTicketPrice","Cancelled","Carrier","Dest","DestAirportID","DestCityName","DestCountry","DestLocation","DestRegion","DestWeather","DistanceKilometers","DistanceMiles","FlightDelay","FlightDelayMin","FlightDelayType","FlightNum","FlightTimeHour","FlightTimeMin","Origin","OriginAirportID","OriginCityName","OriginCountry","OriginLocation","OriginRegion","OriginWeather","dayOfWeek","timestamp"
+"AvgTicketPrice","Cancelled","Carrier","Dest","DestAirportID","DestCityName","DestCountry","DestLocation","DestRegion","DestWeather","DistanceKilometers","DistanceMiles","FlightDelay","FlightDelayMin","FlightDelayType","FlightNum","FlightTimeHour","FlightTimeMin","Origin","OriginAirportID","OriginCityName","OriginCountry","OriginLocation","OriginRegion","OriginWeather","dayOfWeek","timestamp"
+
+```
+
+8. 
+
+We can make use of these key values like City with the [object identifier-index](https://stedolan.github.io/jq/manual/#ObjectIdentifier-Index:.foo,.foo.bar) construct. Well, almost. We need the more [generic form](https://stedolan.github.io/jq/manual/#GenericObjectIndex:.%5B%3Cstring%3E%5D) for which the [object identifier-index](https://stedolan.github.io/jq/manual/#ObjectIdentifier-Index:.foo,.foo.bar) is just a shorthand version for when identifiers are simple and "string-like".
+
+In other words, the [generic object index](https://stedolan.github.io/jq/manual/#GenericObjectIndex:.%5B%3Cstring%3E%5D) can be used when the identifier is not "string-like" ... such as when it's a [variable](https://stedolan.github.io/jq/manual/#Variable/SymbolicBindingOperator:...as$identifier%7C...).
+
+Let's step back and focus for a moment on just one of the objects - the first (0th) one - using the [array index](https://stedolan.github.io/jq/manual/#ArrayIndex:.%5B2%5D) construction ([n]):
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq  '.hits.hits[0] | ._source'
+
+```
+
+Response:
+
+```json
+
+{
+  "FlightNum": "9HY9SWR",
+  "DestCountry": "AU",
+  "OriginWeather": "Sunny",
+  "OriginCityName": "Frankfurt am Main",
+  "AvgTicketPrice": 841.2656419677076,
+  "DistanceMiles": 10247.856675613455,
+  "FlightDelay": false,
+  "DestWeather": "Rain",
+  "Dest": "Sydney Kingsford Smith International Airport",
+  "FlightDelayType": "No Delay",
+  "OriginCountry": "DE",
+  "dayOfWeek": 0,
+  "DistanceKilometers": 16492.32665375846,
+  "timestamp": "2023-04-24T00:00:00",
+  "DestLocation": {
+    "lat": "-33.94609833",
+    "lon": "151.177002"
+  },
+  "DestAirportID": "SYD",
+  "Carrier": "Kibana Airlines",
+  "Cancelled": false,
+  "FlightTimeMin": 1030.7704158599038,
+  "Origin": "Frankfurt am Main Airport",
+  "OriginLocation": {
+    "lat": "50.033333",
+    "lon": "8.570556"
+  },
+  "DestRegion": "SE-BD",
+  "OriginAirportID": "FRA",
+  "OriginRegion": "DE-HE",
+  "DestCityName": "Sydney",
+  "FlightTimeHour": 17.179506930998397,
+  "FlightDelayMin": 0
+}
+
+```
+
+9. assign the keys to a variable $k, and just emit the value of that variable:
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq  '.hits.hits[0] | ._source | keys as $k | $k'
+
+```
+
+Response:
+
+```json
+
+[
+  "AvgTicketPrice",
+  "Cancelled",
+  "Carrier",
+  "Dest",
+  "DestAirportID",
+  "DestCityName",
+  "DestCountry",
+  "DestLocation",
+  "DestRegion",
+  "DestWeather",
+  "DistanceKilometers",
+  "DistanceMiles",
+  "FlightDelay",
+  "FlightDelayMin",
+  "FlightDelayType",
+  "FlightNum",
+  "FlightTimeHour",
+  "FlightTimeMin",
+  "Origin",
+  "OriginAirportID",
+  "OriginCityName",
+  "OriginCountry",
+  "OriginLocation",
+  "OriginRegion",
+  "OriginWeather",
+  "dayOfWeek",
+  "timestamp"
+]
+
+```
+
+Note that keys produces an array, so we can use the [array value iterator](https://stedolan.github.io/jq/manual/#Array/ObjectValueIterator:.%5B%5D) \(\[\]\) to cause each of the keys to be emitted separately (looped through, effectively) and passed to subsequent filters.
+
+10. Adding the iterator \[\] to the keys function 
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq  '.hits.hits[0] | ._source | keys[] as $k | $k'
+
+```
+
+Response:
+
+```
+
+"AvgTicketPrice"
+"Cancelled"
+"Carrier"
+"Dest"
+"DestAirportID"
+"DestCityName"
+"DestCountry"
+"DestLocation"
+"DestRegion"
+"DestWeather"
+"DistanceKilometers"
+"DistanceMiles"
+"FlightDelay"
+"FlightDelayMin"
+"FlightDelayType"
+"FlightNum"
+"FlightTimeHour"
+"FlightTimeMin"
+"Origin"
+"OriginAirportID"
+"OriginCityName"
+"OriginCountry"
+"OriginLocation"
+"OriginRegion"
+"OriginWeather"
+"dayOfWeek"
+"timestamp"
+
+```
+
+11. 
+
+```json
+
+```
+
+Response:
+
+```json
+
+```
+
+12. 
+
+```json
+
+```
+
+Response:
+
+```json
+
+```
+
+13. 
+
+```json
+
+```
+
+Response:
+
+```json
+
+```
+
+14. 
+
+```json
+
+```
+
+Response:
+
+```json
+
+```
+
