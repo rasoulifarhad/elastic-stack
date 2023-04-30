@@ -871,6 +871,337 @@ DELETE /_search/scroll/_all
 
 ```
 
+#### Fun ( Convert result to csv)
 
+1. 
 
+```json
 
+curl -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq '.hits.hits[]._source'
+
+```
+
+Response:
+
+```json
+
+{
+  "FlightNum": "9HY9SWR",
+  "DestCountry": "AU",
+  "OriginWeather": "Sunny",
+  "OriginCityName": "Frankfurt am Main",
+  "AvgTicketPrice": 841.2656419677076,
+  "DistanceMiles": 10247.856675613455,
+  "FlightDelay": false,
+  "DestWeather": "Rain",
+  "Dest": "Sydney Kingsford Smith International Airport",
+  "FlightDelayType": "No Delay",
+  "OriginCountry": "DE",
+  "dayOfWeek": 0,
+  "DistanceKilometers": 16492.32665375846,
+  "timestamp": "2023-04-24T00:00:00",
+  "DestLocation": {
+    "lat": "-33.94609833",
+    "lon": "151.177002"
+  },
+  "DestAirportID": "SYD",
+  "Carrier": "Kibana Airlines",
+  "Cancelled": false,
+  "FlightTimeMin": 1030.7704158599038,
+  "Origin": "Frankfurt am Main Airport",
+  "OriginLocation": {
+    "lat": "50.033333",
+    "lon": "8.570556"
+  },
+  "DestRegion": "SE-BD",
+  "OriginAirportID": "FRA",
+  "OriginRegion": "DE-HE",
+  "DestCityName": "Sydney",
+  "FlightTimeHour": 17.179506930998397,
+  "FlightDelayMin": 0
+}
+{
+  "FlightNum": "X98CCZO",
+  "DestCountry": "IT",
+  "OriginWeather": "Clear",
+  "OriginCityName": "Cape Town",
+  "AvgTicketPrice": 882.9826615595518,
+  "DistanceMiles": 5482.606664853586,
+  "FlightDelay": false,
+  "DestWeather": "Sunny",
+  "Dest": "Venice Marco Polo Airport",
+  "FlightDelayType": "No Delay",
+  "OriginCountry": "ZA",
+  "dayOfWeek": 0,
+  "DistanceKilometers": 8823.40014044213,
+  "timestamp": "2023-04-24T18:27:00",
+  "DestLocation": {
+    "lat": "45.505299",
+    "lon": "12.3519"
+  },
+  "DestAirportID": "VE05",
+  "Carrier": "Logstash Airways",
+  "Cancelled": false,
+  "FlightTimeMin": 464.3894810759016,
+  "Origin": "Cape Town International Airport",
+  "OriginLocation": {
+    "lat": "-33.96480179",
+    "lon": "18.60169983"
+  },
+  "DestRegion": "IT-34",
+  "OriginAirportID": "CPT",
+  "OriginRegion": "SE-BD",
+  "DestCityName": "Venice",
+  "FlightTimeHour": 7.73982468459836,
+  "FlightDelayMin": 0
+}
+
+```
+
+**OR**:
+
+```json
+
+curl -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq '.hits.hits[] | ._source'
+
+```
+
+Response:
+
+```json
+
+{
+  "FlightNum": "9HY9SWR",
+  "DestCountry": "AU",
+  "OriginWeather": "Sunny",
+  "OriginCityName": "Frankfurt am Main",
+  "AvgTicketPrice": 841.2656419677076,
+  "DistanceMiles": 10247.856675613455,
+  "FlightDelay": false,
+  "DestWeather": "Rain",
+  "Dest": "Sydney Kingsford Smith International Airport",
+  "FlightDelayType": "No Delay",
+  "OriginCountry": "DE",
+  "dayOfWeek": 0,
+  "DistanceKilometers": 16492.32665375846,
+  "timestamp": "2023-04-24T00:00:00",
+  "DestLocation": {
+    "lat": "-33.94609833",
+    "lon": "151.177002"
+  },
+  "DestAirportID": "SYD",
+  "Carrier": "Kibana Airlines",
+  "Cancelled": false,
+  "FlightTimeMin": 1030.7704158599038,
+  "Origin": "Frankfurt am Main Airport",
+  "OriginLocation": {
+    "lat": "50.033333",
+    "lon": "8.570556"
+  },
+  "DestRegion": "SE-BD",
+  "OriginAirportID": "FRA",
+  "OriginRegion": "DE-HE",
+  "DestCityName": "Sydney",
+  "FlightTimeHour": 17.179506930998397,
+  "FlightDelayMin": 0
+}
+{
+  "FlightNum": "X98CCZO",
+  "DestCountry": "IT",
+  "OriginWeather": "Clear",
+  "OriginCityName": "Cape Town",
+  "AvgTicketPrice": 882.9826615595518,
+  "DistanceMiles": 5482.606664853586,
+  "FlightDelay": false,
+  "DestWeather": "Sunny",
+  "Dest": "Venice Marco Polo Airport",
+  "FlightDelayType": "No Delay",
+  "OriginCountry": "ZA",
+  "dayOfWeek": 0,
+  "DistanceKilometers": 8823.40014044213,
+  "timestamp": "2023-04-24T18:27:00",
+  "DestLocation": {
+    "lat": "45.505299",
+    "lon": "12.3519"
+  },
+  "DestAirportID": "VE05",
+  "Carrier": "Logstash Airways",
+  "Cancelled": false,
+  "FlightTimeMin": 464.3894810759016,
+  "Origin": "Cape Town International Airport",
+  "OriginLocation": {
+    "lat": "-33.96480179",
+    "lon": "18.60169983"
+  },
+  "DestRegion": "IT-34",
+  "OriginAirportID": "CPT",
+  "OriginRegion": "SE-BD",
+  "DestCityName": "Venice",
+  "FlightTimeHour": 7.73982468459836,
+  "FlightDelayMin": 0
+}
+
+```
+
+2. 
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq -c '.hits.hits |  length'
+
+```
+
+Response:
+
+```
+2
+```
+
+3. 
+
+```json
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq -c '.hits.hits[] | ._source | length'
+
+```
+
+Response:
+
+```
+27
+27
+
+```
+
+4. 
+
+So that we better understand where we're heading, I want to introduce the @csv format string, which is described as follows:
+
+The input must be an array, and it is rendered as CSV with double quotes for strings, and quotes escaped by repetition.
+
+So this:
+
+```
+
+echo '[1,2,"buckle my shoe"]' | jq --raw-output '@csv'
+
+```
+
+Response:
+
+```
+
+1,2,"buckle my shoe"
+
+```
+
+5. 
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq -c '.hits.hits[] | ._source | [.FlightNum, .DestCountry, .DestCityName, .DestAirportID, .AvgTicketPrice, .OriginCountry, .OriginCityName, .OriginAirportID]'
+
+```
+
+Response:
+
+```
+
+["9HY9SWR","AU","Sydney","SYD",841.2656419677076,"DE","Frankfurt am Main","FRA"]
+["X98CCZO","IT","Venice","VE05",882.9826615595518,"ZA","Cape Town","CPT"]
+
+```
+
+6. 
+
+```json
+
+curl -s -XGET "localhost:9200/kibana_sample_data_flights/_search" -u elastic:changeme  -H 'Content-Type: application/json' -d'
+{
+  "from": 0, 
+  "size": 2, 
+  "query": {
+    "range": {
+      "AvgTicketPrice": {
+        "gte": 500,
+        "lte": 1000,
+        "boost": 2
+      }
+    }
+  }
+}' | jq -c '.hits.hits[] | ._source | [.FlightNum, .DestCountry, .DestCityName, .DestAirportID, .AvgTicketPrice, .OriginCountry, .OriginCityName, .OriginAirportID] | @csv'
+
+```
+
+Response:
+
+```
+
+"\"9HY9SWR\",\"AU\",\"Sydney\",\"SYD\",841.2656419677076,\"DE\",\"Frankfurt am Main\",\"FRA\""
+"\"X98CCZO\",\"IT\",\"Venice\",\"VE05\",882.9826615595518,\"ZA\",\"Cape Town\",\"CPT\""
+
+```
