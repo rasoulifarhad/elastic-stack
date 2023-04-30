@@ -70,7 +70,8 @@ GET /kibana_sample_data_flights/_search
 
 ```
 
-Response:
+<details>
+  <summary>Response:</summary>
 
 ```json
 
@@ -506,6 +507,8 @@ Response:
 
 ```
 
+</details>
+
 If only want to view one record at a time instead of the entire records.
 
 ```json
@@ -527,7 +530,8 @@ GET /kibana_sample_data_flights/_search
 
 ```
 
-Response:
+<details>
+  <summary>Response:</summary>
 
 ```json
 {
@@ -593,6 +597,8 @@ Response:
 
 ```
 
+</details>
+
 To scroll to the next document:
 
 ```json
@@ -614,7 +620,8 @@ GET /kibana_sample_data_flights/_search
 
 ```
 
-Response:
+<details>
+  <summary>Response:</summary>
 
 ```json
 {
@@ -680,6 +687,8 @@ Response:
 
 ```
 
+</details>
+
 **Elasticsearch will limit you to only 10,000 documents**.
 
 
@@ -707,7 +716,8 @@ GET /kibana_sample_data_flights/_search?scroll=5m
 
 ```
 
-Response: 
+<details>
+  <summary>Response:</summary>
 
 ```json
 {
@@ -772,6 +782,8 @@ Response:
 
 ```
 
+</details>
+
 The response from the request above should include a scroll_id which we can use with Scroll API and the first 100 documents matching the specified query.
 
 ```json
@@ -784,7 +796,8 @@ GET /_search/scroll
 
 ```
 
-Response:
+<details>
+  <summary>Response:</summary>
 
 ```json
 
@@ -849,6 +862,8 @@ Response:
       ...
 
 ```
+
+</details>
 
 In the request above, we specify that we want to use the scroll API followed by the search context. This tells Elasticsearch to refresh the search context and keep it alive for 5 minutes. Next, we pass the scroll_id we get from the previous request and retrieve the subsequent 100 documents.
 
