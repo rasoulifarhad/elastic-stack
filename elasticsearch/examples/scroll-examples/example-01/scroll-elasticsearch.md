@@ -1,6 +1,7 @@
 ### Scroll
 
 See [scroll-elasticsearch](https://linuxhint.com/scroll-elasticsearch/)
+See [json-object-values-into-csv-with-jq](https://qmacro.org/blog/posts/2022/05/19/json-object-values-into-csv-with-jq/)
 
 #### Recap
 
