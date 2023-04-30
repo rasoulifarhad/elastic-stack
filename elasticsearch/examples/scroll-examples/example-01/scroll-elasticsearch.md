@@ -875,7 +875,7 @@ You can check how many search contexts are open with the nodes stats API:
 GET /_nodes/stats/indices/search
 ```
 
-Clear scroll:
+##### Clear scroll:
 
 ```json
 
