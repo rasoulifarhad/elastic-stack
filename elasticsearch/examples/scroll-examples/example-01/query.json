@@ -1,0 +1,14 @@
+{
+ "sort": ["_doc"],
+ "size": 100,
+ "query": {
+   "range": {
+     "AvgTicketPrice": {
+       "gte": 500,
+       "lte": 1000,
+       "boost": 2
+     }
+   }
+ }
+}
+
