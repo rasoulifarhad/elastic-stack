@@ -1,12 +1,8 @@
 ### scroll-elasticsearch
 
-see [scroll-elasticsearch](https://linuxhint.com/scroll-elasticsearch/)
+See [scroll-elasticsearch](https://linuxhint.com/scroll-elasticsearch/)
 
-**Note**: From [
-Scroll API
-edit
-
-](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/scroll-api.html)
+**Note**: From [Scroll API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/scroll-api.html)
 
 > We no longer recommend using the scroll API for deep pagination. </br>
 > If you need to preserve the index state while paging through more </br>
