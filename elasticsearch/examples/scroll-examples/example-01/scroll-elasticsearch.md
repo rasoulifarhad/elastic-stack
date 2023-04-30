@@ -2,6 +2,8 @@
 
 See [scroll-elasticsearch](https://linuxhint.com/scroll-elasticsearch/)
 
+#### Recap
+
 **Note**: From [Scroll API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/scroll-api.html)
 
 > We no longer recommend using the scroll API for deep pagination. </br>
@@ -9,7 +11,7 @@ See [scroll-elasticsearch](https://linuxhint.com/scroll-elasticsearch/)
 > than 10,000 hits, use the search_after parameter with a point in </br>
 > time (PIT). </br>
 
-#### Request
+##### Request
 
 > GET /_search/scroll </br>
 > POST /_search/scroll </br>
@@ -29,7 +31,7 @@ GET /_search/scroll
 }
 ```
 
-#### Clear scroll API
+##### Clear scroll API
 
 Clears the search context and results for a [scrolling search](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/paginate-search-results.html#scroll-search-results).
 
@@ -45,7 +47,7 @@ DELETE /_search/scroll
 
 ```
 
-#### basic 
+#### Basic 
 
 We will use the kibana_sample_data_flights sample data.
 
