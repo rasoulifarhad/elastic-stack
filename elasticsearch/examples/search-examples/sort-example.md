@@ -32,7 +32,7 @@ PUT /my-index-000001/_doc/1?refresh
 
 ```
 
-1. Sort mode option
+**1.** Sort mode option
 
 ```json
 
@@ -101,7 +101,7 @@ GET /my-index-000001/_search
 
 </details>
 
-2. Sort mode option
+**2.** Sort mode option
 
 ```json
 
@@ -170,7 +170,7 @@ GET /my-index-000001/_search
 </details>
 
 
-3. The search response includes sort values for each document. 
+**3.** The search response includes sort values for each document. 
 
 ###### Index data
 
@@ -274,7 +274,7 @@ GET /my-index-000002/_search
 </details>
 
 
-4. The search response includes sort values for each document.
+**4.** The search response includes sort values for each document.
 
 ```json
 
@@ -338,7 +338,7 @@ GET /my-index-000002/_search
 
 </details>
 
-5. For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
+**5.** For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
 
 ###### Index data
 
@@ -396,7 +396,6 @@ GET /index_double,index_long/_search
 
 ```
 
-
 <details>
 <summary>Response:</summary>
 
@@ -450,7 +449,7 @@ GET /index_double,index_long/_search
 </details>
 
 
-6. For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
+**6.** For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
 
 ```json
 
@@ -522,7 +521,7 @@ GET /index_double,index_long/_search
 </details>
 
 
-7. Sorting within nested objects 
+**7.** Sorting within nested objects 
 
 ```json
 
@@ -538,7 +537,7 @@ GET /index_double,index_long/_search
 </details>
 
 
-8.  Missing Values
+**8.**  Missing Values
 
 The `missing` parameter specifies how docs which are missing the sort field should be treated: The `missing` value can be set to `_last`, `_first`, or a custom value (that will be used for missing docs as the sort value). The default is `_last`.
 
@@ -657,7 +656,7 @@ GET /my-index-000003/_search
 </details>
 
 
-9. 
+**9.** Missing values
 
 ```json
 
@@ -746,7 +745,7 @@ GET /my-index-000003/_search
 </details>
 
 
-10. Ignoring Unmapped Fields
+**10.** Ignoring Unmapped Fields
 
 By default, the search request will fail if there is no mapping associated with a field. The unmapped_type option allows you to ignore fields that have no mapping and not sort by them. The value of this parameter is used to determine what sort values to emit. Here is an example of how it can be used:
 
@@ -861,7 +860,7 @@ GET /my-index-000003/_search
 
 </details>
 
-12. Track Scores
+**12.** Track Scores
 
 When sorting on a field, scores are not computed. By setting `track_scores` to true, scores will still be computed and tracked.
 
