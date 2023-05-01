@@ -1,4 +1,4 @@
-### Sort
+## Sort
 
 - Sort Values
 - Sort Ordere
@@ -13,14 +13,16 @@
 
 See [Sort search results](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/sort-search-results.html)
 
-#### Run Elasticsearch && Kibana 
+### Run Elasticsearch && Kibana 
 
 ```
 docker compose up -d
 
 ```
 
-#### Examples
+### Examples
+
+#### Index sample data
 
 ```json
 
@@ -32,7 +34,7 @@ PUT /my-index-000001/_doc/1?refresh
 
 ```
 
-**1.** Sort mode option
+#### Sort mode option
 
 ```json
 
@@ -101,7 +103,7 @@ GET /my-index-000001/_search
 
 </details>
 
-**2.** Sort mode option
+#### Sort mode option
 
 ```json
 
@@ -170,7 +172,7 @@ GET /my-index-000001/_search
 </details>
 
 
-**3.** The search response includes sort values for each document. 
+#### The search response includes sort values for each document. 
 
 ###### Index data
 
@@ -274,7 +276,7 @@ GET /my-index-000002/_search
 </details>
 
 
-**4.** The search response includes sort values for each document.
+#### The search response includes sort values for each document.
 
 ```json
 
@@ -338,9 +340,9 @@ GET /my-index-000002/_search
 
 </details>
 
-**5.** For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
+#### For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
 
-###### Index data
+##### Index data
 
 ```json
 
@@ -378,7 +380,7 @@ PUT /index_double/_doc/2
 
 ```
 
-###### Search data
+##### Search data
 
 ```json
 
@@ -449,7 +451,7 @@ GET /index_double,index_long/_search
 </details>
 
 
-**6.** For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
+#### For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
 
 ```json
 
@@ -520,24 +522,10 @@ GET /index_double,index_long/_search
 
 </details>
 
-
-**7.** Sorting within nested objects 
-
-```json
+#### Sorting within nested objects 
 
 
-``` 
-
-<details>
-<summary>Response:</summary>
-
-```json
-
-```
-</details>
-
-
-**8.**  Missing Values
+#### Missing Values
 
 The `missing` parameter specifies how docs which are missing the sort field should be treated: The `missing` value can be set to `_last`, `_first`, or a custom value (that will be used for missing docs as the sort value). The default is `_last`.
 
@@ -655,8 +643,7 @@ GET /my-index-000003/_search
 ```
 </details>
 
-
-**9.** Missing values
+#### Missing values
 
 ```json
 
@@ -744,8 +731,7 @@ GET /my-index-000003/_search
 
 </details>
 
-
-**10.** Ignoring Unmapped Fields
+#### Ignoring Unmapped Fields
 
 By default, the search request will fail if there is no mapping associated with a field. The unmapped_type option allows you to ignore fields that have no mapping and not sort by them. The value of this parameter is used to determine what sort values to emit. Here is an example of how it can be used:
 
@@ -766,7 +752,7 @@ GET /_search
 If any of the indices that are queried doesn’t have a mapping for price then Elasticsearch will handle it as if there was a mapping of type long, with all documents in this index having no value for this field.
 
 
-11. Script Based Sorting
+#### Script Based Sorting
 
 ```json
 
@@ -860,7 +846,7 @@ GET /my-index-000003/_search
 
 </details>
 
-**12.** Track Scores
+#### Track Scores
 
 When sorting on a field, scores are not computed. By setting `track_scores` to true, scores will still be computed and tracked.
 
