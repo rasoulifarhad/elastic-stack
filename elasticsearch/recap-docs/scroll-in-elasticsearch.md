@@ -2,14 +2,18 @@
 
 **Note**: From [Scroll API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/scroll-api.html)
 
-> We no longer recommend using the scroll API for deep pagination. </br>
-> If you need to preserve the index state while paging through more </br>
-> than 10,000 hits, use the search_after parameter with a point in </br>
+> We no longer recommend using the scroll API for deep pagination.  
+> 
+> If you need to preserve the index state while paging through more  
+> 
+> than 10,000 hits, use the search_after parameter with a point in  
+> 
 > time (PIT). </br>
 
 #### Request
 
 > GET /_search/scroll </br>
+> 
 > POST /_search/scroll </br>
 
 The scroll API requires a scroll ID. To get a scroll ID, submit a [search API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-search.html) request that includes an argument for the [scroll query parameter](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-search.html#search-api-scroll-query-param). The scroll parameter indicates how long Elasticsearch should retain the [search context](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/paginate-search-results.html#scroll-search-context) for the request.
