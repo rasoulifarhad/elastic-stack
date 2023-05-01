@@ -4,7 +4,7 @@ from datetime import datetime
 from elasticsearch import Elasticsearch
 import json, random
 es = Elasticsearch(
-   http_auth=("elastic", "G2z3UhgYh8H56kI8phcn")
+   http_auth=("elastic", "changeme")
 )
 
 with open('open-beer-database.json') as json_file:

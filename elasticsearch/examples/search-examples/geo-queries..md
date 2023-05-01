@@ -47,6 +47,35 @@ See [osm.duschmarke](https://osm.duschmarke.de/bbox.html)
 
 See [norbertrenner](https://norbertrenner.de/osm/bbox.html)
 
+###### Envelope
+
+Elasticsearch supports an envelope type, which consists of coordinates for upper left and lower right points of the shape to represent a bounding rectangle in the format [[minLon, maxLat], [maxLon, minLat]]:
+
+```json
+
+POST /example/_doc
+{
+  "location" : {
+    "type" : "envelope",
+    "coordinates" : [ [100.0, 1.0], [101.0, 0.0] ]
+  }
+}
+
+```
+
+The following is an example of an envelope using the WKT BBOX format:
+
+NOTE: WKT specification expects the following order: minLon, maxLon, maxLat, minLat.
+
+```json
+
+POST /example/_doc
+{
+  "location" : "BBOX (100.0, 102.0, 2.0, 0.0)"
+}
+
+```
+
 #### Run Elasticsearch && Kibana 
 
 ```

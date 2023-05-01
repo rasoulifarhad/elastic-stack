@@ -1,0 +1,6 @@
+# This is a comment! The file is named synonyms.txt.
+PS, PlayStation, Play Station
+JS => JavaScript
+TS => TypeScript
+Py => Python
+
