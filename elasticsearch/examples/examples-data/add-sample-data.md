@@ -10,7 +10,7 @@
 
 2. On the `Sample flight data` card, click `Add data`.
 
-![Add Sample data](images/add-sample-flights-data.png)
+![Add Sample data](images/add-sample-data.png)
 
 3. Once the data is added, click `View data > Dashboard`.
 
