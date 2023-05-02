@@ -14,7 +14,7 @@
 
 3. Once the data is added, click `View data > Dashboard`.
 
-![view flights data](images/view-flights-data.png)
+![view flight data](images/view-flight-data.png)
 
 We’re taken to the `Global Flight` dashboard, a collection of charts, graphs, maps, and other visualizations of the the data in the `kibana_sample_data_flights` index.
 
