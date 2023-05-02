@@ -1,6 +1,8 @@
-### Search
+## Search
 
 See [elasticsearch7 relations among documents workshop](https://github.com/mtumilowicz/elasticsearch7-relations-among-documents-workshop)
+
+### Prepare Data
 
 
 #### Create index jukebox && league
@@ -190,8 +192,340 @@ POST _bulk
 
 #### Index Objects
 
+```json
+
+PUT /person-object
+{
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "text"
+      },
+      "surname": {
+        "type": "text"
+      },
+      "age": {
+        "type": "short"
+      },
+      "address": {
+        "properties": {
+          "city": { 
+            "type": "text"
+          },
+          "street": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+
+
 ##### Index Single 
+
+<!--
+Adds a JSON document to the specified data stream or index and makes it searchable. If the target is an index and the document already exists, the request updates the document and increments its version.
+
+> PUT /<target>/_doc/<_id>  
+> 
+> POST /<target>/_doc/  
+> 
+> PUT /<target>/_create/<_id>  
+> 
+> POST /<target>/_create/<_id>  
+> 
+
+-->
  
+```json
+
+PUT /person-object/_doc/1
+{
+  "name": "farhad",
+  "surname": "rasouli", 
+  "address": {
+    "city": "tehran",
+    "street": "bolvare ferdooss"
+  }
+}
+
+```
+
+Response:
+
+```json
+
+{
+  "_index" : "person-object",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 1,
+  "result" : "created",
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_seq_no" : 0,
+  "_primary_term" : 1
+}
+
+```
+
+```json
+
+POST /person-object/_create/2
+{
+  "name": "amir",
+  "surname": "ardalan", 
+  "address": {
+    "city": "tehran",
+    "street": "shahrake gharb"
+  }
+}
+
+```
+
+
+```json
+
+PUT /person-object/_create/3
+{
+  "name": "taghi",
+  "surname": "taghizadeh", 
+  "address": {
+    "city": "karaj",
+    "street": "shahrake ghods"
+  }
+}
+
+```
+
+```json
+
+POST /person-object/_doc
+{
+  "name": "majid",
+  "surname": "majidi", 
+  "address": {
+    "city": "karaj",
+    "street": "mehrshahr"
+  }
+}
+
+```
+
+- The following request creates a dynamic template to map string fields as runtime fields of type keyword. 
+
+  ```json
+  PUT /my-index-000001
+  {
+    "mappings": {
+      "dynamic_templates": [
+        {
+          "strings_as_keywords": {
+            "match_mapping_type": "string",
+            "runtime": {}
+          }
+        }
+      ]
+    }
+  }
+
+  ```
+   
+  Index some data
+
+  ```json
+
+  PUT /my-index-000001/_doc/1
+  {
+    "name": "farhad",
+    "surname": "rasouli",
+    "age": 45,
+    "date_of": "2023-01-02"
+  }
+
+  ```
+
+  Mapping  of Index after index data
+
+  ```json
+
+  GET /my-index-000001/_mapping
+
+  GET /my-index-000001/_mapping/field/surname
+
+  Response: 
+
+  {
+    "my-index-000001" : {
+      "mappings" : {
+        "dynamic_templates" : [
+          {
+            "strings_as_keywords" : {
+              "match_mapping_type" : "string",
+              "runtime" : { }
+            }
+          }
+        ],
+        "runtime" : {
+          "name" : {
+            "type" : "keyword"
+          },
+          "surname" : {
+            "type" : "keyword"
+          }
+        },
+        "properties" : {
+          "age" : {
+            "type" : "long"
+          },
+          "date_of" : {
+            "type" : "date"
+          }
+        }
+      }
+    }
+  }
+
+  ```
+
+- It is common to have many numeric fields that you will often aggregate on but never filter on. disable indexing on those fields to save disk space and gain indexing speed: 
+
+  ```json
+
+  PUT /my-index-000002
+  {
+    "mappings": {
+      "dynamic_templates": [
+        {
+          "strings_as_ip": {
+            "match_mapping_type": "string",
+            "match": "ip*",
+            "runtime": {
+              "type": "ip"
+            }
+          }
+        },
+        {
+          "strings_as_keywords": {
+            "match_mapping_type": "string",
+            "runtime": {}
+          }
+        },
+        {
+          "unindexed_long": {
+            "match_mapping_type": "long",
+            "mapping": {
+              "type": "long",
+              "index": false
+            }
+          }
+        },
+        {
+          "unindexed_double": {
+            "match_mapping_type": "double",
+            "mapping": {
+              "type": "float",
+              "index": false
+            }
+          }
+        }
+      ]
+    }
+  }
+
+  ```
+
+  ```json 
+
+  PUT /my-index-000003/_doc/1
+  {
+    "name": "farhad",
+    "surname": "rasouli",
+    "age": 45,
+    "date_of": "2023-01-02",
+    "ipsource": "192.168.1.1",
+    "ww": 56.67
+    
+  }
+
+  ```
+
+  ```json
+
+  {
+    "my-index-000003" : {
+      "mappings" : {
+        "dynamic_templates" : [
+          {
+            "strings_as_ip" : {
+              "match" : "ip*",
+              "match_mapping_type" : "string",
+              "runtime" : {
+                "type" : "ip"
+              }
+            }
+          },
+          {
+            "strings_as_keywords" : {
+              "match_mapping_type" : "string",
+              "runtime" : { }
+            }
+          },
+          {
+            "unindexed_long" : {
+              "match_mapping_type" : "long",
+              "mapping" : {
+                "index" : false,
+                "type" : "long"
+              }
+            }
+          },
+          {
+            "unindexed_double" : {
+              "match_mapping_type" : "double",
+              "mapping" : {
+                "index" : false,
+                "type" : "float"
+              }
+            }
+          }
+        ],
+        "runtime" : {
+          "ipsource" : {
+            "type" : "ip"
+          },
+          "name" : {
+            "type" : "keyword"
+          },
+          "surname" : {
+            "type" : "keyword"
+          }
+        },
+        "properties" : {
+          "age" : {
+            "type" : "long",
+            "index" : false
+          },
+          "date_of" : {
+            "type" : "date"
+          },
+          "ww" : {
+            "type" : "float",
+            "index" : false
+          }
+        }
+      }
+    }
+  }
+
+  ```
+
 ##### Index Array
 
 #### Index Nested
