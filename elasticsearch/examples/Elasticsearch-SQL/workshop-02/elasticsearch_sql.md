@@ -2309,13 +2309,99 @@ GET /kibana_sample_data_flights
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    DESCRIBE shakespeare
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+       column        |     type      |    mapping    
+---------------------+---------------+---------------
+line_id              |BIGINT         |long           
+line_number          |VARCHAR        |text           
+line_number.keyword  |VARCHAR        |keyword        
+play_name            |VARCHAR        |text           
+play_name.keyword    |VARCHAR        |keyword        
+speaker              |VARCHAR        |text           
+speaker.keyword      |VARCHAR        |keyword        
+speech_number        |VARCHAR        |text           
+speech_number.keyword|VARCHAR        |keyword        
+text_entry           |VARCHAR        |text           
+text_entry.keyword   |VARCHAR        |keyword        
+type                 |VARCHAR        |text           
+type.keyword         |VARCHAR        |keyword        
+
+```
+
+</details>
+
+#### Example 1
+
+##### In SQL
+
+```json
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      play_name, text_entry
+    FROM
+      shakespeare
+    WHERE
+      play_name = 'Romeo and Juliet'
+    LIMIT
+      50
+  """
+}
+``` 
+
+<details>
+<summary>Response:</summary>
+
+```json
+   play_name    |                                    text_entry                                    
+----------------+----------------------------------------------------------------------------------
+Romeo and Juliet|ACT I                                                                             
+Romeo and Juliet|PROLOGUE                                                                          
+Romeo and Juliet|Two households, both alike in dignity,                                            
+Romeo and Juliet|In fair Verona, where we lay our scene,                                           
+Romeo and Juliet|From ancient grudge break to new mutiny,                                          
+Romeo and Juliet|Where civil blood makes civil hands unclean.                                      
+Romeo and Juliet|From forth the fatal loins of these two foes                                      
+Romeo and Juliet|A pair of star-crossd lovers take their life;                                     
+Romeo and Juliet|Whose misadventured piteous overthrows                                            
+Romeo and Juliet|Do with their death bury their parents strife.                                    
+Romeo and Juliet|The fearful passage of their death-markd love,                                    
+Romeo and Juliet|And the continuance of their parents rage,                                        
+Romeo and Juliet|Which, but their childrens end, nought could remove,                              
+Romeo and Juliet|Is now the two hours traffic of our stage;                                        
+Romeo and Juliet|The which if you with patient ears attend,                                        
+Romeo and Juliet|What here shall miss, our toil shall strive to mend.                              
+Romeo and Juliet|SCENE I. Verona. A public place.                                                  
+Romeo and Juliet|Enter SAMPSON and GREGORY, of the house of Capulet, armed with swords and bucklers
+Romeo and Juliet|Gregory, o my word, well not carry coals.                                         
+Romeo and Juliet|No, for then we should be colliers.                                               
+Romeo and Juliet|I mean, an we be in choler, well draw.                                            
+Romeo and Juliet|Ay, while you live, draw your neck out o the collar.                              
+Romeo and Juliet|I strike quickly, being moved.                                                    
+Romeo and Juliet|But thou art not quickly moved to strike.                                         
+Romeo and Juliet|A dog of the house of Montague moves me.                                          
+Romeo and Juliet|To move is to stir; and to be valiant is to stand:                                
+Romeo and Juliet|therefore, if thou art moved, thou runnst away.                                   
+Romeo and Juliet|A dog of that house shall move me to stand: I will                                
+Romeo and Juliet|take the wall of any man or maid of Montagues.                                    
+Romeo and Juliet|That shows thee a weak slave; for the weakest goes                                
+Romeo and Juliet|to the wall.                                                                      
+Romeo and Juliet|True; and therefore women, being the weaker vessels,                              
+Romeo and Juliet|are ever thrust to the wall: therefore I will push                                
+Romeo and Juliet|Montagues men from the wall, and thrust his maids             
+.....
 
 ```
 
@@ -2324,13 +2410,52 @@ GET /kibana_sample_data_flights
 ##### Translate to Query DSL
 
 ```json
-
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      play_name, text_entry
+    FROM
+      shakespeare
+    WHERE
+      play_name = 'Romeo and Juliet'
+    LIMIT
+      50
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 50,
+  "query" : {
+    "term" : {
+      "play_name.keyword" : {
+        "value" : "Romeo and Juliet",
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_doc" : {
+        "order" : "asc"
+      }
+    }
+  ]
+}
 
 ```
 
@@ -2339,18 +2464,95 @@ GET /kibana_sample_data_flights
 ##### IN Query DSL
 
 ```json
-
+GET /shakespeare/_search
+{
+  "size" : 50,
+  "query" : {
+    "term" : {
+      "play_name.keyword" : {
+        "value" : "Romeo and Juliet",
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_doc" : {
+        "order" : "asc"
+      }
+    }
+  ]
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 3313,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "85281",
+        "_score" : null,
+        "fields" : {
+          "play_name" : [
+            "Romeo and Juliet"
+          ],
+          "text_entry" : [
+            "ACT I"
+          ]
+        },
+        "sort" : [
+          85281
+        ]
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "85282",
+        "_score" : null,
+        "fields" : {
+          "play_name" : [
+            "Romeo and Juliet"
+          ],
+          "text_entry" : [
+            "PROLOGUE"
+          ]
+        },
+        "sort" : [
+          85282
+        ]
+      },
+      ....
 
 ```
 
 </details>
-
 
 
 #### Example 1
@@ -2358,13 +2560,56 @@ GET /kibana_sample_data_flights
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      play_name, text_entry
+    FROM
+      shakespeare
+    WHERE
+      MATCH(play_name, 'Romeo and Juliet')
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+     play_name      |                                    text_entry                                    
+--------------------+----------------------------------------------------------------------------------
+Antony and Cleopatra|ACT I                                                                             
+Antony and Cleopatra|SCENE I. Alexandria. A room in CLEOPATRAs palace.                                 
+Antony and Cleopatra|Enter DEMETRIUS and PHILO                                                         
+Antony and Cleopatra|Nay, but this dotage of our generals                                              
+Antony and Cleopatra|Oerflows the measure: those his goodly eyes,                                      
+Antony and Cleopatra|That oer the files and musters of the war                                         
+Antony and Cleopatra|Have glowd like plated Mars, now bend, now turn,                                  
+Antony and Cleopatra|The office and devotion of their view                                             
+Antony and Cleopatra|Upon a tawny front: his captains heart,                                           
+Antony and Cleopatra|Which in the scuffles of great fights hath burst                                  
+Antony and Cleopatra|The buckles on his breast, reneges all temper,                                    
+Antony and Cleopatra|And is become the bellows and the fan                                             
+Antony and Cleopatra|To cool a gipsys lust.                                                            
+Antony and Cleopatra|Flourish. Enter ANTONY, CLEOPATRA, her Ladies, the Train, with Eunuchs fanning her
+Antony and Cleopatra|Look, where they come:                                                            
+Antony and Cleopatra|Take but good note, and you shall see in him.                                     
+Antony and Cleopatra|The triple pillar of the world transformd                                         
+Antony and Cleopatra|Into a strumpets fool: behold and see.                                            
+Antony and Cleopatra|If it be love indeed, tell me how much.                                           
+Antony and Cleopatra|Theres beggary in the love that can be reckond.                                   
+Antony and Cleopatra|Ill set a bourn how far to be beloved.                                            
+Antony and Cleopatra|Then must thou needs find out new heaven, new earth.                              
+Antony and Cleopatra|Enter an Attendant                                                                
+Antony and Cleopatra|News, my good lord, from Rome.                                                    
+Antony and Cleopatra|Grates me: the sum.                                                               
+Antony and Cleopatra|Nay, hear them, Antony:                                                           
+Antony and Cleopatra|Fulvia perchance is angry; or, who knows                                          
+Antony and Cleopatra|If the scarce-bearded Caesar have not sent                                        
+Antony and Cleopatra|His powerful mandate to you, Do this, or this;                                    
+Antony and Cleopatra|Take in that kingdom, and enfranchise that;               
+....
 
 ```
 
@@ -2373,13 +2618,58 @@ GET /kibana_sample_data_flights
 ##### Translate to Query DSL
 
 ```json
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      play_name, text_entry
+    FROM
+      shakespeare
+    WHERE
+      MATCH(play_name, 'Romeo and Juliet')
+  """
+}
 
-``` 
+```
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 1000,
+  "query" : {
+    "match" : {
+      "play_name" : {
+        "query" : "Romeo and Juliet",
+        "operator" : "OR",
+        "prefix_length" : 0,
+        "max_expansions" : 50,
+        "fuzzy_transpositions" : true,
+        "lenient" : false,
+        "zero_terms_query" : "NONE",
+        "auto_generate_synonyms_phrase_query" : true,
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_doc" : {
+        "order" : "asc"
+      }
+    }
+  ]
+}
 
 ```
 
@@ -2388,32 +2678,79 @@ GET /kibana_sample_data_flights
 ##### IN Query DSL
 
 ```json
-
-``` 
-
-<details>
-<summary>Response:</summary>
-
-```json
+GET /shakespeare/_search
+{
+  "size" : 1000,
+  "query" : {
+    "match" : {
+      "play_name" : {
+        "query" : "Romeo and Juliet",
+        "operator" : "OR",
+        "prefix_length" : 0,
+        "max_expansions" : 50,
+        "fuzzy_transpositions" : true,
+        "lenient" : false,
+        "zero_terms_query" : "NONE",
+        "auto_generate_synonyms_phrase_query" : true,
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : ["play_name","text_entry"],
+  "sort" : [
+    {
+      "_doc" : {
+        "order" : "asc"
+      }
+    }
+  ]
+}
 
 ```
-
-</details>
-
-
 
 #### Example 1
 
 ##### In SQL
 
 ```json
-
-``` 
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      play_name, 
+      speaker,
+      text_entry,
+      SCORE()      
+    FROM
+      shakespeare
+    WHERE
+      MATCH(text_entry, 'to be or not to be')
+    ORDER BY 
+      SCORE() DESC
+    LIMIT
+      10
+    
+  """
+}
+```
 
 <details>
 <summary>Response:</summary>
 
 ```json
+       play_name        |    speaker    |                  text_entry                   |    SCORE()    
+------------------------+---------------+-----------------------------------------------+---------------
+Hamlet                  |HAMLET         |To be, or not to be: that is the question:     |17.419369      
+A Winters Tale          |PERDITA        |Not like a corse; or if, not to be buried,     |14.883023      
+Twelfth Night           |SIR ANDREW     |will not be seen; or if she be, its four to one|14.782744      
+Alls well that ends well|LAFEU          |Not to be helped,--                            |14.755895      
+Alls well that ends well|BERTRAM        |not to be recovered.                           |14.755895      
+Much Ado about nothing  |CLAUDIO        |Not to be married,                             |14.755895      
+The Tempest             |GONZALO        |Or be not, Ill not swear.                      |14.221455      
+Henry VIII              |KING HENRY VIII|Would not be friendly to.                      |13.812091      
+Much Ado about nothing  |DON JOHN       |Not to be spoke of;                            |13.812091      
+Taming of the Shrew     |PETRUCHIO      |Intolerable, not to be endured!                |13.812091      
 
 ```
 
@@ -2422,13 +2759,69 @@ GET /kibana_sample_data_flights
 ##### Translate to Query DSL
 
 ```json
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      play_name, 
+      speaker,
+      text_entry,
+      SCORE()      
+    FROM
+      shakespeare
+    WHERE
+      MATCH(text_entry, 'to be or not to be')
+    ORDER BY 
+      SCORE() DESC
+    LIMIT
+      10
+  """
+}
 
-``` 
+```
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 10,
+  "query" : {
+    "match" : {
+      "text_entry" : {
+        "query" : "to be or not to be",
+        "operator" : "OR",
+        "prefix_length" : 0,
+        "max_expansions" : 50,
+        "fuzzy_transpositions" : true,
+        "lenient" : false,
+        "zero_terms_query" : "NONE",
+        "auto_generate_synonyms_phrase_query" : true,
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "speaker"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_score" : {
+        "order" : "desc"
+      }
+    }
+  ],
+  "track_scores" : true
+}
 
 ```
 
@@ -2437,32 +2830,98 @@ GET /kibana_sample_data_flights
 ##### IN Query DSL
 
 ```json
-
-``` 
-
-<details>
-<summary>Response:</summary>
-
-```json
-
+GET /shakespeare/_search
+{
+  "size" : 10,
+  "query" : {
+    "match" : {
+      "text_entry" : {
+        "query" : "to be or not to be",
+        "operator" : "OR",
+        "prefix_length" : 0,
+        "max_expansions" : 50,
+        "fuzzy_transpositions" : true,
+        "lenient" : false,
+        "zero_terms_query" : "NONE",
+        "auto_generate_synonyms_phrase_query" : true,
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "speaker"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_score" : {
+        "order" : "desc"
+      }
+    }
+  ],
+  "track_scores" : true
+}
 ```
-
-</details>
-
-
 
 #### Example 1
 
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      play_name, 
+      speaker,
+      text_entry,
+      SCORE()      
+    FROM
+      shakespeare
+    WHERE
+      MATCH('text_entry,speaker', 'henry')
+    ORDER BY 
+      SCORE() DESC
+    LIMIT
+      20
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+   play_name   |     speaker     |                        text_entry                         |    SCORE()    
+---------------+-----------------+-----------------------------------------------------------+---------------
+Richard II     |HENRY BOLINGBROKE|Henry Bolingbroke                                          |8.618598       
+Henry IV       |MORTIMER         |Enter KING HENRY IV, PRINCE HENRY, and others              |8.121736       
+Richard II     |DUCHESS OF YORK  |Enter HENRY BOLINGBROKE, HENRY PERCY, and other Lords      |8.121736       
+Henry IV       |PRINCE HENRY     |Exit PRINCE HENRY                                          |7.9864817      
+Henry IV       |PRINCE HENRY     |Exit PRINCE HENRY                                          |7.9864817      
+Henry IV       |FALSTAFF         |Enter PRINCE HENRY                                         |7.9864817      
+Henry IV       |PRINCE HENRY     |Exit PRINCE HENRY                                          |7.9864817      
+Richard II     |KING RICHARD II  |To HENRY BOLINGBROKE                                       |7.9864817      
+Richard II     |HENRY BOLINGBROKE|Enter HENRY PERCY                                          |7.9864817      
+Richard II     |HENRY BOLINGBROKE|Enter HENRY PERCY                                          |7.9864817      
+Richard II     |DUKE OF YORK     |To Henry Bolingbroke.                                      |7.9864817      
+Henry IV       |EARL OF DOUGLAS  |They fight. KING HENRY being in danger, PRINCE HENRY enters|7.5580173      
+Henry VI Part 2|CARDINAL         |KING HENRY VI swoons                                       |7.4407525      
+Henry VI Part 3|WARWICK          |They all cry, Henry!                                       |7.4407525      
+Henry IV       |GADSHILL         |Enter PRINCE HENRY and POINS                               |6.9648337      
+Henry IV       |POINS            |Exeunt PRINCE HENRY and POINS                              |6.9648337      
+Henry IV       |LADY PERCY       |Enter PRINCE HENRY and POINS                               |6.9648337      
+Henry IV       |PRINCE HENRY     |Exeunt PRINCE HENRY and LANCASTER                          |6.9648337      
+Henry VI Part 3|WARWICK          |In following this usurping Henry.                          |6.9648337      
+Henry VI Part 3|WESTMORELAND     |Base, fearful and despairing Henry!                        |6.9648337      
 
 ```
 
@@ -2471,13 +2930,71 @@ GET /kibana_sample_data_flights
 ##### Translate to Query DSL
 
 ```json
-
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      play_name, 
+      speaker,
+      text_entry,
+      SCORE()      
+    FROM
+      shakespeare
+    WHERE
+      MATCH('text_entry,speaker', 'henry')
+    ORDER BY 
+      SCORE() DESC
+    LIMIT
+      20
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 20,
+  "query" : {
+    "multi_match" : {
+      "query" : "henry",
+      "fields" : [
+        "speaker^1.0",
+        "text_entry^1.0"
+      ],
+      "type" : "best_fields",
+      "operator" : "OR",
+      "slop" : 0,
+      "prefix_length" : 0,
+      "max_expansions" : 50,
+      "zero_terms_query" : "NONE",
+      "auto_generate_synonyms_phrase_query" : true,
+      "fuzzy_transpositions" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "speaker"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_score" : {
+        "order" : "desc"
+      }
+    }
+  ],
+  "track_scores" : true
+}
 
 ```
 
@@ -2486,32 +3003,187 @@ GET /kibana_sample_data_flights
 ##### IN Query DSL
 
 ```json
-
+GET /shakespeare/_search
+{
+  "size" : 20,
+  "query" : {
+    "multi_match" : {
+      "query" : "henry",
+      "fields" : [
+        "speaker^1.0",
+        "text_entry^1.0"
+      ],
+      "type" : "best_fields",
+      "operator" : "OR",
+      "slop" : 0,
+      "prefix_length" : 0,
+      "max_expansions" : 50,
+      "zero_terms_query" : "NONE",
+      "auto_generate_synonyms_phrase_query" : true,
+      "fuzzy_transpositions" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "speaker"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_score" : {
+        "order" : "desc"
+      }
+    }
+  ],
+  "track_scores" : true
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 4225,
+      "relation" : "eq"
+    },
+    "max_score" : 8.618598,
+    "hits" : [
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "80074",
+        "_score" : 8.618598,
+        "fields" : {
+          "play_name" : [
+            "Richard II"
+          ],
+          "text_entry" : [
+            "Henry Bolingbroke"
+          ],
+          "speaker" : [
+            "HENRY BOLINGBROKE"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "1830",
+        "_score" : 8.121736,
+        "fields" : {
+          "play_name" : [
+            "Henry IV"
+          ],
+          "text_entry" : [
+            "Enter KING HENRY IV, PRINCE HENRY, and others"
+          ],
+          "speaker" : [
+            "MORTIMER"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "80975",
+        "_score" : 8.121736,
+        "fields" : {
+          "play_name" : [
+            "Richard II"
+          ],
+          "text_entry" : [
+            "Enter HENRY BOLINGBROKE, HENRY PERCY, and other Lords"
+          ],
+          "speaker" : [
+            "DUCHESS OF YORK"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "2223",
+        "_score" : 7.9864817,
+        "fields" : {
+          "play_name" : [
+            "Henry IV"
+          ],
+          "text_entry" : [
+            "Exit PRINCE HENRY"
+          ],
+          "speaker" : [
+            "PRINCE HENRY"
+          ]
+        }
+      },
+      ....
 
 ```
 
 </details>
-
-
 
 #### Example 1
 
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      play_name, 
+      speaker,
+      text_entry,
+      SCORE()      
+    FROM
+      shakespeare
+    WHERE
+      MATCH(text_entry, 'to be or not to be that is the question','minimum_should_match=7')
+    ORDER BY 
+      SCORE() DESC
+    LIMIT
+      50
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+       play_name        |     speaker     |                        text_entry                         |    SCORE()    
+------------------------+-----------------+-----------------------------------------------------------+---------------
+Hamlet                  |HAMLET           |To be, or not to be: that is the question:                 |28.931799      
+Merry Wives of Windsor  |DOCTOR CAIUS     |to meddle or make. You may be gone; it is not good         |14.707344      
+King John               |CARDINAL PANDULPH|That is, to be the champion of our church!                 |14.542853      
+Measure for measure     |DUKE VINCENTIO   |What is that Barnardine who is to be executed in the       |14.163929      
+Alls well that ends well|PAROLLES         |facinerious spirit that will not acknowledge it to be the--|13.89329       
+Alls well that ends well|PAROLLES         |It is to be recovered: but that the merit of               |13.838069      
+Alls well that ends well|First Lord       |That was not to be blamed in the command of the            |13.827386      
+Merchant of Venice      |LAUNCELOT        |To be brief, the very truth is that the Jew, having        |13.774719      
+Twelfth Night           |MARIA            |to be turned away, is not that as good as a hanging to you?|13.742241      
+Antony and Cleopatra    |Clown            |Look you, the worm is not to be trusted but in the         |13.378763      
+Loves Labours Lost      |PRINCESS         |not yet: the roof of this court is too high to be          |12.806209      
+Much Ado about nothing  |DON JOHN         |What life is in that, to be the death of this marriage?    |12.61533       
 
 ```
 
@@ -2520,13 +3192,69 @@ GET /kibana_sample_data_flights
 ##### Translate to Query DSL
 
 ```json
-
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      play_name, 
+      speaker,
+      text_entry,
+      SCORE()      
+    FROM
+      shakespeare
+    WHERE
+      MATCH(text_entry, 'to be or not to be that is the question','minimum_should_match=7')
+    ORDER BY 
+      SCORE() DESC
+    LIMIT
+      50
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 50,
+  "query" : {
+    "match" : {
+      "text_entry" : {
+        "query" : "to be or not to be that is the question",
+        "operator" : "OR",
+        "prefix_length" : 0,
+        "max_expansions" : 50,
+        "minimum_should_match" : "7",
+        "fuzzy_transpositions" : true,
+        "lenient" : false,
+        "zero_terms_query" : "NONE",
+        "auto_generate_synonyms_phrase_query" : true,
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "speaker"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_score" : {
+        "order" : "desc"
+      }
+    }
+  ],
+  "track_scores" : true
+}
 
 ```
 
@@ -2535,32 +3263,315 @@ GET /kibana_sample_data_flights
 ##### IN Query DSL
 
 ```json
-
+GET /shakespeare/_search
+{
+  "size" : 50,
+  "query" : {
+    "match" : {
+      "text_entry" : {
+        "query" : "to be or not to be that is the question",
+        "operator" : "OR",
+        "prefix_length" : 0,
+        "max_expansions" : 50,
+        "minimum_should_match" : "7",
+        "fuzzy_transpositions" : true,
+        "lenient" : false,
+        "zero_terms_query" : "NONE",
+        "auto_generate_synonyms_phrase_query" : true,
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "speaker"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_score" : {
+        "order" : "desc"
+      }
+    }
+  ],
+  "track_scores" : true
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "took" : 11,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 12,
+      "relation" : "eq"
+    },
+    "max_score" : 28.931799,
+    "hits" : [
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "34229",
+        "_score" : 28.931799,
+        "fields" : {
+          "play_name" : [
+            "Hamlet"
+          ],
+          "text_entry" : [
+            "To be, or not to be: that is the question:"
+          ],
+          "speaker" : [
+            "HAMLET"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "64679",
+        "_score" : 14.707344,
+        "fields" : {
+          "play_name" : [
+            "Merry Wives of Windsor"
+          ],
+          "text_entry" : [
+            "to meddle or make. You may be gone; it is not good"
+          ],
+          "speaker" : [
+            "DOCTOR CAIUS"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "44680",
+        "_score" : 14.542853,
+        "fields" : {
+          "play_name" : [
+            "King John"
+          ],
+          "text_entry" : [
+            "That is, to be the champion of our church!"
+          ],
+          "speaker" : [
+            "CARDINAL PANDULPH"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "60408",
+        "_score" : 14.163929,
+        "fields" : {
+          "play_name" : [
+            "Measure for measure"
+          ],
+          "text_entry" : [
+            "What is that Barnardine who is to be executed in the"
+          ],
+          "speaker" : [
+            "DUKE VINCENTIO"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "13584",
+        "_score" : 13.89329,
+        "fields" : {
+          "play_name" : [
+            "Alls well that ends well"
+          ],
+          "text_entry" : [
+            "facinerious spirit that will not acknowledge it to be the--"
+          ],
+          "speaker" : [
+            "PAROLLES"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "14453",
+        "_score" : 13.838069,
+        "fields" : {
+          "play_name" : [
+            "Alls well that ends well"
+          ],
+          "text_entry" : [
+            "It is to be recovered: but that the merit of"
+          ],
+          "speaker" : [
+            "PAROLLES"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "14444",
+        "_score" : 13.827386,
+        "fields" : {
+          "play_name" : [
+            "Alls well that ends well"
+          ],
+          "text_entry" : [
+            "That was not to be blamed in the command of the"
+          ],
+          "speaker" : [
+            "First Lord"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "62063",
+        "_score" : 13.774719,
+        "fields" : {
+          "play_name" : [
+            "Merchant of Venice"
+          ],
+          "text_entry" : [
+            "To be brief, the very truth is that the Jew, having"
+          ],
+          "speaker" : [
+            "LAUNCELOT"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "103217",
+        "_score" : 13.742241,
+        "fields" : {
+          "play_name" : [
+            "Twelfth Night"
+          ],
+          "text_entry" : [
+            "to be turned away, is not that as good as a hanging to you?"
+          ],
+          "speaker" : [
+            "MARIA"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "22297",
+        "_score" : 13.378763,
+        "fields" : {
+          "play_name" : [
+            "Antony and Cleopatra"
+          ],
+          "text_entry" : [
+            "Look you, the worm is not to be trusted but in the"
+          ],
+          "speaker" : [
+            "Clown"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "53421",
+        "_score" : 12.806209,
+        "fields" : {
+          "play_name" : [
+            "Loves Labours Lost"
+          ],
+          "text_entry" : [
+            "not yet: the roof of this court is too high to be"
+          ],
+          "speaker" : [
+            "PRINCESS"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "70078",
+        "_score" : 12.61533,
+        "fields" : {
+          "play_name" : [
+            "Much Ado about nothing"
+          ],
+          "text_entry" : [
+            "What life is in that, to be the death of this marriage?"
+          ],
+          "speaker" : [
+            "DON JOHN"
+          ]
+        }
+      }
+    ]
+  }
+}
 
 ```
 
 </details>
-
-
 
 #### Example 1
 
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      play_name, 
+      speaker,
+      text_entry,
+      SCORE()      
+    FROM
+      shakespeare
+    WHERE
+      MATCH(text_entry, 'to be or not to be')
+    AND  
+      MATCH(text_entry, 'that is the question','operator=and')
+    ORDER BY 
+      SCORE() DESC
+    LIMIT
+      50
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+      play_name       |    speaker    |                 text_entry                  |    SCORE()    
+----------------------+---------------+---------------------------------------------+---------------
+Hamlet                |HAMLET         |To be, or not to be: that is the question:   |28.931799      
+Merry Wives of Windsor|SIR HUGH EVANS |But that is not the question: the question is|18.59245       
 
 ```
 
@@ -2569,83 +3580,225 @@ GET /kibana_sample_data_flights
 ##### Translate to Query DSL
 
 ```json
-
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      play_name, 
+      speaker,
+      text_entry,
+      SCORE()      
+    FROM
+      shakespeare
+    WHERE
+      MATCH(text_entry, 'to be or not to be')
+    AND  
+      MATCH(text_entry, 'that is the question','operator=and')
+    ORDER BY 
+      SCORE() DESC
+    LIMIT
+      50
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 50,
+  "query" : {
+    "bool" : {
+      "must" : [
+        {
+          "match" : {
+            "text_entry" : {
+              "query" : "to be or not to be",
+              "operator" : "OR",
+              "prefix_length" : 0,
+              "max_expansions" : 50,
+              "fuzzy_transpositions" : true,
+              "lenient" : false,
+              "zero_terms_query" : "NONE",
+              "auto_generate_synonyms_phrase_query" : true,
+              "boost" : 1.0
+            }
+          }
+        },
+        {
+          "match" : {
+            "text_entry" : {
+              "query" : "that is the question",
+              "operator" : "AND",
+              "prefix_length" : 0,
+              "max_expansions" : 50,
+              "fuzzy_transpositions" : true,
+              "lenient" : false,
+              "zero_terms_query" : "NONE",
+              "auto_generate_synonyms_phrase_query" : true,
+              "boost" : 1.0
+            }
+          }
+        }
+      ],
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "speaker"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_score" : {
+        "order" : "desc"
+      }
+    }
+  ],
+  "track_scores" : true
+}
 
 ```
-
 </details>
 
 ##### IN Query DSL
 
 ```json
-
-``` 
+GET /shakespeare/_search
+{
+  "size" : 50,
+  "query" : {
+    "bool" : {
+      "must" : [
+        {
+          "match" : {
+            "text_entry" : {
+              "query" : "to be or not to be",
+              "operator" : "OR",
+              "prefix_length" : 0,
+              "max_expansions" : 50,
+              "fuzzy_transpositions" : true,
+              "lenient" : false,
+              "zero_terms_query" : "NONE",
+              "auto_generate_synonyms_phrase_query" : true,
+              "boost" : 1.0
+            }
+          }
+        },
+        {
+          "match" : {
+            "text_entry" : {
+              "query" : "that is the question",
+              "operator" : "AND",
+              "prefix_length" : 0,
+              "max_expansions" : 50,
+              "fuzzy_transpositions" : true,
+              "lenient" : false,
+              "zero_terms_query" : "NONE",
+              "auto_generate_synonyms_phrase_query" : true,
+              "boost" : 1.0
+            }
+          }
+        }
+      ],
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "play_name"
+    },
+    {
+      "field" : "speaker"
+    },
+    {
+      "field" : "text_entry"
+    }
+  ],
+  "sort" : [
+    {
+      "_score" : {
+        "order" : "desc"
+      }
+    }
+  ],
+  "track_scores" : true
+}
+```
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2,
+      "relation" : "eq"
+    },
+    "max_score" : 28.931799,
+    "hits" : [
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "34229",
+        "_score" : 28.931799,
+        "fields" : {
+          "play_name" : [
+            "Hamlet"
+          ],
+          "text_entry" : [
+            "To be, or not to be: that is the question:"
+          ],
+          "speaker" : [
+            "HAMLET"
+          ]
+        }
+      },
+      {
+        "_index" : "shakespeare",
+        "_type" : "_doc",
+        "_id" : "64369",
+        "_score" : 18.59245,
+        "fields" : {
+          "play_name" : [
+            "Merry Wives of Windsor"
+          ],
+          "text_entry" : [
+            "But that is not the question: the question is"
+          ],
+          "speaker" : [
+            "SIR HUGH EVANS"
+          ]
+        }
+      }
+    ]
+  }
+}
 
 ```
 
 </details>
-
-
-
-#### Example 1
-
-##### In SQL
-
-```json
-
-``` 
-
-<details>
-<summary>Response:</summary>
-
-```json
-
-```
-
-</details>
-
-##### Translate to Query DSL
-
-```json
-
-``` 
-
-<details>
-<summary>Response:</summary>
-
-```json
-
-```
-
-</details>
-
-##### IN Query DSL
-
-```json
-
-``` 
-
-<details>
-<summary>Response:</summary>
-
-```json
-
-```
-
-</details>
-
-
 
 #### Example 1
 
