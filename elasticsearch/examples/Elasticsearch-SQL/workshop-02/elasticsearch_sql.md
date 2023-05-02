@@ -4516,13 +4516,57 @@ GET /shakespeare/_search
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      Origin AS OriginAirport,
+      MIN(DistanceMiles) AS MinDistance,
+      MAX(DistanceMiles) AS MaxDistance,
+      AVG(DistanceMiles) AS AverageDistance
+    FROM
+      kibana_sample_data_flights
+    WHERE 
+      OriginCountry = 'US'
+    GROUP BY 
+      Origin
+    HAVING 
+      MinDistance > 0
+  ORDER BY 
+    MIN(DistanceMiles)
+  LIMIT
+    20
+    
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
-```json
+```                   OriginAirport                   |   MinDistance    |  MaxDistance   | AverageDistance  
+---------------------------------------------------+------------------+----------------+------------------
+Newport News Williamsburg International Airport    |22.981517791748047|9775.765625     |4113.748561165549 
+Scott AFB/Midamerica Airport                       |32.1550407409668  |9082.130859375  |4844.910936062152 
+Piedmont Triad International Airport               |66.19200134277344 |9574.158203125  |4110.762691497803 
+Chicago Midway International Airport               |80.48770904541016 |8536.1611328125 |4310.982901573181 
+Portland International Airport                     |129.2322540283203 |7911.83544921875|4243.002852806678 
+Tulsa International Airport                        |131.65792846679688|7318.57373046875|4833.106824239095 
+Norfolk International Airport                      |160.3270263671875 |9788.8515625    |4929.9432335747615
+Des Moines International Airport                   |174.24740600585938|9004.5322265625 |4842.070693404587 
+Reno Tahoe International Airport                   |191.69497680664062|7603.158203125  |4823.237944382888 
+Cleveland Hopkins International Airport            |193.06979370117188|6970.42333984375|3440.1764999915813
+Bangor International Airport                       |200.93922424316406|9841.193359375  |5132.379520284719 
+Detroit Metropolitan Wayne County Airport          |214.13528442382812|9896.630859375  |5097.21588699906  
+Philadelphia International Airport                 |228.00880432128906|7427.111328125  |4017.50319199335  
+Greater Rochester International Airport            |253.674560546875  |9759.4189453125 |4378.471331787109 
+General Edward Lawrence Logan International Airport|254.19284057617188|7897.92822265625|3554.0694405691966
+Pittsburgh International Airport                   |258.8587951660156 |9611.0576171875 |4049.5155725479126
+Chicago O'Hare International Airport               |264.3896484375    |8525.7177734375 |4565.218495336072 
+Austin Straubel International Airport              |275.52142333984375|7895.130859375  |4331.437386971933 
+Syracuse Hancock International Airport             |296.0372009277344 |7084.552734375  |3531.5293611798966
+Phoenix Sky Harbor International Airport           |304.218994140625  |8879.060546875  |5198.780445240162 
+json
 
 ```
 
@@ -4531,6 +4575,28 @@ GET /shakespeare/_search
 ##### Translate to Query DSL
 
 ```json
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      Origin AS OriginAirport,
+      MIN(DistanceMiles) AS MinDistance,
+      MAX(DistanceMiles) AS MaxDistance,
+      AVG(DistanceMiles) AS AverageDistance
+    FROM
+      kibana_sample_data_flights
+    WHERE 
+      OriginCountry = 'US'
+    GROUP BY 
+      Origin
+    HAVING 
+      MinDistance > 0
+  ORDER BY 
+    MIN(DistanceMiles)
+  LIMIT
+    20
+  """
+}
 
 ``` 
 
@@ -4538,6 +4604,58 @@ GET /shakespeare/_search
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 0,
+  "query" : {
+    "term" : {
+      "OriginCountry" : {
+        "value" : "US",
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "54f392e6" : {
+              "terms" : {
+                "field" : "Origin",
+                "missing_bucket" : true,
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      },
+      "aggregations" : {
+        "6368e806" : {
+          "stats" : {
+            "field" : "DistanceMiles"
+          }
+        },
+        "having.a18a5aef" : {
+          "bucket_selector" : {
+            "buckets_path" : {
+              "a0" : "6368e806.min"
+            },
+            "script" : {
+              "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.gt(params.a0,params.v0))",
+              "lang" : "painless",
+              "params" : {
+                "v0" : 0
+              }
+            },
+            "gap_policy" : "skip"
+          }
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -4546,6 +4664,59 @@ GET /shakespeare/_search
 ##### IN Query DSL
 
 ```json
+GET /kibana_sample_data_flights/_search
+{
+  "size" : 0,
+  "query" : {
+    "term" : {
+      "OriginCountry" : {
+        "value" : "US",
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "54f392e6" : {
+              "terms" : {
+                "field" : "Origin",
+                "missing_bucket" : true,
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      },
+      "aggregations" : {
+        "6368e806" : {
+          "stats" : {
+            "field" : "DistanceMiles"
+          }
+        },
+        "having.a18a5aef" : {
+          "bucket_selector" : {
+            "buckets_path" : {
+              "a0" : "6368e806.min"
+            },
+            "script" : {
+              "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.gt(params.a0,params.v0))",
+              "lang" : "painless",
+              "params" : {
+                "v0" : 0
+              }
+            },
+            "gap_policy" : "skip"
+          }
+        }
+      }
+    }
+  }
+}
 
 ``` 
 
@@ -4553,11 +4724,1766 @@ GET /shakespeare/_search
 <summary>Response:</summary>
 
 ```json
+{
+  "took" : 4,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2001,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "groupby" : {
+      "after_key" : {
+        "54f392e6" : "Wichita Mid Continent Airport"
+      },
+      "buckets" : [
+        {
+          "key" : {
+            "54f392e6" : "Albuquerque International Sunport Airport"
+          },
+          "doc_count" : 26,
+          "6368e806" : {
+            "count" : 26,
+            "min" : 1117.7847900390625,
+            "max" : 9961.1279296875,
+            "avg" : 5337.83305476262,
+            "sum" : 138783.65942382812
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Austin Straubel International Airport"
+          },
+          "doc_count" : 27,
+          "6368e806" : {
+            "count" : 27,
+            "min" : 275.52142333984375,
+            "max" : 7895.130859375,
+            "avg" : 4331.437386971933,
+            "sum" : 116948.80944824219
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Baltimore/Washington International Thurgood Marshall Airport"
+          },
+          "doc_count" : 22,
+          "6368e806" : {
+            "count" : 22,
+            "min" : 945.8628540039062,
+            "max" : 10206.9736328125,
+            "avg" : 5734.00532947887,
+            "sum" : 126148.11724853516
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Bangor International Airport"
+          },
+          "doc_count" : 29,
+          "6368e806" : {
+            "count" : 29,
+            "min" : 200.93922424316406,
+            "max" : 9841.193359375,
+            "avg" : 5132.379520284719,
+            "sum" : 148839.00608825684
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Billings Logan International Airport"
+          },
+          "doc_count" : 39,
+          "6368e806" : {
+            "count" : 39,
+            "min" : 663.8840942382812,
+            "max" : 9570.7314453125,
+            "avg" : 4720.519888070913,
+            "sum" : 184100.27563476562
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Boeing Field King County International Airport"
+          },
+          "doc_count" : 19,
+          "6368e806" : {
+            "count" : 19,
+            "min" : 554.1631469726562,
+            "max" : 10556.7587890625,
+            "avg" : 4510.229270533511,
+            "sum" : 85694.35614013672
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Buffalo Niagara International Airport"
+          },
+          "doc_count" : 37,
+          "6368e806" : {
+            "count" : 37,
+            "min" : 464.5270690917969,
+            "max" : 10136.884765625,
+            "avg" : 4781.712841137036,
+            "sum" : 176923.3751220703
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Casper-Natrona County International Airport"
+          },
+          "doc_count" : 25,
+          "6368e806" : {
+            "count" : 25,
+            "min" : 319.8492431640625,
+            "max" : 9932.6455078125,
+            "avg" : 4457.515849609375,
+            "sum" : 111437.89624023438
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Charlotte Douglas International Airport"
+          },
+          "doc_count" : 26,
+          "6368e806" : {
+            "count" : 26,
+            "min" : 430.3017883300781,
+            "max" : 7816.8671875,
+            "avg" : 4690.099148090069,
+            "sum" : 121942.5778503418
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Chicago Midway International Airport"
+          },
+          "doc_count" : 24,
+          "6368e806" : {
+            "count" : 24,
+            "min" : 80.48770904541016,
+            "max" : 8536.1611328125,
+            "avg" : 4310.982901573181,
+            "sum" : 103463.58963775635
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Chicago O'Hare International Airport"
+          },
+          "doc_count" : 29,
+          "6368e806" : {
+            "count" : 29,
+            "min" : 264.3896484375,
+            "max" : 8525.7177734375,
+            "avg" : 4565.218495336072,
+            "sum" : 132391.3363647461
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Chicago Rockford International Airport"
+          },
+          "doc_count" : 23,
+          "6368e806" : {
+            "count" : 23,
+            "min" : 1676.5166015625,
+            "max" : 8528.287109375,
+            "avg" : 5030.49757982337,
+            "sum" : 115701.4443359375
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Cincinnati Northern Kentucky International Airport"
+          },
+          "doc_count" : 33,
+          "6368e806" : {
+            "count" : 33,
+            "min" : 308.015625,
+            "max" : 8408.453125,
+            "avg" : 3961.9093202533145,
+            "sum" : 130743.00756835938
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Cleveland Hopkins International Airport"
+          },
+          "doc_count" : 29,
+          "6368e806" : {
+            "count" : 29,
+            "min" : 193.06979370117188,
+            "max" : 6970.42333984375,
+            "avg" : 3440.1764999915813,
+            "sum" : 99765.11849975586
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Denver International Airport"
+          },
+          "doc_count" : 28,
+          "6368e806" : {
+            "count" : 28,
+            "min" : 679.90087890625,
+            "max" : 8776.888671875,
+            "avg" : 4601.801411220005,
+            "sum" : 128850.43951416016
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Des Moines International Airport"
+          },
+          "doc_count" : 27,
+          "6368e806" : {
+            "count" : 27,
+            "min" : 174.24740600585938,
+            "max" : 9004.5322265625,
+            "avg" : 4842.070693404587,
+            "sum" : 130735.90872192383
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Detroit Metropolitan Wayne County Airport"
+          },
+          "doc_count" : 27,
+          "6368e806" : {
+            "count" : 27,
+            "min" : 214.13528442382812,
+            "max" : 9896.630859375,
+            "avg" : 5097.21588699906,
+            "sum" : 137624.8289489746
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Erie International Tom Ridge Field"
+          },
+          "doc_count" : 32,
+          "6368e806" : {
+            "count" : 32,
+            "min" : 317.5791320800781,
+            "max" : 8376.333984375,
+            "avg" : 3992.1240968704224,
+            "sum" : 127747.97109985352
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Fort Wayne International Airport"
+          },
+          "doc_count" : 21,
+          "6368e806" : {
+            "count" : 21,
+            "min" : 434.0052795410156,
+            "max" : 8838.1611328125,
+            "avg" : 4610.907477969215,
+            "sum" : 96829.05703735352
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "General Edward Lawrence Logan International Airport"
+          },
+          "doc_count" : 28,
+          "6368e806" : {
+            "count" : 28,
+            "min" : 254.19284057617188,
+            "max" : 7897.92822265625,
+            "avg" : 3554.0694405691966,
+            "sum" : 99513.9443359375
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "General Mitchell International Airport"
+          },
+          "doc_count" : 28,
+          "6368e806" : {
+            "count" : 28,
+            "min" : 348.36566162109375,
+            "max" : 8992.8203125,
+            "avg" : 4640.639875139509,
+            "sum" : 129937.91650390625
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "General Wayne A. Downing Peoria International Airport"
+          },
+          "doc_count" : 25,
+          "6368e806" : {
+            "count" : 25,
+            "min" : 556.4639282226562,
+            "max" : 9552.6552734375,
+            "avg" : 4329.158850097656,
+            "sum" : 108228.9712524414
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Greater Rochester International Airport"
+          },
+          "doc_count" : 20,
+          "6368e806" : {
+            "count" : 20,
+            "min" : 253.674560546875,
+            "max" : 9759.4189453125,
+            "avg" : 4378.471331787109,
+            "sum" : 87569.42663574219
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Greenville Spartanburg International Airport"
+          },
+          "doc_count" : 24,
+          "6368e806" : {
+            "count" : 24,
+            "min" : 401.09112548828125,
+            "max" : 9429.73046875,
+            "avg" : 4126.4176686604815,
+            "sum" : 99034.02404785156
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Hartsfield Jackson Atlanta International Airport"
+          },
+          "doc_count" : 17,
+          "6368e806" : {
+            "count" : 17,
+            "min" : 739.2357177734375,
+            "max" : 8695.5869140625,
+            "avg" : 4827.774543313419,
+            "sum" : 82072.16723632812
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Huntsville International Carl T Jones Field"
+          },
+          "doc_count" : 19,
+          "6368e806" : {
+            "count" : 19,
+            "min" : 630.4315185546875,
+            "max" : 9585.1142578125,
+            "avg" : 4757.48379998458,
+            "sum" : 90392.19219970703
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Indianapolis International Airport"
+          },
+          "doc_count" : 36,
+          "6368e806" : {
+            "count" : 36,
+            "min" : 552.6693115234375,
+            "max" : 8882.255859375,
+            "avg" : 4181.601038614909,
+            "sum" : 150537.63739013672
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Jackson-Medgar Wiley Evers International Airport"
+          },
+          "doc_count" : 31,
+          "6368e806" : {
+            "count" : 31,
+            "min" : 541.1387329101562,
+            "max" : 8992.4453125,
+            "avg" : 4517.459484469506,
+            "sum" : 140041.2440185547
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "John F Kennedy International Airport"
+          },
+          "doc_count" : 31,
+          "6368e806" : {
+            "count" : 31,
+            "min" : 337.11578369140625,
+            "max" : 8303.2958984375,
+            "avg" : 4014.7968257781,
+            "sum" : 124458.7015991211
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Los Angeles International Airport"
+          },
+          "doc_count" : 30,
+          "6368e806" : {
+            "count" : 30,
+            "min" : 833.558837890625,
+            "max" : 8741.6455078125,
+            "avg" : 4732.04223022461,
+            "sum" : 141961.26690673828
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Louisville International Standiford Field"
+          },
+          "doc_count" : 23,
+          "6368e806" : {
+            "count" : 23,
+            "min" : 335.2744140625,
+            "max" : 9713.8701171875,
+            "avg" : 3818.679406207541,
+            "sum" : 87829.62634277344
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Memphis International Airport"
+          },
+          "doc_count" : 26,
+          "6368e806" : {
+            "count" : 26,
+            "min" : 442.78802490234375,
+            "max" : 8768.5439453125,
+            "avg" : 4875.398350642277,
+            "sum" : 126760.35711669922
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Miami International Airport"
+          },
+          "doc_count" : 30,
+          "6368e806" : {
+            "count" : 30,
+            "min" : 439.7237548828125,
+            "max" : 9147.4990234375,
+            "avg" : 4785.46259358724,
+            "sum" : 143563.8778076172
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Minneapolis-St Paul International/Wold-Chamberlain Airport"
+          },
+          "doc_count" : 25,
+          "6368e806" : {
+            "count" : 25,
+            "min" : 470.97430419921875,
+            "max" : 9004.7626953125,
+            "avg" : 3785.777373046875,
+            "sum" : 94644.43432617188
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Newport News Williamsburg International Airport"
+          },
+          "doc_count" : 22,
+          "6368e806" : {
+            "count" : 22,
+            "min" : 22.981517791748047,
+            "max" : 9775.765625,
+            "avg" : 4113.748561165549,
+            "sum" : 90502.46834564209
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Norfolk International Airport"
+          },
+          "doc_count" : 45,
+          "6368e806" : {
+            "count" : 45,
+            "min" : 160.3270263671875,
+            "max" : 9788.8515625,
+            "avg" : 4929.9432335747615,
+            "sum" : 221847.44551086426
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Orlando Sanford International Airport"
+          },
+          "doc_count" : 27,
+          "6368e806" : {
+            "count" : 27,
+            "min" : 864.1926879882812,
+            "max" : 9358.029296875,
+            "avg" : 4283.839454933449,
+            "sum" : 115663.66528320312
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Philadelphia International Airport"
+          },
+          "doc_count" : 21,
+          "6368e806" : {
+            "count" : 21,
+            "min" : 228.00880432128906,
+            "max" : 7427.111328125,
+            "avg" : 4017.50319199335,
+            "sum" : 84367.56703186035
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Phoenix Sky Harbor International Airport"
+          },
+          "doc_count" : 27,
+          "6368e806" : {
+            "count" : 27,
+            "min" : 304.218994140625,
+            "max" : 8879.060546875,
+            "avg" : 5198.780445240162,
+            "sum" : 140367.07202148438
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Piedmont Triad International Airport"
+          },
+          "doc_count" : 24,
+          "6368e806" : {
+            "count" : 24,
+            "min" : 66.19200134277344,
+            "max" : 9574.158203125,
+            "avg" : 4110.762691497803,
+            "sum" : 98658.30459594727
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Pittsburgh International Airport"
+          },
+          "doc_count" : 32,
+          "6368e806" : {
+            "count" : 32,
+            "min" : 258.8587951660156,
+            "max" : 9611.0576171875,
+            "avg" : 4049.5155725479126,
+            "sum" : 129584.4983215332
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Portland International Airport"
+          },
+          "doc_count" : 26,
+          "6368e806" : {
+            "count" : 26,
+            "min" : 129.2322540283203,
+            "max" : 7911.83544921875,
+            "avg" : 4243.002852806678,
+            "sum" : 110318.07417297363
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Portland International Jetport Airport"
+          },
+          "doc_count" : 23,
+          "6368e806" : {
+            "count" : 23,
+            "min" : 1340.5982666015625,
+            "max" : 10130.08203125,
+            "avg" : 5187.1217677904215,
+            "sum" : 119303.80065917969
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Quad City International Airport"
+          },
+          "doc_count" : 32,
+          "6368e806" : {
+            "count" : 32,
+            "min" : 668.467041015625,
+            "max" : 9092.8525390625,
+            "avg" : 3832.8298778533936,
+            "sum" : 122650.5560913086
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Raleigh Durham International Airport"
+          },
+          "doc_count" : 27,
+          "6368e806" : {
+            "count" : 27,
+            "min" : 636.0322875976562,
+            "max" : 9633.85546875,
+            "avg" : 4926.278697826244,
+            "sum" : 133009.5248413086
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Reno Tahoe International Airport"
+          },
+          "doc_count" : 26,
+          "6368e806" : {
+            "count" : 26,
+            "min" : 191.69497680664062,
+            "max" : 7603.158203125,
+            "avg" : 4823.237944382888,
+            "sum" : 125404.18655395508
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Richmond International Airport"
+          },
+          "doc_count" : 29,
+          "6368e806" : {
+            "count" : 29,
+            "min" : 1031.249267578125,
+            "max" : 9735.2509765625,
+            "avg" : 5720.753481108567,
+            "sum" : 165901.85095214844
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Rochester International Airport"
+          },
+          "doc_count" : 32,
+          "6368e806" : {
+            "count" : 32,
+            "min" : 395.2222595214844,
+            "max" : 9027.265625,
+            "avg" : 4539.266858100891,
+            "sum" : 145256.53945922852
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Salt Lake City International Airport"
+          },
+          "doc_count" : 21,
+          "6368e806" : {
+            "count" : 21,
+            "min" : 546.1231079101562,
+            "max" : 8013.53173828125,
+            "avg" : 4141.730648949033,
+            "sum" : 86976.34362792969
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "San Antonio International Airport"
+          },
+          "doc_count" : 29,
+          "6368e806" : {
+            "count" : 29,
+            "min" : 483.1341552734375,
+            "max" : 8410.736328125,
+            "avg" : 4941.95766896215,
+            "sum" : 143316.77239990234
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "San Diego International Airport"
+          },
+          "doc_count" : 39,
+          "6368e806" : {
+            "count" : 39,
+            "min" : 367.62481689453125,
+            "max" : 7509.64306640625,
+            "avg" : 5707.988306290064,
+            "sum" : 222611.5439453125
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "San Francisco International Airport"
+          },
+          "doc_count" : 23,
+          "6368e806" : {
+            "count" : 23,
+            "min" : 751.4320678710938,
+            "max" : 7417.0625,
+            "avg" : 4973.923050590183,
+            "sum" : 114400.23016357422
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Savannah Hilton Head International Airport"
+          },
+          "doc_count" : 28,
+          "6368e806" : {
+            "count" : 28,
+            "min" : 689.1752319335938,
+            "max" : 7833.34375,
+            "avg" : 4700.471019199917,
+            "sum" : 131613.18853759766
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Scott AFB/Midamerica Airport"
+          },
+          "doc_count" : 26,
+          "6368e806" : {
+            "count" : 26,
+            "min" : 32.1550407409668,
+            "max" : 9082.130859375,
+            "avg" : 4844.910936062152,
+            "sum" : 125967.68433761597
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Seattle Tacoma International Airport"
+          },
+          "doc_count" : 28,
+          "6368e806" : {
+            "count" : 28,
+            "min" : 1154.076171875,
+            "max" : 7739.4794921875,
+            "avg" : 4859.488420758928,
+            "sum" : 136065.67578125
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "St Louis Lambert International Airport"
+          },
+          "doc_count" : 25,
+          "6368e806" : {
+            "count" : 25,
+            "min" : 391.7249450683594,
+            "max" : 7248.33056640625,
+            "avg" : 4202.95279663086,
+            "sum" : 105073.81991577148
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Syracuse Hancock International Airport"
+          },
+          "doc_count" : 28,
+          "6368e806" : {
+            "count" : 28,
+            "min" : 296.0372009277344,
+            "max" : 7084.552734375,
+            "avg" : 3531.5293611798966,
+            "sum" : 98882.82211303711
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Tucson International Airport"
+          },
+          "doc_count" : 35,
+          "6368e806" : {
+            "count" : 35,
+            "min" : 855.7213134765625,
+            "max" : 7178.3212890625,
+            "avg" : 5138.726907784599,
+            "sum" : 179855.44177246094
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Tulsa International Airport"
+          },
+          "doc_count" : 36,
+          "6368e806" : {
+            "count" : 36,
+            "min" : 131.65792846679688,
+            "max" : 7318.57373046875,
+            "avg" : 4833.106824239095,
+            "sum" : 173991.84567260742
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Washington Dulles International Airport"
+          },
+          "doc_count" : 25,
+          "6368e806" : {
+            "count" : 25,
+            "min" : 1087.35595703125,
+            "max" : 7365.32080078125,
+            "avg" : 4130.17978515625,
+            "sum" : 103254.49462890625
+          }
+        },
+        {
+          "key" : {
+            "54f392e6" : "Wichita Mid Continent Airport"
+          },
+          "doc_count" : 35,
+          "6368e806" : {
+            "count" : 35,
+            "min" : 846.4845581054688,
+            "max" : 7194.1533203125,
+            "avg" : 4270.185804966518,
+            "sum" : 149456.50317382812
+          }
+        }
+      ]
+    }
+  }
+}
 
 ```
 
 </details>
 
+```json
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      Origin AS OriginAirport,
+      ST_Distance(OriginLocation, DestLocation) AS FlightDistance
+    FROM
+      kibana_sample_data_flights
+    WHERE 
+      OriginCountry = 'US'
+  LIMIT
+    20
+  """
+}
+```
 
+<details>
+<summary>Response:</summary>
 
+```json
 
+               OriginAirport               |   FlightDistance   
+-------------------------------------------+--------------------
+Albuquerque International Sunport Airport  |8530471.523590479   
+Cleveland Hopkins International Airport    |8804656.88256446    
+Casper-Natrona County International Airport|1.2059129365440216E7
+Erie International Tom Ridge Field         |1550053.4827251192  
+Newark Liberty International Airport       |529064.9064640459   
+Seattle Tacoma International Airport       |8670950.754035722   
+Phoenix Sky Harbor International Airport   |488616.2086253764   
+Tulsa International Airport                |8071962.524039903   
+Louisville International Standiford Field  |1.0523582225118136E7
+Spokane International Airport              |1973804.45463224    
+Portland International Airport             |8568217.389155334   
+Piedmont Triad International Airport       |7090511.398003435   
+John F Kennedy International Airport       |3928043.005128699   
+Miami International Airport                |7845036.284808581   
+Erie International Tom Ridge Field         |3599647.440946715   
+San Diego International Airport            |9861604.138141762   
+Casper-Natrona County International Airport|1.1274045942420863E7
+Pittsburgh International Airport           |6628396.810461743   
+Bangor International Airport               |1.073857077132059E7 
+Salt Lake City International Airport       |8235446.624366924   
+
+```
+
+##### IN Query DSL
+
+```json
+GET /kibana_sample_data_flights/_search
+{
+  "size" : 0,
+  "query" : {
+    "term" : {
+      "OriginCountry" : {
+        "value" : "US",
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "54f392e6" : {
+              "terms" : {
+                "field" : "Origin",
+                "missing_bucket" : true,
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      },
+      "aggregations" : {
+        "6368e806" : {
+          "stats" : {
+            "field" : "DistanceMiles"
+          }
+        },
+        "having.a18a5aef" : {
+          "bucket_selector" : {
+            "buckets_path" : {
+              "a0" : "6368e806.min"
+            },
+            "script" : {
+              "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.gt(params.a0,params.v0))",
+              "lang" : "painless",
+              "params" : {
+                "v0" : 0
+              }
+            },
+            "gap_policy" : "skip"
+          }
+        }
+      }
+    }
+  }
+}
+
+``` 
+
+<details>
+<summary>Response:</summary>
+
+```json
+```
+
+</detail>
+
+##### Translate to Query DSL
+
+```json
+GET /_sql/translate
+{
+  "query": """
+    SELECT 
+        FlightNum as FlightNumber,
+        OriginCountry,
+        Origin,
+        DestCountry as DestinationCountry,
+        Dest as Destination
+    FROM  
+        kibana_sample_data_flights
+    WHERE 
+        FlightNum = '9HY9SWR'
+  """
+}
+``` 
+
+<details>
+<summary>Response:</summary>
+
+```json
+{
+  "size" : 1000,
+  "query" : {
+    "term" : {
+      "FlightNum" : {
+        "value" : "9HY9SWR",
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "FlightNum"
+    },
+    {
+      "field" : "OriginCountry"
+    },
+    {
+      "field" : "Origin"
+    },
+    {
+      "field" : "DestCountry"
+    },
+    {
+      "field" : "Dest"
+    }
+  ],
+  "sort" : [
+    {
+      "_doc" : {
+        "order" : "asc"
+      }
+    }
+  ]
+}
+```
+
+</details>
+
+##### Translate to Query DSL
+
+```json
+
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      Origin AS OriginAirport,
+      ST_Distance(OriginLocation, DestLocation) AS FlightDistance
+    FROM
+      kibana_sample_data_flights
+    WHERE 
+      OriginCountry = 'US'
+  LIMIT
+    20
+  """
+}
+```
+
+<details>
+<summary>Response:</summary>
+
+```json
+
+{
+  "size" : 20,
+  "query" : {
+    "term" : {
+      "OriginCountry" : {
+        "value" : "US",
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "Origin"
+    },
+    {
+      "field" : "OriginLocation"
+    },
+    {
+      "field" : "DestLocation"
+    }
+  ],
+  "sort" : [
+    {
+      "_doc" : {
+        "order" : "asc"
+      }
+    }
+  ]
+}
+
+```
+
+##### IN Query DSL
+
+```json
+GET /kibana_sample_data_flights/_search
+{
+  "size" : 20,
+  "query" : {
+    "term" : {
+      "OriginCountry" : {
+        "value" : "US",
+        "boost" : 1.0
+      }
+    }
+  },
+  "_source" : false,
+  "fields" : [
+    {
+      "field" : "Origin"
+    },
+    {
+      "field" : "OriginLocation"
+    },
+    {
+      "field" : "DestLocation"
+    }
+  ],
+  "sort" : [
+    {
+      "_doc" : {
+        "order" : "asc"
+      }
+    }
+  ]
+}
+``` 
+
+<details>
+<summary>Response:</summary>
+
+```json
+{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 2001,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "RSmW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Albuquerque International Sunport Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -106.609001,
+                35.040199
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                24.9633007,
+                60.31719971
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          10
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "TCmW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Cleveland Hopkins International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -81.84980011,
+                41.4117012
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                -58.5358,
+                -34.8222
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          17
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "TimW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Casper-Natrona County International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -106.4639969,
+                42.90800095
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                77.103104,
+                28.5665
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          19
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "TymW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Erie International Tom Ridge Field"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -80.17386675,
+                42.08312701
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                -97.43309784,
+                37.64989853
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          20
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "UCmW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Newark Liberty International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -74.16870117,
+                40.69250107
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                -75.66919708,
+                45.32249832
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          21
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "UimW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Seattle Tacoma International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -122.3089981,
+                47.44900131
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                16.56970024,
+                48.11029816
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          23
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "VimW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Phoenix Sky Harbor International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -112.012001,
+                33.43429947
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                -117.1900024,
+                32.73360062
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          27
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "WCmW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Tulsa International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -95.88809967,
+                36.19839859
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                8.54917,
+                47.464699
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          29
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "WymW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Louisville International Standiford Field"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -85.736,
+                38.1744
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                140.3860016,
+                35.76470184
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          32
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "XCmW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Spokane International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -117.5339966,
+                47.61989975
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                -97.43309784,
+                37.64989853
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          33
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "XSmW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Portland International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -122.5979996,
+                45.58869934
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                37.4146,
+                55.972599
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          34
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "XymW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Piedmont Triad International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -79.93730164,
+                36.09780121
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                7.64963,
+                45.200802
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          36
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "YimW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "John F Kennedy International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -73.77890015,
+                40.63980103
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                -117.1900024,
+                32.73360062
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          39
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "aCmW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Miami International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -80.29060364,
+                25.79319954
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                8.54917,
+                47.464699
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          45
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "mimW3YcB-Y6qIH7VA0FN",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Erie International Tom Ridge Field"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -80.17386675,
+                42.08312701
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                -122.375,
+                37.61899948
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          95
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "rCmW3YcB-Y6qIH7VA0FO",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "San Diego International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -117.1900024,
+                32.73360062
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                37.4146,
+                55.972599
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          113
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "sCmW3YcB-Y6qIH7VA0FO",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Casper-Natrona County International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -106.4639969,
+                42.90800095
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                103.9469986,
+                30.57850075
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          117
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "ximW3YcB-Y6qIH7VA0FO",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Pittsburgh International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -80.23290253,
+                40.49150085
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                17.91860008,
+                59.65190125
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          139
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "yCmW3YcB-Y6qIH7VA0FO",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Bangor International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -68.82810211,
+                44.80739975
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                126.4509964,
+                37.46910095
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          141
+        ]
+      },
+      {
+        "_index" : "kibana_sample_data_flights",
+        "_type" : "_doc",
+        "_id" : "zSmW3YcB-Y6qIH7VA0FO",
+        "_score" : null,
+        "fields" : {
+          "Origin" : [
+            "Salt Lake City International Airport"
+          ],
+          "OriginLocation" : [
+            {
+              "coordinates" : [
+                -111.9779968,
+                40.78839874
+              ],
+              "type" : "Point"
+            }
+          ],
+          "DestLocation" : [
+            {
+              "coordinates" : [
+                128.445007,
+                51.169997
+              ],
+              "type" : "Point"
+            }
+          ]
+        },
+        "sort" : [
+          146
+        ]
+      }
+    ]
+  }
+}
+```
+
+</details>
