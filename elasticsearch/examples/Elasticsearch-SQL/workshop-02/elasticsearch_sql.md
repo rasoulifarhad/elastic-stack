@@ -1618,32 +1618,178 @@ GET /_sql/translate
 ##### IN Query DSL
 
 ```json
-
+GET /kibana_sample_data_flights/_search
+{
+  "size" : 0,
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "6d53abe9" : {
+              "terms" : {
+                "script" : {
+                  "source" : "InternalSqlScriptUtils.dayOfWeek(InternalQlScriptUtils.docValue(doc,params.v0), params.v1)",
+                  "lang" : "painless",
+                  "params" : {
+                    "v0" : "timestamp",
+                    "v1" : "Z"
+                  }
+                },
+                "missing_bucket" : true,
+                "value_type" : "long",
+                "order" : "asc"
+              }
+            }
+          },
+          {
+            "e609ec01" : {
+              "terms" : {
+                "script" : {
+                  "source" : "InternalSqlScriptUtils.dayName(InternalQlScriptUtils.docValue(doc,params.v0), params.v1)",
+                  "lang" : "painless",
+                  "params" : {
+                    "v0" : "timestamp",
+                    "v1" : "Z"
+                  }
+                },
+                "missing_bucket" : true,
+                "value_type" : "string",
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
+{
+  "took" : 18,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 10000,
+      "relation" : "gte"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "groupby" : {
+      "after_key" : {
+        "6d53abe9" : 7,
+        "e609ec01" : "Saturday"
+      },
+      "buckets" : [
+        {
+          "key" : {
+            "6d53abe9" : 1,
+            "e609ec01" : "Sunday"
+          },
+          "doc_count" : 1314
+        },
+        {
+          "key" : {
+            "6d53abe9" : 2,
+            "e609ec01" : "Monday"
+          },
+          "doc_count" : 2033
+        },
+        {
+          "key" : {
+            "6d53abe9" : 3,
+            "e609ec01" : "Tuesday"
+          },
+          "doc_count" : 1934
+        },
+        {
+          "key" : {
+            "6d53abe9" : 4,
+            "e609ec01" : "Wednesday"
+          },
+          "doc_count" : 1948
+        },
+        {
+          "key" : {
+            "6d53abe9" : 5,
+            "e609ec01" : "Thursday"
+          },
+          "doc_count" : 1914
+        },
+        {
+          "key" : {
+            "6d53abe9" : 6,
+            "e609ec01" : "Friday"
+          },
+          "doc_count" : 2001
+        },
+        {
+          "key" : {
+            "6d53abe9" : 7,
+            "e609ec01" : "Saturday"
+          },
+          "doc_count" : 1915
+        }
+      ]
+    }
+  }
+}
 ```
 
 </details>
-
-
 
 #### Example 1
 
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT 
+      CASE WHEN DAY_OF_WEEK(timestamp) = 1 THEN 7
+           ELSE DAY_OF_WEEK(timestamp) - 1 
+      END AS WeekDayNum,
+      DAY_NAME(timestamp) AS WeekDay,
+      COUNT(*) AS Flights
+    FROM 
+      kibana_sample_data_flights
+    GROUP BY
+      WeekDayNum, WeekDay
+    ORDER BY 
+      WeekDayNum
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+  WeekDayNum   |    WeekDay    |    Flights    
+---------------+---------------+---------------
+1              |Monday         |2033           
+2              |Tuesday        |1934           
+3              |Wednesday      |1948           
+4              |Thursday       |1914           
+5              |Friday         |2001           
+6              |Saturday       |1915           
+7              |Sunday         |1314           
 
 ```
 
@@ -1652,14 +1798,81 @@ GET /_sql/translate
 ##### Translate to Query DSL
 
 ```json
-
+GET /_sql/translate
+{
+  "query": """
+    SELECT 
+      CASE WHEN DAY_OF_WEEK(timestamp) = 1 THEN 7
+           ELSE DAY_OF_WEEK(timestamp) - 1 
+      END AS WeekDayNum,
+      DAY_NAME(timestamp) AS WeekDay,
+      COUNT(*) AS Flights
+    FROM 
+      kibana_sample_data_flights
+    GROUP BY
+      WeekDayNum, WeekDay
+    ORDER BY 
+      WeekDayNum
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
+{
+  "size" : 0,
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "f10a0f42" : {
+              "terms" : {
+                "script" : {
+                  "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.eq(InternalSqlScriptUtils.dayOfWeek(InternalQlScriptUtils.docValue(doc,params.v0), params.v1),params.v2)) ? params.v3 : InternalSqlScriptUtils.sub(InternalSqlScriptUtils.dayOfWeek(InternalQlScriptUtils.docValue(doc,params.v4), params.v5),params.v6)",
+                  "lang" : "painless",
+                  "params" : {
+                    "v0" : "timestamp",
+                    "v1" : "Z",
+                    "v2" : 1,
+                    "v3" : 7,
+                    "v4" : "timestamp",
+                    "v5" : "Z",
+                    "v6" : 1
+                  }
+                },
+                "missing_bucket" : true,
+                "value_type" : "long",
+                "order" : "asc"
+              }
+            }
+          },
+          {
+            "e609ec01" : {
+              "terms" : {
+                "script" : {
+                  "source" : "InternalSqlScriptUtils.dayName(InternalQlScriptUtils.docValue(doc,params.v0), params.v1)",
+                  "lang" : "painless",
+                  "params" : {
+                    "v0" : "timestamp",
+                    "v1" : "Z"
+                  }
+                },
+                "missing_bucket" : true,
+                "value_type" : "string",
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
 ```
 
 </details>
@@ -1667,32 +1880,184 @@ GET /_sql/translate
 ##### IN Query DSL
 
 ```json
-
+GET /kibana_sample_data_flights/_search
+{
+  "size" : 0,
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "f10a0f42" : {
+              "terms" : {
+                "script" : {
+                  "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.eq(InternalSqlScriptUtils.dayOfWeek(InternalQlScriptUtils.docValue(doc,params.v0), params.v1),params.v2)) ? params.v3 : InternalSqlScriptUtils.sub(InternalSqlScriptUtils.dayOfWeek(InternalQlScriptUtils.docValue(doc,params.v4), params.v5),params.v6)",
+                  "lang" : "painless",
+                  "params" : {
+                    "v0" : "timestamp",
+                    "v1" : "Z",
+                    "v2" : 1,
+                    "v3" : 7,
+                    "v4" : "timestamp",
+                    "v5" : "Z",
+                    "v6" : 1
+                  }
+                },
+                "missing_bucket" : true,
+                "value_type" : "long",
+                "order" : "asc"
+              }
+            }
+          },
+          {
+            "e609ec01" : {
+              "terms" : {
+                "script" : {
+                  "source" : "InternalSqlScriptUtils.dayName(InternalQlScriptUtils.docValue(doc,params.v0), params.v1)",
+                  "lang" : "painless",
+                  "params" : {
+                    "v0" : "timestamp",
+                    "v1" : "Z"
+                  }
+                },
+                "missing_bucket" : true,
+                "value_type" : "string",
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
+{
+  "took" : 9,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 10000,
+      "relation" : "gte"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "groupby" : {
+      "after_key" : {
+        "f10a0f42" : 7,
+        "e609ec01" : "Sunday"
+      },
+      "buckets" : [
+        {
+          "key" : {
+            "f10a0f42" : 1,
+            "e609ec01" : "Monday"
+          },
+          "doc_count" : 2033
+        },
+        {
+          "key" : {
+            "f10a0f42" : 2,
+            "e609ec01" : "Tuesday"
+          },
+          "doc_count" : 1934
+        },
+        {
+          "key" : {
+            "f10a0f42" : 3,
+            "e609ec01" : "Wednesday"
+          },
+          "doc_count" : 1948
+        },
+        {
+          "key" : {
+            "f10a0f42" : 4,
+            "e609ec01" : "Thursday"
+          },
+          "doc_count" : 1914
+        },
+        {
+          "key" : {
+            "f10a0f42" : 5,
+            "e609ec01" : "Friday"
+          },
+          "doc_count" : 2001
+        },
+        {
+          "key" : {
+            "f10a0f42" : 6,
+            "e609ec01" : "Saturday"
+          },
+          "doc_count" : 1915
+        },
+        {
+          "key" : {
+            "f10a0f42" : 7,
+            "e609ec01" : "Sunday"
+          },
+          "doc_count" : 1314
+        }
+      ]
+    }
+  }
+}
 ```
 
 </details>
-
-
 
 #### Example 1
 
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SHOW TABLES
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
-```json
+```
+       catalog       |             name              |     type      |     kind      
+---------------------+-------------------------------+---------------+---------------
+elasticsearch-cluster|.apm-agent-configuration       |TABLE          |INDEX          
+elasticsearch-cluster|.apm-custom-link               |TABLE          |INDEX          
+elasticsearch-cluster|.kibana                        |VIEW           |ALIAS          
+elasticsearch-cluster|.kibana_7.17.9                 |VIEW           |ALIAS          
+elasticsearch-cluster|.kibana_7.17.9_001             |TABLE          |INDEX          
+elasticsearch-cluster|.kibana_task_manager           |VIEW           |ALIAS          
+elasticsearch-cluster|.kibana_task_manager_7.17.9    |VIEW           |ALIAS          
+elasticsearch-cluster|.kibana_task_manager_7.17.9_001|TABLE          |INDEX          
+elasticsearch-cluster|.security                      |VIEW           |ALIAS          
+elasticsearch-cluster|.security-7                    |TABLE          |INDEX          
+elasticsearch-cluster|.tasks                         |TABLE          |INDEX          
+elasticsearch-cluster|kibana_sample_data_ecommerce   |TABLE          |INDEX          
+elasticsearch-cluster|kibana_sample_data_flights     |TABLE          |INDEX          
+elasticsearch-cluster|my-index-000001                |TABLE          |INDEX          
+elasticsearch-cluster|my-index-000002                |TABLE          |INDEX          
+elasticsearch-cluster|my-index-000003                |TABLE          |INDEX          
+elasticsearch-cluster|my-index-000004                |TABLE          |INDEX          
+elasticsearch-cluster|my-index-000005                |TABLE          |INDEX          
+elasticsearch-cluster|person-object                  |TABLE          |INDEX          
 
 ```
 
@@ -1701,47 +2066,80 @@ GET /_sql/translate
 ##### Translate to Query DSL
 
 ```json
-
+GET /_sql/translate
+{
+  "query": """
+    SHOW TABLES
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "planning_exception",
+        "reason" : "Cannot generate a query DSL for a special SQL command (e.g.: DESCRIBE, SHOW), sql statement: [\n    SHOW TABLES\n  ]"
+      }
+    ],
+    "type" : "planning_exception",
+    "reason" : "Cannot generate a query DSL for a special SQL command (e.g.: DESCRIBE, SHOW), sql statement: [\n    SHOW TABLES\n  ]"
+  },
+  "status" : 400
+}
 ```
-
 </details>
-
-##### IN Query DSL
-
-```json
-
-``` 
-
-<details>
-<summary>Response:</summary>
-
-```json
-
-```
-
-</details>
-
-
 
 #### Example 1
 
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    DESCRIBE kibana_sample_data_flights
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+      column      |     type      |    mapping    
+------------------+---------------+---------------
+AvgTicketPrice    |REAL           |float          
+Cancelled         |BOOLEAN        |boolean        
+Carrier           |VARCHAR        |keyword        
+Dest              |VARCHAR        |keyword        
+DestAirportID     |VARCHAR        |keyword        
+DestCityName      |VARCHAR        |keyword        
+DestCountry       |VARCHAR        |keyword        
+DestLocation      |GEOMETRY       |geo_point      
+DestRegion        |VARCHAR        |keyword        
+DestWeather       |VARCHAR        |keyword        
+DistanceKilometers|REAL           |float          
+DistanceMiles     |REAL           |float          
+FlightDelay       |BOOLEAN        |boolean        
+FlightDelayMin    |INTEGER        |integer        
+FlightDelayType   |VARCHAR        |keyword        
+FlightNum         |VARCHAR        |keyword        
+FlightTimeHour    |VARCHAR        |keyword        
+FlightTimeMin     |REAL           |float          
+Origin            |VARCHAR        |keyword        
+OriginAirportID   |VARCHAR        |keyword        
+OriginCityName    |VARCHAR        |keyword        
+OriginCountry     |VARCHAR        |keyword        
+OriginLocation    |GEOMETRY       |geo_point      
+OriginRegion      |VARCHAR        |keyword        
+OriginWeather     |VARCHAR        |keyword        
+dayOfWeek         |INTEGER        |integer        
+timestamp         |TIMESTAMP      |datetime       
 
 ```
 
@@ -1750,14 +2148,31 @@ GET /_sql/translate
 ##### Translate to Query DSL
 
 ```json
-
+GET /_sql/translate
+{
+  "query": """
+    DESCRIBE kibana_sample_data_flights
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
+{
+  "error" : {
+    "root_cause" : [
+      {
+        "type" : "planning_exception",
+        "reason" : "Cannot generate a query DSL for a special SQL command (e.g.: DESCRIBE, SHOW), sql statement: [\n    DESCRIBE kibana_sample_data_flights\n  ]"
+      }
+    ],
+    "type" : "planning_exception",
+    "reason" : "Cannot generate a query DSL for a special SQL command (e.g.: DESCRIBE, SHOW), sql statement: [\n    DESCRIBE kibana_sample_data_flights\n  ]"
+  },
+  "status" : 400
+}
 ```
 
 </details>
@@ -1765,6 +2180,7 @@ GET /_sql/translate
 ##### IN Query DSL
 
 ```json
+GET /kibana_sample_data_flights
 
 ``` 
 
@@ -1772,7 +2188,116 @@ GET /_sql/translate
 <summary>Response:</summary>
 
 ```json
-
+{
+  "kibana_sample_data_flights" : {
+    "aliases" : { },
+    "mappings" : {
+      "properties" : {
+        "AvgTicketPrice" : {
+          "type" : "float"
+        },
+        "Cancelled" : {
+          "type" : "boolean"
+        },
+        "Carrier" : {
+          "type" : "keyword"
+        },
+        "Dest" : {
+          "type" : "keyword"
+        },
+        "DestAirportID" : {
+          "type" : "keyword"
+        },
+        "DestCityName" : {
+          "type" : "keyword"
+        },
+        "DestCountry" : {
+          "type" : "keyword"
+        },
+        "DestLocation" : {
+          "type" : "geo_point"
+        },
+        "DestRegion" : {
+          "type" : "keyword"
+        },
+        "DestWeather" : {
+          "type" : "keyword"
+        },
+        "DistanceKilometers" : {
+          "type" : "float"
+        },
+        "DistanceMiles" : {
+          "type" : "float"
+        },
+        "FlightDelay" : {
+          "type" : "boolean"
+        },
+        "FlightDelayMin" : {
+          "type" : "integer"
+        },
+        "FlightDelayType" : {
+          "type" : "keyword"
+        },
+        "FlightNum" : {
+          "type" : "keyword"
+        },
+        "FlightTimeHour" : {
+          "type" : "keyword"
+        },
+        "FlightTimeMin" : {
+          "type" : "float"
+        },
+        "Origin" : {
+          "type" : "keyword"
+        },
+        "OriginAirportID" : {
+          "type" : "keyword"
+        },
+        "OriginCityName" : {
+          "type" : "keyword"
+        },
+        "OriginCountry" : {
+          "type" : "keyword"
+        },
+        "OriginLocation" : {
+          "type" : "geo_point"
+        },
+        "OriginRegion" : {
+          "type" : "keyword"
+        },
+        "OriginWeather" : {
+          "type" : "keyword"
+        },
+        "dayOfWeek" : {
+          "type" : "integer"
+        },
+        "timestamp" : {
+          "type" : "date"
+        }
+      }
+    },
+    "settings" : {
+      "index" : {
+        "routing" : {
+          "allocation" : {
+            "include" : {
+              "_tier_preference" : "data_content"
+            }
+          }
+        },
+        "number_of_shards" : "1",
+        "auto_expand_replicas" : "0-1",
+        "provided_name" : "kibana_sample_data_flights",
+        "creation_date" : "1683033627395",
+        "number_of_replicas" : "0",
+        "uuid" : "d5rZ6-9NSSe3M7blks2d9Q",
+        "version" : {
+          "created" : "7170999"
+        }
+      }
+    }
+  }
+}
 ```
 
 </details>
