@@ -3800,18 +3800,38 @@ GET /shakespeare/_search
 
 </details>
 
-#### Example 1
+####  Find the 3 longest plays by shakespeare
 
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      play_name AS PlayName, 
+      COUNT(*) AS Entries
+    FROM
+      shakespeare
+    GROUP BY 
+      play_name
+    ORDER BY 
+      Entries DESC
+    LIMIT
+      3
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+   PlayName    |    Entries    
+---------------+---------------
+Hamlet         |4244           
+Coriolanus     |3992           
+Cymbeline      |3958           
 
 ```
 
@@ -3820,6 +3840,22 @@ GET /shakespeare/_search
 ##### Translate to Query DSL
 
 ```json
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      play_name AS PlayName, 
+      COUNT(*) AS Entries
+    FROM
+      shakespeare
+    GROUP BY 
+      play_name
+    ORDER BY 
+      Entries DESC
+    LIMIT
+      3
+  """
+}
 
 ``` 
 
@@ -3827,6 +3863,28 @@ GET /shakespeare/_search
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 0,
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "9deed572" : {
+              "terms" : {
+                "field" : "play_name.keyword",
+                "missing_bucket" : true,
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
 
 ```
 
@@ -3835,13 +3893,62 @@ GET /shakespeare/_search
 ##### IN Query DSL
 
 ```json
-
+GET /shakespeare/_search
+{
+  "size": 0,
+  "aggs": {
+    "top play names": {
+      "terms": {
+        "field": "play_name.keyword",
+        "size": 3
+      }
+    }
+  }
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 10000,
+      "relation" : "gte"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "top play names" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 99202,
+      "buckets" : [
+        {
+          "key" : "Hamlet",
+          "doc_count" : 4244
+        },
+        {
+          "key" : "Coriolanus",
+          "doc_count" : 3992
+        },
+        {
+          "key" : "Cymbeline",
+          "doc_count" : 3958
+        }
+      ]
+    }
+  }
+}
 
 ```
 
@@ -3854,13 +3961,35 @@ GET /shakespeare/_search
 ##### In SQL
 
 ```json
-
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT  
+      play_name AS PlayName, 
+      FIRST(text_entry, line_id) AS FirstText,
+      LAST(text_entry, line_id) AS LastText
+    FROM
+      shakespeare
+    WHERE 
+      text_entry NOT IN ('ACT I', 'PROLOGUE', 'Exeunt')
+    AND
+      play_name IN ('Hamlet', 'Romeo and Juliet')
+    AND 
+      text_entry NOT LIKE 'SCENE%'
+    GROUP BY 
+      play_name
+  """
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+    PlayName    |                 FirstText                  |                                          LastText                                           
+----------------+--------------------------------------------+---------------------------------------------------------------------------------------------
+Hamlet          |FRANCISCO at his post. Enter to him BERNARDO|A dead march. Exeunt, bearing off the dead bodies; after which a peal of ordnance is shot off
+Romeo and Juliet|Two households, both alike in dignity,      |Than this of Juliet and her Romeo.                                                           
 
 ```
 
@@ -3869,6 +3998,25 @@ GET /shakespeare/_search
 ##### Translate to Query DSL
 
 ```json
+GET _sql/translate
+{
+  "query": """
+    SELECT  
+      play_name AS PlayName, 
+      FIRST(text_entry, line_id) AS FirstText,
+      LAST(text_entry, line_id) AS LastText
+    FROM
+      shakespeare
+    WHERE 
+      text_entry NOT IN ('ACT I', 'PROLOGUE', 'Exeunt')
+    AND
+      play_name IN ('Hamlet', 'Romeo and Juliet')
+    AND 
+      text_entry NOT LIKE 'SCENE%'
+    GROUP BY 
+      play_name
+  """
+}
 
 ``` 
 
@@ -3876,6 +4024,149 @@ GET /shakespeare/_search
 <summary>Response:</summary>
 
 ```json
+{
+  "size" : 0,
+  "query" : {
+    "bool" : {
+      "must" : [
+        {
+          "bool" : {
+            "must" : [
+              {
+                "bool" : {
+                  "must_not" : [
+                    {
+                      "terms" : {
+                        "text_entry.keyword" : [
+                          "ACT I",
+                          "PROLOGUE",
+                          "Exeunt"
+                        ],
+                        "boost" : 1.0
+                      }
+                    }
+                  ],
+                  "adjust_pure_negative" : true,
+                  "boost" : 1.0
+                }
+              },
+              {
+                "terms" : {
+                  "play_name.keyword" : [
+                    "Hamlet",
+                    "Romeo and Juliet"
+                  ],
+                  "boost" : 1.0
+                }
+              }
+            ],
+            "adjust_pure_negative" : true,
+            "boost" : 1.0
+          }
+        },
+        {
+          "bool" : {
+            "must_not" : [
+              {
+                "wildcard" : {
+                  "text_entry.keyword" : {
+                    "wildcard" : "SCENE*",
+                    "boost" : 1.0
+                  }
+                }
+              }
+            ],
+            "adjust_pure_negative" : true,
+            "boost" : 1.0
+          }
+        }
+      ],
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "9deed572" : {
+              "terms" : {
+                "field" : "play_name.keyword",
+                "missing_bucket" : true,
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      },
+      "aggregations" : {
+        "be6cce9e" : {
+          "top_hits" : {
+            "from" : 0,
+            "size" : 1,
+            "version" : false,
+            "seq_no_primary_term" : false,
+            "explain" : false,
+            "docvalue_fields" : [
+              {
+                "field" : "text_entry.keyword"
+              }
+            ],
+            "sort" : [
+              {
+                "line_id" : {
+                  "order" : "asc",
+                  "missing" : "_last",
+                  "unmapped_type" : "long"
+                }
+              },
+              {
+                "text_entry.keyword" : {
+                  "order" : "asc",
+                  "missing" : "_last",
+                  "unmapped_type" : "text"
+                }
+              }
+            ]
+          }
+        },
+        "485a669c" : {
+          "top_hits" : {
+            "from" : 0,
+            "size" : 1,
+            "version" : false,
+            "seq_no_primary_term" : false,
+            "explain" : false,
+            "docvalue_fields" : [
+              {
+                "field" : "text_entry.keyword"
+              }
+            ],
+            "sort" : [
+              {
+                "line_id" : {
+                  "order" : "desc",
+                  "missing" : "_last",
+                  "unmapped_type" : "long"
+                }
+              },
+              {
+                "text_entry.keyword" : {
+                  "order" : "desc",
+                  "missing" : "_last",
+                  "unmapped_type" : "text"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
 
 ```
 
@@ -3884,13 +4175,335 @@ GET /shakespeare/_search
 ##### IN Query DSL
 
 ```json
-
+GET /shakespeare/_search
+{
+  "size" : 0,
+  "query" : {
+    "bool" : {
+      "must" : [
+        {
+          "bool" : {
+            "must" : [
+              {
+                "bool" : {
+                  "must_not" : [
+                    {
+                      "terms" : {
+                        "text_entry.keyword" : [
+                          "ACT I",
+                          "PROLOGUE",
+                          "Exeunt"
+                        ],
+                        "boost" : 1.0
+                      }
+                    }
+                  ],
+                  "adjust_pure_negative" : true,
+                  "boost" : 1.0
+                }
+              },
+              {
+                "terms" : {
+                  "play_name.keyword" : [
+                    "Hamlet",
+                    "Romeo and Juliet"
+                  ],
+                  "boost" : 1.0
+                }
+              }
+            ],
+            "adjust_pure_negative" : true,
+            "boost" : 1.0
+          }
+        },
+        {
+          "bool" : {
+            "must_not" : [
+              {
+                "wildcard" : {
+                  "text_entry.keyword" : {
+                    "wildcard" : "SCENE*",
+                    "boost" : 1.0
+                  }
+                }
+              }
+            ],
+            "adjust_pure_negative" : true,
+            "boost" : 1.0
+          }
+        }
+      ],
+      "adjust_pure_negative" : true,
+      "boost" : 1.0
+    }
+  },
+  "_source" : false,
+  "aggregations" : {
+    "groupby" : {
+      "composite" : {
+        "size" : 1000,
+        "sources" : [
+          {
+            "9deed572" : {
+              "terms" : {
+                "field" : "play_name.keyword",
+                "missing_bucket" : true,
+                "order" : "asc"
+              }
+            }
+          }
+        ]
+      },
+      "aggregations" : {
+        "be6cce9e" : {
+          "top_hits" : {
+            "from" : 0,
+            "size" : 1,
+            "version" : false,
+            "seq_no_primary_term" : false,
+            "explain" : false,
+            "docvalue_fields" : [
+              {
+                "field" : "text_entry.keyword"
+              }
+            ],
+            "sort" : [
+              {
+                "line_id" : {
+                  "order" : "asc",
+                  "missing" : "_last",
+                  "unmapped_type" : "long"
+                }
+              },
+              {
+                "text_entry.keyword" : {
+                  "order" : "asc",
+                  "missing" : "_last",
+                  "unmapped_type" : "text"
+                }
+              }
+            ]
+          }
+        },
+        "485a669c" : {
+          "top_hits" : {
+            "from" : 0,
+            "size" : 1,
+            "version" : false,
+            "seq_no_primary_term" : false,
+            "explain" : false,
+            "docvalue_fields" : [
+              {
+                "field" : "text_entry.keyword"
+              }
+            ],
+            "sort" : [
+              {
+                "line_id" : {
+                  "order" : "desc",
+                  "missing" : "_last",
+                  "unmapped_type" : "long"
+                }
+              },
+              {
+                "text_entry.keyword" : {
+                  "order" : "desc",
+                  "missing" : "_last",
+                  "unmapped_type" : "text"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
 ``` 
 
 <details>
 <summary>Response:</summary>
 
 ```json
+{
+  "took" : 66,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 7476,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "groupby" : {
+      "after_key" : {
+        "9deed572" : "Romeo and Juliet"
+      },
+      "buckets" : [
+        {
+          "key" : {
+            "9deed572" : "Hamlet"
+          },
+          "doc_count" : 4210,
+          "485a669c" : {
+            "hits" : {
+              "total" : {
+                "value" : 4210,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "shakespeare",
+                  "_type" : "_doc",
+                  "_id" : "36675",
+                  "_score" : null,
+                  "_source" : {
+                    "type" : "line",
+                    "line_id" : 36676,
+                    "play_name" : "Hamlet",
+                    "speech_number" : 147,
+                    "line_number" : "5.2.424",
+                    "speaker" : "PRINCE FORTINBRAS",
+                    "text_entry" : "A dead march. Exeunt, bearing off the dead bodies; after which a peal of ordnance is shot off"
+                  },
+                  "fields" : {
+                    "text_entry.keyword" : [
+                      "A dead march. Exeunt, bearing off the dead bodies; after which a peal of ordnance is shot off"
+                    ]
+                  },
+                  "sort" : [
+                    36676,
+                    "A dead march. Exeunt, bearing off the dead bodies; after which a peal of ordnance is shot off"
+                  ]
+                }
+              ]
+            }
+          },
+          "be6cce9e" : {
+            "hits" : {
+              "total" : {
+                "value" : 4210,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "shakespeare",
+                  "_type" : "_doc",
+                  "_id" : "32434",
+                  "_score" : null,
+                  "_source" : {
+                    "type" : "line",
+                    "line_id" : 32435,
+                    "play_name" : "Hamlet",
+                    "speech_number" : 138,
+                    "line_number" : "",
+                    "speaker" : "CYMBELINE",
+                    "text_entry" : "FRANCISCO at his post. Enter to him BERNARDO"
+                  },
+                  "fields" : {
+                    "text_entry.keyword" : [
+                      "FRANCISCO at his post. Enter to him BERNARDO"
+                    ]
+                  },
+                  "sort" : [
+                    32435,
+                    "FRANCISCO at his post. Enter to him BERNARDO"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "key" : {
+            "9deed572" : "Romeo and Juliet"
+          },
+          "doc_count" : 3266,
+          "485a669c" : {
+            "hits" : {
+              "total" : {
+                "value" : 3266,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "shakespeare",
+                  "_type" : "_doc",
+                  "_id" : "88592",
+                  "_score" : null,
+                  "_source" : {
+                    "type" : "line",
+                    "line_id" : 88593,
+                    "play_name" : "Romeo and Juliet",
+                    "speech_number" : 65,
+                    "line_number" : "5.3.321",
+                    "speaker" : "PRINCE",
+                    "text_entry" : "Than this of Juliet and her Romeo."
+                  },
+                  "fields" : {
+                    "text_entry.keyword" : [
+                      "Than this of Juliet and her Romeo."
+                    ]
+                  },
+                  "sort" : [
+                    88593,
+                    "Than this of Juliet and her Romeo."
+                  ]
+                }
+              ]
+            }
+          },
+          "be6cce9e" : {
+            "hits" : {
+              "total" : {
+                "value" : 3266,
+                "relation" : "eq"
+              },
+              "max_score" : null,
+              "hits" : [
+                {
+                  "_index" : "shakespeare",
+                  "_type" : "_doc",
+                  "_id" : "85283",
+                  "_score" : null,
+                  "_source" : {
+                    "type" : "line",
+                    "line_id" : 85284,
+                    "play_name" : "Romeo and Juliet",
+                    "speech_number" : 7,
+                    "line_number" : "1.0.1",
+                    "speaker" : "RICHMOND",
+                    "text_entry" : "Two households, both alike in dignity,"
+                  },
+                  "fields" : {
+                    "text_entry.keyword" : [
+                      "Two households, both alike in dignity,"
+                    ]
+                  },
+                  "sort" : [
+                    85284,
+                    "Two households, both alike in dignity,"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
 
 ```
 
