@@ -30,7 +30,8 @@
 >> 
 >
 
-> NOTE: 
->
->> The bool query takes a `more-matches-is-better` approach, so the score from each matching must or should clause will be added together to provide the final _score for each document.
->> 
+**Note:** 
+
+> 
+> The bool query takes a `more-matches-is-better` approach, so the score from each matching must or should clause will be added together to provide the final _score for each document.
+> 
