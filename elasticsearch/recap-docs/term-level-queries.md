@@ -1,7 +1,7 @@
 ### Types of term-level queries
 
 > 
-> [***term query***](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html)
+> [***term*** query](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html)
 > 
 >> 
 >> Returns documents that contain an exact term in a provided field.
