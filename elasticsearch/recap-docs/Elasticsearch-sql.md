@@ -1,5 +1,7 @@
 ### Elasticsearch SQL
 
+See [Elasticsearch SQL](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/xpack-sql.html)
+
 #### SQL Commands
 
 > DESCRIBE TABLE
@@ -162,7 +164,7 @@ POST /_sql?format=txt
 
 ```
 
-#### Date-T ime functions
+#### Date-Time Functions
 
 - CURRENT_DATE/CURDATE/CURRENT_TIME/CURTIME/CURRENT_TIMESTAMP
 - DATE_ADD/DATEADD/TIMESTAMP_ADD/TIMESTAMPADD
