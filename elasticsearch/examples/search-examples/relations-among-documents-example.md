@@ -617,7 +617,7 @@ POST /person-object/_doc
   > The `events.title` and `events.date` fields are flattened into multi-value fields, and the **association between `elasticsearch` and `2019-10-10` is lost**. 
   > 
 
-  Try this:
+  Now try this:
 
   ```json
 
@@ -643,7 +643,7 @@ POST /person-object/_doc
 
   ```
 
-  **Response:** ***WRONG!!!!!!!!!***
+  **Response**: ***WRONG!!!!!!!!!***
 
   ```json
 
@@ -722,27 +722,13 @@ POST /person-object/_doc
 
   ```
 
-- Index  document
-
-  ```json
-
-  PUT /person-nested/_doc/1
-  {
-    "name": "Michal",
-    "surname": "Tumilowicz",
-    "address": {
-      "street": "Tamka",
-      "city": "Warsaw"
-    }
-  }
-
-  ```
-
-- Find by each field
-
-- Find by each field and show nested documents that matches the query
-
 #### Index Nested
+
+> 
+> Nested objects index each object in the array as a separate hidden document. 
+> 
+>> Meaning that each nested object can be queried independently of the others with the nested query.
+>>  
 
 - mapping
 
@@ -774,12 +760,340 @@ POST /person-object/_doc
     }
   }
 
+  OR:
+
+  PUT /person-nested
+  {
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text"
+        },
+        "surname": {
+          "type": "text"
+        },
+        "address": {
+          "type": "nested"
+        }
+        
+      }
+    }
+  }  
+
   ```
 
+- Index document
 
-##### Index Single
+  ```json
 
-##### Index Array
+  POST person-nested/_create/1
+  {
+    "name": "Michal",
+    "surname": "Tumilowicz",
+    "address": {
+      "street": "Tamka",
+      "city": "Warsaw"
+    }
+  }
+
+  ```
+
+- Find by each field
+
+  ```json
+
+  GET /person-nested/_search
+  {
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "match": {
+              "name": "Michal"
+            }
+          },
+          {
+            "match": {
+              "surname": "Tumilowicz"
+            }
+          },
+          {
+            "nested": {
+              "path": "address",
+              "query": {
+                "bool": {
+                  "must": [
+                    {
+                      "match": {
+                        "address.city": "Warsaw"
+                      }
+                    },
+                    {
+                      "match": {
+                        "address.street": "Tamka"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+
+  ```
+
+- Find by each field and show nested documents that matches the query
+
+  ```json
+
+  GET /person-nested/_search
+  {
+    "query": {
+      "nested": {
+        "path": "address",
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "address.city": "Tehran"
+                }
+              },
+              {
+                "match": {
+                  "address.street": "Ferdoos"
+                }  
+              }
+            ]
+          }
+        },
+        "inner_hits": {
+          "highlight": {
+            "fields": {
+              "address.city": {}
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ```
+
+  Response: 
+
+  ```json
+
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 1.1507283,
+      "hits" : [
+        {
+          "_index" : "person-nested",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 1.1507283,
+          "_source" : {
+            "name" : "Michal",
+            "surname" : "Tumilowicz",
+            "address" : {
+              "street" : "Tamka",
+              "city" : "Warsaw"
+            }
+          },
+          "inner_hits" : {
+            "address" : {
+              "hits" : {
+                "total" : {
+                  "value" : 1,
+                  "relation" : "eq"
+                },
+                "max_score" : 0.5753642,
+                "hits" : [
+                  {
+                    "_index" : "person-nested",
+                    "_type" : "_doc",
+                    "_id" : "1",
+                    "_nested" : {
+                      "field" : "address",
+                      "offset" : 0
+                    },
+                    "_score" : 0.5753642,
+                    "_source" : {
+                      "city" : "Warsaw",
+                      "street" : "Tamka"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+
+  ```
+
+##### Index nested 2
+
+- mapping
+
+  ```json
+
+  PUT /programing-groups-nested
+  {
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text"
+        },
+        "eventTitles": {
+          "type": "text"
+        },
+        "events": {
+          "type": "nested",
+          "properties": {
+            "title": {
+              "type": "text",
+              "copy_to": "eventTitles"
+            },
+            "date": {
+              "type": "date"
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ```
+
+- Index document
+
+  ```json
+
+  POST /programing-groups-nested/_create/1
+  {
+    "name": "WJUG",
+    "test": "test",
+    "events": [
+      {
+        "title": "elasticsearch",
+        "date": "2019-10-10"
+      },
+      {
+        "title": "java",
+        "date": "2018-10-10"
+      }
+    ]
+  }
+
+  ```
+
+- Find all groups that have events concerning "elasticsearch" and took place in 2019
+
+  ```json
+
+  GET /programing-groups-nested/_search
+  {
+    "query": {
+      "nested": {
+        "path": "events",
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "events.title": "elasticsearch"
+                }
+              },
+              {
+                "range": {
+                  "events.date": {
+                    "gte": "2018-01-01",
+                    "lt": "2020-01-01"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "fields": [
+      "eventTitles"
+    ]
+  }
+
+  ```
+
+  Response:
+
+  ```json
+
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 1.6931472,
+      "hits" : [
+        {
+          "_index" : "programing-groups-nested",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 1.6931472,
+          "_source" : {
+            "name" : "WJUG",
+            "test" : "test",
+            "events" : [
+              {
+                "title" : "elasticsearch",
+                "date" : "2019-10-10"
+              },
+              {
+                "title" : "java",
+                "date" : "2018-10-10"
+              }
+            ]
+          },
+          "fields" : {
+            "eventTitles" : [
+              "elasticsearch",
+              "java"
+            ]
+          }
+        }
+      ]
+    }
+  }
+
+  ```
 
 ##### aggregations
 
