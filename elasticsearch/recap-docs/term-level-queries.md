@@ -1,5 +1,53 @@
 ### Types of term-level queries
 
+> 
+> [***term query***](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html)
+> 
+>> 
+>> Returns documents that contain an exact term in a provided field.
+>> 
+>> `{"query":{"match":{"message":{"query":"this is a test"}}}}`
+>> 
+>
+> ***terms query***
+> 
+>> 
+>> Returns documents that contain one or more exact terms in a provided field.
+>> 
+>> `{"query":{"multi_match":{"query":"this is a test","fields":["subject","message"]}}}`
+>> 
+>
+> ***range query***
+> 
+>> 
+>> Returns documents that contain terms within a provided range.
+>> 
+>> `{"query":{"query_string":{"query":"(new york city) OR (big apple)","default_field":"content"}}}`
+>> 
+> 
+> ***exists query***
+> 
+>> 
+>> Returns documents that contain any indexed value for a field.
+>> 
+>> `{"query":{"match_phrase":{"message":"this is a test"}}}`
+>> 
+> 
+> ***wildcard query***
+> 
+> ***fuzzy query***
+> 
+> ***ids query***
+> 
+> ***prefix query***
+> 
+> ***regexp query***
+> 
+> ***type query***
+> 
+> ***terms_set query***
+> 
+
 - [exists query](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-exists-query.html)
     Returns documents that contain any indexed value for a field.
 - [fuzzy query](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-fuzzy-query.html)
