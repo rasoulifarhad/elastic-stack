@@ -161,3 +161,39 @@ POST /_sql?format=txt
 }
 
 ```
+
+#### Date-T ime functions
+
+- CURRENT_DATE/CURDATE/CURRENT_TIME/CURTIME/CURRENT_TIMESTAMP
+- DATE_ADD/DATEADD/TIMESTAMP_ADD/TIMESTAMPADD
+- DATE_DIFF/DATEDIFF/TIMESTAMP_DIFF/TIMESTAMPDIFF
+- DATE_PARSE/DATETIME_FORMAT/DATETIME_PARSE
+- DATE_PART/DATEPART/DATE_TRUNC/DATETRUNC
+- DAY_OF_MONTH/DOM/DAY/DAY_OF_WEEK/DAYOFWEEK/DOW/DAY_OF_YEAR/DOY/
+- DAY_NAME/DAYNAME/MONTH_OF_YEAR/MONTH/MONTH_NAME/MONTHNAME
+- HOUR_OF_DAY/HOUR/MINUTE_OF_DAY/MINUTE_OF_HOUR/MINUTE/SECOND_OF_MINUTE/SECOND
+- QUARTER/WEEK_OF_YEAR/WEEK/YEAR
+- TIME_PARSE
+- NOW
+
+#### Operators
+
+- Equality (=) , Null safe Equality (<=>) , Inequality (<> or !=) , Comparison (<, <=, >, >=)
+- IS NULL/IS NOT NULL  , BETWEEN , IN (<value1>, <value2>, ...)
+- AND , OR , NOT
+- Add (+) , Subtract (infix -) , Negate (unary -) , 
+- Multiply (*) , Divide (/) , Modulo or Remainder(%)
+- Cast (::)
+
+#### vAggregate Functions
+
+- AVG
+- COUNT
+- COUNT(ALL)
+- COUNT(DISTINCT)
+- FIRST/FIRST_VALUE
+- LAST/LAST_VALUE
+- MAX
+- MIN
+- SUM
+

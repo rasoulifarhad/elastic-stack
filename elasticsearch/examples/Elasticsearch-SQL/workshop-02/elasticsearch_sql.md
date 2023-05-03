@@ -6769,48 +6769,4 @@ import kibana sample data flights
   }
 
   ```
-- Other date/time functions
-
-  - DAY_OF_MONTH/DOM/DAY
-  - DAY_OF_WEEK/DAYOFWEEK/DOW
-  - DAY_OF_YEAR/DOY
-  - DAY_NAME/DAYNAME
-  - EXTRACT
-  - HOUR_OF_DAY/HOUR
-  - ISO_DAY_OF_WEEK/ISODAYOFWEEK/ISODOW/IDOW
-  - ISO_WEEK_OF_YEAR/ISOWEEKOFYEAR/ISOWEEK/IWOY/IW
-  - MINUTE_OF_DAY
-  - MINUTE_OF_HOUR/MINUTE
-  - MONTH_OF_YEAR/MONTH
-  - MONTH_NAME/MONTHNAME
-  - NOW
-  - SECOND_OF_MINUTE/SECOND
-  - QUARTER
-  - TIME_PARSE
-  - TO_CHAR
-  - WEEK_OF_YEAR/WEEK
-  - YEAR
-
-- Operators
-
-  - Equality (=)
-  - Null safe Equality (<=>)
-  - Inequality (<> or !=)
-  - Comparison (<, <=, >, >=)
-  - BETWEEN
-  - IS NULL/IS NOT NULL
-  - IN (<value1>, <value2>, ...)
-  - AND
-  - OR
-  - NOT
-  - Add (+)
-  - Subtract (infix -)
-  - Negate (unary -)
-  - Multiply (*)
-  - Divide (/)
-  - Modulo or Remainder(%)
-  - Cast (::)
-
-
-
 
