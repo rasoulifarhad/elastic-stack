@@ -6,7 +6,7 @@
 >> 
 >> The standard query for performing full text queries, including fuzzy matching and phrase or proximity queries.
 >> 
->> {"query":{"match":{"message":{"query":"this is a test"}}}}
+>> `{"query":{"match":{"message":{"query":"this is a test"}}}}`
 >> 
 >
 > ***multi_match query***
@@ -14,7 +14,7 @@
 >> 
 >> The multi-field version of the match query.
 >> 
->> {"query":{"multi_match":{"query":"this is a test","fields":["subject","message"]}}}
+>> `{"query":{"multi_match":{"query":"this is a test","fields":["subject","message"]}}}`
 >> 
 >
 > ***query_string query***
