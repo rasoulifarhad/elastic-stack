@@ -1154,7 +1154,7 @@ import kibana sample data flights
 
 
 
-#### Uing wildcard
+#### Using wildcard
 
 - In SQL
 
@@ -2708,7 +2708,7 @@ import kibana sample data flights
 
   ```
 
-#### Example 1
+#### Full-text search function - match && sort with score
 
 - In SQL
 
@@ -2870,7 +2870,7 @@ import kibana sample data flights
   }
   ```
 
-#### Example 1
+#### Full-text search function - multi-match
 
 - In SQL
 
@@ -3140,7 +3140,7 @@ import kibana sample data flights
 
   </details>
 
-#### Example 1
+#### Full-text search function - match with options
 
 - In SQL
 
@@ -3536,7 +3536,7 @@ import kibana sample data flights
 
   </details>
 
-#### Example 1
+#### Full-text search function - Multiple match with boolean operators
 
 - In SQL
 
@@ -3955,7 +3955,7 @@ import kibana sample data flights
 
 
 
-#### Example 1
+#### Aggregation with FIRST & LAST functions
 
 - In SQL
 
@@ -4510,7 +4510,7 @@ import kibana sample data flights
 
 
 
-#### Example 1
+#### Aggregation with having & order
 
 - In SQL
 
@@ -4531,10 +4531,10 @@ import kibana sample data flights
         Origin
       HAVING 
         MinDistance > 0
-    ORDER BY 
-      MIN(DistanceMiles)
-    LIMIT
-      20
+      ORDER BY 
+        MIN(DistanceMiles)
+      LIMIT
+        20
       
     """
   }
@@ -6489,133 +6489,135 @@ import kibana sample data flights
 
 ### No comment
 
-```json
+- Date/Time and Interval Functions and Operators
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      INTERVAL 1 DAY  AS Result
-  """
-}
+  ```json
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      CAST('1969-05-13T12:34:56' AS DATETIME)  AS Result
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        INTERVAL 1 DAY  AS Result
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      CAST('1969-05-13T12:34:56' AS DATETIME) + INTERVAL 45 YEARS  AS Result
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        CAST('1969-05-13T12:34:56' AS DATETIME)  AS Result
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-     - INTERVAL '49-1' YEAR TO MONTH AS Result
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        CAST('1969-05-13T12:34:56' AS DATETIME) + INTERVAL 45 YEARS  AS Result
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      INTERVAL '1' DAYS - INTERVAL '2' HOURS Result
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+      - INTERVAL '49-1' YEAR TO MONTH AS Result
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      CAST('2018-05-13T12:34:56' AS DATETIME) - INTERVAL '2' YEARS AS Result1,
-      CAST('2018-05-13T12:34:56' AS DATETIME) - INTERVAL '2-8' YEARS TO MONTH AS Result2
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        INTERVAL '1' DAYS - INTERVAL '2' HOURS Result
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      -2 * INTERVAL '3' YEARS AS Result
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        CAST('2018-05-13T12:34:56' AS DATETIME) - INTERVAL '2' YEARS AS Result1,
+        CAST('2018-05-13T12:34:56' AS DATETIME) - INTERVAL '2-8' YEARS TO MONTH AS Result2
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      CURRENT_DATE AS result1,
-      CURRENT_DATE() AS result2,
-      CURDATE() AS result3,
-      TODAY() AS result4
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        -2 * INTERVAL '3' YEARS AS Result
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      TODAY() - INTERVAL 53 YEARS AS result
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        CURRENT_DATE AS result1,
+        CURRENT_DATE() AS result2,
+        CURDATE() AS result3,
+        TODAY() AS result4
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      CURRENT_TIME   AS result1,
-      CURRENT_TIME() AS result2,
-      CURTIME()      AS result3
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        TODAY() - INTERVAL 53 YEARS AS result
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      CAST('12:34:56' AS TIME) - INTERVAL '20' MINUTES AS result
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        CURRENT_TIME   AS result1,
+        CURRENT_TIME() AS result2,
+        CURTIME()      AS result3
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      CURRENT_TIME    AS def_precision,
-      CURRENT_TIME(1) AS precision_1,
-      CURRENT_TIME(2) AS precision_2,
-      CURRENT_TIME(3) AS precision_3
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        CAST('12:34:56' AS TIME) - INTERVAL '20' MINUTES AS result
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      CURRENT_TIMESTAMP    AS def_precision,
-      CURRENT_TIMESTAMP(1) AS precision_1,
-      CURRENT_TIMESTAMP(2) AS precision_2,
-      CURRENT_TIMESTAMP(3) AS precision_3
-  """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        CURRENT_TIME    AS def_precision,
+        CURRENT_TIME(1) AS precision_1,
+        CURRENT_TIME(2) AS precision_2,
+        CURRENT_TIME(3) AS precision_3
+    """
+  }
 
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT  
-      NOW() - INTERVAL '100' YEARS AS result
-   """
-}
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        CURRENT_TIMESTAMP    AS def_precision,
+        CURRENT_TIMESTAMP(1) AS precision_1,
+        CURRENT_TIMESTAMP(2) AS precision_2,
+        CURRENT_TIMESTAMP(3) AS precision_3
+    """
+  }
 
-```
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT  
+        NOW() - INTERVAL '100' YEARS AS result
+    """
+  }
+
+  ```
 
 - DATE_ADD , DATEADD , TIMESTAMP_ADD , TIMESTAMPADD
 
