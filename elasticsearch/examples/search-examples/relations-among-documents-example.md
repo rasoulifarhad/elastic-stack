@@ -576,6 +576,118 @@ POST /person-object/_doc
 
   ```
 
+- How arrays of objects are flattened
+
+  > 
+  > Elasticsearch has no concept of inner objects. Therefore, it flattens object hierarchies into a simple list of field names and values. 
+  > 
+
+  This document :
+
+  ```json
+
+  {
+    "name": "WJUG",
+    "events": [
+      {
+        "title": "elasticsearch",
+        "date": "2019-10-10"
+      },
+      {
+        "title": "java",
+        "date": "2018-10-10"
+      }
+    ]
+  }
+    
+  ```
+
+  Internally transformed into a document that looks more like this: 
+
+  ```json
+
+  {
+    "name": "WJUG",
+    "events.title": [ "elasticsearch", "java" ],
+    "events.date": [ "2019-10-10", "2018-10-10" ]
+  }
+
+  ```
+  > 
+  > The `events.title` and `events.date` fields are flattened into multi-value fields, and the **association between `elasticsearch` and `2019-10-10` is lost**. 
+  > 
+
+  Try this:
+
+  ```json
+
+  GET /programing-groups/_search
+  {
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "match": {
+              "events.title": "elasticsearch"
+            }
+          },
+          {
+            "match": {
+              "events.date": "2018-10-10"
+            }
+          }
+        ]
+      }
+    }
+  }
+
+  ```
+
+  **Response:** ***WRONG!!!!!!!!!***
+
+  ```json
+
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 1.287682,
+      "hits" : [
+        {
+          "_index" : "programing-groups",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 1.287682,
+          "_source" : {
+            "name" : "WJUG",
+            "events" : [
+              {
+                "title" : "elasticsearch",
+                "date" : "2019-10-10"
+              },
+              {
+                "title" : "java",
+                "date" : "2018-10-10"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+
+  ```
+
 - Find all groups that:  
 
   - have events concerning "elasticsearch" and 
@@ -610,8 +722,60 @@ POST /person-object/_doc
 
   ```
 
+- Index  document
+
+  ```json
+
+  PUT /person-nested/_doc/1
+  {
+    "name": "Michal",
+    "surname": "Tumilowicz",
+    "address": {
+      "street": "Tamka",
+      "city": "Warsaw"
+    }
+  }
+
+  ```
+
+- Find by each field
+
+- Find by each field and show nested documents that matches the query
 
 #### Index Nested
+
+- mapping
+
+  ```json
+
+  PUT /person-nested
+  {
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text"
+        },
+        "surname": {
+          "type": "text"
+        },
+        "address": {
+          "type": "nested",
+          "properties": {
+            "street": {
+              "type": "text"
+            },
+            "city": {
+              "type": "text"
+            }
+          }
+        }
+        
+      }
+    }
+  }
+
+  ```
+
 
 ##### Index Single
 
