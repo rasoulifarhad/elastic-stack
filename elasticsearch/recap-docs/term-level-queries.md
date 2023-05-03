@@ -6,7 +6,7 @@
 >> 
 >> Returns documents that contain an exact term in a provided field.
 >> 
->> `{"query":{"match":{"message":{"query":"this is a test"}}}}`
+>> `{"query":{"term":{"user.id":{"value":"kimchy","boost":1}}}}`
 >> 
 >
 > [***terms*** query](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-terms-query.html)
@@ -14,7 +14,7 @@
 >> 
 >> Returns documents that contain one or more exact terms in a provided field.
 >> 
->> `{"query":{"multi_match":{"query":"this is a test","fields":["subject","message"]}}}`
+>> `{"query":{"terms":{"user.id":["kimchy","elkbee"],"boost":1}}}`
 >> 
 >
 > [***range*** query](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-range-query.html)
@@ -22,7 +22,7 @@
 >> 
 >> Returns documents that contain terms within a provided range.
 >> 
->> `{"query":{"query_string":{"query":"(new york city) OR (big apple)","default_field":"content"}}}`
+>> `{"query":{"range":{"age":{"gte":10,"lte":20,"boost":2}}}}`
 >> 
 > 
 > [***exists*** query](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-exists-query.html)
@@ -30,7 +30,9 @@
 >> 
 >> Returns documents that contain any indexed value for a field.
 >> 
->> `{"query":{"match_phrase":{"message":"this is a test"}}}`
+>> `{"query":{"exists":{"field":"user"}}}`
+>> 
+>> `{"query":{"bool":{"must_not":{"exists":{"field":"user.id"}}}}}`
 >> 
 
 <!--
