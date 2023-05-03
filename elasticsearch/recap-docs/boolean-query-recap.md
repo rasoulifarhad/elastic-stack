@@ -35,6 +35,11 @@
 > The bool query takes a `more-matches-is-better` approach, so the score from each matching must or should clause will be added together to provide the final _score for each document.
 > 
 
+***minimum_should_match***
+> 
+> Specify the number or percentage of should clauses returned documents must match.
+> 
+
 ##### Example
 
 > 
