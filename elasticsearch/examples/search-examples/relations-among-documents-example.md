@@ -1095,6 +1095,91 @@ POST /person-object/_doc
 
   ```
 
+- Find all groups that have events with title java and elasticsearch
+
+  ```json
+
+  GET /programing-groups-nested/_search
+  {
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "term": {
+              "eventTitles": {
+                "value": "elasticsearch"
+              }
+            }
+          },
+          {
+            "term": {
+              "eventTitles": {
+                "value": "java"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "fields": [
+      "eventTitles"
+    ]
+  }
+
+  ```
+
+  Response: 
+
+  ```json
+
+  {
+    "took" : 0,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 0.5753642,
+      "hits" : [
+        {
+          "_index" : "programing-groups-nested",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 0.5753642,
+          "_source" : {
+            "name" : "WJUG",
+            "test" : "test",
+            "events" : [
+              {
+                "title" : "elasticsearch",
+                "date" : "2019-10-10"
+              },
+              {
+                "title" : "java",
+                "date" : "2018-10-10"
+              }
+            ]
+          },
+          "fields" : {
+            "eventTitles" : [
+              "elasticsearch",
+              "java"
+            ]
+          }
+        }
+      ]
+    }
+  }
+
+  ```
+
 ##### aggregations
 
 #### join
