@@ -528,6 +528,89 @@ POST /person-object/_doc
 
 ##### Index Array
 
+- mappings
+
+  ```json
+
+  PUT /programing-groups
+  {
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text"
+        },
+        "events": {
+          "properties": {
+            "title": {
+              "type": "text"
+            },
+            "date": {
+              "type": "date"
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ```
+
+- Index document
+
+  ```json
+
+  PUT /programing-groups/_doc/1
+  {
+    "name": "WJUG",
+    "events": [
+      {
+        "title": "elasticsearch",
+        "date": "2019-10-10"
+      },
+      {
+        "title": "java",
+        "date": "2018-10-10"
+      }
+    ]
+  }
+
+  ```
+
+- Find all groups that:  
+
+  - have events concerning "elasticsearch" and 
+
+  - took place in 2018
+
+  ```json
+  GET /programing-groups/_search
+  {
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "term": {
+              "events.title": {
+                "value": "elasticsearch"
+              }
+            }
+          },
+          {
+            "range": {
+              "events.date": {
+                "gte": "2018-01-01",
+                "lt": "2019-01-01"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+
+  ```
+
+
 #### Index Nested
 
 ##### Index Single

@@ -1,0 +1,32 @@
+### Boolean query 
+
+> 
+> must
+> 
+>> 
+>> The clause (query) must appear in matching documents and will contribute to the score.
+>> 
+>
+> filter
+> 
+>> 
+>> The clause (query) must appear in matching documents.
+>> 
+>>  Filter clauses are executed in filter context, meaning that scoring is ignored and clauses are considered for caching.
+>>
+>
+> should
+> 
+>> 
+>> The clause (query) should appear in the matching document. 
+>> 
+>> Clauses are executed in `filter context` meaning that scoring is ignored and clauses are considered for caching.
+>> 
+>
+> must_not
+> 
+>> 
+>> The clause (query) must not appear in the matching documents. 
+>> 
+>
+
