@@ -67,15 +67,15 @@
 
 #### SQL Translate API
 
->>  
->> ```json
->> POST /_sql/translate
->> {
->>   "query": "SELECT * FROM library ORDER BY page_count DESC",
->>   "fetch_size": 10
->> }
->> ```
->>  
+>  
+> ```json
+> POST /_sql/translate
+> {
+>   "query": "SELECT * FROM library ORDER BY page_count DESC",
+>   "fetch_size": 10
+> }
+> ```
+>  
 
 #### Paginating through a large response
 
