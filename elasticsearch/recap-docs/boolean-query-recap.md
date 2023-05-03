@@ -35,3 +35,53 @@
 > 
 > The bool query takes a `more-matches-is-better` approach, so the score from each matching must or should clause will be added together to provide the final _score for each document.
 > 
+
+##### Example
+
+> 
+> POST _search
+> 
+> {
+> 
+>   "query": {
+> 
+>     "bool" : {
+> 
+>       "must" : {
+> 
+>         "term" : { "user.id" : "kimchy" }
+> 
+>       },
+> 
+>       "filter": {
+> 
+>         "term" : { "tags" : "production" }
+> 
+>       },
+> 
+>       "must_not" : {
+> 
+>         "range" : {
+> 
+>           "age" : { "gte" : 10, "lte" : 20 }
+> 
+>         }
+> 
+>       },
+> 
+>       "should" : [
+> 
+>         { "term" : { "tags" : "deployed" } }
+> 
+>       ],
+> 
+>       "minimum_should_match" : 1,
+> 
+>       "boost" : 1.0
+> 
+>     }
+> 
+>   }
+> 
+> }
+> 
