@@ -54,3 +54,23 @@
 > 
 
 -->
+
+### Match all and Match none  
+
+> 
+> [***match_all*** query](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-match-all-query.html)
+> 
+>> 
+>> The most simple query, which matches all documents, giving them all a `_score` of `1.0`.
+>> 
+>> `{"query":{"match_all":{}}}`
+>> 
+>
+> [***match_none*** query](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-match-all-query.html)
+> 
+>> 
+>> This is the inverse of the match_all query, which matches no documents.
+>> 
+>> `{"query":{"match_none":{}}}`
+>> 
+
