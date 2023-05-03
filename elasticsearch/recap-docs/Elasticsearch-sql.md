@@ -185,7 +185,7 @@ POST /_sql?format=txt
 - Multiply (*) , Divide (/) , Modulo or Remainder(%)
 - Cast (::)
 
-#### vAggregate Functions
+#### Aggregate Functions
 
 - AVG
 - COUNT
