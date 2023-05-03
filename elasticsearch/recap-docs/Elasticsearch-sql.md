@@ -79,7 +79,7 @@
 
 #### Paginating through a large response
 
-- Request
+1. First Request
 
     ```json
     POST /_sql?format=json
@@ -89,7 +89,7 @@
     }
     ```
 
-- Response
+2.  Response
 
     ```json
     {
@@ -104,7 +104,7 @@
     "cursor": "sDXF1ZXJ5QW5kRmV0Y2gBAAAAAAAAAAEWWWdrRlVfSS1TbDYtcW9lc1FJNmlYdw==:BAFmBmF1dGhvcgFmBG5hbWUBZgpwYWdlX2NvdW50AWYMcmVsZWFzZV9kYXRl+v///w8="
     }
     ```
-- Continue to the next page by sending back the cursor field.
+3. Continue to the next page by sending back the cursor field.
 
     ```json
     POST /_sql?format=json
@@ -113,7 +113,7 @@
     }
     ```
 
-- We’ve reached the last page when there is no cursor returned in the results. 
+4. We’ve reached the last page when there is no cursor returned in the results. 
 
 #### Filtering using Elasticsearch Query DSL
 
