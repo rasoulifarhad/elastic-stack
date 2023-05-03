@@ -1,7 +1,7 @@
 ### Full text queries 
 
 > 
-> match query
+> ***match query***
 > 
 >> 
 >> The standard query for performing full text queries, including fuzzy matching and phrase or proximity queries.
