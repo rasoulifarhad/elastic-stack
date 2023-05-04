@@ -1,0 +1,36 @@
+{
+  "mappings": { 
+  "properties":{
+      "title":{
+        "type":"text",
+        "fields": {
+          "original":{
+            "type":"keyword"
+          }
+        }  
+      },
+      "genre":{
+        "type": "text"
+      },
+      "synopsis":{
+        "type": "text"
+      },
+      "duration":{
+        "type": "integer"
+      },
+      "rating":{
+        "type": "keyword"
+      },
+      "actors":{
+        "type": "text"
+      },
+      "release_year":{
+        "type": "date",
+        "format": "dd-MM-yyyy"
+      },
+      "user_rating":{
+        "type": "float"
+      }
+    }
+  }
+}

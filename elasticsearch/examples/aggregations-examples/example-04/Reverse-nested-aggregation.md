@@ -131,7 +131,6 @@ Two step:
 - Request
 
     ```json
-
     GET /club/_search
     {
     "size": 0,
@@ -144,7 +143,6 @@ Two step:
         }
     }
     }
-
     ```
 
 - Response:

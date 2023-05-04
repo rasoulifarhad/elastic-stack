@@ -1,0 +1,387 @@
+GET products/_search
+{
+  "query": {
+    "bool": { 
+      "must": [ 
+        {
+          "match": { 
+            "product": "TV"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# TVs in a price range
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [ 
+        {
+          "match": { 
+            "product": "TV"
+          }
+        },
+        {
+          "range": { 
+            "price": {
+              "gte": 700,
+              "lte": 800
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+# TVs in a price range with a particular colour
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "range": {
+            "price": {
+              "gte": 1000,
+              "lte": 2000
+            }
+          }
+        }, 
+        {
+          "terms": {
+            "colour": [
+              "silver",
+              "black"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+# TVs in a 4k resolution range with a particular colour
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "term": {
+            "resolution": "4k"
+          }
+        }, 
+        {
+          "terms": {
+            "colour": [
+              "silver",
+              "black"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+## Searching for all TVs but not of specified brands
+GET products/_search
+{
+ "query": {
+   "bool": {
+     "must_not": [
+       {
+         "terms": {
+           "brand.keyword": [
+             "Samsung",
+             "Philips"
+           ]
+         }
+       }
+     ]
+   }
+ }
+}
+
+# Fetching only TVs for specifying the brand using must_not query clause
+GET products/_search
+{
+ "query": {
+   "bool": {
+     "must_not": [
+       {
+         "terms": {
+           "brand.keyword": [
+             "Philips",
+             "Samsung"
+           ]
+         }
+       }
+     ],
+     "must": [
+       {
+         "match": {
+           "product": "TV"
+         }
+       }
+     ]
+   }
+ }
+}
+
+## Should clause
+
+# This will fetch eihter brand matching "LG" or product "TV"
+GET products/_search
+{
+  "_source": ["product","brand", "overview","price"], 
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        },
+        {
+          "match_phrase_prefix": {
+            "overview": "4k ultra hd"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# This will fetch LG TVs using a must query - note the score
+GET products/_search
+{
+  "_source": ["product","brand"], 
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ],
+      "should": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        },
+        {
+          "match_phrase_prefix": {
+            "overview": "4k ultra hd"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+# Adding should clause boosts the score 
+GET products/_search
+{
+  "_source": ["product","brand","overview", "price"], 
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ], 
+      "should": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        },
+        {
+          "match_phrase_prefix": {
+            "overview": "4k ultra hd"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# Adding should clause with minimu_should_match
+GET products/_search
+{ 
+  "_source": ["product","brand","overview", "price","colour"], 
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ], 
+      "should": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        },
+        {
+          "match": {
+            "colour": "silver"
+          }
+        },
+        {
+          "match_phrase_prefix": {
+            "overview": "4kk"
+          }
+        }
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}
+
+# Filter clause
+GET products/_search
+{
+  "_source": ["brand","product","colour"], 
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "term": {
+            "product.keyword": "TV"
+          }
+        },
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# Filter clause with must
+GET products/_search
+{
+  "_source": ["brand","product","colour","price"], 
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ], 
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+#All clauses combined
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "colour": "silver"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "energy_rating": "A++"
+          }
+        },
+        {
+          "term": {
+            "type": "Fridge Freezer"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        }
+      ]
+    }
+  }
+}
