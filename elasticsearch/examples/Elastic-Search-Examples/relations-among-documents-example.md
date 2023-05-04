@@ -189,6 +189,64 @@ POST _bulk
 ```
 -->
 
+<!--
+
+OR 
+
+POST /leage/_doc
+{
+  "name": "Team 1",
+  "players": [
+    {"identity": "Player_1", "games": 30, "nationality": "FR"},
+    {"identity": "Player_2", "games": 15, "nationality": "DE"},
+    {"identity": "Player_3", "games": 34, "nationality": "FR"},
+    {"identity": "Player_4", "games": 11, "nationality": "BR"},
+    {"identity": "Player_5", "games": 4, "nationality": "BE"},
+    {"identity": "Player_6", "games": 11, "nationality": "FR"}    
+  ]
+}
+
+POST /leage/_doc
+{
+  "name": "Team 2",
+  "players": [
+    {"identity": "Player_20", "games": 11, "nationality": "FR"},
+    {"identity": "Player_21", "games": 15, "nationality": "FR"},
+    {"identity": "Player_22", "games": 34, "nationality": "FR"},
+    {"identity": "Player_23", "games": 30, "nationality": "FR"},
+    {"identity": "Player_24", "games": 4, "nationality": "FR"},
+    {"identity": "Player_25", "games": 11, "nationality": "FR"}  
+  ]
+}
+
+POST /leage/_doc
+{
+  "name": "Team 3",
+  "players": [
+    {"identity": "Player_30", "games": 11, "nationality": "FR"},
+    {"identity": "Player_31", "games": 15, "nationality": "FR"},
+    {"identity": "Player_32", "games": 12, "nationality": "FR"},
+    {"identity": "Player_33", "games": 15, "nationality": "FR"},
+    {"identity": "Player_34", "games": 4, "nationality": "FR"},
+    {"identity": "Player_35", "games": 11, "nationality": "FR"}
+  ]
+}
+
+POST /leage/_doc
+{
+  "name": "Team 3",
+  "players": [
+    {"identity": "Player_30", "games": 11, "nationality": "FR"},
+    {"identity": "Player_31", "games": 15, "nationality": "FR"},
+    {"identity": "Player_32", "games": 12, "nationality": "FR"},
+    {"identity": "Player_33", "games": 15, "nationality": "FR"},
+    {"identity": "Player_34", "games": 4, "nationality": "FR"},
+    {"identity": "Player_35", "games": 11, "nationality": "FR"}
+  ]
+}
+
+-->
+
 
 #### Indexing Documents
 
@@ -1180,7 +1238,211 @@ POST /person-object/_doc
 
   ```
 
-##### aggregations
+#### aggregations
+
+##### count players that played at least 30 games for each team.
+
+```json
+GET /leage/_search
+{
+  "size": 0,
+  "aggs": {
+    "by_team": {
+      "terms": {
+        "field": "name"
+      },
+      "aggs": {
+        "at_least_30_games": {
+          "nested": {
+            "path": "players"
+          },
+          "aggs": {
+            "count_players": {
+              "filter": {
+                "range": {
+                  "players.games": {
+                    "gte": 30
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "took" : 2,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 4,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "by_team" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 0,
+      "buckets" : [
+        {
+          "key" : "Team 3",
+          "doc_count" : 2,
+          "at_least_30_games" : {
+            "doc_count" : 12,
+            "count_players" : {
+              "doc_count" : 0
+            }
+          }
+        },
+        {
+          "key" : "Team 1",
+          "doc_count" : 1,
+          "at_least_30_games" : {
+            "doc_count" : 6,
+            "count_players" : {
+              "doc_count" : 2
+            }
+          }
+        },
+        {
+          "key" : "Team 2",
+          "doc_count" : 1,
+          "at_least_30_games" : {
+            "doc_count" : 6,
+            "count_players" : {
+              "doc_count" : 2
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+##### count teams with at least one player who played at least 30 games
+
+```json
+GET /leage/_search
+{
+  "size": 0,
+  "aggs": {
+    "by_team": {
+      "terms": {
+        "field": "name"
+      },
+      "aggs": {
+        "at_least_30_games": {
+          "nested": {
+            "path": "players"
+          },
+          "aggs": {
+            "count_players": {
+              "filter": {
+                "range": {
+                  "players.games": {
+                    "gte": 30
+                  }
+                }
+              },
+              "aggs": {
+                "team_has_players_at_least_30_games": {
+                  "reverse_nested": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 4,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "by_team" : {
+      "doc_count_error_upper_bound" : 0,
+      "sum_other_doc_count" : 0,
+      "buckets" : [
+        {
+          "key" : "Team 3",
+          "doc_count" : 2,
+          "at_least_30_games" : {
+            "doc_count" : 12,
+            "count_players" : {
+              "doc_count" : 0,
+              "team_has_players_at_least_30_games" : {
+                "doc_count" : 0
+              }
+            }
+          }
+        },
+        {
+          "key" : "Team 1",
+          "doc_count" : 1,
+          "at_least_30_games" : {
+            "doc_count" : 6,
+            "count_players" : {
+              "doc_count" : 2,
+              "team_has_players_at_least_30_games" : {
+                "doc_count" : 1
+              }
+            }
+          }
+        },
+        {
+          "key" : "Team 2",
+          "doc_count" : 1,
+          "at_least_30_games" : {
+            "doc_count" : 6,
+            "count_players" : {
+              "doc_count" : 2,
+              "team_has_players_at_least_30_games" : {
+                "doc_count" : 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 #### join
 
