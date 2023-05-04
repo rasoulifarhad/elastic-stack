@@ -1446,4 +1446,167 @@ Response:
 
 #### join
 
-##### aggregations
+- Index setup
+
+```json
+PUT jukebox
+
+PUT jukebox
+{
+  "mappings": {
+    "properties": {
+      "artist": {
+        "type": "text"
+      },
+      "song": {
+        "type": "text"
+      },
+      "chosen_by": {
+        "type": "keyword"
+      },
+      "jukebox_relations": {
+        "type": "join",
+        "relations": {
+          "artist": "song",
+          "song": "chosen_by"
+        }
+      }
+    }
+  }
+}
+```
+
+- Ingest data
+
+```json
+POST jukebox/_create/1
+{
+  "name": "Led Zeppelin",
+  "jukebox_relations": {
+    "name": "artist"
+  }
+}
+
+POST jukebox/_create/2
+{
+  "name": "Sandy Denny",
+  "jukebox_relations": {
+    "name": "artist"
+  }
+}
+
+POST jukebox/_doc/3?routing=1 
+{
+  "song": "Whole lotta love",
+  "jukebox_relations": {
+    "name": "song",
+    "parent": 1
+  }
+}
+
+POST jukebox/_doc/4?routing=1 
+{
+  "song": "Battle of Evermore",
+  "jukebox_relations": {
+    "name": "song",
+    "parent": 1
+  }
+}
+
+POST jukebox/_doc/5?routing=2 
+{
+  "song": "Battle of Evermore",
+  "jukebox_relations": {
+    "name": "song",
+    "parent": 2
+  }
+}
+
+POST jukebox/_create/u1?routing=3 
+{
+  "user": "Gabriel",
+  "jukebox_relations": {
+    "name": "chosen_by",
+    "parent": 3
+  }
+}
+
+POST jukebox/_create/u2?routing=3 
+{
+  "user": "Berte",
+  "jukebox_relations": {
+    "name": "chosen_by",
+    "parent": 3
+  }
+}
+
+POST jukebox/_create/u3?routing=3 
+{
+  "user": "Emma",
+  "jukebox_relations": {
+    "name": "chosen_by",
+    "parent": 3
+  }
+}
+
+POST jukebox/_create/u4?routing=4 
+{
+  "user": "Berte",
+  "jukebox_relations": {
+    "name": "chosen_by",
+    "parent": 4
+  }
+}
+
+POST jukebox/_create/u5?routing=5 
+{
+  "user": "Emma",
+  "jukebox_relations": {
+    "name": "chosen_by",
+    "parent": 5
+  }
+}
+```
+
+- Update document 3
+
+```json
+POST jukebox/_update/3?routing=1
+{
+  "doc": {
+    "song": "Whole Lotta Love"
+  }
+}
+
+GET jukebox/_doc/3?routing=1
+
+Response:
+
+{
+  "_index" : "jukebox",
+  "_type" : "_doc",
+  "_id" : "3",
+  "_version" : 2,
+  "_seq_no" : 10,
+  "_primary_term" : 1,
+  "_routing" : "1",
+  "found" : true,
+  "_source" : {
+    "song" : "Whole Lotta Love",
+    "jukebox_relations" : {
+      "name" : "song",
+      "parent" : 1
+    }
+  }
+}
+```
+
+- Find all songs of an artist Led Zeppelin
+
+
+- Find all users that liked a song
+
+- Find all artists that have at least one song
+
+- Count user likes for given song and show users that liked that song
+
