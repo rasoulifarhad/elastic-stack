@@ -1,4 +1,4 @@
-### Reverse nested aggregation
+## Nested Aggregation and Reverse Nested Aggregation
 
 - [Nested aggregation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-nested-aggregation.html)
 
@@ -9,6 +9,9 @@
  
     > A special single bucket aggregation that enables aggregating on parent docs from nested documents.
     >
+
+### First
+
 
 #### Test data
 
@@ -413,7 +416,6 @@ From [previous part](#how-many-players-in-each-team-played-in-at-least-30-games)
     }
 
     ```
-<!--
 
 ### Examples From Elsticsearch Documentation
 
@@ -726,5 +728,3 @@ Example, we have an index for a ticket system with issues and comments. The comm
     }
 
     ```
-
--->
