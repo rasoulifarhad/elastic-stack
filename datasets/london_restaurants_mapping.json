@@ -1,4 +1,3 @@
-# Create a mapping for restaurants
 PUT restaurants
 {
   "mappings": {
@@ -24,4 +23,3 @@ PUT restaurants
     }
   }
 }
-

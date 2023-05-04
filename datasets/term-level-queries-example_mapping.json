@@ -1,0 +1,64 @@
+PUT movies
+{
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "fields": {
+          "original": {
+            "type": "keyword"
+          }
+        }
+      },
+      "synopsis": {
+        "type": "text",
+        "fields": {
+          "original": {
+            "type": "keyword"
+          }
+        }
+      },
+      "actors": {
+        "type": "text",
+        "fields": {
+          "original": {
+            "type": "keyword"
+          }
+        }
+      },
+      "director": {
+        "type": "text",
+        "fields": {
+          "original": {
+            "type": "keyword"
+          }
+        }
+      },
+      "rating": {
+        "type": "half_float"
+      },
+      "release_date": {
+        "type": "date",
+        "format": "dd-MM-yyyy"
+      },
+      "certificate": {
+        "type": "keyword",
+        "fields": {
+          "original": {
+            "type": "keyword"
+          }
+        }
+      },
+      "genre": {
+        "type": "text",
+        "index_prefixes":{},
+        "fields": {
+          "original": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
+
