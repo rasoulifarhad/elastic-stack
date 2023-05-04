@@ -10,46 +10,46 @@
     > A special single bucket aggregation that enables aggregating on parent docs from nested documents.
     >
 
-#### Test data 
+#### Test data
 
 - mapping 
 
     ```json
-
+            
     PUT /club
     {
-    "settings": {
-        "number_of_replicas": 0,
-        "number_of_shards": 1
-    },
-    "mappings": {
-        "properties": {
-        "name": {
-            "type": "keyword"
-        },
-        "players": {
-            "type": "nested",
-            "properties": {
-            "identity": {
-                "type": "keyword"
-            },
-            "games": {
-                "type": "integer"
-            },
-            "nationality": {
-                "type": "keyword"
+      "settings": {
+          "number_of_replicas": 0,
+          "number_of_shards": 1
+      },
+      "mappings": {
+          "properties": {
+          "name": {
+              "type": "keyword"
+          },
+          "players": {
+              "type": "nested",
+              "properties": {
+              "identity": {
+                  "type": "keyword"
+              },
+              "games": {
+                  "type": "integer"
+              },
+              "nationality": {
+                  "type": "keyword"
+              }
             }
-            }
+          }
         }
-        }
-    }
-    }
-
+      }
+    } 
+        
     ```
 
 - Bulk ingest data
 
-    ``` json
+    ```json
 
     POST _bulk
     {"index":{"_index":"club"}}
@@ -128,6 +128,8 @@ Two step:
 
 1.  First the query uses terms filter to group documents by teams. 
 
+- Request
+
     ```json
 
     GET /club/_search
@@ -145,47 +147,47 @@ Two step:
 
     ```
 
-    Response:
+- Response:
 
     ```json
 
     {
-    "took" : 1,
-    "timed_out" : false,
-    "_shards" : {
-        "total" : 1,
-        "successful" : 1,
-        "skipped" : 0,
-        "failed" : 0
-    },
-    "hits" : {
-        "total" : {
-        "value" : 4,
-        "relation" : "eq"
+        "took" : 1,
+        "timed_out" : false,
+        "_shards" : {
+            "total" : 1,
+            "successful" : 1,
+            "skipped" : 0,
+            "failed" : 0
         },
-        "max_score" : null,
-        "hits" : [ ]
-    },
-    "aggregations" : {
-        "by_team" : {
-        "doc_count_error_upper_bound" : 0,
-        "sum_other_doc_count" : 0,
-        "buckets" : [
-            {
-            "key" : "Team 3",
-            "doc_count" : 2
+        "hits" : {
+            "total" : {
+            "value" : 4,
+            "relation" : "eq"
             },
-            {
-            "key" : "Team 1",
-            "doc_count" : 1
-            },
-            {
-            "key" : "Team 2",
-            "doc_count" : 1
+            "max_score" : null,
+            "hits" : [ ]
+        },
+        "aggregations" : {
+            "by_team" : {
+            "doc_count_error_upper_bound" : 0,
+            "sum_other_doc_count" : 0,
+            "buckets" : [
+                {
+                "key" : "Team 3",
+                "doc_count" : 2
+                },
+                {
+                "key" : "Team 1",
+                "doc_count" : 1
+                },
+                {
+                "key" : "Team 2",
+                "doc_count" : 1
+                }
+            ]
             }
-        ]
         }
-    }
     }
 
     ```
@@ -198,23 +200,25 @@ Two step:
 
     GET /club/_search
     {
-    "size": 0,
-    "aggs": {
-        "by_team": {
-        "terms": {
-            "field": "name"
-        },
+        "size": 0,
         "aggs": {
-            "at_least_30_games": {
-            "nested": {
-                "path": "players"
+            "by_team": {
+            "terms": {
+                "field": "name"
             },
             "aggs": {
-                "count_games": {
-                "filter": {
-                    "range": {
-                    "players.games": {
-                        "gte": 30
+                "at_least_30_games": {
+                "nested": {
+                    "path": "players"
+                },
+                "aggs": {
+                    "count_games": {
+                    "filter": {
+                        "range": {
+                        "players.games": {
+                            "gte": 30
+                        }
+                        }
                     }
                     }
                 }
@@ -222,8 +226,6 @@ Two step:
             }
             }
         }
-        }
-    }
     }
 
     ```
@@ -233,60 +235,60 @@ Two step:
     ```json
 
     {
-    "took" : 0,
-    "timed_out" : false,
-    "_shards" : {
-        "total" : 1,
-        "successful" : 1,
-        "skipped" : 0,
-        "failed" : 0
-    },
-    "hits" : {
-        "total" : {
-        "value" : 4,
-        "relation" : "eq"
+        "took" : 0,
+        "timed_out" : false,
+        "_shards" : {
+            "total" : 1,
+            "successful" : 1,
+            "skipped" : 0,
+            "failed" : 0
         },
-        "max_score" : null,
-        "hits" : [ ]
-    },
-    "aggregations" : {
-        "by_team" : {
-        "doc_count_error_upper_bound" : 0,
-        "sum_other_doc_count" : 0,
-        "buckets" : [
-            {
-            "key" : "Team 3",
-            "doc_count" : 2,
-            "at_least_30_games" : {
-                "doc_count" : 12,
-                "count_games" : {
-                "doc_count" : 0
-                }
-            }
+        "hits" : {
+            "total" : {
+            "value" : 4,
+            "relation" : "eq"
             },
-            {
-            "key" : "Team 1",
-            "doc_count" : 1,
-            "at_least_30_games" : {
-                "doc_count" : 6,
-                "count_games" : {
-                "doc_count" : 2
+            "max_score" : null,
+            "hits" : [ ]
+        },
+        "aggregations" : {
+            "by_team" : {
+            "doc_count_error_upper_bound" : 0,
+            "sum_other_doc_count" : 0,
+            "buckets" : [
+                {
+                "key" : "Team 3",
+                "doc_count" : 2,
+                "at_least_30_games" : {
+                    "doc_count" : 12,
+                    "count_games" : {
+                    "doc_count" : 0
+                    }
                 }
-            }
-            },
-            {
-            "key" : "Team 2",
-            "doc_count" : 1,
-            "at_least_30_games" : {
-                "doc_count" : 6,
-                "count_games" : {
-                "doc_count" : 2
+                },
+                {
+                "key" : "Team 1",
+                "doc_count" : 1,
+                "at_least_30_games" : {
+                    "doc_count" : 6,
+                    "count_games" : {
+                    "doc_count" : 2
+                    }
                 }
+                },
+                {
+                "key" : "Team 2",
+                "doc_count" : 1,
+                "at_least_30_games" : {
+                    "doc_count" : 6,
+                    "count_games" : {
+                    "doc_count" : 2
+                    }
+                }
+                }
+            ]
             }
-            }
-        ]
         }
-    }
     }
 
     ```
@@ -304,40 +306,40 @@ From [previous part](#how-many-players-in-each-team-played-in-at-least-30-games)
 
     GET /club/_search
     {
-    "query": {
-        "match_all": {}
-    },
-    "aggs": {
-        "by_team": {
-        "terms": {
-            "field": "name"
+        "query": {
+            "match_all": {}
         },
         "aggs": {
-            "at_least_30_games": {
-            "nested": {
-                "path": "players"
+            "by_team": {
+            "terms": {
+                "field": "name"
             },
             "aggs": {
-                "count_players": {
-                "filter": {
-                    "range": {
-                    "players.games": {
-                        "gte": 30
-                    }
-                    }
+                "at_least_30_games": {
+                "nested": {
+                    "path": "players"
                 },
                 "aggs": {
-                    "team_has_players_at_least_30_games": {
-                    "reverse_nested": {}
+                    "count_players": {
+                    "filter": {
+                        "range": {
+                        "players.games": {
+                            "gte": 30
+                        }
+                        }
+                    },
+                    "aggs": {
+                        "team_has_players_at_least_30_games": {
+                        "reverse_nested": {}
+                        }
+                    }
                     }
                 }
                 }
             }
             }
-        }
-        }
-    },
-    "size": 0
+        },
+        "size": 0
     }
 
     ```
@@ -347,69 +349,69 @@ From [previous part](#how-many-players-in-each-team-played-in-at-least-30-games)
     ```json
 
     {
-    "took" : 12,
-    "timed_out" : false,
-    "_shards" : {
-        "total" : 1,
-        "successful" : 1,
-        "skipped" : 0,
-        "failed" : 0
-    },
-    "hits" : {
-        "total" : {
-        "value" : 4,
-        "relation" : "eq"
+        "took" : 12,
+        "timed_out" : false,
+        "_shards" : {
+            "total" : 1,
+            "successful" : 1,
+            "skipped" : 0,
+            "failed" : 0
         },
-        "max_score" : null,
-        "hits" : [ ]
-    },
-    "aggregations" : {
-        "by_team" : {
-        "doc_count_error_upper_bound" : 0,
-        "sum_other_doc_count" : 0,
-        "buckets" : [
-            {
-            "key" : "Team 3",
-            "doc_count" : 2,
-            "at_least_30_games" : {
-                "doc_count" : 12,
-                "count_players" : {
-                "doc_count" : 0,
-                "team_has_players_at_least_30_games" : {
-                    "doc_count" : 0
-                }
-                }
-            }
+        "hits" : {
+            "total" : {
+            "value" : 4,
+            "relation" : "eq"
             },
-            {
-            "key" : "Team 1",
-            "doc_count" : 1,
-            "at_least_30_games" : {
-                "doc_count" : 6,
-                "count_players" : {
+            "max_score" : null,
+            "hits" : [ ]
+        },
+        "aggregations" : {
+            "by_team" : {
+            "doc_count_error_upper_bound" : 0,
+            "sum_other_doc_count" : 0,
+            "buckets" : [
+                {
+                "key" : "Team 3",
                 "doc_count" : 2,
-                "team_has_players_at_least_30_games" : {
-                    "doc_count" : 1
+                "at_least_30_games" : {
+                    "doc_count" : 12,
+                    "count_players" : {
+                    "doc_count" : 0,
+                    "team_has_players_at_least_30_games" : {
+                        "doc_count" : 0
+                    }
+                    }
+                }
+                },
+                {
+                "key" : "Team 1",
+                "doc_count" : 1,
+                "at_least_30_games" : {
+                    "doc_count" : 6,
+                    "count_players" : {
+                    "doc_count" : 2,
+                    "team_has_players_at_least_30_games" : {
+                        "doc_count" : 1
+                    }
+                    }
+                }
+                },
+                {
+                "key" : "Team 2",
+                "doc_count" : 1,
+                "at_least_30_games" : {
+                    "doc_count" : 6,
+                    "count_players" : {
+                    "doc_count" : 2,
+                    "team_has_players_at_least_30_games" : {
+                        "doc_count" : 1
+                    }
+                    }
                 }
                 }
+            ]
             }
-            },
-            {
-            "key" : "Team 2",
-            "doc_count" : 1,
-            "at_least_30_games" : {
-                "doc_count" : 6,
-                "count_players" : {
-                "doc_count" : 2,
-                "team_has_players_at_least_30_games" : {
-                    "doc_count" : 1
-                }
-                }
-            }
-            }
-        ]
         }
-    }
     }
 
     ```
