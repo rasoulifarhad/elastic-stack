@@ -1,6 +1,20 @@
 ### Reverse nested aggregation
 
- Aggregation on nested documents in two scenarios - applied to nested documents and applied to parent documents.
+> 
+> See [Nested aggregation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-nested-aggregation.html)
+> 
+> See [Reverse nested aggregation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-reverse-nested-aggregation.html)
+> 
+
+- Nested aggregation
+
+    > A special single bucket aggregation that enables aggregating nested documents.
+    > 
+
+- Reverse nested aggregation
+ 
+    > A special single bucket aggregation that enables aggregating on parent docs from nested documents.
+    >
 
 #### Test data
 
@@ -113,6 +127,9 @@ GET /club/_search
 
 #### How many players in each team played in at least 30 games. 
 
+> Aggregations on nested documents
+> 
+
 Two step: 
 
 1.  First the query uses terms filter to group documents by teams. 
@@ -181,6 +198,8 @@ Two step:
 
 2. Then nested aggregation with filter aggregation to count the number of players with at least 30 games.
 
+- Request
+
     ```json
 
     GET /club/_search
@@ -215,12 +234,12 @@ Two step:
 
     ```
 
-    - Response
+- Response
 
     ```json
 
     {
-    "took" : 1,
+    "took" : 0,
     "timed_out" : false,
     "_shards" : {
         "total" : 1,
@@ -278,248 +297,440 @@ Two step:
 
     ```
 
+#### How many teams have players who played in at least 30 games. 
 
+> Nested aggregation applied to root document
+> 
 
+From [previous part](#how-many-players-in-each-team-played-in-at-least-30-games), we can comparing `count_players` to `0`. But we can do this in another way, by allowing Elasticsearch to put `0` if given team doesn't have this kind of players, or `1` if it has them. It's achieved thanks to `reverse_nested` aggregation.
+
+- Request
+
+    ```json
+
+    GET /club/_search
+    {
+    "query": {
+        "match_all": {}
+    },
+    "aggs": {
+        "by_team": {
+        "terms": {
+            "field": "name"
+        },
+        "aggs": {
+            "at_least_30_games": {
+            "nested": {
+                "path": "players"
+            },
+            "aggs": {
+                "count_players": {
+                "filter": {
+                    "range": {
+                    "players.games": {
+                        "gte": 30
+                    }
+                    }
+                },
+                "aggs": {
+                    "team_has_players_at_least_30_games": {
+                    "reverse_nested": {}
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    },
+    "size": 0
+    }
+
+    ```
+
+- Response
+
+    ```json
+
+    {
+    "took" : 12,
+    "timed_out" : false,
+    "_shards" : {
+        "total" : 1,
+        "successful" : 1,
+        "skipped" : 0,
+        "failed" : 0
+    },
+    "hits" : {
+        "total" : {
+        "value" : 4,
+        "relation" : "eq"
+        },
+        "max_score" : null,
+        "hits" : [ ]
+    },
+    "aggregations" : {
+        "by_team" : {
+        "doc_count_error_upper_bound" : 0,
+        "sum_other_doc_count" : 0,
+        "buckets" : [
+            {
+            "key" : "Team 3",
+            "doc_count" : 2,
+            "at_least_30_games" : {
+                "doc_count" : 12,
+                "count_players" : {
+                "doc_count" : 0,
+                "team_has_players_at_least_30_games" : {
+                    "doc_count" : 0
+                }
+                }
+            }
+            },
+            {
+            "key" : "Team 1",
+            "doc_count" : 1,
+            "at_least_30_games" : {
+                "doc_count" : 6,
+                "count_players" : {
+                "doc_count" : 2,
+                "team_has_players_at_least_30_games" : {
+                    "doc_count" : 1
+                }
+                }
+            }
+            },
+            {
+            "key" : "Team 2",
+            "doc_count" : 1,
+            "at_least_30_games" : {
+                "doc_count" : 6,
+                "count_players" : {
+                "doc_count" : 2,
+                "team_has_players_at_least_30_games" : {
+                    "doc_count" : 1
+                }
+                }
+            }
+            }
+        ]
+        }
+    }
+    }
+
+    ```
 <!--
 
-#### Another Example
+### Examples From Elsticsearch Documentation
 
-##### Index data
+#### Nested aggregation
 
-Resellers is an array that holds nested documents.
+- Index data
 
-```json
+    Resellers is an array that holds nested documents.
 
-PUT /products
-{
-  "mappings": {
-    "properties": {
-      "resellers": { 
-        "type": "nested",
+    ```json
+
+    PUT /products
+    {
+    "mappings": {
         "properties": {
-          "reseller": {
-            "type": "keyword"
-          },
-          "price": {
-            "type": "double"
-          }
-        }
-      }
-    }
-  }
-}
-
-```
-
-Adding a product with two resellers:
-
-```json
-
-PUT /products/_doc/1
-{
-  "name": "LED TV",
-  "resellers": [
-    {
-      "reseller": "companyA",
-      "price": 350
-    },
-    {
-      "reseller": "companyB",
-      "price": 500
-    }
-  ]
-}
-
-```
-
-##### Find the minimum price a product can be purchased for.
-
-```json
-
-GET /products/_search
-{
-  "query": {
-    "match": {
-      "name": "led tv"
-    }
-  },
-  "aggs": {
-    "resellers": {
-      "nested": {
-        "path": "resellers"
-      },
-      "aggs": {
-        "min_price": {
-          "min": {
-            "field": "resellers.price"
-          }
-        }
-      }
-    }
-  }
-}
-
-```
-
-<details>
-
-<summary>Rersponse</summary>
-
-```json
-
-{
-  "took" : 869,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
-    },
-    "max_score" : 0.5753642,
-    "hits" : [
-      {
-        "_index" : "products",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : 0.5753642,
-        "_source" : {
-          "name" : "LED TV",
-          "resellers" : [
-            {
-              "reseller" : "companyA",
-              "price" : 350
+        "resellers": { 
+            "type": "nested",
+            "properties": {
+            "reseller": {
+                "type": "keyword"
             },
-            {
-              "reseller" : "companyB",
-              "price" : 500
+            "price": {
+                "type": "double"
             }
-          ]
+            }
         }
-      }
+        }
+    }
+    }
+
+    ```
+
+    Adding a product with two resellers:
+
+    ```json
+
+    PUT /products/_doc/1
+    {
+    "name": "LED TV",
+    "resellers": [
+        {
+        "reseller": "companyA",
+        "price": 350
+        },
+        {
+        "reseller": "companyB",
+        "price": 500
+        }
     ]
-  },
-  "aggregations" : {
-    "resellers" : {
-      "doc_count" : 2,
-      "min_price" : {
-        "value" : 350.0
-      }
     }
-  }
-}
 
-```
+    ```
 
-</details>
+- Find the minimum price a product can be purchased for.
 
-Use [filter](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-filter-aggregation.html) sub-aggregation to return results for a specific reseller.
+    ```json
 
-```json
-
-GET /products/_search
-{
-  "query": {
-    "match": {
-      "name": "led tv"
-    }
-  },
-  "aggs": {
-    "resellers": {
-      "nested": {
-        "path": "resellers"
-      },
-      "aggs": {
-        "filter_resellers": {
-          "filter": {
-            "bool": {
-              "filter": [ 
-                {
-                  "term": {
-                    "resellers.reseller": "companyB"
-                  }
-                }
-              ]
-            }
-          },
-          "aggs": {
+    GET /products/_search
+    {
+    "query": {
+        "match": {
+        "name": "led tv"
+        }
+    },
+    "aggs": {
+        "resellers": {
+        "nested": {
+            "path": "resellers"
+        },
+        "aggs": {
             "min_price": {
-              "min": {
+            "min": {
                 "field": "resellers.price"
-              }
             }
-          }
+            }
         }
-      }
+        }
     }
-  }
-}
+    }
 
-```
+    ```
 
-<details>
+    <details>
 
-<summary>Rersponse</summary>
+    <summary>Rersponse</summary>
 
-```json
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
+    ```json
+
+    {
+    "took" : 869,
+    "timed_out" : false,
+    "_shards" : {
+        "total" : 1,
+        "successful" : 1,
+        "skipped" : 0,
+        "failed" : 0
     },
-    "max_score" : 0.5753642,
-    "hits" : [
-      {
-        "_index" : "products",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : 0.5753642,
-        "_source" : {
-          "name" : "LED TV",
-          "resellers" : [
-            {
-              "reseller" : "companyA",
-              "price" : 350
-            },
-            {
-              "reseller" : "companyB",
-              "price" : 500
+    "hits" : {
+        "total" : {
+        "value" : 1,
+        "relation" : "eq"
+        },
+        "max_score" : 0.5753642,
+        "hits" : [
+        {
+            "_index" : "products",
+            "_type" : "_doc",
+            "_id" : "1",
+            "_score" : 0.5753642,
+            "_source" : {
+            "name" : "LED TV",
+            "resellers" : [
+                {
+                "reseller" : "companyA",
+                "price" : 350
+                },
+                {
+                "reseller" : "companyB",
+                "price" : 500
+                }
+            ]
             }
-          ]
         }
-      }
-    ]
-  },
-  "aggregations" : {
-    "resellers" : {
-      "doc_count" : 2,
-      "filter_resellers" : {
-        "doc_count" : 1,
+        ]
+    },
+    "aggregations" : {
+        "resellers" : {
+        "doc_count" : 2,
         "min_price" : {
-          "value" : 500.0
+            "value" : 350.0
         }
-      }
+        }
     }
-  }
-}
+    }
 
-```
+    ```
 
-</details>
+    </details>
 
+    Use [filter](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-filter-aggregation.html) sub-aggregation to return results for a specific reseller.
+
+    ```json
+
+    GET /products/_search
+    {
+    "query": {
+        "match": {
+        "name": "led tv"
+        }
+    },
+    "aggs": {
+        "resellers": {
+        "nested": {
+            "path": "resellers"
+        },
+        "aggs": {
+            "filter_resellers": {
+            "filter": {
+                "bool": {
+                "filter": [ 
+                    {
+                    "term": {
+                        "resellers.reseller": "companyB"
+                    }
+                    }
+                ]
+                }
+            },
+            "aggs": {
+                "min_price": {
+                "min": {
+                    "field": "resellers.price"
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    }
+
+    ```
+
+    <details>
+
+    <summary>Rersponse</summary>
+
+    ```json
+    {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+        "total" : 1,
+        "successful" : 1,
+        "skipped" : 0,
+        "failed" : 0
+    },
+    "hits" : {
+        "total" : {
+        "value" : 1,
+        "relation" : "eq"
+        },
+        "max_score" : 0.5753642,
+        "hits" : [
+        {
+            "_index" : "products",
+            "_type" : "_doc",
+            "_id" : "1",
+            "_score" : 0.5753642,
+            "_source" : {
+            "name" : "LED TV",
+            "resellers" : [
+                {
+                "reseller" : "companyA",
+                "price" : 350
+                },
+                {
+                "reseller" : "companyB",
+                "price" : 500
+                }
+            ]
+            }
+        }
+        ]
+    },
+    "aggregations" : {
+        "resellers" : {
+        "doc_count" : 2,
+        "filter_resellers" : {
+            "doc_count" : 1,
+            "min_price" : {
+            "value" : 500.0
+            }
+        }
+        }
+    }
+    }
+
+    ```
+
+    </details>
+
+#### Reverse nested aggregation
+
+Example, we have an index for a ticket system with issues and comments. The comments are inlined into the issue documents as nested documents.
+
+- Index data
+
+    ```json
+
+    PUT /issues
+    {
+    "mappings": {
+        "properties": {
+        "tags": {
+            "type": "keyword"
+        },
+        "comments": {
+            "type": "nested",
+            "properties": {
+            "username": {
+                "type": "keyword"
+            },
+            "comment": {
+                "type": "text"
+            }
+            }
+        }
+        }
+    }
+    }
+
+    ```
+
+- Find the top commenters' username that have commented and per top commenter the top tags of the issues the user has commented on.
+
+    ```json
+
+    GET /issues/_search
+    {
+    "query": {
+        "match_all": {}
+    },
+    "aggs": {
+        "comments": {
+        "nested": {
+            "path": "comments"
+        },
+        "aggs": {
+            "top_usernames": {
+            "terms": {
+                "field": "comments.username"
+            },
+            "aggs": {
+                "comment_to_issue": {
+                "reverse_nested": {}, 
+                "aggs": {
+                    "top_tags_per_comment": {
+                    "terms": {
+                        "field": "tags"
+                    }
+                    }
+                }
+                }
+            }
+            }
+        }
+        }
+    }
+    }
+
+    ```
 
 -->
