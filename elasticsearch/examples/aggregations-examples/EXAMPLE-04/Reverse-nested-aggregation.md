@@ -277,3 +277,249 @@ Two step:
     }
 
     ```
+
+
+
+<!--
+
+#### Another Example
+
+##### Index data
+
+Resellers is an array that holds nested documents.
+
+```json
+
+PUT /products
+{
+  "mappings": {
+    "properties": {
+      "resellers": { 
+        "type": "nested",
+        "properties": {
+          "reseller": {
+            "type": "keyword"
+          },
+          "price": {
+            "type": "double"
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+
+Adding a product with two resellers:
+
+```json
+
+PUT /products/_doc/1
+{
+  "name": "LED TV",
+  "resellers": [
+    {
+      "reseller": "companyA",
+      "price": 350
+    },
+    {
+      "reseller": "companyB",
+      "price": 500
+    }
+  ]
+}
+
+```
+
+##### Find the minimum price a product can be purchased for.
+
+```json
+
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "led tv"
+    }
+  },
+  "aggs": {
+    "resellers": {
+      "nested": {
+        "path": "resellers"
+      },
+      "aggs": {
+        "min_price": {
+          "min": {
+            "field": "resellers.price"
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+
+<details>
+
+<summary>Rersponse</summary>
+
+```json
+
+{
+  "took" : 869,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 0.5753642,
+    "hits" : [
+      {
+        "_index" : "products",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.5753642,
+        "_source" : {
+          "name" : "LED TV",
+          "resellers" : [
+            {
+              "reseller" : "companyA",
+              "price" : 350
+            },
+            {
+              "reseller" : "companyB",
+              "price" : 500
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "aggregations" : {
+    "resellers" : {
+      "doc_count" : 2,
+      "min_price" : {
+        "value" : 350.0
+      }
+    }
+  }
+}
+
+```
+
+</details>
+
+Use [filter](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-filter-aggregation.html) sub-aggregation to return results for a specific reseller.
+
+```json
+
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "led tv"
+    }
+  },
+  "aggs": {
+    "resellers": {
+      "nested": {
+        "path": "resellers"
+      },
+      "aggs": {
+        "filter_resellers": {
+          "filter": {
+            "bool": {
+              "filter": [ 
+                {
+                  "term": {
+                    "resellers.reseller": "companyB"
+                  }
+                }
+              ]
+            }
+          },
+          "aggs": {
+            "min_price": {
+              "min": {
+                "field": "resellers.price"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+
+<details>
+
+<summary>Rersponse</summary>
+
+```json
+{
+  "took" : 1,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 0.5753642,
+    "hits" : [
+      {
+        "_index" : "products",
+        "_type" : "_doc",
+        "_id" : "1",
+        "_score" : 0.5753642,
+        "_source" : {
+          "name" : "LED TV",
+          "resellers" : [
+            {
+              "reseller" : "companyA",
+              "price" : 350
+            },
+            {
+              "reseller" : "companyB",
+              "price" : 500
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "aggregations" : {
+    "resellers" : {
+      "doc_count" : 2,
+      "filter_resellers" : {
+        "doc_count" : 1,
+        "min_price" : {
+          "value" : 500.0
+        }
+      }
+    }
+  }
+}
+
+```
+
+</details>
+
+
+-->
