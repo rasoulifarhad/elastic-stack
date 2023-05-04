@@ -1,17 +1,11 @@
 ### Reverse nested aggregation
 
-> 
-> See [Nested aggregation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-nested-aggregation.html)
-> 
-> See [Reverse nested aggregation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-reverse-nested-aggregation.html)
-> 
-
-- Nested aggregation
+- [Nested aggregation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-nested-aggregation.html)
 
     > A special single bucket aggregation that enables aggregating nested documents.
     > 
 
-- Reverse nested aggregation
+- [Reverse nested aggregation](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-reverse-nested-aggregation.html)
  
     > A special single bucket aggregation that enables aggregating on parent docs from nested documents.
     >
