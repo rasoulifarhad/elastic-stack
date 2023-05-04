@@ -21,16 +21,16 @@ Elasticsearch offers two forms of join:
 > [***has_child***](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-has-child-query.html) **and** [***has_parent***](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-has-parent-query.html) **queries**
 > 
 >> 
->> A [***join*** field relationship](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/parent-join.html) can exist between documents within a single index. You can create parent-child relationships between documents in the same index using a join field mapping.
+>> A [***join*** field relationship](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/parent-join.html) can exist between documents within a single index. 
 >> 
 >> 
->> - The `has_child` query returns parent documents whose child documents match the specified query,
+>> - The `has_child` query returns parent documents whose child documents match the specified query. You can create parent-child relationships between documents in the same index using a join field mapping.
 >> 
 >> ***Index setup*** `{"mappings":{"properties":{"my-join-field":{"type":"join","relations":{"parent":"child"}}}}}`
 >> 
 >> ***Example query*** `{"query":{"has_child":{"type":"child","query":{"match_all":{}},"max_children":10,"min_children":2,"score_mode":"min"}}}`
 >>
->> - The `has_parent` query returns child documents whose parent document matches the specified query.
+>> - The `has_parent` query returns child documents whose parent document matches the specified query. You can create parent-child relationships between documents in the same index using a join field mapping.
 >> 
 >> ***Index setup*** `{"mappings":{"properties":{"my-join-field":{"type":"join","relations":{"parent":"child"}},"tag":{"type":"keyword"}}}}`
 >> 
