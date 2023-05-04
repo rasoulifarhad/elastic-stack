@@ -9,7 +9,7 @@ Elasticsearch offers two forms of join:
 > [***nested*** query](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-nested-query.html)
 > 
 >> 
->> Documents may contain fields of type [nested](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/nested.html). These fields are used to index arrays of objects,'
+>> Documents may contain fields of type [nested](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/nested.html). These fields are used to index arrays of objects.
 >> 
 >> Each object can be queried (with the nested query) as an independent document.
 >> 
