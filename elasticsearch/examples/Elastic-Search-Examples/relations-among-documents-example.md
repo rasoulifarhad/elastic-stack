@@ -1573,10 +1573,180 @@ See [elasticsearch7 relations among documents workshop](https://github.com/mtumi
 
 - Find all songs of an artist Led Zeppelin
 
+  ```json
+  GET jukebox/_search
+  {
+    "query": {
+      "has_parent": {
+        "parent_type": "artist",
+        "query": {
+          "match": {
+            "name": "Led Zeppelin"
+          }
+        }
+      }
+    }
+  }
+  ```
 
-- Find all users that liked a song
+  <details>
+  <summary>Response: </summary>
+
+  ```json
+  {
+    "took" : 0,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
+      },
+      "max_score" : 1.0,
+      "hits" : [
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "4",
+          "_score" : 1.0,
+          "_routing" : "1",
+          "_source" : {
+            "song" : "Battle of Evermore",
+            "jukebox_relations" : {
+              "name" : "song",
+              "parent" : 1
+            }
+          }
+        },
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : 1.0,
+          "_routing" : "1",
+          "_source" : {
+            "song" : "Whole Lotta Love",
+            "jukebox_relations" : {
+              "name" : "song",
+              "parent" : 1
+            }
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+- Find all users that liked a song like `Whole Lotta Love`
+
+  ```json
+  GET /jukebox/_search
+  {
+    "query": {
+      "has_parent": {
+        "parent_type": "song",
+        "query": {
+          "match": {
+            "song": "Whole Lotta Love"
+          }
+        }
+      }
+    }
+  }
+  ```
+
+  <details>
+  <summary>Response: </summary>
+
+  ```json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
+      },
+      "max_score" : 1.0,
+      "hits" : [
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "u1",
+          "_score" : 1.0,
+          "_routing" : "3",
+          "_source" : {
+            "user" : "Gabriel",
+            "jukebox_relations" : {
+              "name" : "chosen_by",
+              "parent" : 3
+            }
+          }
+        },
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "u2",
+          "_score" : 1.0,
+          "_routing" : "3",
+          "_source" : {
+            "user" : "Berte",
+            "jukebox_relations" : {
+              "name" : "chosen_by",
+              "parent" : 3
+            }
+          }
+        },
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "u3",
+          "_score" : 1.0,
+          "_routing" : "3",
+          "_source" : {
+            "user" : "Emma",
+            "jukebox_relations" : {
+              "name" : "chosen_by",
+              "parent" : 3
+            }
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
 
 - Find all artists that have at least one song
 
+<details>
+<summary>Response: </summary>
+
+``json
+```
+
+</details>
+
 - Count user likes for given song and show users that liked that song
 
+<details>
+<summary>Response: </summary>
+
+``json
+```
+
+</details>
