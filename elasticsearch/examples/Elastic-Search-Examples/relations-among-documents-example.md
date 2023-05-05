@@ -1733,20 +1733,216 @@ See [elasticsearch7 relations among documents workshop](https://github.com/mtumi
 
 - Find all artists that have at least one song
 
-<details>
-<summary>Response: </summary>
+  ```json
+  GET /jukebox/_search
+  {
+    "query": {
+      "has_child": {
+        "type": "song",
+        "query": {
+          "match_all": {}
+        }
+      }
+    }
+  }
+  ```
 
-``json
-```
+  <details>
+  <summary>Response: </summary>
 
-</details>
+  ``json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
+      },
+      "max_score" : 1.0,
+      "hits" : [
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Led Zeppelin",
+            "jukebox_relations" : {
+              "name" : "artist"
+            }
+          }
+        },
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Sandy Denny",
+            "jukebox_relations" : {
+              "name" : "artist"
+            }
+          }
+        }
+      ]
+    }
+  }
+  ```
 
-- Count user likes for given song and show users that liked that song
+  </details>
 
-<details>
-<summary>Response: </summary>
+- Count user likes for given song (`Battle of Evermore`) and show users that liked that song
 
-``json
-```
+  ```json
+  GET /jukebox/_search
+  {
+    "query": {
+      "bool": {
+        "must": [
+          {
+            "match": {
+              "song": "Battle of Evermore"
+            }
+          }
+        ],
+        "should": [
+          {
+            "has_child": {
+              "type": "chosen_by",
+              "query": {"match_all": {}},
+              "inner_hits": {}
+            }
+          }
+        ]
+      }
+    },
+    "aggs": {
+      "user_likes": {
+        "children": {
+          "type": "chosen_by"
+        }
+      }
+    }
+  }
+  ```
 
-</details>
+  <details>
+  <summary>Response: </summary>
+
+  ```json
+  {
+    "took" : 2,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
+      },
+      "max_score" : 2.4100108,
+      "hits" : [
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "4",
+          "_score" : 2.4100108,
+          "_routing" : "1",
+          "_source" : {
+            "song" : "Battle of Evermore",
+            "jukebox_relations" : {
+              "name" : "song",
+              "parent" : 1
+            }
+          },
+          "inner_hits" : {
+            "chosen_by" : {
+              "hits" : {
+                "total" : {
+                  "value" : 1,
+                  "relation" : "eq"
+                },
+                "max_score" : 1.0,
+                "hits" : [
+                  {
+                    "_index" : "jukebox",
+                    "_type" : "_doc",
+                    "_id" : "u4",
+                    "_score" : 1.0,
+                    "_routing" : "4",
+                    "_source" : {
+                      "user" : "Berte",
+                      "jukebox_relations" : {
+                        "name" : "chosen_by",
+                        "parent" : 4
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "_index" : "jukebox",
+          "_type" : "_doc",
+          "_id" : "5",
+          "_score" : 2.4100108,
+          "_routing" : "2",
+          "_source" : {
+            "song" : "Battle of Evermore",
+            "jukebox_relations" : {
+              "name" : "song",
+              "parent" : 2
+            }
+          },
+          "inner_hits" : {
+            "chosen_by" : {
+              "hits" : {
+                "total" : {
+                  "value" : 1,
+                  "relation" : "eq"
+                },
+                "max_score" : 1.0,
+                "hits" : [
+                  {
+                    "_index" : "jukebox",
+                    "_type" : "_doc",
+                    "_id" : "u5",
+                    "_score" : 1.0,
+                    "_routing" : "5",
+                    "_source" : {
+                      "user" : "Emma",
+                      "jukebox_relations" : {
+                        "name" : "chosen_by",
+                        "parent" : 5
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "aggregations" : {
+      "user_likes" : {
+        "doc_count" : 2
+      }
+    }
+  }
+  ```
+
+  </details>
