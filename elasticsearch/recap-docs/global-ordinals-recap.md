@@ -3,9 +3,9 @@
 ***Cardinality***
 > 
 > ***Cardinality refers to the uniqueness of values stored in a particular field.***
->> High cardinality means that a field contains a large percentage of unique values.
+>> ***High cardinality*** means that a field contains a large percentage of unique values.
 >>
->> ***Low cardinality means that a field contains a lot of repeated values.*** 
+>> ***Low cardinality*** means that a field contains a lot of repeated values. 
 >>
 
 ***Elasticsearch refresh interval***
