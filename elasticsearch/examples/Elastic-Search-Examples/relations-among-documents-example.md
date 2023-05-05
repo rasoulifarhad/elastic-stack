@@ -897,10 +897,10 @@ POST /person-object/_doc
   }
   ```
 
-<details>
-<summary>
-  Response: 
-</summary>
+  <details>
+  <summary>
+    Response: 
+  </summary>
 
   ```json
   {
@@ -965,7 +965,7 @@ POST /person-object/_doc
   }
   ```
 
-</details>
+  </details>
 
 ##### Index nested 2
 
@@ -1054,10 +1054,10 @@ POST /person-object/_doc
   }
   ```
 
-<details>
-<summary>
-  Response: 
-</summary>
+  <details>
+  <summary>
+    Response: 
+  </summary>
 
   ```json
   {
@@ -1107,7 +1107,7 @@ POST /person-object/_doc
   }
   ```
 
-</details>
+  </details>
 
 - Find all groups that have events with title java and elasticsearch
 
@@ -1140,10 +1140,10 @@ POST /person-object/_doc
   }
   ```
 
-<details>
-<summary>
-  Response: 
-</summary>
+  <details>
+  <summary>
+    Response: 
+  </summary>
 
   ```json
   {
@@ -1193,7 +1193,7 @@ POST /person-object/_doc
   }
   ```
 
-</details>
+  </details>
 
 #### aggregations
 
