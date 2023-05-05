@@ -5,356 +5,364 @@ See [elasticsearch7 relations among documents workshop](https://github.com/mtumi
 ### Prepare Data
 
 
-#### Create index jukebox && league
+- Create index jukebox && league
 
-```json
-PUT jukebox
-{
-  "mappings": {
-    "properties": {
-      "artist": {
-        "type": "text"
-      },
-      "song": {
-        "type": "text"
-      },
-      "chosen_by": {
-        "type": "keyword"
-      },
-      "jukebox_relations": {
-        "type": "join",
-        "relations": {
-          "artist": "song",
-          "song": "chosen_by"
-        }
-      }
-    }
-  }
-}
-```
-
-```json
-PUT league
-{
-  "mappings": {
-    "properties": {
-      "name": {
-        "type": "keyword"
-      },
-      "players": {
-        "type": "nested",
-        "properties": {
-          "identity": {
-            "type": "text"
-          },
-          "games": {
-            "type": "byte"
-          },
-          "nationality": {
-            "type": "text"
+  ```json
+  PUT jukebox
+  {
+    "mappings": {
+      "properties": {
+        "artist": {
+          "type": "text"
+        },
+        "song": {
+          "type": "text"
+        },
+        "chosen_by": {
+          "type": "keyword"
+        },
+        "jukebox_relations": {
+          "type": "join",
+          "relations": {
+            "artist": "song",
+            "song": "chosen_by"
           }
         }
       }
     }
   }
-}   
-```
+  ```
 
-#### Index some documents
+  ```json
+  PUT league
+  {
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "keyword"
+        },
+        "players": {
+          "type": "nested",
+          "properties": {
+            "identity": {
+              "type": "text"
+            },
+            "games": {
+              "type": "byte"
+            },
+            "nationality": {
+              "type": "text"
+            }
+          }
+        }
+      }
+    }
+  }   
+  ```
 
-```json
-POST jukebox/_bulk
-{ "create" : { "_id" : "1" } }
-{"name":"Led Zeppelin","jukebox_relations":{"name":"artist"}}
-{ "create" : { "_id" : "2" } }
-{"name":"Sandy Denny","jukebox_relations":{"name":"artist"}}
-{ "create" : { "_id" : "3", "_routing" : "1" } }
-{"song":"Whole lotta love","jukebox_relations":{"name":"song","parent":1}}
-{ "create" : { "_id" : "4", "_routing" : "1" } }
-{"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":1}}
-{ "create" : { "_id" : "5", "_routing" : "2" } }
-{"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":2}}
-{ "create" : { "_id" : "u1", "_routing" : "3" } }
-{"user":"Gabriel","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "create" : { "_id" : "u2", "_routing" : "3" } }
-{"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "create" : { "_id" : "u3", "_routing" : "3" } }
-{"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "create" : { "_id" : "u4", "_routing" : "4" } }
-{"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":4}}
-{ "create" : { "_id" : "u5", "_routing" : "5" } }
-{"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":5}}
-```
+- Index some documents
+
+  ```json
+  POST jukebox/_bulk
+  { "create" : { "_id" : "1" } }
+  {"name":"Led Zeppelin","jukebox_relations":{"name":"artist"}}
+  { "create" : { "_id" : "2" } }
+  {"name":"Sandy Denny","jukebox_relations":{"name":"artist"}}
+  { "create" : { "_id" : "3", "_routing" : "1" } }
+  {"song":"Whole lotta love","jukebox_relations":{"name":"song","parent":1}}
+  { "create" : { "_id" : "4", "_routing" : "1" } }
+  {"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":1}}
+  { "create" : { "_id" : "5", "_routing" : "2" } }
+  {"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":2}}
+  { "create" : { "_id" : "u1", "_routing" : "3" } }
+  {"user":"Gabriel","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "create" : { "_id" : "u2", "_routing" : "3" } }
+  {"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "create" : { "_id" : "u3", "_routing" : "3" } }
+  {"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "create" : { "_id" : "u4", "_routing" : "4" } }
+  {"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":4}}
+  { "create" : { "_id" : "u5", "_routing" : "5" } }
+  {"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":5}}
+  ```
 <!--
 
-```json
+  ```json
+  POST _bulk
+  { "create" : { "_index" : "jukebox", "_id" : "1" } }
+  {"name":"Led Zeppelin","jukebox_relations":{"name":"artist"}}
+  { "create" : { "_index" : "jukebox", "_id" : "2" } }
+  {"name":"Sandy Denny","jukebox_relations":{"name":"artist"}}
+  { "create" : { "_index" : "jukebox", "_id" : "3", "_routing" : "1" } }
+  {"song":"Whole lotta love","jukebox_relations":{"name":"song","parent":1}}
+  { "create" : { "_index" : "jukebox", "_id" : "4", "_routing" : "1" } }
+  {"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":1}}
+  { "create" : { "_index" : "jukebox", "_id" : "5", "_routing" : "2" } }
+  {"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":2}}
+  { "create" : { "_index" : "jukebox", "_id" : "u1", "_routing" : "3" } }
+  {"user":"Gabriel","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "create" : { "_index" : "jukebox", "_id" : "u2", "_routing" : "3" } }
+  {"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "create" : { "_index" : "jukebox", "_id" : "u3", "_routing" : "3" } }
+  {"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "create" : { "_index" : "jukebox", "_id" : "u4", "_routing" : "4" } }
+  {"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":4}}
+  { "create" : { "_index" : "jukebox", "_id" : "u5", "_routing" : "5" } }
+  {"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":5}}
+  ```
 
-POST _bulk
-{ "create" : { "_index" : "jukebox", "_id" : "1" } }
-{"name":"Led Zeppelin","jukebox_relations":{"name":"artist"}}
-{ "create" : { "_index" : "jukebox", "_id" : "2" } }
-{"name":"Sandy Denny","jukebox_relations":{"name":"artist"}}
-{ "create" : { "_index" : "jukebox", "_id" : "3", "_routing" : "1" } }
-{"song":"Whole lotta love","jukebox_relations":{"name":"song","parent":1}}
-{ "create" : { "_index" : "jukebox", "_id" : "4", "_routing" : "1" } }
-{"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":1}}
-{ "create" : { "_index" : "jukebox", "_id" : "5", "_routing" : "2" } }
-{"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":2}}
-{ "create" : { "_index" : "jukebox", "_id" : "u1", "_routing" : "3" } }
-{"user":"Gabriel","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "create" : { "_index" : "jukebox", "_id" : "u2", "_routing" : "3" } }
-{"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "create" : { "_index" : "jukebox", "_id" : "u3", "_routing" : "3" } }
-{"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "create" : { "_index" : "jukebox", "_id" : "u4", "_routing" : "4" } }
-{"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":4}}
-{ "create" : { "_index" : "jukebox", "_id" : "u5", "_routing" : "5" } }
-{"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":5}}
-
-```
-
-```json
-POST _bulk
-{ "index" : { "_index" : "jukebox", "_id" : "1" } }
-{"name":"Led Zeppelin","jukebox_relations":{"name":"artist"}}
-{ "index" : { "_index" : "jukebox", "_id" : "2" } }
-{"name":"Sandy Denny","jukebox_relations":{"name":"artist"}}
-{ "index" : { "_index" : "jukebox", "_id" : "3", "_routing" : "1" } }
-{"song":"Whole lotta love","jukebox_relations":{"name":"song","parent":1}}
-{ "index" : { "_index" : "jukebox", "_id" : "4", "_routing" : "1" } }
-{"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":1}}
-{ "index" : { "_index" : "jukebox", "_id" : "5", "_routing" : "2" } }
-{"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":2}}
-{ "index" : { "_index" : "jukebox", "_id" : "u1", "_routing" : "3" } }
-{"user":"Gabriel","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "index" : { "_index" : "jukebox", "_id" : "u2", "_routing" : "3" } }
-{"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "index" : { "_index" : "jukebox", "_id" : "u3", "_routing" : "3" } }
-{"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":3}}
-{ "index" : { "_index" : "jukebox", "_id" : "u4", "_routing" : "4" } }
-{"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":4}}
-{ "index" : { "_index" : "jukebox", "_id" : "u5", "_routing" : "5" } }
-{"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":5}}
-
-```
+  ```json
+  POST _bulk
+  { "index" : { "_index" : "jukebox", "_id" : "1" } }
+  {"name":"Led Zeppelin","jukebox_relations":{"name":"artist"}}
+  { "index" : { "_index" : "jukebox", "_id" : "2" } }
+  {"name":"Sandy Denny","jukebox_relations":{"name":"artist"}}
+  { "index" : { "_index" : "jukebox", "_id" : "3", "_routing" : "1" } }
+  {"song":"Whole lotta love","jukebox_relations":{"name":"song","parent":1}}
+  { "index" : { "_index" : "jukebox", "_id" : "4", "_routing" : "1" } }
+  {"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":1}}
+  { "index" : { "_index" : "jukebox", "_id" : "5", "_routing" : "2" } }
+  {"song":"Battle of Evermore","jukebox_relations":{"name":"song","parent":2}}
+  { "index" : { "_index" : "jukebox", "_id" : "u1", "_routing" : "3" } }
+  {"user":"Gabriel","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "index" : { "_index" : "jukebox", "_id" : "u2", "_routing" : "3" } }
+  {"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "index" : { "_index" : "jukebox", "_id" : "u3", "_routing" : "3" } }
+  {"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":3}}
+  { "index" : { "_index" : "jukebox", "_id" : "u4", "_routing" : "4" } }
+  {"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":4}}
+  { "index" : { "_index" : "jukebox", "_id" : "u5", "_routing" : "5" } }
+  {"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":5}}
+  ```
 
 -->
 
-```json
-POST league/_bulk
-{ "create" : {} }
-{"name":"Team 1","players":[{"identity":"Player_1","games":30,"nationality":"FR"},{"identity":"Player_2","games":15,"nationality":"DE"},{"identity":"Player_3","games":34,"nationality":"FR"},{"identity":"Player_4","games":11,"nationality":"BR"},{"identity":"Player_5","games":4,"nationality":"BE"},{"identity":"Player_6","games":11,"nationality":"FR"}]}
-{ "create" : {} }
-{"name":"Team 2","players":[{"identity":"Player_20","games":11,"nationality":"FR"},{"identity":"Player_21","games":15,"nationality":"FR"},{"identity":"Player_22","games":34,"nationality":"FR"},{"identity":"Player_23","games":30,"nationality":"FR"},{"identity":"Player_24","games":4,"nationality":"FR"},{"identity":"Player_25","games":11,"nationality":"FR"}]}
-{ "create" : {} }
-{"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]}
-{ "create" : {} }
-{"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]} 
-```
-<!--
-```json
-
-POST _bulk
-{ "create" : { "_index" : "league" } }
-{"name":"Team 1","players":[{"identity":"Player_1","games":30,"nationality":"FR"},{"identity":"Player_2","games":15,"nationality":"DE"},{"identity":"Player_3","games":34,"nationality":"FR"},{"identity":"Player_4","games":11,"nationality":"BR"},{"identity":"Player_5","games":4,"nationality":"BE"},{"identity":"Player_6","games":11,"nationality":"FR"}]}
-{ "create" : { "_index" : "league" } }
-{"name":"Team 2","players":[{"identity":"Player_20","games":11,"nationality":"FR"},{"identity":"Player_21","games":15,"nationality":"FR"},{"identity":"Player_22","games":34,"nationality":"FR"},{"identity":"Player_23","games":30,"nationality":"FR"},{"identity":"Player_24","games":4,"nationality":"FR"},{"identity":"Player_25","games":11,"nationality":"FR"}]}
-{ "create" : { "_index" : "league" } }
-{"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]}
-{ "create" : { "_index" : "league" } }
-{"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]} 
-
-```
-
-```json
-
-POST _bulk
-{ "index" : { "_index" : "league" } }
-{"name":"Team 1","players":[{"identity":"Player_1","games":30,"nationality":"FR"},{"identity":"Player_2","games":15,"nationality":"DE"},{"identity":"Player_3","games":34,"nationality":"FR"},{"identity":"Player_4","games":11,"nationality":"BR"},{"identity":"Player_5","games":4,"nationality":"BE"},{"identity":"Player_6","games":11,"nationality":"FR"}]}
-{ "index" : { "_index" : "league" } }
-{"name":"Team 2","players":[{"identity":"Player_20","games":11,"nationality":"FR"},{"identity":"Player_21","games":15,"nationality":"FR"},{"identity":"Player_22","games":34,"nationality":"FR"},{"identity":"Player_23","games":30,"nationality":"FR"},{"identity":"Player_24","games":4,"nationality":"FR"},{"identity":"Player_25","games":11,"nationality":"FR"}]}
-{ "index" : { "_index" : "league" } }
-{"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]}
-{ "index" : { "_index" : "league" } }
-{"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]} 
-
-```
--->
+  ```json
+  POST league/_bulk
+  { "create" : {} }
+  {"name":"Team 1","players":[{"identity":"Player_1","games":30,"nationality":"FR"},{"identity":"Player_2","games":15,"nationality":"DE"},{"identity":"Player_3","games":34,"nationality":"FR"},{"identity":"Player_4","games":11,"nationality":"BR"},{"identity":"Player_5","games":4,"nationality":"BE"},{"identity":"Player_6","games":11,"nationality":"FR"}]}
+  { "create" : {} }
+  {"name":"Team 2","players":[{"identity":"Player_20","games":11,"nationality":"FR"},{"identity":"Player_21","games":15,"nationality":"FR"},{"identity":"Player_22","games":34,"nationality":"FR"},{"identity":"Player_23","games":30,"nationality":"FR"},{"identity":"Player_24","games":4,"nationality":"FR"},{"identity":"Player_25","games":11,"nationality":"FR"}]}
+  { "create" : {} }
+  {"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]}
+  { "create" : {} }
+  {"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]} 
+  ```
 
 <!--
 
-OR 
+  ```json
+  POST _bulk
+  { "create" : { "_index" : "league" } }
+  {"name":"Team 1","players":[{"identity":"Player_1","games":30,"nationality":"FR"},{"identity":"Player_2","games":15,"nationality":"DE"},{"identity":"Player_3","games":34,"nationality":"FR"},{"identity":"Player_4","games":11,"nationality":"BR"},{"identity":"Player_5","games":4,"nationality":"BE"},{"identity":"Player_6","games":11,"nationality":"FR"}]}
+  { "create" : { "_index" : "league" } }
+  {"name":"Team 2","players":[{"identity":"Player_20","games":11,"nationality":"FR"},{"identity":"Player_21","games":15,"nationality":"FR"},{"identity":"Player_22","games":34,"nationality":"FR"},{"identity":"Player_23","games":30,"nationality":"FR"},{"identity":"Player_24","games":4,"nationality":"FR"},{"identity":"Player_25","games":11,"nationality":"FR"}]}
+  { "create" : { "_index" : "league" } }
+  {"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]}
+  { "create" : { "_index" : "league" } }
+  {"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]} 
+  ```
 
-POST /leage/_doc
-{
-  "name": "Team 1",
-  "players": [
-    {"identity": "Player_1", "games": 30, "nationality": "FR"},
-    {"identity": "Player_2", "games": 15, "nationality": "DE"},
-    {"identity": "Player_3", "games": 34, "nationality": "FR"},
-    {"identity": "Player_4", "games": 11, "nationality": "BR"},
-    {"identity": "Player_5", "games": 4, "nationality": "BE"},
-    {"identity": "Player_6", "games": 11, "nationality": "FR"}    
-  ]
-}
-
-POST /leage/_doc
-{
-  "name": "Team 2",
-  "players": [
-    {"identity": "Player_20", "games": 11, "nationality": "FR"},
-    {"identity": "Player_21", "games": 15, "nationality": "FR"},
-    {"identity": "Player_22", "games": 34, "nationality": "FR"},
-    {"identity": "Player_23", "games": 30, "nationality": "FR"},
-    {"identity": "Player_24", "games": 4, "nationality": "FR"},
-    {"identity": "Player_25", "games": 11, "nationality": "FR"}  
-  ]
-}
-
-POST /leage/_doc
-{
-  "name": "Team 3",
-  "players": [
-    {"identity": "Player_30", "games": 11, "nationality": "FR"},
-    {"identity": "Player_31", "games": 15, "nationality": "FR"},
-    {"identity": "Player_32", "games": 12, "nationality": "FR"},
-    {"identity": "Player_33", "games": 15, "nationality": "FR"},
-    {"identity": "Player_34", "games": 4, "nationality": "FR"},
-    {"identity": "Player_35", "games": 11, "nationality": "FR"}
-  ]
-}
-
-POST /leage/_doc
-{
-  "name": "Team 3",
-  "players": [
-    {"identity": "Player_30", "games": 11, "nationality": "FR"},
-    {"identity": "Player_31", "games": 15, "nationality": "FR"},
-    {"identity": "Player_32", "games": 12, "nationality": "FR"},
-    {"identity": "Player_33", "games": 15, "nationality": "FR"},
-    {"identity": "Player_34", "games": 4, "nationality": "FR"},
-    {"identity": "Player_35", "games": 11, "nationality": "FR"}
-  ]
-}
+  ```json
+  POST _bulk
+  { "index" : { "_index" : "league" } }
+  {"name":"Team 1","players":[{"identity":"Player_1","games":30,"nationality":"FR"},{"identity":"Player_2","games":15,"nationality":"DE"},{"identity":"Player_3","games":34,"nationality":"FR"},{"identity":"Player_4","games":11,"nationality":"BR"},{"identity":"Player_5","games":4,"nationality":"BE"},{"identity":"Player_6","games":11,"nationality":"FR"}]}
+  { "index" : { "_index" : "league" } }
+  {"name":"Team 2","players":[{"identity":"Player_20","games":11,"nationality":"FR"},{"identity":"Player_21","games":15,"nationality":"FR"},{"identity":"Player_22","games":34,"nationality":"FR"},{"identity":"Player_23","games":30,"nationality":"FR"},{"identity":"Player_24","games":4,"nationality":"FR"},{"identity":"Player_25","games":11,"nationality":"FR"}]}
+  { "index" : { "_index" : "league" } }
+  {"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]}
+  { "index" : { "_index" : "league" } }
+  {"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]} 
+  ```
 
 -->
 
 
-#### Indexing Documents
+<!--
 
-```json
-PUT /person-object
-{
-  "mappings": {
-    "properties": {
-      "name": {
-        "type": "text"
-      },
-      "surname": {
-        "type": "text"
-      },
-      "age": {
-        "type": "short"
-      },
-      "address": {
-        "properties": {
-          "city": { 
-            "type": "text"
-          },
-          "street": {
-            "type": "text"
+  OR 
+
+  ```json
+  POST /leage/_doc
+  {
+    "name": "Team 1",
+    "players": [
+      {"identity": "Player_1", "games": 30, "nationality": "FR"},
+      {"identity": "Player_2", "games": 15, "nationality": "DE"},
+      {"identity": "Player_3", "games": 34, "nationality": "FR"},
+      {"identity": "Player_4", "games": 11, "nationality": "BR"},
+      {"identity": "Player_5", "games": 4, "nationality": "BE"},
+      {"identity": "Player_6", "games": 11, "nationality": "FR"}    
+    ]
+  }
+
+  POST /leage/_doc
+  {
+    "name": "Team 2",
+    "players": [
+      {"identity": "Player_20", "games": 11, "nationality": "FR"},
+      {"identity": "Player_21", "games": 15, "nationality": "FR"},
+      {"identity": "Player_22", "games": 34, "nationality": "FR"},
+      {"identity": "Player_23", "games": 30, "nationality": "FR"},
+      {"identity": "Player_24", "games": 4, "nationality": "FR"},
+      {"identity": "Player_25", "games": 11, "nationality": "FR"}  
+    ]
+  }
+
+  POST /leage/_doc
+  {
+    "name": "Team 3",
+    "players": [
+      {"identity": "Player_30", "games": 11, "nationality": "FR"},
+      {"identity": "Player_31", "games": 15, "nationality": "FR"},
+      {"identity": "Player_32", "games": 12, "nationality": "FR"},
+      {"identity": "Player_33", "games": 15, "nationality": "FR"},
+      {"identity": "Player_34", "games": 4, "nationality": "FR"},
+      {"identity": "Player_35", "games": 11, "nationality": "FR"}
+    ]
+  }
+
+  POST /leage/_doc
+  {
+    "name": "Team 3",
+    "players": [
+      {"identity": "Player_30", "games": 11, "nationality": "FR"},
+      {"identity": "Player_31", "games": 15, "nationality": "FR"},
+      {"identity": "Player_32", "games": 12, "nationality": "FR"},
+      {"identity": "Player_33", "games": 15, "nationality": "FR"},
+      {"identity": "Player_34", "games": 4, "nationality": "FR"},
+      {"identity": "Player_35", "games": 11, "nationality": "FR"}
+    ]
+  }
+  ```
+
+-->
+
+
+- Indexing Documents
+
+  ```json
+  PUT /person-object
+  {
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text"
+        },
+        "surname": {
+          "type": "text"
+        },
+        "age": {
+          "type": "short"
+        },
+        "address": {
+          "properties": {
+            "city": { 
+              "type": "text"
+            },
+            "street": {
+              "type": "text"
+            }
           }
         }
       }
     }
   }
-}
-```
+  ```
 
 
-##### Index Single Documents
+- Index Single Documents
 
-<!--
-Adds a JSON document to the specified data stream or index and makes it searchable. If the target is an index and the document already exists, the request updates the document and increments its version.
+  <details>
+  <summary>
+  ***Recap***
+  </summary>
 
-> PUT /<target>/_doc/<_id>  
-> 
-> POST /<target>/_doc/  
-> 
-> PUT /<target>/_create/<_id>  
-> 
-> POST /<target>/_create/<_id>  
-> 
+  > Adds a JSON document to the specified data stream or index and makes it searchable. If the target is an index and the document already exists, the request updates the document and increments its version.
+  > 
+  >> PUT /<target>/_doc/<_id>  
+  >>
+  >> POST /<target>/_doc/  
+  >> 
+  >> PUT /<target>/_create/<_id>  
+  >> 
+  >> POST /<target>/_create/<_id>  
+  >> 
 
--->
+  </details>
  
-```json
-PUT /person-object/_doc/1
-{
-  "name": "farhad",
-  "surname": "rasouli", 
-  "address": {
-    "city": "tehran",
-    "street": "bolvare ferdooss"
+  ```json
+  PUT /person-object/_doc/1
+  {
+    "name": "farhad",
+    "surname": "rasouli", 
+    "address": {
+      "city": "tehran",
+      "street": "bolvare ferdooss"
+    }
   }
-}
-```
+  ```
 
-Response:
+  <details>
+  <summary>
+  Response:
+  </summary>
 
-```json
-{
-  "_index" : "person-object",
-  "_type" : "_doc",
-  "_id" : "1",
-  "_version" : 1,
-  "result" : "created",
-  "_shards" : {
-    "total" : 2,
-    "successful" : 1,
-    "failed" : 0
-  },
-  "_seq_no" : 0,
-  "_primary_term" : 1
-}
-```
-
-```json
-POST /person-object/_create/2
-{
-  "name": "amir",
-  "surname": "ardalan", 
-  "address": {
-    "city": "tehran",
-    "street": "shahrake gharb"
+  ```json
+  {
+    "_index" : "person-object",
+    "_type" : "_doc",
+    "_id" : "1",
+    "_version" : 1,
+    "result" : "created",
+    "_shards" : {
+      "total" : 2,
+      "successful" : 1,
+      "failed" : 0
+    },
+    "_seq_no" : 0,
+    "_primary_term" : 1
   }
-}
-```
+  ```
 
+  </details>
 
-```json
-PUT /person-object/_create/3
-{
-  "name": "taghi",
-  "surname": "taghizadeh", 
-  "address": {
-    "city": "karaj",
-    "street": "shahrake ghods"
+  ```json
+  POST /person-object/_create/2
+  {
+    "name": "amir",
+    "surname": "ardalan", 
+    "address": {
+      "city": "tehran",
+      "street": "shahrake gharb"
+    }
   }
-}
-```
+  ```
 
-```json
-POST /person-object/_doc
-{
-  "name": "majid",
-  "surname": "majidi", 
-  "address": {
-    "city": "karaj",
-    "street": "mehrshahr"
+
+  ```json
+  PUT /person-object/_create/3
+  {
+    "name": "taghi",
+    "surname": "taghizadeh", 
+    "address": {
+      "city": "karaj",
+      "street": "shahrake ghods"
+    }
   }
-}
-```
+  ```
+
+  ```json
+  POST /person-object/_doc
+  {
+    "name": "majid",
+    "surname": "majidi", 
+    "address": {
+      "city": "karaj",
+      "street": "mehrshahr"
+    }
+  }
+  ```
 
 - The following request creates a dynamic template to map string fields as runtime fields of type keyword. 
 
