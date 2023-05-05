@@ -34,7 +34,7 @@
 > ***index.translog.flush_threshold_size***
 > 
 
-> Example
+> ***Example***
 >> PUT /my-index-000001/_settings `{"index":{"translog":{"durability":"async"}}}`
 >>
 >> PUT /my-index-000001/_settings `{"index.translog.durability":"request"}
