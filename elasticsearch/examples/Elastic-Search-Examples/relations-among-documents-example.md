@@ -775,10 +775,10 @@ POST /person-object/_doc
   }
   ```
 
-<details>
-<summary>
+  <details>
+  <summary>
   OR:
-</summary>
+  </summary>
 
   ```json
   PUT /person-nested
@@ -800,7 +800,7 @@ POST /person-object/_doc
   }  
   ```
 
-</details>
+  </details>
 
 - Index document
 
