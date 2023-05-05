@@ -59,4 +59,24 @@
 >
 > PUT /my-index-000001/_settings `{"index.translog.durability":"request"}
 `
+<!--
 
+```json
+PUT /my_index/_settings
+{
+    "index.translog.durability": "async",
+    "index.translog.sync_interval": "5s"
+}
+```
+
+***Flush API***
+
+> POST /<target>/_flush
+> 
+> GET /<target>/_flush
+> 
+> POST /_flush
+> 
+> GET /_flush
+
+-->
