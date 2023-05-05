@@ -77,7 +77,7 @@ Global ordinals work by precomputing unique terms into an ordinal mapping, which
 
 Imagine that we have a billion documents, each of which has a `status` field. There are only three statuses: `status_pending`, `status_published`, `status_deleted`. If we were to hold the full string status in memory for every document, we would use 14 to 16 bytes per document, or about 15 GB. 
 
-> Instead, we can identify the three unique strings, sort them, and number them: 0, 1, 2. 
+> ***Instead, we can identify the three unique strings, sort them, and number them: 0, 1, 2.*** 
 
 >> | Ordinal  | Term            |  
 >> | -------- | --------------  |  
@@ -86,7 +86,7 @@ Imagine that we have a billion documents, each of which has a `status` field. Th
 >> | 2        | status_published|  
 >> |          |                 |   
 
-> The original strings are stored only once in the ordinals list, and each document just uses the numbered ordinal to point to the value that it contains. 
+> ***The original strings are stored only once in the ordinals list, and each document just uses the numbered ordinal to point to the value that it contains.*** 
 
 >> Doc     | Ordinal  
 >> --------|----------------  
@@ -97,7 +97,7 @@ Imagine that we have a billion documents, each of which has a `status` field. Th
 >>  
 
 
-> This reduces memory usage from 15 GB to less than 1 GB!
+> ***This reduces memory usage from 15 GB to less than 1 GB!***
 > 
 
 
