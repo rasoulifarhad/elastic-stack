@@ -275,9 +275,7 @@ See [elasticsearch7 relations among documents workshop](https://github.com/mtumi
 - Index Single Documents
 
   <details>
-  <summary>
-  ***Recap***
-  </summary>
+  ***<summary>Recap</summary>***
 
   > Adds a JSON document to the specified data stream or index and makes it searchable. If the target is an index and the document already exists, the request updates the document and increments its version.
   > 
