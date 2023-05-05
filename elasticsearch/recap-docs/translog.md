@@ -21,6 +21,17 @@
 > By default, `index.translog.durability` is set to `request` meaning that Elasticsearch will only report success of an index, delete, update, or bulk request to the client after the translog has been successfully `fsync`ed and committed on the primary and on every allocated replica. If `index.translog.durability` is set to `async` then Elasticsearch `fsync`s and commits the translog only every `index.translog.sync_interval` which means that any operations that were performed just before a crash may be lost when the node recovers.
 > 
 
+
+***Making Changes Persistent***
+
+![New documents are added to the in-memory buffer and appended to the transaction log](images/translog-01.png)
+
+![After a refresh, the buffer is cleared but the transaction log is not](images/translog-02.png)
+
+![The transaction log keeps accumulating documents](images/translog-03.png)
+
+![After a flush, the segments are fully commited and the transaction log is cleared](images/translog-04.png)
+
 **Translog settings**
 > 
 > ***index.translog.sync_interval***
