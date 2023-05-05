@@ -1197,28 +1197,29 @@ POST /person-object/_doc
 
 #### aggregations
 
-##### count players that played at least 30 games for each team.
+- count players that played at least 30 games for each team.
 
-```json
-GET /leage/_search
-{
-  "size": 0,
-  "aggs": {
-    "by_team": {
-      "terms": {
-        "field": "name"
-      },
-      "aggs": {
-        "at_least_30_games": {
-          "nested": {
-            "path": "players"
-          },
-          "aggs": {
-            "count_players": {
-              "filter": {
-                "range": {
-                  "players.games": {
-                    "gte": 30
+  ```json
+  GET /leage/_search
+  {
+    "size": 0,
+    "aggs": {
+      "by_team": {
+        "terms": {
+          "field": "name"
+        },
+        "aggs": {
+          "at_least_30_games": {
+            "nested": {
+              "path": "players"
+            },
+            "aggs": {
+              "count_players": {
+                "filter": {
+                  "range": {
+                    "players.games": {
+                      "gte": 30
+                    }
                   }
                 }
               }
@@ -1228,345 +1229,344 @@ GET /leage/_search
       }
     }
   }
-}
-```
+  ```
 
-<details>
-<summary>
-  Response: 
-</summary>
+  <details>
+  <summary>
+    Response: 
+  </summary>
 
-```json
-{
-  "took" : 2,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 4,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 2,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "by_team" : {
-      "doc_count_error_upper_bound" : 0,
-      "sum_other_doc_count" : 0,
-      "buckets" : [
-        {
-          "key" : "Team 3",
-          "doc_count" : 2,
-          "at_least_30_games" : {
-            "doc_count" : 12,
-            "count_players" : {
-              "doc_count" : 0
-            }
-          }
-        },
-        {
-          "key" : "Team 1",
-          "doc_count" : 1,
-          "at_least_30_games" : {
-            "doc_count" : 6,
-            "count_players" : {
-              "doc_count" : 2
-            }
-          }
-        },
-        {
-          "key" : "Team 2",
-          "doc_count" : 1,
-          "at_least_30_games" : {
-            "doc_count" : 6,
-            "count_players" : {
-              "doc_count" : 2
-            }
-          }
-        }
-      ]
-    }
-  }
-}
-```
-
-</details>
-
-##### count teams with at least one player who played at least 30 games
-
-```json
-GET /leage/_search
-{
-  "size": 0,
-  "aggs": {
-    "by_team": {
-      "terms": {
-        "field": "name"
+    "hits" : {
+      "total" : {
+        "value" : 4,
+        "relation" : "eq"
       },
-      "aggs": {
-        "at_least_30_games": {
-          "nested": {
-            "path": "players"
-          },
-          "aggs": {
-            "count_players": {
-              "filter": {
-                "range": {
-                  "players.games": {
-                    "gte": 30
-                  }
-                }
-              },
-              "aggs": {
-                "team_has_players_at_least_30_games": {
-                  "reverse_nested": {}
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-<details>
-<summary>
-  Response: 
-</summary>
-
-```json
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 4,
-      "relation" : "eq"
+      "max_score" : null,
+      "hits" : [ ]
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "by_team" : {
-      "doc_count_error_upper_bound" : 0,
-      "sum_other_doc_count" : 0,
-      "buckets" : [
-        {
-          "key" : "Team 3",
-          "doc_count" : 2,
-          "at_least_30_games" : {
-            "doc_count" : 12,
-            "count_players" : {
-              "doc_count" : 0,
-              "team_has_players_at_least_30_games" : {
+    "aggregations" : {
+      "by_team" : {
+        "doc_count_error_upper_bound" : 0,
+        "sum_other_doc_count" : 0,
+        "buckets" : [
+          {
+            "key" : "Team 3",
+            "doc_count" : 2,
+            "at_least_30_games" : {
+              "doc_count" : 12,
+              "count_players" : {
                 "doc_count" : 0
               }
             }
-          }
-        },
-        {
-          "key" : "Team 1",
-          "doc_count" : 1,
-          "at_least_30_games" : {
-            "doc_count" : 6,
-            "count_players" : {
-              "doc_count" : 2,
-              "team_has_players_at_least_30_games" : {
-                "doc_count" : 1
+          },
+          {
+            "key" : "Team 1",
+            "doc_count" : 1,
+            "at_least_30_games" : {
+              "doc_count" : 6,
+              "count_players" : {
+                "doc_count" : 2
+              }
+            }
+          },
+          {
+            "key" : "Team 2",
+            "doc_count" : 1,
+            "at_least_30_games" : {
+              "doc_count" : 6,
+              "count_players" : {
+                "doc_count" : 2
               }
             }
           }
+        ]
+      }
+    }
+  }
+  ```
+
+  </details>
+
+- count teams with at least one player who played at least 30 games
+
+  ```json
+  GET /leage/_search
+  {
+    "size": 0,
+    "aggs": {
+      "by_team": {
+        "terms": {
+          "field": "name"
         },
-        {
-          "key" : "Team 2",
-          "doc_count" : 1,
-          "at_least_30_games" : {
-            "doc_count" : 6,
-            "count_players" : {
-              "doc_count" : 2,
-              "team_has_players_at_least_30_games" : {
-                "doc_count" : 1
+        "aggs": {
+          "at_least_30_games": {
+            "nested": {
+              "path": "players"
+            },
+            "aggs": {
+              "count_players": {
+                "filter": {
+                  "range": {
+                    "players.games": {
+                      "gte": 30
+                    }
+                  }
+                },
+                "aggs": {
+                  "team_has_players_at_least_30_games": {
+                    "reverse_nested": {}
+                  }
+                }
               }
             }
           }
         }
-      ]
+      }
     }
   }
-}
-```
+  ```
 
-</details>
+  <details>
+  <summary>
+    Response: 
+  </summary>
+
+  ```json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 4,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "by_team" : {
+        "doc_count_error_upper_bound" : 0,
+        "sum_other_doc_count" : 0,
+        "buckets" : [
+          {
+            "key" : "Team 3",
+            "doc_count" : 2,
+            "at_least_30_games" : {
+              "doc_count" : 12,
+              "count_players" : {
+                "doc_count" : 0,
+                "team_has_players_at_least_30_games" : {
+                  "doc_count" : 0
+                }
+              }
+            }
+          },
+          {
+            "key" : "Team 1",
+            "doc_count" : 1,
+            "at_least_30_games" : {
+              "doc_count" : 6,
+              "count_players" : {
+                "doc_count" : 2,
+                "team_has_players_at_least_30_games" : {
+                  "doc_count" : 1
+                }
+              }
+            }
+          },
+          {
+            "key" : "Team 2",
+            "doc_count" : 1,
+            "at_least_30_games" : {
+              "doc_count" : 6,
+              "count_players" : {
+                "doc_count" : 2,
+                "team_has_players_at_least_30_games" : {
+                  "doc_count" : 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+  ```
+
+  </details>
 
 #### join
 
 - Index setup
 
-```json
-PUT jukebox
+  ```json
+  PUT jukebox
 
-PUT jukebox
-{
-  "mappings": {
-    "properties": {
-      "artist": {
-        "type": "text"
-      },
-      "song": {
-        "type": "text"
-      },
-      "chosen_by": {
-        "type": "keyword"
-      },
-      "jukebox_relations": {
-        "type": "join",
-        "relations": {
-          "artist": "song",
-          "song": "chosen_by"
+  PUT jukebox
+  {
+    "mappings": {
+      "properties": {
+        "artist": {
+          "type": "text"
+        },
+        "song": {
+          "type": "text"
+        },
+        "chosen_by": {
+          "type": "keyword"
+        },
+        "jukebox_relations": {
+          "type": "join",
+          "relations": {
+            "artist": "song",
+            "song": "chosen_by"
+          }
         }
       }
     }
   }
-}
-```
+  ```
 
 - Ingest data
 
-```json
-POST jukebox/_create/1
-{
-  "name": "Led Zeppelin",
-  "jukebox_relations": {
-    "name": "artist"
+  ```json
+  POST jukebox/_create/1
+  {
+    "name": "Led Zeppelin",
+    "jukebox_relations": {
+      "name": "artist"
+    }
   }
-}
 
-POST jukebox/_create/2
-{
-  "name": "Sandy Denny",
-  "jukebox_relations": {
-    "name": "artist"
+  POST jukebox/_create/2
+  {
+    "name": "Sandy Denny",
+    "jukebox_relations": {
+      "name": "artist"
+    }
   }
-}
 
-POST jukebox/_doc/3?routing=1 
-{
-  "song": "Whole lotta love",
-  "jukebox_relations": {
-    "name": "song",
-    "parent": 1
+  POST jukebox/_doc/3?routing=1 
+  {
+    "song": "Whole lotta love",
+    "jukebox_relations": {
+      "name": "song",
+      "parent": 1
+    }
   }
-}
 
-POST jukebox/_doc/4?routing=1 
-{
-  "song": "Battle of Evermore",
-  "jukebox_relations": {
-    "name": "song",
-    "parent": 1
+  POST jukebox/_doc/4?routing=1 
+  {
+    "song": "Battle of Evermore",
+    "jukebox_relations": {
+      "name": "song",
+      "parent": 1
+    }
   }
-}
 
-POST jukebox/_doc/5?routing=2 
-{
-  "song": "Battle of Evermore",
-  "jukebox_relations": {
-    "name": "song",
-    "parent": 2
+  POST jukebox/_doc/5?routing=2 
+  {
+    "song": "Battle of Evermore",
+    "jukebox_relations": {
+      "name": "song",
+      "parent": 2
+    }
   }
-}
 
-POST jukebox/_create/u1?routing=3 
-{
-  "user": "Gabriel",
-  "jukebox_relations": {
-    "name": "chosen_by",
-    "parent": 3
+  POST jukebox/_create/u1?routing=3 
+  {
+    "user": "Gabriel",
+    "jukebox_relations": {
+      "name": "chosen_by",
+      "parent": 3
+    }
   }
-}
 
-POST jukebox/_create/u2?routing=3 
-{
-  "user": "Berte",
-  "jukebox_relations": {
-    "name": "chosen_by",
-    "parent": 3
+  POST jukebox/_create/u2?routing=3 
+  {
+    "user": "Berte",
+    "jukebox_relations": {
+      "name": "chosen_by",
+      "parent": 3
+    }
   }
-}
 
-POST jukebox/_create/u3?routing=3 
-{
-  "user": "Emma",
-  "jukebox_relations": {
-    "name": "chosen_by",
-    "parent": 3
+  POST jukebox/_create/u3?routing=3 
+  {
+    "user": "Emma",
+    "jukebox_relations": {
+      "name": "chosen_by",
+      "parent": 3
+    }
   }
-}
 
-POST jukebox/_create/u4?routing=4 
-{
-  "user": "Berte",
-  "jukebox_relations": {
-    "name": "chosen_by",
-    "parent": 4
+  POST jukebox/_create/u4?routing=4 
+  {
+    "user": "Berte",
+    "jukebox_relations": {
+      "name": "chosen_by",
+      "parent": 4
+    }
   }
-}
 
-POST jukebox/_create/u5?routing=5 
-{
-  "user": "Emma",
-  "jukebox_relations": {
-    "name": "chosen_by",
-    "parent": 5
+  POST jukebox/_create/u5?routing=5 
+  {
+    "user": "Emma",
+    "jukebox_relations": {
+      "name": "chosen_by",
+      "parent": 5
+    }
   }
-}
-```
+  ```
 
 - Update document 3
 
-```json
-POST jukebox/_update/3?routing=1
-{
-  "doc": {
-    "song": "Whole Lotta Love"
-  }
-}
-
-GET jukebox/_doc/3?routing=1
-
-Response:
-
-{
-  "_index" : "jukebox",
-  "_type" : "_doc",
-  "_id" : "3",
-  "_version" : 2,
-  "_seq_no" : 10,
-  "_primary_term" : 1,
-  "_routing" : "1",
-  "found" : true,
-  "_source" : {
-    "song" : "Whole Lotta Love",
-    "jukebox_relations" : {
-      "name" : "song",
-      "parent" : 1
+  ```json
+  POST jukebox/_update/3?routing=1
+  {
+    "doc": {
+      "song": "Whole Lotta Love"
     }
   }
-}
-```
+
+  GET jukebox/_doc/3?routing=1
+
+  Response:
+
+  {
+    "_index" : "jukebox",
+    "_type" : "_doc",
+    "_id" : "3",
+    "_version" : 2,
+    "_seq_no" : 10,
+    "_primary_term" : 1,
+    "_routing" : "1",
+    "found" : true,
+    "_source" : {
+      "song" : "Whole Lotta Love",
+      "jukebox_relations" : {
+        "name" : "song",
+        "parent" : 1
+      }
+    }
+  }
+  ```
 
 - Find all songs of an artist Led Zeppelin
 
