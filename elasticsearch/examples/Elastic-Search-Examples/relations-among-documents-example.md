@@ -941,7 +941,10 @@ POST /person-object/_doc
 
   ```
 
+<details>
+<summary>
   Response: 
+</summary>
 
   ```json
 
@@ -1007,6 +1010,8 @@ POST /person-object/_doc
   }
 
   ```
+
+</details>
 
 ##### Index nested 2
 
@@ -1101,7 +1106,10 @@ POST /person-object/_doc
 
   ```
 
-  Response:
+<details>
+<summary>
+  Response: 
+</summary>
 
   ```json
 
@@ -1153,6 +1161,8 @@ POST /person-object/_doc
 
   ```
 
+</details>
+
 - Find all groups that have events with title java and elasticsearch
 
   ```json
@@ -1186,7 +1196,10 @@ POST /person-object/_doc
 
   ```
 
+<details>
+<summary>
   Response: 
+</summary>
 
   ```json
 
@@ -1238,6 +1251,8 @@ POST /person-object/_doc
 
   ```
 
+</details>
+
 #### aggregations
 
 ##### count players that played at least 30 games for each team.
@@ -1274,7 +1289,10 @@ GET /leage/_search
 }
 ```
 
-Response:
+<details>
+<summary>
+  Response: 
+</summary>
 
 ```json
 {
@@ -1335,6 +1353,8 @@ Response:
 }
 ```
 
+</details>
+
 ##### count teams with at least one player who played at least 30 games
 
 ```json
@@ -1374,7 +1394,10 @@ GET /leage/_search
 }
 ```
 
-Response:
+<details>
+<summary>
+  Response: 
+</summary>
 
 ```json
 {
@@ -1443,6 +1466,8 @@ Response:
   }
 }
 ```
+
+</details>
 
 #### join
 
