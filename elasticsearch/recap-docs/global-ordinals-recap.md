@@ -46,19 +46,20 @@ Global ordinals work by precomputing unique terms into an ordinal mapping, which
 
 ***Example***
 
-> Create product index
+> ***Create product index***
 >> `PUT /products {"mappings":{"properties":{"brand":{"type":"keyword"}}}}`
 
-> Inserting three doc intp the index
+> ***Inserting three doc intp the index***
 >> `{"name":"Iphone","brand":"Apple"}`
 >>
 >> `{"name":"Macbook Pro","brand":"Apple"}`
 >> 
 >> `{"name":"Samsung Galaxy","brand":"Samsung"}`
 
-> The first table created by the ordinal mapping assigns a numeric value to each unique term.
+> ***The first table created by the ordinal mapping assigns a numeric value to each unique term.***
 
-| Ordinal |  Term   |
-| --------| --------|
-| 0       | Apple   |
-| 1       | Samsung |
+>> | Ordinal |  Term   |
+>> | --------| --------|
+>> | 0       | Apple   |
+>> | 1       | Samsung |
+>> 
