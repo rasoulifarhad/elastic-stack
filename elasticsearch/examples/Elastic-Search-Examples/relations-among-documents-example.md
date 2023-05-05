@@ -773,9 +773,14 @@ POST /person-object/_doc
       }
     }
   }
+  ```
 
+<details>
+<summary>
   OR:
+</summary>
 
+  ```json
   PUT /person-nested
   {
     "mappings": {
@@ -794,6 +799,8 @@ POST /person-object/_doc
     }
   }  
   ```
+
+</details>
 
 - Index document
 
