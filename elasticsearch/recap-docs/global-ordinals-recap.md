@@ -27,10 +27,13 @@
 >  Global ordinals is a data-structure that maintains an incremental numbering for each unique term for a given field. 
 >> Global ordinals are computed on each shard.
 >>
+
 >> Terms aggregations will rely purely on those global ordinals to efficiently perform the aggregation at the shard level. 
 >>
+
 >> Global ordinals are then converted  to the real term for the final reduce phase, which combines results from different shards.
->> 
+>>
+ 
 >> If a shard is modified, then new global ordinals will need to be calculated for that shard.
 >> 
 
