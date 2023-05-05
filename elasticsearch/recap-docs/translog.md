@@ -24,11 +24,19 @@
 
 ***Making Changes Persistent***
 
+***1. New documents are added to the in-memory buffer and appended to the transaction log***
+
 ![New documents are added to the in-memory buffer and appended to the transaction log](images/translog-01.png)
+
+***2. After a refresh, the buffer is cleared but the transaction log is not***
 
 ![After a refresh, the buffer is cleared but the transaction log is not](images/translog-02.png)
 
+***3. The transaction log keeps accumulating documents***
+
 ![The transaction log keeps accumulating documents](images/translog-03.png)
+
+***4. After a flush, the segments are fully commited and the transaction log is cleared***
 
 ![After a flush, the segments are fully commited and the transaction log is cleared](images/translog-04.png)
 
