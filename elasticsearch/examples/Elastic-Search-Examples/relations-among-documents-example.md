@@ -278,7 +278,7 @@ See [elasticsearch7 relations among documents workshop](https://github.com/mtumi
   <details>
     <summary>Recap</summary>
 
-  > Adds a JSON document to the specified data stream or index and makes it searchable. If the target is an index and the document already exists, the request updates the document and increments its version.
+  > ***Index API*** Adds a JSON document to the specified data stream or index and makes it searchable. If the target is an index and the document already exists, the request updates the document and increments its version.
   >> ***PUT /\<target\>/_doc/\<_id\>***  
   >> ***POST /\<target\>/_doc/***  
   >> ***PUT /\<target\>/_create/\<_id\>***  
