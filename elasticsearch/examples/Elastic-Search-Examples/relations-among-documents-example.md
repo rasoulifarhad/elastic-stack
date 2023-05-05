@@ -8,7 +8,6 @@ See [elasticsearch7 relations among documents workshop](https://github.com/mtumi
 #### Create index jukebox && league
 
 ```json
-
 PUT jukebox
 {
   "mappings": {
@@ -32,11 +31,9 @@ PUT jukebox
     }
   }
 }
-
 ```
 
 ```json
-
 PUT league
 {
   "mappings": {
@@ -61,13 +58,11 @@ PUT league
     }
   }
 }   
-
 ```
 
 #### Index some documents
 
 ```json
-
 POST jukebox/_bulk
 { "create" : { "_id" : "1" } }
 {"name":"Led Zeppelin","jukebox_relations":{"name":"artist"}}
@@ -89,7 +84,6 @@ POST jukebox/_bulk
 {"user":"Berte","jukebox_relations":{"name":"chosen_by","parent":4}}
 { "create" : { "_id" : "u5", "_routing" : "5" } }
 {"user":"Emma","jukebox_relations":{"name":"chosen_by","parent":5}}
-
 ```
 <!--
 
@@ -147,7 +141,6 @@ POST _bulk
 -->
 
 ```json
-
 POST league/_bulk
 { "create" : {} }
 {"name":"Team 1","players":[{"identity":"Player_1","games":30,"nationality":"FR"},{"identity":"Player_2","games":15,"nationality":"DE"},{"identity":"Player_3","games":34,"nationality":"FR"},{"identity":"Player_4","games":11,"nationality":"BR"},{"identity":"Player_5","games":4,"nationality":"BE"},{"identity":"Player_6","games":11,"nationality":"FR"}]}
@@ -157,7 +150,6 @@ POST league/_bulk
 {"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]}
 { "create" : {} }
 {"name":"Team 3","players":[{"identity":"Player_30","games":11,"nationality":"FR"},{"identity":"Player_31","games":15,"nationality":"FR"},{"identity":"Player_32","games":12,"nationality":"FR"},{"identity":"Player_33","games":15,"nationality":"FR"},{"identity":"Player_34","games":4,"nationality":"FR"},{"identity":"Player_35","games":11,"nationality":"FR"}]} 
-
 ```
 <!--
 ```json
@@ -251,7 +243,6 @@ POST /leage/_doc
 #### Indexing Documents
 
 ```json
-
 PUT /person-object
 {
   "mappings": {
@@ -278,7 +269,6 @@ PUT /person-object
     }
   }
 }
-
 ```
 
 
@@ -299,7 +289,6 @@ Adds a JSON document to the specified data stream or index and makes it searchab
 -->
  
 ```json
-
 PUT /person-object/_doc/1
 {
   "name": "farhad",
@@ -309,13 +298,11 @@ PUT /person-object/_doc/1
     "street": "bolvare ferdooss"
   }
 }
-
 ```
 
 Response:
 
 ```json
-
 {
   "_index" : "person-object",
   "_type" : "_doc",
@@ -330,11 +317,9 @@ Response:
   "_seq_no" : 0,
   "_primary_term" : 1
 }
-
 ```
 
 ```json
-
 POST /person-object/_create/2
 {
   "name": "amir",
@@ -344,12 +329,10 @@ POST /person-object/_create/2
     "street": "shahrake gharb"
   }
 }
-
 ```
 
 
 ```json
-
 PUT /person-object/_create/3
 {
   "name": "taghi",
@@ -359,11 +342,9 @@ PUT /person-object/_create/3
     "street": "shahrake ghods"
   }
 }
-
 ```
 
 ```json
-
 POST /person-object/_doc
 {
   "name": "majid",
@@ -373,7 +354,6 @@ POST /person-object/_doc
     "street": "mehrshahr"
   }
 }
-
 ```
 
 - The following request creates a dynamic template to map string fields as runtime fields of type keyword. 
@@ -392,13 +372,11 @@ POST /person-object/_doc
       ]
     }
   }
-
   ```
    
   Index some data
 
   ```json
-
   PUT /my-index-000001/_doc/1
   {
     "name": "farhad",
@@ -406,13 +384,11 @@ POST /person-object/_doc
     "age": 45,
     "date_of": "2023-01-02"
   }
-
   ```
 
   Mapping  of Index after index data
 
   ```json
-
   GET /my-index-000001/_mapping
 
   GET /my-index-000001/_mapping/field/surname
@@ -449,13 +425,11 @@ POST /person-object/_doc
       }
     }
   }
-
   ```
 
 - It is common to have many numeric fields that you will often aggregate on but never filter on. disable indexing on those fields to save disk space and gain indexing speed: 
 
   ```json
-
   PUT /my-index-000002
   {
     "mappings": {
@@ -496,11 +470,9 @@ POST /person-object/_doc
       ]
     }
   }
-
   ```
 
   ```json 
-
   PUT /my-index-000003/_doc/1
   {
     "name": "farhad",
@@ -511,11 +483,9 @@ POST /person-object/_doc
     "ww": 56.67
     
   }
-
   ```
 
   ```json
-
   {
     "my-index-000003" : {
       "mappings" : {
@@ -581,7 +551,6 @@ POST /person-object/_doc
       }
     }
   }
-
   ```
 
 ##### Index Array
@@ -589,7 +558,6 @@ POST /person-object/_doc
 - mappings
 
   ```json
-
   PUT /programing-groups
   {
     "mappings": {
@@ -610,13 +578,11 @@ POST /person-object/_doc
       }
     }
   }
-
   ```
 
 - Index document
 
   ```json
-
   PUT /programing-groups/_doc/1
   {
     "name": "WJUG",
@@ -631,7 +597,6 @@ POST /person-object/_doc
       }
     ]
   }
-
   ```
 
 - How arrays of objects are flattened
@@ -643,7 +608,6 @@ POST /person-object/_doc
   This document :
 
   ```json
-
   {
     "name": "WJUG",
     "events": [
@@ -657,19 +621,17 @@ POST /person-object/_doc
       }
     ]
   }
-    
+   
   ```
 
   Internally transformed into a document that looks more like this: 
 
   ```json
-
   {
     "name": "WJUG",
     "events.title": [ "elasticsearch", "java" ],
     "events.date": [ "2019-10-10", "2018-10-10" ]
   }
-
   ```
   > 
   > The `events.title` and `events.date` fields are flattened into multi-value fields, and the **association between `elasticsearch` and `2019-10-10` is lost**. 
@@ -678,7 +640,6 @@ POST /person-object/_doc
   Now try this:
 
   ```json
-
   GET /programing-groups/_search
   {
     "query": {
@@ -698,13 +659,11 @@ POST /person-object/_doc
       }
     }
   }
-
   ```
 
   **Response**: ***WRONG!!!!!!!!!***
 
   ```json
-
   {
     "took" : 1,
     "timed_out" : false,
@@ -743,7 +702,6 @@ POST /person-object/_doc
       ]
     }
   }
-
   ```
 
 - Find all groups that:  
@@ -777,7 +735,6 @@ POST /person-object/_doc
       }
     }
   }
-
   ```
 
 #### Index Nested
@@ -791,7 +748,6 @@ POST /person-object/_doc
 - mapping
 
   ```json
-
   PUT /person-nested
   {
     "mappings": {
@@ -837,13 +793,11 @@ POST /person-object/_doc
       }
     }
   }  
-
   ```
 
 - Index document
 
   ```json
-
   POST person-nested/_create/1
   {
     "name": "Michal",
@@ -853,13 +807,11 @@ POST /person-object/_doc
       "city": "Warsaw"
     }
   }
-
   ```
 
 - Find by each field
 
   ```json
-
   GET /person-nested/_search
   {
     "query": {
@@ -900,13 +852,11 @@ POST /person-object/_doc
       }
     }
   }
-
   ```
 
 - Find by each field and show nested documents that matches the query
 
   ```json
-
   GET /person-nested/_search
   {
     "query": {
@@ -938,7 +888,6 @@ POST /person-object/_doc
       }
     }
   }
-
   ```
 
 <details>
@@ -947,7 +896,6 @@ POST /person-object/_doc
 </summary>
 
   ```json
-
   {
     "took" : 1,
     "timed_out" : false,
@@ -1008,7 +956,6 @@ POST /person-object/_doc
       ]
     }
   }
-
   ```
 
 </details>
@@ -1018,7 +965,6 @@ POST /person-object/_doc
 - mapping
 
   ```json
-
   PUT /programing-groups-nested
   {
     "mappings": {
@@ -1044,13 +990,11 @@ POST /person-object/_doc
       }
     }
   }
-
   ```
 
 - Index document
 
   ```json
-
   POST /programing-groups-nested/_create/1
   {
     "name": "WJUG",
@@ -1066,13 +1010,11 @@ POST /person-object/_doc
       }
     ]
   }
-
   ```
 
 - Find all groups that have events concerning "elasticsearch" and took place in 2019
 
   ```json
-
   GET /programing-groups-nested/_search
   {
     "query": {
@@ -1103,7 +1045,6 @@ POST /person-object/_doc
       "eventTitles"
     ]
   }
-
   ```
 
 <details>
@@ -1112,7 +1053,6 @@ POST /person-object/_doc
 </summary>
 
   ```json
-
   {
     "took" : 1,
     "timed_out" : false,
@@ -1158,7 +1098,6 @@ POST /person-object/_doc
       ]
     }
   }
-
   ```
 
 </details>
@@ -1166,7 +1105,6 @@ POST /person-object/_doc
 - Find all groups that have events with title java and elasticsearch
 
   ```json
-
   GET /programing-groups-nested/_search
   {
     "query": {
@@ -1193,7 +1131,6 @@ POST /person-object/_doc
       "eventTitles"
     ]
   }
-
   ```
 
 <details>
@@ -1202,7 +1139,6 @@ POST /person-object/_doc
 </summary>
 
   ```json
-
   {
     "took" : 0,
     "timed_out" : false,
@@ -1248,7 +1184,6 @@ POST /person-object/_doc
       ]
     }
   }
-
   ```
 
 </details>
