@@ -22,7 +22,7 @@
 > 
 
 
-***Making Changes Persistent***
+**Making Changes Persistent**
 
 ***1. New documents are added to the in-memory buffer and appended to the transaction log***
 
