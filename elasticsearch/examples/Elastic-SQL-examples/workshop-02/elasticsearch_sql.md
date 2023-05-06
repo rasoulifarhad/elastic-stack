@@ -11,8 +11,16 @@
 #### Simple Query
 ---
 
-<details open>
-<summary>In SQL</summary>
+<!--
+<details><summary><s>Some</s> <b>bold</b> <i>text</i> <code>code.go</code> <a href="//example.com">link</a></summary>
+
+    ```go
+    func main() {}
+    ```
+</details>
+-->
+
+<details open><summary><i>In SQL</i></summary>
 
   ```json
   GET /_sql
