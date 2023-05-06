@@ -519,7 +519,7 @@ GET /_sql?format=txt
 
 ---
 
-<details><summary><i>SQL</i></summary><blockquote>
+<details open><summary><i>SQL</i></summary><blockquote>
 
 ```json
 GET /_sql?format=txt
@@ -631,7 +631,7 @@ GET /_sql/translate
 
 ---
 
-<details><summary><i>SQL</i></summary><blockquote>
+<details open><summary><i>SQL</i></summary><blockquote>
 
 ```json
 GET /_sql?format=txt
@@ -753,7 +753,7 @@ GET /_sql/translate
 
 ----
 
-<details><summary><i>SQL</i></summary><blockquote>
+<details open><summary><i>SQL</i></summary><blockquote>
 
 ```json
 GET /_sql?format=txt
@@ -974,7 +974,7 @@ GET /_sql/translate
 
 ---
 
-<details><summary><i>SQL</i></summary><blockquote>
+<details open><summary><i>SQL</i></summary><blockquote>
 
 ```json
 GET /_sql?format=txt
