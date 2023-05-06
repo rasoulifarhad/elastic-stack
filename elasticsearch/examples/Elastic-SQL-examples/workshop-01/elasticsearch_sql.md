@@ -108,6 +108,8 @@ GET /_sql?format=txt
 
 </blockquote></details>
 
+---
+
 <details open><summary><i>SQL</i></summary><blockquote>
 
 ```json
@@ -515,9 +517,11 @@ GET /_sql?format=txt
 
 </blockquote></details>
 
+---
 
-<!--
+<details><summary><i>Translate To Query DSL</i></summary><blockquote>
 
+```json
 GET /_sql/translate
 {
   
@@ -533,53 +537,65 @@ GET /_sql/translate
         cnt >= 100 AND cnt <= 130
     ORDER BY
         cnt desc
-
   """
 }
+```
 
-{
-  "size" : 0,
-  "_source" : false,
-  "aggregations" : {
-    "groupby" : {
-      "composite" : {
-        "size" : 1000,
-        "sources" : [
-          {
-            "2c4bbc05" : {
-              "terms" : {
-                "field" : "customer_id",
-                "missing_bucket" : true,
-                "order" : "asc"
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "size" : 0,
+    "_source" : false,
+    "aggregations" : {
+      "groupby" : {
+        "composite" : {
+          "size" : 1000,
+          "sources" : [
+            {
+              "2c4bbc05" : {
+                "terms" : {
+                  "field" : "customer_id",
+                  "missing_bucket" : true,
+                  "order" : "asc"
+                }
               }
             }
-          }
-        ]
-      },
-      "aggregations" : {
-        "having.d2ae3524" : {
-          "bucket_selector" : {
-            "buckets_path" : {
-              "a0" : "_count",
-              "a1" : "_count"
-            },
-            "script" : {
-              "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.and(InternalQlScriptUtils.gte(params.a0, params.v0), InternalQlScriptUtils.lte(params.a1, params.v1)))",
-              "lang" : "painless",
-              "params" : {
-                "v0" : 100,
-                "v1" : 130
-              }
-            },
-            "gap_policy" : "skip"
+          ]
+        },
+        "aggregations" : {
+          "having.d2ae3524" : {
+            "bucket_selector" : {
+              "buckets_path" : {
+                "a0" : "_count",
+                "a1" : "_count"
+              },
+              "script" : {
+                "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.and(InternalQlScriptUtils.gte(params.a0, params.v0), InternalQlScriptUtils.lte(params.a1, params.v1)))",
+                "lang" : "painless",
+                "params" : {
+                  "v0" : 100,
+                  "v1" : 130
+                }
+              },
+              "gap_policy" : "skip"
+            }
           }
         }
       }
     }
   }
-}
+  ```
+  
+  </details>
 
+</blockquote></details>
 
+---
+
+<details><summary><i>Translate To Query DSL</i></summary><blockquote>
+
+```json
 GET /_sql/translate
 {
   
@@ -598,48 +614,61 @@ GET /_sql/translate
 
   """
 }
+```
 
-{
-  "size" : 0,
-  "_source" : false,
-  "aggregations" : {
-    "groupby" : {
-      "composite" : {
-        "size" : 1000,
-        "sources" : [
-          {
-            "2c4bbc05" : {
-              "terms" : {
-                "field" : "customer_id",
-                "missing_bucket" : true,
-                "order" : "asc"
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "size" : 0,
+    "_source" : false,
+    "aggregations" : {
+      "groupby" : {
+        "composite" : {
+          "size" : 1000,
+          "sources" : [
+            {
+              "2c4bbc05" : {
+                "terms" : {
+                  "field" : "customer_id",
+                  "missing_bucket" : true,
+                  "order" : "asc"
+                }
               }
             }
-          }
-        ]
-      },
-      "aggregations" : {
-        "having.d2ae3524" : {
-          "bucket_selector" : {
-            "buckets_path" : {
-              "a0" : "_count"
-            },
-            "script" : {
-              "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.gte(params.a0,params.v0))",
-              "lang" : "painless",
-              "params" : {
-                "v0" : 100
-              }
-            },
-            "gap_policy" : "skip"
+          ]
+        },
+        "aggregations" : {
+          "having.d2ae3524" : {
+            "bucket_selector" : {
+              "buckets_path" : {
+                "a0" : "_count"
+              },
+              "script" : {
+                "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.gte(params.a0,params.v0))",
+                "lang" : "painless",
+                "params" : {
+                  "v0" : 100
+                }
+              },
+              "gap_policy" : "skip"
+            }
           }
         }
       }
     }
   }
-}
+  ```
+  
+  </details>
 
+</blockquote></details>
 
+----
+
+<details><summary><i>Translate To Query DSL</i></summary><blockquote>
+
+```json
 GET /_sql/translate
 {
   
@@ -654,165 +683,178 @@ GET /_sql/translate
 
   """
 }
+```
 
-{
-  "size" : 1000,
-  "_source" : false,
-  "fields" : [
-    {
-      "field" : "category"
-    },
-    {
-      "field" : "currency"
-    },
-    {
-      "field" : "customer_birth_date",
-      "format" : "strict_date_optional_time_nanos"
-    },
-    {
-      "field" : "customer_first_name"
-    },
-    {
-      "field" : "customer_full_name"
-    },
-    {
-      "field" : "customer_gender"
-    },
-    {
-      "field" : "customer_id"
-    },
-    {
-      "field" : "customer_last_name"
-    },
-    {
-      "field" : "customer_phone"
-    },
-    {
-      "field" : "day_of_week"
-    },
-    {
-      "field" : "day_of_week_i"
-    },
-    {
-      "field" : "email"
-    },
-    {
-      "field" : "event.dataset"
-    },
-    {
-      "field" : "geoip.city_name"
-    },
-    {
-      "field" : "geoip.continent_name"
-    },
-    {
-      "field" : "geoip.country_iso_code"
-    },
-    {
-      "field" : "geoip.location"
-    },
-    {
-      "field" : "geoip.region_name"
-    },
-    {
-      "field" : "manufacturer"
-    },
-    {
-      "field" : "order_date",
-      "format" : "strict_date_optional_time_nanos"
-    },
-    {
-      "field" : "order_id"
-    },
-    {
-      "field" : "products._id"
-    },
-    {
-      "field" : "products.base_price"
-    },
-    {
-      "field" : "products.base_unit_price"
-    },
-    {
-      "field" : "products.category"
-    },
-    {
-      "field" : "products.created_on",
-      "format" : "strict_date_optional_time_nanos"
-    },
-    {
-      "field" : "products.discount_amount"
-    },
-    {
-      "field" : "products.discount_percentage"
-    },
-    {
-      "field" : "products.manufacturer"
-    },
-    {
-      "field" : "products.min_price"
-    },
-    {
-      "field" : "products.price"
-    },
-    {
-      "field" : "products.product_id"
-    },
-    {
-      "field" : "products.product_name"
-    },
-    {
-      "field" : "products.quantity"
-    },
-    {
-      "field" : "products.sku"
-    },
-    {
-      "field" : "products.tax_amount"
-    },
-    {
-      "field" : "products.taxful_price"
-    },
-    {
-      "field" : "products.taxless_price"
-    },
-    {
-      "field" : "products.unit_discount_amount"
-    },
-    {
-      "field" : "sku"
-    },
-    {
-      "field" : "taxful_total_price"
-    },
-    {
-      "field" : "taxless_total_price"
-    },
-    {
-      "field" : "total_quantity"
-    },
-    {
-      "field" : "total_unique_products"
-    },
-    {
-      "field" : "type"
-    },
-    {
-      "field" : "user"
-    }
-  ],
-  "sort" : [
-    {
-      "customer_id" : {
-        "order" : "desc",
-        "missing" : "_first",
-        "unmapped_type" : "keyword"
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "size" : 1000,
+    "_source" : false,
+    "fields" : [
+      {
+        "field" : "category"
+      },
+      {
+        "field" : "currency"
+      },
+      {
+        "field" : "customer_birth_date",
+        "format" : "strict_date_optional_time_nanos"
+      },
+      {
+        "field" : "customer_first_name"
+      },
+      {
+        "field" : "customer_full_name"
+      },
+      {
+        "field" : "customer_gender"
+      },
+      {
+        "field" : "customer_id"
+      },
+      {
+        "field" : "customer_last_name"
+      },
+      {
+        "field" : "customer_phone"
+      },
+      {
+        "field" : "day_of_week"
+      },
+      {
+        "field" : "day_of_week_i"
+      },
+      {
+        "field" : "email"
+      },
+      {
+        "field" : "event.dataset"
+      },
+      {
+        "field" : "geoip.city_name"
+      },
+      {
+        "field" : "geoip.continent_name"
+      },
+      {
+        "field" : "geoip.country_iso_code"
+      },
+      {
+        "field" : "geoip.location"
+      },
+      {
+        "field" : "geoip.region_name"
+      },
+      {
+        "field" : "manufacturer"
+      },
+      {
+        "field" : "order_date",
+        "format" : "strict_date_optional_time_nanos"
+      },
+      {
+        "field" : "order_id"
+      },
+      {
+        "field" : "products._id"
+      },
+      {
+        "field" : "products.base_price"
+      },
+      {
+        "field" : "products.base_unit_price"
+      },
+      {
+        "field" : "products.category"
+      },
+      {
+        "field" : "products.created_on",
+        "format" : "strict_date_optional_time_nanos"
+      },
+      {
+        "field" : "products.discount_amount"
+      },
+      {
+        "field" : "products.discount_percentage"
+      },
+      {
+        "field" : "products.manufacturer"
+      },
+      {
+        "field" : "products.min_price"
+      },
+      {
+        "field" : "products.price"
+      },
+      {
+        "field" : "products.product_id"
+      },
+      {
+        "field" : "products.product_name"
+      },
+      {
+        "field" : "products.quantity"
+      },
+      {
+        "field" : "products.sku"
+      },
+      {
+        "field" : "products.tax_amount"
+      },
+      {
+        "field" : "products.taxful_price"
+      },
+      {
+        "field" : "products.taxless_price"
+      },
+      {
+        "field" : "products.unit_discount_amount"
+      },
+      {
+        "field" : "sku"
+      },
+      {
+        "field" : "taxful_total_price"
+      },
+      {
+        "field" : "taxless_total_price"
+      },
+      {
+        "field" : "total_quantity"
+      },
+      {
+        "field" : "total_unique_products"
+      },
+      {
+        "field" : "type"
+      },
+      {
+        "field" : "user"
       }
-    }
-  ]
-}
+    ],
+    "sort" : [
+      {
+        "customer_id" : {
+          "order" : "desc",
+          "missing" : "_first",
+          "unmapped_type" : "keyword"
+        }
+      }
+    ]
+  }
+  ```
+  
+  </details>
 
+</blockquote></details>
 
+---
+
+<details><summary><i>Translate To Query DSL</i></summary><blockquote>
+
+```json
 GET /_sql/translate
 {
   
@@ -828,164 +870,174 @@ GET /_sql/translate
   """,
   "fetch_size": 10
 }
+```
 
-{
-  "size" : 10,
-  "_source" : false,
-  "fields" : [
-    {
-      "field" : "category"
-    },
-    {
-      "field" : "currency"
-    },
-    {
-      "field" : "customer_birth_date",
-      "format" : "strict_date_optional_time_nanos"
-    },
-    {
-      "field" : "customer_first_name"
-    },
-    {
-      "field" : "customer_full_name"
-    },
-    {
-      "field" : "customer_gender"
-    },
-    {
-      "field" : "customer_id"
-    },
-    {
-      "field" : "customer_last_name"
-    },
-    {
-      "field" : "customer_phone"
-    },
-    {
-      "field" : "day_of_week"
-    },
-    {
-      "field" : "day_of_week_i"
-    },
-    {
-      "field" : "email"
-    },
-    {
-      "field" : "event.dataset"
-    },
-    {
-      "field" : "geoip.city_name"
-    },
-    {
-      "field" : "geoip.continent_name"
-    },
-    {
-      "field" : "geoip.country_iso_code"
-    },
-    {
-      "field" : "geoip.location"
-    },
-    {
-      "field" : "geoip.region_name"
-    },
-    {
-      "field" : "manufacturer"
-    },
-    {
-      "field" : "order_date",
-      "format" : "strict_date_optional_time_nanos"
-    },
-    {
-      "field" : "order_id"
-    },
-    {
-      "field" : "products._id"
-    },
-    {
-      "field" : "products.base_price"
-    },
-    {
-      "field" : "products.base_unit_price"
-    },
-    {
-      "field" : "products.category"
-    },
-    {
-      "field" : "products.created_on",
-      "format" : "strict_date_optional_time_nanos"
-    },
-    {
-      "field" : "products.discount_amount"
-    },
-    {
-      "field" : "products.discount_percentage"
-    },
-    {
-      "field" : "products.manufacturer"
-    },
-    {
-      "field" : "products.min_price"
-    },
-    {
-      "field" : "products.price"
-    },
-    {
-      "field" : "products.product_id"
-    },
-    {
-      "field" : "products.product_name"
-    },
-    {
-      "field" : "products.quantity"
-    },
-    {
-      "field" : "products.sku"
-    },
-    {
-      "field" : "products.tax_amount"
-    },
-    {
-      "field" : "products.taxful_price"
-    },
-    {
-      "field" : "products.taxless_price"
-    },
-    {
-      "field" : "products.unit_discount_amount"
-    },
-    {
-      "field" : "sku"
-    },
-    {
-      "field" : "taxful_total_price"
-    },
-    {
-      "field" : "taxless_total_price"
-    },
-    {
-      "field" : "total_quantity"
-    },
-    {
-      "field" : "total_unique_products"
-    },
-    {
-      "field" : "type"
-    },
-    {
-      "field" : "user"
-    }
-  ],
-  "sort" : [
-    {
-      "customer_id" : {
-        "order" : "desc",
-        "missing" : "_first",
-        "unmapped_type" : "keyword"
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "size" : 10,
+    "_source" : false,
+    "fields" : [
+      {
+        "field" : "category"
+      },
+      {
+        "field" : "currency"
+      },
+      {
+        "field" : "customer_birth_date",
+        "format" : "strict_date_optional_time_nanos"
+      },
+      {
+        "field" : "customer_first_name"
+      },
+      {
+        "field" : "customer_full_name"
+      },
+      {
+        "field" : "customer_gender"
+      },
+      {
+        "field" : "customer_id"
+      },
+      {
+        "field" : "customer_last_name"
+      },
+      {
+        "field" : "customer_phone"
+      },
+      {
+        "field" : "day_of_week"
+      },
+      {
+        "field" : "day_of_week_i"
+      },
+      {
+        "field" : "email"
+      },
+      {
+        "field" : "event.dataset"
+      },
+      {
+        "field" : "geoip.city_name"
+      },
+      {
+        "field" : "geoip.continent_name"
+      },
+      {
+        "field" : "geoip.country_iso_code"
+      },
+      {
+        "field" : "geoip.location"
+      },
+      {
+        "field" : "geoip.region_name"
+      },
+      {
+        "field" : "manufacturer"
+      },
+      {
+        "field" : "order_date",
+        "format" : "strict_date_optional_time_nanos"
+      },
+      {
+        "field" : "order_id"
+      },
+      {
+        "field" : "products._id"
+      },
+      {
+        "field" : "products.base_price"
+      },
+      {
+        "field" : "products.base_unit_price"
+      },
+      {
+        "field" : "products.category"
+      },
+      {
+        "field" : "products.created_on",
+        "format" : "strict_date_optional_time_nanos"
+      },
+      {
+        "field" : "products.discount_amount"
+      },
+      {
+        "field" : "products.discount_percentage"
+      },
+      {
+        "field" : "products.manufacturer"
+      },
+      {
+        "field" : "products.min_price"
+      },
+      {
+        "field" : "products.price"
+      },
+      {
+        "field" : "products.product_id"
+      },
+      {
+        "field" : "products.product_name"
+      },
+      {
+        "field" : "products.quantity"
+      },
+      {
+        "field" : "products.sku"
+      },
+      {
+        "field" : "products.tax_amount"
+      },
+      {
+        "field" : "products.taxful_price"
+      },
+      {
+        "field" : "products.taxless_price"
+      },
+      {
+        "field" : "products.unit_discount_amount"
+      },
+      {
+        "field" : "sku"
+      },
+      {
+        "field" : "taxful_total_price"
+      },
+      {
+        "field" : "taxless_total_price"
+      },
+      {
+        "field" : "total_quantity"
+      },
+      {
+        "field" : "total_unique_products"
+      },
+      {
+        "field" : "type"
+      },
+      {
+        "field" : "user"
       }
-    }
-  ]
-}
+    ],
+    "sort" : [
+      {
+        "customer_id" : {
+          "order" : "desc",
+          "missing" : "_first",
+          "unmapped_type" : "keyword"
+        }
+      }
+    ]
+  }
+  ```
+  
+  </details>
 
+</blockquote></details>
+
+---
 
 <details open><summary><i>SQL</i></summary><blockquote>
 
@@ -1002,13 +1054,21 @@ GET /_sql?format=txt
 
   """
 }
+```
 
+  <details><summary><i>Response</i></summary>
 
-count(customer_id)
-------------------
-4675              
+  ```
+  count(customer_id)
+  ------------------
+  4675              
+  ```
+  
+  </details>
 
+<details><summary><i>Translate To Query DSL</i></summary><blockquote>
 
+```json
 GET /_sql/translate
 {
   
@@ -1021,37 +1081,51 @@ GET /_sql/translate
 
   """
 }
+```
 
-{
-  "size" : 0,
-  "_source" : false,
-  "aggregations" : {
-    "groupby" : {
-      "filters" : {
-        "filters" : [
-          {
-            "match_all" : {
-              "boost" : 1.0
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "size" : 0,
+    "_source" : false,
+    "aggregations" : {
+      "groupby" : {
+        "filters" : {
+          "filters" : [
+            {
+              "match_all" : {
+                "boost" : 1.0
+              }
             }
-          }
-        ],
-        "other_bucket" : false,
-        "other_bucket_key" : "_other_"
-      },
-      "aggregations" : {
-        "bc56fa9b" : {
-          "filter" : {
-            "exists" : {
-              "field" : "customer_id",
-              "boost" : 1.0
+          ],
+          "other_bucket" : false,
+          "other_bucket_key" : "_other_"
+        },
+        "aggregations" : {
+          "bc56fa9b" : {
+            "filter" : {
+              "exists" : {
+                "field" : "customer_id",
+                "boost" : 1.0
+              }
             }
           }
         }
       }
     }
   }
-}
+  ```
+  
+  </details>
 
+</blockquote></details>
+
+</blockquote></details>
+
+---
+
+<!--
 GET /kibana_sample_data_ecommerce/_search
 {
   "size": 0,
