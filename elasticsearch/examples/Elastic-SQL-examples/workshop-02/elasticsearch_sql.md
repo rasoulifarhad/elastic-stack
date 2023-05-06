@@ -2,13 +2,14 @@
 
 
 
-### Import Dataset
+#### Import Dataset
 
-***Import kibana*** [Sample data flights](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/add-sample-data.md#sample-flight-data)
+---
+> ***Import kibana*** [Sample data flights](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/add-sample-data.md#sample-flight-data)
+>  
 
-### Query
-   
 #### Simple Query
+---
 
 <details>
 <summary>In SQL</summary>
@@ -418,8 +419,9 @@
 
   </details>
    
-- IN Query DSL
-
+  <details>
+  <summary>IN Query DSL</summary>
+  
   ```json
   GET /kibana_sample_data_flights/_search
   {
@@ -983,9 +985,13 @@
 
   </details>
 
+   </details>
+   
 #### Query with filter
+---
 
-- In SQL
+  <details>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -1017,7 +1023,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+   
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -1080,8 +1089,11 @@
   ```
 
   </details>
+  
+  </details>
 
-- IN Query DSL
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -1160,11 +1172,13 @@
 
   </details>
 
-
+  </details>
 
 #### Using wildcard
+---
 
-- In SQL
+  <details>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -1195,7 +1209,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -1255,7 +1272,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /*flights*/_search
@@ -1331,11 +1351,13 @@
 
   </details>
 
-
+  </details>
 
 #### Using `min`, `max` and `avg` functions
+---
 
-- In SQL
+  <details>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql
@@ -1385,7 +1407,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+   
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -1446,7 +1471,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+   
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -1505,7 +1533,7 @@
 
   </details>
 
-
+  </details>
 
 #### Group by on functions
 
