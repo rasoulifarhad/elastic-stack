@@ -11,7 +11,7 @@
 #### Simple Query
 ---
 
-<details>
+<details open>
 <summary>In SQL</summary>
 
   ```json
@@ -990,7 +990,7 @@
 #### Query with filter
 ---
 
-  <details>
+  <details open>
   <summary>In SQL</summary>
 
   ```json
@@ -1177,7 +1177,7 @@
 #### Using wildcard
 ---
 
-  <details>
+  <details open>
   <summary>In SQL</summary>
 
   ```json
@@ -1356,7 +1356,7 @@
 #### Using `min`, `max` and `avg` functions
 ---
 
-  <details>
+  <details open>
   <summary>In SQL</summary>
 
   ```json
@@ -1538,7 +1538,7 @@
 #### Group by on functions
 ---
 
-  <details>
+  <details open>
   <summary>In SQL</summary>
 
   ```json
