@@ -4,13 +4,14 @@
 
 ### Import Dataset
 
-Import kibana [Sample data flights](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/add-sample-data.md#sample-flight-data)
+***Import kibana*** [Sample data flights](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/add-sample-data.md#sample-flight-data)
 
 ### Query
    
 #### Simple Query
 
-- In SQL  
+<details>
+<summary>In SQL</summary>
 
   ```json
   GET /_sql
@@ -293,7 +294,10 @@ Import kibana [Sample data flights](https://github.com/rasoulifarhad/elastic-sta
 
   </details>
 
-- Translate to Query DSL
+  </details> 
+   
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -412,6 +416,8 @@ Import kibana [Sample data flights](https://github.com/rasoulifarhad/elastic-sta
   ```
   </details>
 
+  </details>
+   
 - IN Query DSL
 
   ```json
