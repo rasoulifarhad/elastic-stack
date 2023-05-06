@@ -4099,8 +4099,10 @@
   </details>
 
 #### Aggregation with FIRST & LAST functions
+---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -4132,12 +4134,14 @@
   ----------------+--------------------------------------------+---------------------------------------------------------------------------------------------
   Hamlet          |FRANCISCO at his post. Enter to him BERNARDO|A dead march. Exeunt, bearing off the dead bodies; after which a peal of ordnance is shot off
   Romeo and Juliet|Two households, both alike in dignity,      |Than this of Juliet and her Romeo.                                                           
-
   ```
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -4159,7 +4163,6 @@
         play_name
     """
   }
-
   ``` 
 
   <details>
@@ -4309,12 +4312,14 @@
       }
     }
   }
-
   ```
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /shakespeare/_search
@@ -4646,14 +4651,14 @@
       }
     }
   }
-
   ```
 
   </details>
 
-
+  </details>
 
 #### Aggregation with having & order
+---
 
 - In SQL
 
