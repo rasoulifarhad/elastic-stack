@@ -1,6 +1,14 @@
 ## Elasticsearch SQL
 
 
+#### Import Dataset
+
+---
+> ***Import kibana*** [Sample eCommerce orders](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/add-sample-data.md#sample-ecommerce-orders)
+>  
+
+#### Queries
+
 <details open><summary><i>SQL</i></summary><blockquote>
 
 ```json
