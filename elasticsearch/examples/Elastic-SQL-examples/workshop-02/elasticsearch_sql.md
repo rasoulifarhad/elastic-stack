@@ -3666,7 +3666,8 @@
 #### Full-text search function - Multiple match with boolean operators
 ---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -3704,7 +3705,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -3798,7 +3802,10 @@
   ```
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /shakespeare/_search
@@ -3927,9 +3934,13 @@
 
   </details>
 
-####  Find the 3 longest plays by shakespeare
+  </details>
 
-- In SQL
+####  Find the 3 longest plays by shakespeare
+---
+
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -3964,7 +3975,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -4012,12 +4026,14 @@
       }
     }
   }
-
   ```
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /shakespeare/_search
@@ -4076,12 +4092,11 @@
       }
     }
   }
-
   ```
 
   </details>
 
-
+  </details>
 
 #### Aggregation with FIRST & LAST functions
 
