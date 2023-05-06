@@ -4660,7 +4660,8 @@
 #### Aggregation with having & order
 ---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -4683,7 +4684,6 @@
         MIN(DistanceMiles)
       LIMIT
         20
-      
     """
   }
   ``` 
@@ -4719,7 +4719,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -4744,7 +4747,6 @@
       20
     """
   }
-
   ``` 
 
   <details>
@@ -4803,12 +4805,14 @@
       }
     }
   }
-
   ```
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -4864,7 +4868,6 @@
       }
     }
   }
-
   ``` 
 
   <details>
@@ -5691,10 +5694,17 @@
       }
     }
   }
-
   ```
 
   </details>
+
+  </details>
+
+#### 
+---
+
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -5743,7 +5753,12 @@
 
   ```
 
-- IN Query DSL
+  </details>
+
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -5799,7 +5814,6 @@
       }
     }
   }
-
   ``` 
 
   <details>
@@ -5810,7 +5824,10 @@
 
   </detail>
 
-- Translate to Query DSL
+  </detail>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -5874,7 +5891,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
 
@@ -5898,7 +5918,6 @@
   <summary>Response:</summary>
 
   ```json
-
   {
     "size" : 20,
     "query" : {
@@ -5929,10 +5948,14 @@
       }
     ]
   }
-
   ```
 
-- IN Query DSL
+  </details>
+
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -6632,6 +6655,8 @@
     }
   }
   ```
+
+  </details>
 
   </details>
 
