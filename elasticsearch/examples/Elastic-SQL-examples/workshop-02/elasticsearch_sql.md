@@ -29,7 +29,7 @@
 </details>
 -->
 
-<details open><summary><i>In SQL</i></summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql
@@ -312,7 +312,7 @@
 
   </details>
 
-  </details> 
+</blockquote></details>
    
   <details>
   <summary>Translate to Query DSL</summary>
@@ -1002,14 +1002,13 @@
 
   </details>
 
-   </details>
+  </details>
    
 #### Query with filter
 ---
 
-  <details open>
-  <summary>In SQL</summary>
-
+<details open><summary><i>In SQL</i></summary><blockquote>
+  
   ```json
   GET /_sql?format=txt
   {
@@ -1040,7 +1039,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
    
   <details>
   <summary>Translate to Query DSL</summary>
@@ -1194,8 +1193,7 @@
 #### Using wildcard
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -1226,7 +1224,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -1373,8 +1371,7 @@
 #### Using `min`, `max` and `avg` functions
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql
@@ -1424,7 +1421,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
    
   <details>
   <summary>Translate to Query DSL</summary>
@@ -1555,8 +1552,7 @@
 #### Group by on functions
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -1594,7 +1590,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -1818,8 +1814,7 @@
 #### Conditional select
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -1859,7 +1854,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
   
   <details>
   <summary>Translate to Query DSL</summary>
@@ -2095,8 +2090,7 @@
 #### Show indices
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -2137,7 +2131,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
   
   <details>
   <summary>Translate to Query DSL</summary>
@@ -2176,8 +2170,7 @@
 #### Describe index
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -2226,7 +2219,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -2394,8 +2387,7 @@
 #### Describe shakespeare index
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -2430,13 +2422,12 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Simple query
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -2500,7 +2491,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -2658,8 +2649,7 @@
 #### Full-text search function - match
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -2717,7 +2707,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -2823,8 +2813,7 @@
 #### Full-text search function - match && sort with score
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -2869,7 +2858,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -2997,8 +2986,7 @@
 #### Full-text search function - multi-match
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -3052,7 +3040,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -3277,8 +3265,7 @@
 #### Full-text search function - match with options
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -3324,7 +3311,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -3683,8 +3670,7 @@
 #### Full-text search function - Multiple match with boolean operators
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -3722,7 +3708,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -3956,8 +3942,7 @@
 ####  Find the 3 longest plays by shakespeare
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -3992,7 +3977,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -4118,8 +4103,7 @@
 #### Aggregation with FIRST & LAST functions
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -4155,7 +4139,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -4677,8 +4661,7 @@
 #### Aggregation with having & order
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -4736,7 +4719,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -5720,8 +5703,7 @@
 #### 
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -5772,7 +5754,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>IN Query DSL</summary>
@@ -5846,8 +5828,7 @@
 #### 
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET /_sql?format=txt
@@ -5875,7 +5856,7 @@
     
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
@@ -5947,8 +5928,7 @@
 #### 
 ---
 
-  <details open>
-  <summary>In SQL</summary>
+<details open><summary><i>In SQL</i></summary><blockquote>
 
   ```json
   GET _sql?format=txt
@@ -5975,7 +5955,7 @@
     
   </details>
 
-  </details>
+</blockquote></details>
 
   <details>
   <summary>Translate to Query DSL</summary>
