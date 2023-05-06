@@ -1,58 +1,116 @@
 ## Elasticsearch SQL
 
-<!-- 
 
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
-    SELECT customer_id, count(*) as cnt  
-    FROM  "kibana_sample_data_ecommerce" as t 
-    GROUP BY t.customer_id 
-    
-    ORDER BY  cnt desc
+    SELECT 
+      customer_id, count(*) as cnt  
+    FROM  
+      "kibana_sample_data_ecommerce" as t 
+    GROUP BY 
+      t.customer_id 
+    ORDER BY  
+      cnt desc
+    LIMIT 10
   """
 }
+```
 
-----------
+  <details><summary><i>Response</i></summary>
+
+  ```
+    customer_id  |      cnt      
+  ---------------+---------------
+  27             |348            
+  52             |188            
+  17             |170            
+  5              |158            
+  20             |154            
+  44             |148            
+  12             |135            
+  42             |135            
+  43             |135            
+  24             |134            
+  ```
+  
+  </details>
+
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
+GET /_sql?format=txt
+{
+  "query": """
+    SELECT 
+      TOP 5 customer_id, count(*) as cnt  
+    FROM  
+      "kibana_sample_data_ecommerce" as t 
+    GROUP BY 
+      t.customer_id 
+    ORDER BY  
+      cnt desc
+  """
+}
+```
+
+  <details><summary><i>Response</i></summary>
+
+  ```
+    customer_id  |      cnt      
+  ---------------+---------------
+  27             |348            
+  52             |188            
+  17             |170            
+  5              |158            
+  20             |154            
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
     SELECT TOP 5 customer_id, count(*) as cnt  
     FROM  "kibana_sample_data_ecommerce" as t 
     GROUP BY t.customer_id 
-    
-    ORDER BY  cnt desc
   """
 }
+```
 
-  customer_id  |      cnt      
----------------+---------------
-27             |348            
-52             |188            
-17             |170            
-5              |158            
-20             |154            
+  <details><summary><i>Response</i></summary>
 
+  ```
+    customer_id  |      cnt      
+  ---------------+---------------
+  10             |59             
+  11             |75             
+  12             |135            
+  13             |114            
+  14             |72             
+  ```
+  
+  </details>
 
----------------------
-GET /_sql?format=txt
-{
-  "query": """
-    SELECT TOP 5 customer_id, count(*) as cnt  
-    FROM  "kibana_sample_data_ecommerce" as t 
-    GROUP BY t.customer_id 
-  """
-}
+</blockquote></details>
 
-  customer_id  |      cnt      
----------------+---------------
-10             |59             
-11             |75             
-12             |135            
-13             |114            
-14             |72             
+<details open><summary><i>SQL</i></summary><blockquote>
 
-
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -64,8 +122,22 @@ GET /_sql?format=txt
   
   "fetch_size": 65536
 }
+```
 
+  <details><summary><i>Response</i></summary>
 
+  ```
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -76,12 +148,25 @@ GET /_sql?format=txt
 
   """
 }
+```
 
-  customer_id  |      cnt      
----------------+---------------
-27             |348            
+  <details><summary><i>Response</i></summary>
 
+  ```
+    customer_id  |      cnt      
+  ---------------+---------------
+  27             |348            
+  ```
+  
+  </details>
 
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -92,12 +177,25 @@ GET /_sql?format=txt
 
   """
 }
+```
 
-  customer_id  |      cnt      
----------------+---------------
-27             |348            
+  <details><summary><i>Response</i></summary>
 
+  ```
+    customer_id  |      cnt      
+  ---------------+---------------
+  27             |348            
+  ```
+  
+  </details>
 
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -113,7 +211,22 @@ GET /_sql?format=txt
 
   """
 }
+```
 
+  <details><summary><i>Response</i></summary>
+
+  ```
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -129,8 +242,22 @@ GET /_sql?format=txt
 
   """
 }
+```
 
+  <details><summary><i>Response</i></summary>
 
+  ```
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -146,33 +273,45 @@ GET /_sql?format=txt
 
   """
 }
+```
 
+  <details><summary><i>Response</i></summary>
 
-      cst      |      cnt      
----------------+---------------
-12             |135            
-13             |114            
-17             |170            
-18             |132            
-19             |109            
-20             |154            
-22             |111            
-24             |134            
-25             |101            
-26             |122            
-27             |348            
-28             |106            
-38             |100            
-42             |135            
-43             |135            
-44             |148            
-45             |134            
-46             |128            
-5              |158            
-52             |188            
-6              |116            
+  ```
+        cst      |      cnt      
+  ---------------+---------------
+  12             |135            
+  13             |114            
+  17             |170            
+  18             |132            
+  19             |109            
+  20             |154            
+  22             |111            
+  24             |134            
+  25             |101            
+  26             |122            
+  27             |348            
+  28             |106            
+  38             |100            
+  42             |135            
+  43             |135            
+  44             |148            
+  45             |134            
+  46             |128            
+  5              |158            
+  52             |188            
+  6              |116            
+  ```
+  
+  </details>
 
+</blockquote></details>
 
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -188,25 +327,38 @@ GET /_sql?format=txt
 
   """
 }
+```
 
-      cst      |      cnt      
----------------+---------------
-13             |114            
-19             |109            
-22             |111            
-25             |101            
-26             |122            
-28             |106            
-38             |100            
-46             |128            
-6              |116            
+  <details><summary><i>Response</i></summary>
+
+  ```
+        cst      |      cnt      
+  ---------------+---------------
+  13             |114            
+  19             |109            
+  22             |111            
+  25             |101            
+  26             |122            
+  28             |106            
+  38             |100            
+  46             |128            
+  6              |116            
 
 
-  customer_id  |      cnt      
----------------+---------------
-27             |348            
- 	
+    customer_id  |      cnt      
+  ---------------+---------------
+  27             |348            
+  ```
+  
+  </details>
 
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -224,20 +376,33 @@ GET /_sql?format=txt
 
   """
 }
+```
 
-      cst      |      cnt      
----------------+---------------
-46             |128            
-26             |122            
-6              |116            
-13             |114            
-22             |111            
-19             |109            
-28             |106            
-25             |101            
-38             |100            
+  <details><summary><i>Response</i></summary>
 
+  ```
+        cst      |      cnt      
+  ---------------+---------------
+  46             |128            
+  26             |122            
+  6              |116            
+  13             |114            
+  22             |111            
+  19             |109            
+  28             |106            
+  25             |101            
+  38             |100            
+  ```
+  
+  </details>
 
+</blockquote></details>
+
+---
+
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   "query": """
@@ -257,79 +422,101 @@ GET /_sql?format=txt
 
   """
 }
+```
 
-      cst      |      cnt      
----------------+---------------
-46             |128            
-26             |122            
-6              |116            
-13             |114            
+  <details><summary><i>Response</i></summary>
 
-
-
-GET /_sql/translate
-{
+  ```
+        cst      |      cnt      
+  ---------------+---------------
+  46             |128            
+  26             |122            
+  6              |116            
+  13             |114            
+  ```
   
-  "query": """
-  
-    SELECT 
-        customer_id as cst, count(*) as cnt  
-    FROM  
-        "kibana_sample_data_ecommerce" as t 
-    GROUP BY 
-        cst 
-    HAVING 
-        cnt >= 100 AND cnt <= 130
-    ORDER BY
-        cnt desc
-    LIMIT 
-        4
+  </details>
 
-  """
-}
 
-{
-  "size" : 0,
-  "_source" : false,
-  "aggregations" : {
-    "groupby" : {
-      "composite" : {
-        "size" : 1000,
-        "sources" : [
-          {
-            "2c4bbc05" : {
-              "terms" : {
-                "field" : "customer_id",
-                "missing_bucket" : true,
-                "order" : "asc"
+  <details><summary><i>Translate To Query DSL</i></summary><blockquote>
+
+  ```json
+  GET /_sql/translate
+  {
+    
+    "query": """
+    
+      SELECT 
+          customer_id as cst, count(*) as cnt  
+      FROM  
+          "kibana_sample_data_ecommerce" as t 
+      GROUP BY 
+          cst 
+      HAVING 
+          cnt >= 100 AND cnt <= 130
+      ORDER BY
+          cnt desc
+      LIMIT 
+          4
+
+    """
+  }
+  ```
+
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "size" : 0,
+    "_source" : false,
+    "aggregations" : {
+      "groupby" : {
+        "composite" : {
+          "size" : 1000,
+          "sources" : [
+            {
+              "2c4bbc05" : {
+                "terms" : {
+                  "field" : "customer_id",
+                  "missing_bucket" : true,
+                  "order" : "asc"
+                }
               }
             }
-          }
-        ]
-      },
-      "aggregations" : {
-        "having.d2ae3524" : {
-          "bucket_selector" : {
-            "buckets_path" : {
-              "a0" : "_count",
-              "a1" : "_count"
-            },
-            "script" : {
-              "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.and(InternalQlScriptUtils.gte(params.a0, params.v0), InternalQlScriptUtils.lte(params.a1, params.v1)))",
-              "lang" : "painless",
-              "params" : {
-                "v0" : 100,
-                "v1" : 130
-              }
-            },
-            "gap_policy" : "skip"
+          ]
+        },
+        "aggregations" : {
+          "having.d2ae3524" : {
+            "bucket_selector" : {
+              "buckets_path" : {
+                "a0" : "_count",
+                "a1" : "_count"
+              },
+              "script" : {
+                "source" : "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.and(InternalQlScriptUtils.gte(params.a0, params.v0), InternalQlScriptUtils.lte(params.a1, params.v1)))",
+                "lang" : "painless",
+                "params" : {
+                  "v0" : 100,
+                  "v1" : 130
+                }
+              },
+              "gap_policy" : "skip"
+            }
           }
         }
       }
     }
   }
-}
+  ```
 
+  </details>
+
+  </blockquote></details>
+
+</blockquote></details>
+
+
+<!--
 
 GET /_sql/translate
 {
@@ -799,8 +986,10 @@ GET /_sql/translate
   ]
 }
 
-=========================================================================================================
 
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   
@@ -875,10 +1064,11 @@ GET /kibana_sample_data_ecommerce/_search
   }
 }
 
----------------------------------------------------------------------------------------------------------
 
-=========================================================================================================
 
+<details open><summary><i>SQL</i></summary><blockquote>
+
+```json
 GET /_sql?format=txt
 {
   
@@ -949,5 +1139,6 @@ GET /kibana_sample_data_ecommerce/_search
     }
   }
 }
+
 
 -->
