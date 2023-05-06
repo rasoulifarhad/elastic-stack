@@ -9,6 +9,14 @@
     :smile:
   </blockquote></details>
 </blockquote></details>
+
+<details><summary><s>Some</s> <b>bold</b> <i>text</i> <code>code.go</code> <a href="//example.com">link</a></summary>
+
+    ```go
+    func main() {}
+    ```
+</details>
+
 -->
 
 #### Import Dataset
@@ -19,15 +27,6 @@
 
 #### Simple Query
 ---
-
-<!--
-<details><summary><s>Some</s> <b>bold</b> <i>text</i> <code>code.go</code> <a href="//example.com">link</a></summary>
-
-    ```go
-    func main() {}
-    ```
-</details>
--->
 
 <details open><summary><i>In SQL</i></summary><blockquote>
 
@@ -45,8 +44,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -314,8 +312,7 @@
 
 </blockquote></details>
    
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -331,8 +328,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -430,14 +426,14 @@
       }
     ]
   }
-
   ```
-  </details>
+
 
   </details>
+
+  </blockquote></details>
    
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
   
   ```json
   GET /kibana_sample_data_flights/_search
@@ -455,8 +451,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1002,7 +997,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
    
 #### Query with filter
 ---
@@ -1027,8 +1022,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```
    FlightNumber  | OriginCountry |         Origin          |DestinationCountry|                Destination                 
@@ -1041,8 +1035,7 @@
 
 </blockquote></details>
    
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -1062,8 +1055,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1108,8 +1100,7 @@
   
   </details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -1135,8 +1126,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1188,7 +1178,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Using wildcard
 ---
@@ -1212,8 +1202,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```
    FlightNumber  | OriginCountry |         Origin          |             DestinationAirport             
@@ -1226,8 +1215,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -1246,8 +1234,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1287,10 +1274,9 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /*flights*/_search
@@ -1316,8 +1302,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1366,7 +1351,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Using `min`, `max` and `avg` functions
 ---
@@ -1390,8 +1375,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1423,8 +1407,7 @@
 
 </blockquote></details>
    
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -1443,8 +1426,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1485,10 +1467,9 @@
 
   </details>
 
-  </details>
+</blockquote></details>
    
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -1512,8 +1493,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1547,7 +1527,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Group by on functions
 ---
@@ -1572,8 +1552,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
     WeekDayNum   |    WeekDay    |    Flights    
@@ -1592,8 +1571,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -1613,8 +1591,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1668,10 +1645,9 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -1724,8 +1700,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1809,7 +1784,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
   
 #### Conditional select
 ---
@@ -1836,8 +1811,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
     WeekDayNum   |    WeekDay    |    Flights    
@@ -1856,8 +1830,7 @@
 
 </blockquote></details>
   
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -1879,8 +1852,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -1939,10 +1911,9 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -2000,8 +1971,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -2085,7 +2055,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
   
 #### Show indices
 ---
@@ -2101,8 +2071,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```
          catalog       |             name              |     type      |     kind      
@@ -2133,8 +2102,7 @@
 
 </blockquote></details>
   
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -2145,8 +2113,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -2163,9 +2130,11 @@
     "status" : 400
   }
   ```
-  </details>
+
 
   </details>
+
+</blockquote></details>
   
 #### Describe index
 ---
@@ -2181,8 +2150,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
         column      |     type      |    mapping    
@@ -2221,8 +2189,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -2233,8 +2200,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -2254,18 +2220,16 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /kibana_sample_data_flights
 
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -2382,7 +2346,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Describe shakespeare index
 ---
@@ -2398,8 +2362,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
          column        |     type      |    mapping    
@@ -2445,8 +2408,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
      play_name    |                                    text_entry                                    
@@ -2493,8 +2455,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -2512,8 +2473,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -2543,15 +2503,13 @@
       }
     ]
   }
-
   ```
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /shakespeare/_search
@@ -2584,8 +2542,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -2644,7 +2601,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Full-text search function - match
 ---
@@ -2665,8 +2622,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
        play_name      |                                    text_entry                                    
@@ -2709,8 +2665,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -2724,11 +2679,9 @@
         MATCH(play_name, 'Romeo and Juliet')
     """
   }
+  ```  
 
-  ```
-
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -2765,15 +2718,13 @@
       }
     ]
   }
-
-  ```
-
-  </details>
+  ```  
 
   </details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+</blockquote></details>
+
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /shakespeare/_search
@@ -2837,8 +2788,7 @@
   }
   ```
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
          play_name        |    speaker    |                  text_entry                   |    SCORE()    
@@ -2860,8 +2810,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -2882,11 +2831,9 @@
         10
     """
   }
+  ```  
 
-  ```
-
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -2927,15 +2874,13 @@
     ],
     "track_scores" : true
   }
-
-  ```
-
-  </details>
+  ```  
 
   </details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+</blockquote></details>
+
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /shakespeare/_search
@@ -2981,7 +2926,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Full-text search function - multi-match
 ---
@@ -3009,8 +2954,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
      play_name   |     speaker     |                        text_entry                         |    SCORE()    
@@ -3042,8 +2986,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -3066,8 +3009,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -3111,15 +3053,13 @@
     ],
     "track_scores" : true
   }
-
-  ```
-
-  </details>
+  ```  
 
   </details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+</blockquote></details>
+
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /shakespeare/_search
@@ -3166,8 +3106,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -3260,7 +3199,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Full-text search function - match with options
 ---
@@ -3288,8 +3227,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
          play_name        |     speaker     |                        text_entry                         |    SCORE()    
@@ -3313,8 +3251,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -3337,8 +3274,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -3380,15 +3316,13 @@
     ],
     "track_scores" : true
   }
-
-  ```
-
-  </details>
+  ```  
 
   </details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+</blockquote></details>
+
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /shakespeare/_search
@@ -3433,8 +3367,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -3660,12 +3593,11 @@
       ]
     }
   }
-
-  ```
-
-  </details>
+  ```  
 
   </details>
+
+</blockquote></details>
 
 #### Full-text search function - Multiple match with boolean operators
 ---
@@ -3695,8 +3627,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
         play_name       |    speaker    |                 text_entry                  |    SCORE()    
@@ -3710,8 +3641,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -3736,8 +3666,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -3801,14 +3730,13 @@
     ],
     "track_scores" : true
   }
-
-  ```
-  </details>
+  ```  
 
   </details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+</blockquote></details>
+
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /shakespeare/_search
@@ -3875,8 +3803,7 @@
   }
   ```
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -3932,12 +3859,11 @@
       ]
     }
   }
-
-  ```
-
-  </details>
+  ```  
 
   </details>
+
+</blockquote></details>
 
 ####  Find the 3 longest plays by shakespeare
 ---
@@ -3963,8 +3889,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
      PlayName    |    Entries    
@@ -3979,8 +3904,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -3999,11 +3923,9 @@
         3
     """
   }
+  ```   
 
-  ``` 
-
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -4032,10 +3954,9 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /shakespeare/_search
@@ -4052,8 +3973,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -4098,7 +4018,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Aggregation with FIRST & LAST functions
 ---
@@ -4127,8 +4047,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
       PlayName    |                 FirstText                  |                                          LastText                                           
@@ -4141,8 +4060,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -4166,8 +4084,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -4317,10 +4234,9 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /shakespeare/_search
@@ -4469,8 +4385,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -4656,7 +4571,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### Aggregation with having & order
 ---
@@ -4688,8 +4603,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```                   OriginAirport                   |   MinDistance    |  MaxDistance   | AverageDistance  
   ---------------------------------------------------+------------------+----------------+------------------
@@ -4721,8 +4635,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -4749,8 +4662,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -4809,10 +4721,9 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -4870,8 +4781,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -5698,7 +5608,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### 
 ---
@@ -5722,8 +5632,7 @@
   }
   ```
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
 
@@ -5756,8 +5665,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -5815,8 +5723,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   ```
@@ -5848,8 +5755,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   ```
@@ -5858,8 +5764,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET /_sql/translate
@@ -5879,8 +5784,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -5923,7 +5827,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 #### 
 ---
@@ -5947,8 +5851,7 @@
   }
   ```
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   ```
@@ -5957,8 +5860,7 @@
 
 </blockquote></details>
 
-  <details>
-  <summary>Translate to Query DSL</summary>
+  <details><summary><i>Translate to Query DSL</i></summary><blockquote>
 
   ```json
   GET _sql/translate
@@ -5977,8 +5879,7 @@
   }
   ```
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -6015,10 +5916,9 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
-  <details>
-  <summary>IN Query DSL</summary>
+  <details><summary><i>IN Query DSL</i></summary><blockquote>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -6054,8 +5954,7 @@
   }
   ``` 
 
-  <details>
-  <summary>Response:</summary>
+  <details><summary><i>Response</i></summary>
 
   ```json
   {
@@ -6721,7 +6620,7 @@
 
   </details>
 
-  </details>
+</blockquote></details>
 
 ### No comment
 
@@ -6852,8 +6751,7 @@
         NOW() - INTERVAL '100' YEARS AS result
     """
   }
-
-  ```
+  ```  
 
 - DATE_ADD , DATEADD , TIMESTAMP_ADD , TIMESTAMPADD
 
@@ -6870,8 +6768,7 @@
         DATEADD('minutes', 9235, '2019-09-04T11:22:33.000Z'::datetime) AS "+9235 minutes"
     """
   }
-
-  ```
+  ```  
 
 - DATE_DIF , DATEDIF , TIMESTAMP_DIF , TIMESTAMPDIF
 
@@ -6886,8 +6783,7 @@
         DATEDIFF('seconds','2019-09-04T11:22:33.000Z'::datetime,'2032-09-04T22:33:11.000Z'::datetime) AS "diffInSeconds"
     """
   }
-
-  ```
+  ```  
 
 - DATE_PARSE , DATETIME_PARSE , TIME_PARSE
 
@@ -6941,8 +6837,7 @@
         TIME_PARSE('10:20:30-03:30', 'HH:mm:ssXXX') AS "time"
     """
   }
-
-  ```
+  ```  
 
 - DATETIME_FORMAT
 
@@ -6956,8 +6851,7 @@
         DATETIME_FORMAT(CAST('2020-04-05' AS DATE), 'dd/MM/yyyy') AS "formated_date"
     """
   }
-
-  ```
+  ```  
 
   ```json
 
@@ -6969,8 +6863,7 @@
         DATETIME_FORMAT(CAST('2020-04-05T11:22:33.987654' AS DATETIME), 'dd/MM/yyyy HH:mm:ss.SS') AS "Formated_datetime"
     """
   }
-
-  ```
+  ```  
 
   ```json
 
@@ -6982,8 +6875,7 @@
         DATETIME_FORMAT(CAST('11:22:33.987' AS TIME), 'HH mm ss.SS') AS "Formated_time"
     """
   }
-
-  ```
+  ```  
 
 - DATE_PART , DATEPART
 
@@ -7001,6 +6893,5 @@
         
     """
   }
-
-  ```
+  ```  
 
