@@ -2804,8 +2804,10 @@
   </details>
   
 #### Full-text search function - match && sort with score
+---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -2850,7 +2852,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -2921,7 +2926,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /shakespeare/_search
@@ -2965,9 +2973,15 @@
   }
   ```
 
-#### Full-text search function - multi-match
+  </details>
 
-- In SQL
+  </details>
+
+#### Full-text search function - multi-match
+---
+
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -3021,7 +3035,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -3094,7 +3111,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /shakespeare/_search
@@ -3235,9 +3255,13 @@
 
   </details>
 
-#### Full-text search function - match with options
+  </details>
 
-- In SQL
+#### Full-text search function - match with options
+---
+
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -3283,7 +3307,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -3354,7 +3381,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /shakespeare/_search
@@ -3631,7 +3661,10 @@
 
   </details>
 
+  </details>
+
 #### Full-text search function - Multiple match with boolean operators
+---
 
 - In SQL
 
