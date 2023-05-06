@@ -1125,21 +1125,6 @@ GET /_sql/translate
 
 ---
 
-<!--
-GET /kibana_sample_data_ecommerce/_search
-{
-  "size": 0,
-  "aggs": {
-    "groupby": {
-      "value_count": {
-        "field": "customer_id"
-      }
-    }
-  }
-}
-
-
-
 <details open><summary><i>SQL</i></summary><blockquote>
 
 ```json
@@ -1155,12 +1140,25 @@ GET /_sql?format=txt
 
   """
 }
+```
 
-avg(taxful_total_price)
------------------------
-75.05542864304813      
+  <details><summary><i>Response</i></summary>
 
+  ```
+  avg(taxful_total_price)
+  -----------------------
+  75.05542864304813      
+  ```
 
+  </details>
+
+</blockquote></details>
+
+---
+
+<details><summary><i>Translate To Query DSL</i></summary><blockquote>
+
+```json
 GET /_sql/translate
 {
   
@@ -1173,34 +1171,55 @@ GET /_sql/translate
 
   """
 }
+```
 
-{
-  "size" : 0,
-  "_source" : false,
-  "aggregations" : {
-    "groupby" : {
-      "filters" : {
-        "filters" : [
-          {
-            "match_all" : {
-              "boost" : 1.0
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "size" : 0,
+    "_source" : false,
+    "aggregations" : {
+      "groupby" : {
+        "filters" : {
+          "filters" : [
+            {
+              "match_all" : {
+                "boost" : 1.0
+              }
             }
-          }
-        ],
-        "other_bucket" : false,
-        "other_bucket_key" : "_other_"
-      },
-      "aggregations" : {
-        "63dfff34" : {
-          "avg" : {
-            "field" : "taxful_total_price"
+          ],
+          "other_bucket" : false,
+          "other_bucket_key" : "_other_"
+        },
+        "aggregations" : {
+          "63dfff34" : {
+            "avg" : {
+              "field" : "taxful_total_price"
+            }
           }
         }
       }
     }
   }
-}
+  ```
 
+  </details>
+
+</blockquote></details>
+
+<!--
+GET /kibana_sample_data_ecommerce/_search
+{
+  "size": 0,
+  "aggs": {
+    "groupby": {
+      "value_count": {
+        "field": "customer_id"
+      }
+    }
+  }
+}
 
 GET /kibana_sample_data_ecommerce/_search
 {
@@ -1213,6 +1232,5 @@ GET /kibana_sample_data_ecommerce/_search
     }
   }
 }
-
 
 -->
