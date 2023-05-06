@@ -4,7 +4,7 @@
 
 ### Import Dataset
 
-import kibana sample data flights
+Import kibana [Sample data flights](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/add-sample-data.md#sample-flight-data)
 
 ### Query
    
