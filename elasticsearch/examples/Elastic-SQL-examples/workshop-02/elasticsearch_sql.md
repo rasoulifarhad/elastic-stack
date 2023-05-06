@@ -1536,8 +1536,10 @@
   </details>
 
 #### Group by on functions
+---
 
-- In SQL
+  <details>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -1575,7 +1577,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -1650,7 +1655,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -1788,9 +1796,13 @@
 
   </details>
 
+  </details>
+  
 #### Conditional select
+---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -1830,7 +1842,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+  
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -1912,7 +1927,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /kibana_sample_data_flights/_search
@@ -2055,9 +2073,13 @@
 
   </details>
 
+  </details>
+  
 #### Show indices
+---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -2098,7 +2120,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+  
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -2129,9 +2154,13 @@
   ```
   </details>
 
+  </details>
+  
 #### Describe index
+---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -2180,7 +2209,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET /_sql/translate
@@ -2212,7 +2244,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /kibana_sample_data_flights
@@ -2337,11 +2372,13 @@
 
   </details>
 
-
+  </details>
 
 #### Describe shakespeare index
+---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -2376,9 +2413,13 @@
 
   </details>
 
-#### Simple query
+  </details>
 
-- In SQL
+#### Simple query
+---
+
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -2442,7 +2483,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -2496,7 +2540,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /shakespeare/_search
@@ -2589,6 +2636,7 @@
 
   </details>
 
+  </details>
 
 #### Full-text search function - match
 
