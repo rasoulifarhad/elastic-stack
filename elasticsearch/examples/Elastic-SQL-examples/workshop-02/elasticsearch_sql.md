@@ -5826,6 +5826,40 @@
 
   </detail>
 
+#### 
+---
+
+  <details open>
+  <summary>In SQL</summary>
+
+  ```json
+  GET /_sql?format=txt
+  {
+    "query": """
+      SELECT 
+          FlightNum as FlightNumber,
+          OriginCountry,
+          Origin,
+          DestCountry as DestinationCountry,
+          Dest as Destination
+      FROM  
+          kibana_sample_data_flights
+      WHERE 
+          FlightNum = '9HY9SWR'
+    """
+  }
+  ``` 
+
+  <details>
+  <summary>Response:</summary>
+
+  ```json
+  ```
+    
+  </details>
+
+  </details>
+
   <details>
   <summary>Translate to Query DSL</summary>
 
@@ -5893,11 +5927,43 @@
 
   </details>
 
+#### 
+---
+
+  <details open>
+  <summary>In SQL</summary>
+
+  ```json
+  GET _sql?format=txt
+  {
+    "query": """
+      SELECT  
+        Origin AS OriginAirport,
+        ST_Distance(OriginLocation, DestLocation) AS FlightDistance
+      FROM
+        kibana_sample_data_flights
+      WHERE 
+        OriginCountry = 'US'
+    LIMIT
+      20
+    """
+  }
+  ```
+
+  <details>
+  <summary>Response:</summary>
+
+  ```json
+  ```
+    
+  </details>
+
+  </details>
+
   <details>
   <summary>Translate to Query DSL</summary>
 
   ```json
-
   GET _sql/translate
   {
     "query": """
