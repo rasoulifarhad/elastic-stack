@@ -2639,8 +2639,10 @@
   </details>
 
 #### Full-text search function - match
+---
 
-- In SQL
+  <details open>
+  <summary>In SQL</summary>
 
   ```json
   GET /_sql?format=txt
@@ -2698,7 +2700,10 @@
 
   </details>
 
-- Translate to Query DSL
+  </details>
+
+  <details>
+  <summary>Translate to Query DSL</summary>
 
   ```json
   GET _sql/translate
@@ -2758,7 +2763,10 @@
 
   </details>
 
-- IN Query DSL
+  </details>
+
+  <details>
+  <summary>IN Query DSL</summary>
 
   ```json
   GET /shakespeare/_search
@@ -2789,9 +2797,12 @@
       }
     ]
   }
-
   ```
-
+  
+  </details>
+  
+  </details>
+  
 #### Full-text search function - match && sort with score
 
 - In SQL
