@@ -6,7 +6,7 @@ From [ElasticSearch: Zero to Hero in 12 Commands](https://dev.to/awscommunity-as
 
 In ElasticSearch, we store our data in indexes (similar to tables in your MySQL database). We populate indexes with documents (similar to rows). We will create and set up your first index in the subsequent commands.
 
-1. **Verify the ES cluster is accessible**
+***1. Verify the ES cluster is accessible***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -41,7 +41,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 </blockquote></details>
 
 
-2. **Create an index**
+***2. Create an index***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -64,7 +64,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 </blockquote></details>
 
 
-3. **Create the mapping for the index**
+***3. Create the mapping for the index***
 
 The index we just created has no mapping. A mapping is similar to a schema in SQL databases.
 
@@ -110,7 +110,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 </blockquote></details>
 
 
-4. **Show the mapping of the index**
+***4. Show the mapping of the index***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -159,7 +159,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 
 #### Data Operations with our ES Index
 
-5. **Create data for the index**
+***5. Create data for the index***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -278,7 +278,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 </blockquote></details>
 
 
-6. **Display all the data**
+***6. Display all the data***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -294,7 +294,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 </blockquote></details>
 
 
-7. **Exact search with product id**
+***7. Exact search with product id***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -353,7 +353,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 </blockquote></details>
 
 
-8. **Fuzzy search with titles**
+***8. Fuzzy search with titles***
 
 Fuzzy searches allow us to search for products by typing just a few words instead of the whole text of the field. Instead of typing the full name of the product name (i.e Incredible Tuna Mayo Jumbo 250), the customer just instead has to search for the part he recalls of the product (i.e Tuna Mayo).
 
@@ -416,7 +416,7 @@ Fuzzy searches allow us to search for products by typing just a few words instea
 
 In the default setting, we can get the product "Best Selling Beer Flavor" even with our incomplete query "Beer Flavor". There are other settings that allow us to tolerate misspellings or incomplete words to show results (i.e Bee Flavo)
 
-9. **Sorted by prices**
+***9. Sorted by prices***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -523,9 +523,9 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 </blockquote></details>
 
 
-10. **Search for all "beer" products that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
+***10. Search for all "beer" products that are PUBLISHED, and in stock. Sorted by cheapest to most expensive***
 
-**Let's add several more beer products.**
+***Let's add several more beer products.***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -567,7 +567,7 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 </blockquote></details>
 
 
-**Search:**
+***Search:***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -673,7 +673,7 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 </blockquote></details>
 
 
-11. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
+***11. Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], that are PUBLISHED, and in stock. Sorted by cheapest to most expensive***
 
 ***Note:***
 > Previous query just involved three conditions that must be ALL TRUE to hold. That's equivalent to "A and B and C".
@@ -803,14 +803,14 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 </blockquote></details>
 
 
-**Note:** 
+***Note:*** 
 > In this query, we still have a "must" keyword, but its first contains a "should" keyword. The whole query is equivalent to: (A or B or C) AND D AND E. The "should" implies that as long as one condition is met, the (A or B or C) statement returns true.
 > 
 
 > A tweak we can do is adjust the "minimum_should_match" (msm) parameter, so we can require that two or three or N conditions be met for the statement to be true. In our example, if msm=2, it means a product has to have two matching tags to be considered true (i.e a product has to be both poultry and kampai).
 > 
 
-12. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], and in stock. The price should be between 0 to 300 only. Sorted by cheapest to most expensive**
+***12. Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], and in stock. The price should be between 0 to 300 only. Sorted by cheapest to most expensive***
 
 > This query is similar to #11 but we added another criteria that the price of the products returned should only be between 0 and 300.
 > 
