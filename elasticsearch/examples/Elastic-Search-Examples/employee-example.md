@@ -2,11 +2,13 @@
 
 [base link](https://dev.to/lisahjung/beginner-s-guide-to-running-queries-with-elasticsearch-and-kibana-4kn9)
 
-1. Run Elasticsearch && Kibana 
-```markdown
+<details open><summary><i>Run Elasticsearch && Kibana</i></summary><blockquote>
+
+```
 docker compose up -d
 ``` 
-Open the Kibana console(AKA Dev Tools). 
+
+</blockquote></details>
 
 ---
 
@@ -559,6 +561,8 @@ The higher the score, the **better**
   }
   ```
 
+  </details>
+
   <details open><summary><i>Curl</i></summary>
 
   ```
@@ -571,6 +575,8 @@ The higher the score, the **better**
     }
   }'
   ```
+
+  </details>
 
   <details><summary><i>Response</i></summary>
 
