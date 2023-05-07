@@ -58,6 +58,8 @@ POST _bulk
 {"manufacturer":"Tata","model":"Tigor","price":520000,"sold_date":"2020-07-25"}
 ```
 
+</blockquote></details>
+
 ---
 
 #### What is the average price of all sold cars which have manufacturer Audi ?
