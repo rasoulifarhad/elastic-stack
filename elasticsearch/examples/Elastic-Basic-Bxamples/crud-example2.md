@@ -4,7 +4,7 @@
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>dev tools:</i></summary>
+  <details open><summary><i>dev tools:</i></summary>
   
   ```json
   POST /person/_doc/1
@@ -56,7 +56,7 @@
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>dev tools:</i></summary>
+  <details open><summary><i>dev tools:</i></summary>
   
   ```json
   GET /person/_doc/1
@@ -99,7 +99,7 @@
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>dev tools:</i></summary>
+  <details open><summary><i>dev tools:</i></summary>
   
   ```json
   POST /person/_update/1
@@ -153,7 +153,7 @@
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>dev tools:</i></summary>
+  <details open><summary><i>dev tools:</i></summary>
   
   ```json
   POST /person/_update/1
@@ -215,7 +215,7 @@
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>dev tools:</i></summary>
+  <details open><summary><i>dev tools:</i></summary>
   
   ```json
   POST /person/_update/1
@@ -269,7 +269,7 @@
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>dev tools:</i></summary>
+  <details open><summary><i>dev tools:</i></summary>
   
   ```json
   GET /person/_doc/1
@@ -315,7 +315,7 @@
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>dev tools:</i></summary>
+  <details open><summary><i>dev tools:</i></summary>
   
   ```json
   DELETE /person/_doc/1
