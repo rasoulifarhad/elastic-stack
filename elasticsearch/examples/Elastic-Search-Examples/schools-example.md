@@ -638,8 +638,11 @@ There exist other types of term level queries also such as −
 
 ##### Compound Queries
 
-10. 
+<details open><summary><i>Compound Queries</i></summary><blockquote>
 
+  <details open><summary><i>Curl</i></summary>
+
+  ```
 curl -XGET "http://singleElasticsearch71602:9200/schools/_search" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -665,7 +668,13 @@ curl -XGET "http://singleElasticsearch71602:9200/schools/_search" -H 'Content-Ty
     }
   }
 }'
+  ```
 
+  </details>
+
+  <details><summary><i>Dev Tools</i></summary>
+
+  ```
 GET /schools/_search
 {
   "query": {
@@ -691,54 +700,94 @@ GET /schools/_search
     }
   }
 }
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Geo Queries
 
-11. 
+<details open><summary><i>Geo Queries</i></summary><blockquote>
 
-curl -XPUT "http://singleElasticsearch71602:9200/geo_example" -H 'Content-Type: application/json' -d'
-{
-  "mappings": {
-    "properties": {
-      "location": {
-        "type": "geo_shape"
+  <details open><summary><i>Curl</i></summary>
+
+  ```
+  curl -XPUT "http://singleElasticsearch71602:9200/geo_example" -H 'Content-Type: application/json' -d'
+  {
+    "mappings": {
+      "properties": {
+        "location": {
+          "type": "geo_shape"
+        }
+      }
+    }
+  }'
+  ```
+
+  </details>
+
+  <details><summary><i>Dev Tools</i></summary>
+
+  ```
+  PUT /geo_example
+  {
+    "mappings": {
+      "properties": {
+        "location": {
+          "type": "geo_shape"
+        }
       }
     }
   }
-}'
+  ```
 
-PUT /geo_example
-{
-  "mappings": {
-    "properties": {
-      "location": {
-        "type": "geo_shape"
-      }
+  </details>
+
+</blockquote></details>
+
+---
+
+<details open><summary><i>Geo Queries</i></summary><blockquote>
+
+  <details open><summary><i>Curl</i></summary>
+
+  ```
+  curl -XPOST "http://singleElasticsearch71602:9200/geo_example/_doc?refresh" -H 'Content-Type: application/json' -d'
+  {
+    "name": "Chapter One, London, UK",
+    "location": {
+      "type": "point",
+      "coordinates": [
+        11.660544,
+        57.800286
+      ]
+    }
+  }'
+  ```
+
+  </details>
+
+  <details><summary><i>Dev Tools</i></summary>
+
+  ```
+  POST /geo_example/_doc?refresh
+  {
+    "name": "Chapter One, London, UK",
+    "location": {
+      "type": "point",
+      "coordinates": [
+        11.660544,
+        57.800286
+      ]
     }
   }
-}
+  ```
 
-curl -XPOST "http://singleElasticsearch71602:9200/geo_example/_doc?refresh" -H 'Content-Type: application/json' -d'
-{
-  "name": "Chapter One, London, UK",
-  "location": {
-    "type": "point",
-    "coordinates": [
-      11.660544,
-      57.800286
-    ]
-  }
-}'
+  </details>
 
-POST /geo_example/_doc?refresh
-{
-  "name": "Chapter One, London, UK",
-  "location": {
-    "type": "point",
-    "coordinates": [
-      11.660544,
-      57.800286
-    ]
-  }
-}
+</blockquote></details>
+
 
