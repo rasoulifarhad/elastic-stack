@@ -54,16 +54,49 @@
 
 ---
 
-* **Note:***
+***Note:***
 
-```
-# Get a list of your cluster’s aliases
+***Get a list of your cluster’s aliases***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
+
+```json
 GET _alias
-# Get a list of your index’s aliases
+```
+
+</blockquote></details>
+
+---
+
+***Get a list of your index’s aliases***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
+
+```json
 GET {index}/_alias
-# Get a list of indices that have this alias
+```
+
+</blockquote></details>
+
+---
+
+***Get a list of indices that have this alias***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
+
+```json
 GET _alias/{alias}
-# Remove alias
+```
+
+</blockquote></details>
+
+---
+
+***Remove alias***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
+
+```json
 POST _aliases
 {
   "actions": [
@@ -82,4 +115,6 @@ POST _aliases
   ]
 }
 ```
+
+</blockquote></details>
 
