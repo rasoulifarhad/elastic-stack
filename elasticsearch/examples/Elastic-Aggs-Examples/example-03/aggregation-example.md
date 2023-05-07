@@ -4,7 +4,7 @@ See [5 simple examples to understand ES aggregation](https://blog.joshsoftware.c
 
 #### Bulk Insert documents (Cars store) 
 
-<details open><summary><i>Mapping:</i></summary><blockquote>
+<details><summary><i>Mapping:</i></summary><blockquote>
 
 ```json
 PUT /cars
@@ -32,7 +32,7 @@ PUT /cars
 
 ---
 
-<details open><summary><i>Bulk insert:</i></summary><blockquote>
+<details><summary><i>Bulk insert:</i></summary><blockquote>
 
 ```json
 POST _bulk
