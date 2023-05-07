@@ -291,6 +291,9 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
   }'
   ```
 
+</blockquote></details>
+
+
 7. **Exact search with product id**
 
 <details open><summary><i></i></summary><blockquote>
