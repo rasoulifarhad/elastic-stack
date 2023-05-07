@@ -19,7 +19,9 @@ Write query DSLs in the left panel of the Kibana console. Click on the query to 
 4. Get information about documents in an index
 
 
+```json
 GET news_headlines/_search
+```
 
 Our document contains fields called:
 
@@ -37,6 +39,7 @@ The match query is a standard query for performing a full text search. This quer
 
 Syntax:
 
+```json
 GET Enter_name_of_index_here/_search
 {
   "query": {
@@ -47,9 +50,11 @@ GET Enter_name_of_index_here/_search
     }
   }
 }
+```
 
 5. We want to search for news headlines about Ed Sheeran's song "Shape of you".
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -60,6 +65,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 It asks to search for terms "Shape" or "of" or "you" in the field headline. 
 
@@ -75,6 +81,7 @@ If the order and the proximity in which the search terms are found(i.e. phrases)
 
 Syntax:
 
+```json
 GET Enter_name_of_index_here/_search
 {
   "query": {
@@ -85,9 +92,11 @@ GET Enter_name_of_index_here/_search
     }
   }
 }
+```
 
 6. We want to search for news headlines about Ed Sheeran's song "Shape of you".
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -98,6 +107,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 When the match_phrase parameter is used, all hits must meet the following criteria:
 
@@ -117,6 +127,7 @@ This score will determine the ranking of the document within the search results.
 
 Syntax:
 
+```json
 GET Enter_the_name_of_the_index_here/_search
 {
   "query": {
@@ -130,9 +141,11 @@ GET Enter_the_name_of_the_index_here/_search
     }
   }
 }
+```
 
 7. Search terms "Michelle" or "Obama" in the fields headline, or short_description, or authors. 
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -146,6 +159,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 While the multi_match query increased the recall, it decreased the precision of the hits. 
 
@@ -161,6 +175,7 @@ This can be done by boosting the score of the field headline(per-field boosting)
 
 Syntax:
 
+```json
 GET Enter_the_name_of_the_index_here/_search
 {
   "query": {
@@ -174,9 +189,11 @@ GET Enter_the_name_of_the_index_here/_search
     }
   }
 }
+```
 
 8. Search terms "Michelle" or "Obama" in the fields headline, or short_description, or authors. documents that contain the search terms in the field headline are most relevant.
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -190,9 +207,11 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 9. the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it. 
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -205,6 +224,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 #### Improving precision with phrase type match 
 
@@ -214,6 +234,7 @@ The phrase type performs a match_phrase query on each field and calculates a sco
 
 Syntax:
 
+```json
 GET Enter_the_name_of_the_index_here/_search
 {
   "query": {
@@ -228,9 +249,11 @@ GET Enter_the_name_of_the_index_here/_search
     }
   }
 }
+```
 
 10. the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it.
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -244,6 +267,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 ### Combined Queries 
 
@@ -278,6 +302,7 @@ These clauses are optional and can be mixed and matched to cater to your use cas
 
 Syntax:
 
+```json
 GET name_of_index/_search
 { 
   "query": {
@@ -297,6 +322,7 @@ GET name_of_index/_search
     }
   }
 }
+```
 
 ##### A combination of query and aggregation request 
 
@@ -308,6 +334,7 @@ One way to figure that out is by searching for categories of headlines that ment
 
 Syntax:
 
+```json
 GET Enter_name_of_the_index_here/_search
 {
   "query": {
@@ -322,9 +349,11 @@ GET Enter_name_of_the_index_here/_search
     }
   }
 }
+```
 
 11. Query all data that has the phrase "Michelle Obama" in the headline. Then, perform aggregations on the queried data and retrieve up to 100 categories that exist in the queried data.
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -343,6 +372,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 ##### The must clause
 
@@ -352,6 +382,7 @@ All **queries** in the **must clause** must be satisfied for a document to be re
 
 Syntax:
 
+```json
 GET Enter_name_of_the_index_here/_search
 {
   "query": {
@@ -371,11 +402,13 @@ GET Enter_name_of_the_index_here/_search
     }
   }
 }
+```
 
 12. Query for political headline about "Michelle Obama" 
 
 All hits must match the phrase "Michelle Obama" in the field headline and match the term "POLITICS" in the field category. 
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -395,6 +428,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 ##### The must_not clause 
 
@@ -402,6 +436,7 @@ The **must_not** clause defines **queries**(criteria) a document MUST NOT match 
 
 Syntax:
 
+```json
 GET Enter_name_of_the_index_here/_search
 {
   "query": {
@@ -422,9 +457,11 @@ GET Enter_name_of_the_index_here/_search
     }
   }
 }
+```
 
 13. Get all headline about "Michelle Obama" except for the ones that belong in the "WEDDINGS" category.
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -446,6 +483,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 ##### The should clause
 
@@ -453,6 +491,7 @@ The **should clause** adds "nice to have" **queries**(criteria). The documents d
 
 Syntax:
 
+```json
 GET Enter_name_of_the_index_here/_search
 {
   "query": {
@@ -472,9 +511,11 @@ GET Enter_name_of_the_index_here/_search
       ]
     }
   }
-
+} 
+```
 14. During the Black History Month, it is possible that the user may be looking up "Michelle Obama" in the context of "BLACK VOICES" category rather than in the context of "WEDDINGS", "TASTE", or "STYLE" categories. 
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -496,6 +537,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 ##### The filter clause
 
@@ -507,6 +549,7 @@ The **filter clause** only includes documents that fall within the yes category.
 
 Syntax:
 
+```json
 GET Enter_name_of_the_index_here/_search
 {
   "query": {
@@ -529,9 +572,11 @@ GET Enter_name_of_the_index_here/_search
     }
   }
 }
+```
 
 14. Get all headlines about "Michelle Obama" which published within the date range "2014-03-25" and "2016-03-25"
 
+```json
 GET news_headlines/_search
 {
   "query": {
@@ -556,6 +601,7 @@ GET news_headlines/_search
     }
   }
 }
+```
 
 #### Fine-tuning the relevance of bool queries
 
@@ -569,6 +615,7 @@ This approach ensures that you maintain a high recall but also offers a way to p
 
 Syntax:
 
+```json
 GET Enter_name_of_the_index_here/_search
 {
   "query": {
@@ -600,9 +647,11 @@ GET Enter_name_of_the_index_here/_search
     }
   }
 }
+```
 
 15. Get all headlines about "Michelle Obama", and favor articles that mention her biography "Becoming", and terms like "women" and "empower".
 
+```json
 GET news_headlines/_search 
 {
   "query": {
@@ -634,6 +683,6 @@ GET news_headlines/_search
     }
   }
 }
-
+```
 
 
