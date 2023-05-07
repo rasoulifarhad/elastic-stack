@@ -6,6 +6,8 @@ From [ElasticSearch: Zero to Hero in 12 Commands](https://dev.to/awscommunity-as
 
 In ElasticSearch, we store our data in indexes (similar to tables in your MySQL database). We populate indexes with documents (similar to rows). We will create and set up your first index in the subsequent commands.
 
+---
+
 ***1. Verify the ES cluster is accessible***
 
 <details open><summary><i></i></summary><blockquote>
@@ -40,6 +42,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 
 </blockquote></details>
 
+---
 
 ***2. Create an index***
 
@@ -63,6 +66,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 
 </blockquote></details>
 
+---
 
 ***3. Create the mapping for the index***
 
@@ -109,6 +113,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 
 </blockquote></details>
 
+---
 
 ***4. Show the mapping of the index***
 
@@ -156,6 +161,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 
 </blockquote></details>
 
+---
 
 #### Data Operations with our ES Index
 
@@ -277,6 +283,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 
 </blockquote></details>
 
+---
 
 ***6. Display all the data***
 
@@ -293,6 +300,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 
 </blockquote></details>
 
+---
 
 ***7. Exact search with product id***
 
@@ -352,6 +360,7 @@ The index we just created has no mapping. A mapping is similar to a schema in SQ
 
 </blockquote></details>
 
+---
 
 ***8. Fuzzy search with titles***
 
@@ -415,6 +424,8 @@ Fuzzy searches allow us to search for products by typing just a few words instea
 
 
 In the default setting, we can get the product "Best Selling Beer Flavor" even with our incomplete query "Beer Flavor". There are other settings that allow us to tolerate misspellings or incomplete words to show results (i.e Bee Flavo)
+
+---
 
 ***9. Sorted by prices***
 
@@ -522,6 +533,7 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 
 </blockquote></details>
 
+---
 
 ***10. Search for all "beer" products that are PUBLISHED, and in stock. Sorted by cheapest to most expensive***
 
@@ -672,6 +684,7 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 
 </blockquote></details>
 
+---
 
 ***11. Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], that are PUBLISHED, and in stock. Sorted by cheapest to most expensive***
 
@@ -809,6 +822,8 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 
 > A tweak we can do is adjust the "minimum_should_match" (msm) parameter, so we can require that two or three or N conditions be met for the statement to be true. In our example, if msm=2, it means a product has to have two matching tags to be considered true (i.e a product has to be both poultry and kampai).
 > 
+
+---
 
 ***12. Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], and in stock. The price should be between 0 to 300 only. Sorted by cheapest to most expensive***
 
