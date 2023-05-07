@@ -61,6 +61,8 @@ PUT ecommerce_data
 
 The File Data Visualizer feature can be found in Kibana under the Machine Learning Data Visualizer section.
 
+> See [Ingest with kibana upload](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/ingest-with-kibana-upload.md)
+> 
 
 ***4.  Reindex the data from the original index(ecommerce_original) to the one you just created(ecommerce_data).***
 
