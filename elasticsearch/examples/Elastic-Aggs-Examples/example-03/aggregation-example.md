@@ -66,54 +66,60 @@ POST _bulk
 
 What elasticsearch query we can use to get this result:
 
-- Query DSL
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
 ```json
-  GET /cars/_search
-  {
-    "size": 0,
-    "query": {
-      "match": {
-        "manufacturer": "Audi"
-      }
-    },
-    "aggs": {
-      "average price": {
-        "avg": {
-          "field": "price"
-        }
-      }
-    }
-}
-```
-
-- Response
-
-```json
+GET /cars/_search
 {
-  "took" : 5,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
+  "size": 0,
+  "query": {
+    "match": {
+      "manufacturer": "Audi"
+    }
   },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
-    },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "average price" : {
-      "value" : 8433333.333333334
+  "aggs": {
+    "average price": {
+      "avg": {
+        "field": "price"
+      }
     }
   }
 }
 ```
+
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "took" : 5,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "average price" : {
+        "value" : 8433333.333333334
+      }
+    }
+  }
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
 
 #### Find all cars made by Ford and average price of only those cars sold in Jul 2020
 
