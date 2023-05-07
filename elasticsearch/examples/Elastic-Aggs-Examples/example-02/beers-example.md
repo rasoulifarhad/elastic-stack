@@ -70,7 +70,7 @@ $ python3 load_beers.py
     }
   }
   ```
-  
+
   </details>
 
   <details open><summary><i>Query DSL</i></summary><blockquote>
@@ -778,118 +778,125 @@ GET /beers/_search
 
 ######
 
-With `slop=1`: 
 
-```json
-GET /beers/_search
-{
-  "query": {
-    "match_phrase": {
-      "name_breweries": {
-        "query": "Zywiec Browar",
-        "slop": 1
-      }
-    }
-  }
-}
-```
+<details open><summary><i></i></summary><blockquote>
 
-<details>
-<summary>Response:</summary>
+  <details open><summary><i>With `slop=1`:</i></summary><blockquote>
 
-```json
-{
-  "took" : 2,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 0,
-      "relation" : "eq"
-    },
-    "max_score" : null,
-    "hits" : [ ]
-  }
-}
-```
-
-</details>
-
-With `slop=2`: 
-
-```json
-GET /beers/_search
-{
-  "query": {
-    "match_phrase": {
-      "name_breweries": {
-        "query": "Zywiec Browar",
-        "slop": 2
-      }
-    }
-  }
-}
-```
-
-<details>
-<summary>Response:</summary>
-
-```json
-{
-  "took" : 2,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 2,
-      "relation" : "eq"
-    },
-    "max_score" : 8.840872,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
-        "_score" : 8.840872,
-        "_source" : {
-          "name" : "Porter",
-          "country" : "Poland",
-          "price" : 4.521201190967011,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
+  ```json
+  GET /beers/_search
+  {
+    "query": {
+      "match_phrase": {
+        "name_breweries": {
+          "query": "Zywiec Browar",
+          "slop": 1
         }
+      }
+    }
+  }
+  ```
+
+    <details><summary>Response:</summary>
+
+  ```json
+  {
+    "took" : 2,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 0,
+        "relation" : "eq"
       },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "9c499b27ec24d095a42bf4dd51bf42d481bede12",
-        "_score" : 8.840872,
-        "_source" : {
-          "name" : "Krakus",
-          "country" : "Poland",
-          "price" : 3.0919758904836714,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
+      "max_score" : null,
+      "hits" : [ ]
+    }
+  }
+  ```
+
+  </details>
+
+  </blockquote></details>
+
+  <details open><summary><i>With `slop=2`:</i></summary><blockquote>
+
+  ```json
+  GET /beers/_search
+  {
+    "query": {
+      "match_phrase": {
+        "name_breweries": {
+          "query": "Zywiec Browar",
+          "slop": 2
         }
       }
-    ]
+    }
   }
-}
-```
+  ```
 
-</details>
+    <details><summary>Response:</summary>
+
+  ```json
+  {
+    "took" : 2,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
+      },
+      "max_score" : 8.840872,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
+          "_score" : 8.840872,
+          "_source" : {
+            "name" : "Porter",
+            "country" : "Poland",
+            "price" : 4.521201190967011,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "9c499b27ec24d095a42bf4dd51bf42d481bede12",
+          "_score" : 8.840872,
+          "_source" : {
+            "name" : "Krakus",
+            "country" : "Poland",
+            "price" : 3.0919758904836714,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+  </blockquote></details>
+
+</blockquote></details>
 
 ###### 
 
@@ -905,8 +912,7 @@ GET /beers/_search
 }
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
 ```json
 {
@@ -1019,6 +1025,8 @@ GET /beers/_search
 
 ######
 
+<details open><summary><i>Query DSL</i></summary><blockquote>
+
 ```json
 GET /beers/_search
 {
@@ -1032,60 +1040,63 @@ GET /beers/_search
 }
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-{
-  "took" : 2,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 2,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 2,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 17.032831,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
-        "_score" : 17.032831,
-        "_source" : {
-          "name" : "Porter",
-          "country" : "Poland",
-          "price" : 4.521201190967011,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
-        }
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
       },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "9c499b27ec24d095a42bf4dd51bf42d481bede12",
-        "_score" : 17.032831,
-        "_source" : {
-          "name" : "Krakus",
-          "country" : "Poland",
-          "price" : 3.0919758904836714,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
+      "max_score" : 17.032831,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
+          "_score" : 17.032831,
+          "_source" : {
+            "name" : "Porter",
+            "country" : "Poland",
+            "price" : 4.521201190967011,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "9c499b27ec24d095a42bf4dd51bf42d481bede12",
+          "_score" : 17.032831,
+          "_source" : {
+            "name" : "Krakus",
+            "country" : "Poland",
+            "price" : 3.0919758904836714,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
         }
-      }
-    ]
+      ]
+    }
   }
-}
-```
+  ```
 
-</details>
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Match query
 
@@ -1098,6 +1109,8 @@ Returns documents that match a provided text, number, date or boolean value. The
 The match query is the standard query for performing a full-text search, including options for fuzzy matching.
 
 </details>
+
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
 ```json
 GET /beers/_search
@@ -1113,62 +1126,67 @@ GET /beers/_search
 }
 ```
 
-<details>
-  <summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-{
-  "took" : 20,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 2,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 20,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 7.5996394,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
-        "_score" : 7.5996394,
-        "_source" : {
-          "name" : "Porter",
-          "country" : "Poland",
-          "price" : 4.521201190967011,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
-        }
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
       },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "9c499b27ec24d095a42bf4dd51bf42d481bede12",
-        "_score" : 7.5996394,
-        "_source" : {
-          "name" : "Krakus",
-          "country" : "Poland",
-          "price" : 3.0919758904836714,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
+      "max_score" : 7.5996394,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
+          "_score" : 7.5996394,
+          "_source" : {
+            "name" : "Porter",
+            "country" : "Poland",
+            "price" : 4.521201190967011,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "9c499b27ec24d095a42bf4dd51bf42d481bede12",
+          "_score" : 7.5996394,
+          "_source" : {
+            "name" : "Krakus",
+            "country" : "Poland",
+            "price" : 3.0919758904836714,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
         }
-      }
-    ]
+      ]
+    }
   }
-}
-```
+  ```
 
-</details>
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Query boost
+
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
 ```json
 GET /beers/_search
@@ -1202,77 +1220,80 @@ GET /beers/_search
 }
 ```
 
-<details>
+  <details><summary>Response:</summary>
 
-<summary>Response:</summary>
-
-```json
-{
-  "took" : 7,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 7,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 37.596436,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
-        "_score" : 37.596436,
-        "_source" : {
-          "name" : "Porter",
-          "country" : "Poland",
-          "price" : 4.521201190967011,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
-        }
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
       },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "b0050545dd49f5b8809700b9c6d493a94be0d4c2",
-        "_score" : 24.970346,
-        "_source" : {
-          "name" : "Okocim Porter",
-          "country" : "Poland",
-          "price" : 8.78690910474888,
-          "city" : "Brzesko",
-          "name_breweries" : "Browar Okocim",
-          "coordinates" : "49.9622,20.6003"
+      "max_score" : 37.596436,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
+          "_score" : 37.596436,
+          "_source" : {
+            "name" : "Porter",
+            "country" : "Poland",
+            "price" : 4.521201190967011,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "b0050545dd49f5b8809700b9c6d493a94be0d4c2",
+          "_score" : 24.970346,
+          "_source" : {
+            "name" : "Okocim Porter",
+            "country" : "Poland",
+            "price" : 8.78690910474888,
+            "city" : "Brzesko",
+            "name_breweries" : "Browar Okocim",
+            "coordinates" : "49.9622,20.6003"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "09cda3148f088f4d15692431870ef115f6346743",
+          "_score" : 21.660965,
+          "_source" : {
+            "name" : "Porter Czarny Boss / Black BOSS Porter",
+            "country" : "Poland",
+            "price" : 2.99497018728464,
+            "city" : "Witnica",
+            "name_breweries" : "BOSS Browar Witnica S.A.",
+            "coordinates" : "52.6739,14.9004"
+          }
         }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "09cda3148f088f4d15692431870ef115f6346743",
-        "_score" : 21.660965,
-        "_source" : {
-          "name" : "Porter Czarny Boss / Black BOSS Porter",
-          "country" : "Poland",
-          "price" : 2.99497018728464,
-          "city" : "Witnica",
-          "name_breweries" : "BOSS Browar Witnica S.A.",
-          "coordinates" : "52.6739,14.9004"
-        }
-      }
-    ]
+      ]
+    }
   }
-}
-```
+  ```
 
-</details>
+  </details>
+
+</blockquote></details>
+
 
 With operator :
+
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
 ```json
 GET /beers/_search
@@ -1310,51 +1331,53 @@ GET /beers/_search
 
 ``` 
 
-<details>
+  <details><summary>Response:</summary>
 
-<summary>Response:</summary>
-
-```json
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 37.596436,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
-        "_score" : 37.596436,
-        "_source" : {
-          "name" : "Porter",
-          "country" : "Poland",
-          "price" : 4.521201190967011,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 37.596436,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
+          "_score" : 37.596436,
+          "_source" : {
+            "name" : "Porter",
+            "country" : "Poland",
+            "price" : 4.521201190967011,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
         }
-      }
-    ]
+      ]
+    }
   }
-}
-```
+  ```
 
-</details>  
+  </details>  
 
-- Try this :
+</blockquote></details>
 
-  1. 
+
+<details open><summary><i>Try this :</i></summary><blockquote>
+
+
+  <details open><summary><i>1.</i></summary><blockquote>
 
   ```json
   GET /beers/_search
@@ -1392,7 +1415,9 @@ GET /beers/_search
 
   ```
 
-  2. 
+  </details>
+
+  <details open><summary><i>2.</i></summary><blockquote>
 
   ```json
   GET /beers/_search
@@ -1430,6 +1455,12 @@ GET /beers/_search
   }
 
   ```
+
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Geo-search `by rectangle (Berlin coordinates)`
 
@@ -1478,6 +1509,8 @@ See [Find GPS Coordinates on Google maps](https://www.maps.ie/coordinates.html)
 
 -->
 
+<details open><summary><i>Query DSL</i></summary><blockquote>
+
 ```json
 GET /beers/_search
 {
@@ -1509,62 +1542,67 @@ GET /beers/_search
 }
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-{
-  "took" : 12,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 2,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 12,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 1.0,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "711c10425d199136f5857cfe08d0bff750e425a4",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "Weisse",
-          "country" : "Germany",
-          "price" : 4.625438309037469,
-          "city" : "Berlin",
-          "name_breweries" : "Berliner Kindl Brauerei AG",
-          "coordinates" : "52.4793,13.4293"
-        }
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
       },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "bcb2565e1285f9f49c29654eb809690c20e36ac0",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "Original Berliner Weisse",
-          "country" : "Germany",
-          "price" : 8.945223345501693,
-          "city" : "Berlin",
-          "name_breweries" : "Berliner-Kindl-Schultheiss-Brauerei",
-          "coordinates" : "52.5234,13.4114"
+      "max_score" : 1.0,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "711c10425d199136f5857cfe08d0bff750e425a4",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Weisse",
+            "country" : "Germany",
+            "price" : 4.625438309037469,
+            "city" : "Berlin",
+            "name_breweries" : "Berliner Kindl Brauerei AG",
+            "coordinates" : "52.4793,13.4293"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "bcb2565e1285f9f49c29654eb809690c20e36ac0",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Original Berliner Weisse",
+            "country" : "Germany",
+            "price" : 8.945223345501693,
+            "city" : "Berlin",
+            "name_breweries" : "Berliner-Kindl-Schultheiss-Brauerei",
+            "coordinates" : "52.5234,13.4114"
+          }
         }
-      }
-    ]
+      ]
+    }
   }
-}
-```
+  ```
 
-</details>
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Geo-search `by distance from point (Munich)`
+
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
 ```json
 GET /beers/_search
@@ -1593,104 +1631,109 @@ GET /beers/_search
 }
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-{
-  "took" : 5,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 58,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 5,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 1.0,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "be7cdf0d3ab19d83fead896ac54bb7082b6f0c97",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "Oktober Fest - MÃ¤rzen",
-          "country" : "Germany",
-          "price" : 7.197567541105004,
-          "city" : "Aying",
-          "name_breweries" : "Brauerei Aying Franz Inselkammer KG",
-          "coordinates" : "47.9706,11.7808"
-        }
+    "hits" : {
+      "total" : {
+        "value" : 58,
+        "relation" : "eq"
       },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "1615cad4f3246fce6a20d9462e11f3563a2b6b0c",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "Export-Hell",
-          "country" : "Germany",
-          "price" : 5.606740274991853,
-          "city" : "Traunstein",
-          "name_breweries" : "Hofbruhaus Traunstein",
-          "coordinates" : "47.8691,12.650500000000001"
+      "max_score" : 1.0,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "be7cdf0d3ab19d83fead896ac54bb7082b6f0c97",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Oktober Fest - MÃ¤rzen",
+            "country" : "Germany",
+            "price" : 7.197567541105004,
+            "city" : "Aying",
+            "name_breweries" : "Brauerei Aying Franz Inselkammer KG",
+            "coordinates" : "47.9706,11.7808"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "1615cad4f3246fce6a20d9462e11f3563a2b6b0c",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Export-Hell",
+            "country" : "Germany",
+            "price" : 5.606740274991853,
+            "city" : "Traunstein",
+            "name_breweries" : "Hofbruhaus Traunstein",
+            "coordinates" : "47.8691,12.650500000000001"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "aaa17181e9df1181886da5164cb9efb744962b54",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Original Oktoberfest",
+            "country" : "Germany",
+            "price" : 0.6300895179963684,
+            "city" : "Mnchen",
+            "name_breweries" : "Hacker-Pschorr Bru",
+            "coordinates" : "48.1391,11.5802"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "bfec2200ca44f417a88631626288d7c3388d6389",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Hacker-Pschorr Original Oktoberfest",
+            "country" : "Germany",
+            "price" : 7.402009944939146,
+            "city" : "Munich",
+            "name_breweries" : "Paulaner",
+            "coordinates" : "48.1391,11.5802"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "270e08f7f3657bf161c06b3bd5bda6a19083489e",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "BrÃ¤u-Weisse",
+            "country" : "Germany",
+            "price" : 2.920831985487662,
+            "city" : "Aying",
+            "name_breweries" : "Brauerei Aying Franz Inselkammer KG",
+            "coordinates" : "47.9706,11.7808"
+          }
         }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "aaa17181e9df1181886da5164cb9efb744962b54",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "Original Oktoberfest",
-          "country" : "Germany",
-          "price" : 0.6300895179963684,
-          "city" : "Mnchen",
-          "name_breweries" : "Hacker-Pschorr Bru",
-          "coordinates" : "48.1391,11.5802"
-        }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "bfec2200ca44f417a88631626288d7c3388d6389",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "Hacker-Pschorr Original Oktoberfest",
-          "country" : "Germany",
-          "price" : 7.402009944939146,
-          "city" : "Munich",
-          "name_breweries" : "Paulaner",
-          "coordinates" : "48.1391,11.5802"
-        }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "270e08f7f3657bf161c06b3bd5bda6a19083489e",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "BrÃ¤u-Weisse",
-          "country" : "Germany",
-          "price" : 2.920831985487662,
-          "city" : "Aying",
-          "name_breweries" : "Brauerei Aying Franz Inselkammer KG",
-          "coordinates" : "47.9706,11.7808"
-        }
-      }
-    ]
+      ]
+    }
   }
-}
-```
+  ```
 
-</details>
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Geo-search `by drawing a polygon (Bregenz - Schwarzach - Dornibirn)`
+
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
 ```json
 GET /beers/_search
@@ -1729,195 +1772,218 @@ GET /beers/_search
 }
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-#! Deprecated field [geo_polygon] used, replaced by [[geo_shape] query where polygons are defined in geojson or wkt]
-{
-  "took" : 2,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
+  ```json
+  #! Deprecated field [geo_polygon] used, replaced by [[geo_shape] query where polygons are defined in geojson or wkt]
+  {
+    "took" : 2,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 1.0,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "7fd24f21e65fadd97f8890de5aeda7ebaa5f7506",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "Gambrinus",
-          "country" : "Austria",
-          "price" : 9.955426078520752,
-          "city" : "Dornbirn",
-          "name_breweries" : "Mohrenbrauerei August Huber",
-          "coordinates" : "47.4123,9.7443"
-        }
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
       },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "c3143baba640536253596fdeed6261f9611bf033",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "NaturtrÃ¼bes Kellerbier",
-          "country" : "Austria",
-          "price" : 5.9724479262167085,
-          "city" : "Dornbirn",
-          "name_breweries" : "Mohrenbrauerei August Huber",
-          "coordinates" : "47.4123,9.7443"
+      "max_score" : 1.0,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "7fd24f21e65fadd97f8890de5aeda7ebaa5f7506",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Gambrinus",
+            "country" : "Austria",
+            "price" : 9.955426078520752,
+            "city" : "Dornbirn",
+            "name_breweries" : "Mohrenbrauerei August Huber",
+            "coordinates" : "47.4123,9.7443"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "c3143baba640536253596fdeed6261f9611bf033",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "NaturtrÃ¼bes Kellerbier",
+            "country" : "Austria",
+            "price" : 5.9724479262167085,
+            "city" : "Dornbirn",
+            "name_breweries" : "Mohrenbrauerei August Huber",
+            "coordinates" : "47.4123,9.7443"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "deab34b2dd443f59fbdb40e4a28b8920840b16cc",
+          "_score" : 1.0,
+          "_source" : {
+            "name" : "Spezial",
+            "country" : "Austria",
+            "price" : 7.004672212177001,
+            "city" : "Dornbirn",
+            "name_breweries" : "Mohrenbrauerei August Huber",
+            "coordinates" : "47.4123,9.7443"
+          }
         }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "deab34b2dd443f59fbdb40e4a28b8920840b16cc",
-        "_score" : 1.0,
-        "_source" : {
-          "name" : "Spezial",
-          "country" : "Austria",
-          "price" : 7.004672212177001,
-          "city" : "Dornbirn",
-          "name_breweries" : "Mohrenbrauerei August Huber",
-          "coordinates" : "47.4123,9.7443"
-        }
-      }
-    ]
+      ]
+    }
   }
-}
-```
+  ```
 
-</details>
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Synonyms
 
-1. Copy synonyms file to elasticsearch docker
+***1. Copy synonyms file to elasticsearch docker***
 
 ```
 docker cp dataset/synonyms.txt example-02-elasticsearch-1:/usr/share/elasticsearch/config/synonyms.txt
 
 ```
 
-2. Create index, and configures a synonym filter
+***2. Create index, and configures a synonym filter***
 
-```json
-PUT /test_synonym_graph
-{
-  "settings": {
-    "index": {
-      "analysis": {
-        "analyzer": {
-          "index_analyzer": {
-            "tokenizer": "standard",
-            "filter": ["lowercase"]
+<details open><summary><i></i></summary><blockquote>
+
+  <details open><summary><i>Mappings:</i></summary>
+
+  ```json
+  PUT /test_synonym_graph
+  {
+    "settings": {
+      "index": {
+        "analysis": {
+          "analyzer": {
+            "index_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase"]
+            },
+            "search_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase", "synonym_filter"]
+            }
           },
-          "search_analyzer": {
-            "tokenizer": "standard",
-            "filter": ["lowercase", "synonym_filter"]
-          }
-        },
-        "filter": {
-          "synonym_filter": {
-            "type": "synonym_graph",
-            "synonyms_path": "synonyms.txt",
-            "updateable": true
+          "filter": {
+            "synonym_filter": {
+              "type": "synonym_graph",
+              "synonyms_path": "synonyms.txt",
+              "updateable": true
+            }
           }
         }
       }
-    }
-  },
-  "mappings": {
-    "properties": {
-      "name": {
-        "type": "text", 
-        "analyzer": "index_analyzer",
-        "search_analyzer": "search_analyzer"
+    },
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text", 
+          "analyzer": "index_analyzer",
+          "search_analyzer": "search_analyzer"
+        }
       }
     }
   }
-}
+  ```
 
-PUT /test_synonym_graph2
-{
-  "settings": {
-    "index": {
-      "analysis": {
-        "analyzer": {
-          "index_analyzer": {
-            "tokenizer": "standard",
-            "filter": ["lowercase"]
+  </details>
+  
+  <details open><summary><i>Mappings:</i></summary>
+
+  ```json
+  PUT /test_synonym_graph2
+  {
+    "settings": {
+      "index": {
+        "analysis": {
+          "analyzer": {
+            "index_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase"]
+            },
+            "search_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase", "synonym_filter"]
+            }
           },
-          "search_analyzer": {
-            "tokenizer": "standard",
-            "filter": ["lowercase", "synonym_filter"]
-          }
-        },
-        "filter": {
-          "synonym_filter": {
-            "type": "synonym_graph",
-            "synonyms": [
-              "PS => PlayStation",
-              "Play Station => PlayStation"
-            ]
+          "filter": {
+            "synonym_filter": {
+              "type": "synonym_graph",
+              "synonyms": [
+                "PS => PlayStation",
+                "Play Station => PlayStation"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "mappings": {
-    "properties": {
-      "name": {
-        "type": "text", 
-        "analyzer": "index_analyzer",
-        "search_analyzer": "search_analyzer"
+    },
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text", 
+          "analyzer": "index_analyzer",
+          "search_analyzer": "search_analyzer"
+        }
       }
     }
   }
-}
+  ```
 
-PUT /test_index2
-{
-  "settings": {
-    "index": {
-      "analysis": {
-        "analyzer": {
-          "index_analyzer": {
-            "tokenizer": "whitespace",
-            "filter": ["synonym_filter"]
-          }
-        },
-        "filter": {
-          "synonym_filter": {
-            "type": "synonym",
-            "synonyms": [
-              "PS => PlayStation",
-              "Play Station => PlayStation"
-            ]
+  </details>
+  
+  <details open><summary><i>Mappings:</i></summary>
+
+  ```json
+  PUT /test_index2
+  {
+    "settings": {
+      "index": {
+        "analysis": {
+          "analyzer": {
+            "index_analyzer": {
+              "tokenizer": "whitespace",
+              "filter": ["synonym_filter"]
+            }
+          },
+          "filter": {
+            "synonym_filter": {
+              "type": "synonym",
+              "synonyms": [
+                "PS => PlayStation",
+                "Play Station => PlayStation"
+              ]
+            }
           }
         }
       }
-    }
-  },
-  "mappings": {
-    "properties": {
-      "name": {
-        "type": "text", 
-        "analyzer": "index_analyzer"
+    },
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text", 
+          "analyzer": "index_analyzer"
+        }
       }
     }
   }
-}
-```
+  ```
+
+  </details>
+
+</blockquote></details>
 
 Path of synonym.txt is relative to the config location. 
 
@@ -1935,8 +2001,7 @@ GET /test_index2/_analyze
 
 We can see that the token for “PS” is replaced with the synonym specified.
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
 ```json
 {
@@ -2045,8 +2110,7 @@ GET /test_index2/_search
 }
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
 ```json
 {
@@ -2259,8 +2323,7 @@ GET /test_synonym_graph2/_search
 }
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
 ```json
 {
@@ -2432,8 +2495,7 @@ GET /test_synonym_graph/_analyze
 }
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
 ```json
 {
