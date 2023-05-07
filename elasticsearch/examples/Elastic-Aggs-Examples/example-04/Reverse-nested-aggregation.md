@@ -138,7 +138,7 @@ GET /club/_search
 > Aggregations on nested documents
 > 
 
-Two step: 
+**Two step:**
 
 ***1.  First the query uses terms filter to group documents by teams.***
 
@@ -212,7 +212,7 @@ Two step:
 
 ---
 
-2. Then nested aggregation with filter aggregation to count the number of players with at least 30 games.
+***2. Then nested aggregation with filter aggregation to count the number of players with at least 30 games.***
 
 <details open><summary><i></i></summary><blockquote>
 
