@@ -2,21 +2,21 @@
 
 [base link](https://dev.to/lisahjung/beginner-s-guide-to-running-queries-with-elasticsearch-and-kibana-4kn9)
 
-1. Run Elasticsearch && Kibana 
+1. ***Run Elasticsearch && Kibana***
 
 docker compose up -d
 
 Open the Kibana console(AKA Dev Tools). 
 
-2. Add [news headlines dataset](https://www.kaggle.com/rmisra/news-category-dataset) to Elasticsearch 
+2. ***Add [news headlines dataset](https://www.kaggle.com/rmisra/news-category-dataset) to Elasticsearch***
 
 Import news headlines dataset to index news_headlines
 
-3. Open the Kibana console(AKA Dev Tools).
+3. ***Open the Kibana console(AKA Dev Tools).***
 
 Write query DSLs in the left panel of the Kibana console. Click on the query to make sure it is selected(dark grey bar) and click on the green arrow to send the query. 
 
-4. Get information about documents in an index
+4. ***Get information about documents in an index***
 
 
 ```json
@@ -52,7 +52,7 @@ GET Enter_name_of_index_here/_search
 }
 ```
 
-5. We want to search for news headlines about Ed Sheeran's song "Shape of you".
+5. ***We want to search for news headlines about Ed Sheeran's song "Shape of you".***
 
 ```json
 GET news_headlines/_search
@@ -94,7 +94,7 @@ GET Enter_name_of_index_here/_search
 }
 ```
 
-6. We want to search for news headlines about Ed Sheeran's song "Shape of you".
+6. ***We want to search for news headlines about Ed Sheeran's song "Shape of you".***
 
 ```json
 GET news_headlines/_search
@@ -143,7 +143,7 @@ GET Enter_the_name_of_the_index_here/_search
 }
 ```
 
-7. Search terms "Michelle" or "Obama" in the fields headline, or short_description, or authors. 
+7. ***Search terms "Michelle" or "Obama" in the fields headline, or short_description, or authors.***
 
 ```json
 GET news_headlines/_search
@@ -191,7 +191,7 @@ GET Enter_the_name_of_the_index_here/_search
 }
 ```
 
-8. Search terms "Michelle" or "Obama" in the fields headline, or short_description, or authors. documents that contain the search terms in the field headline are most relevant.
+8. ***Search terms "Michelle" or "Obama" in the fields headline, or short_description, or authors. documents that contain the search terms in the field headline are most relevant.***
 
 ```json
 GET news_headlines/_search
@@ -209,7 +209,7 @@ GET news_headlines/_search
 }
 ```
 
-9. the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it. 
+9. ***the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it.***
 
 ```json
 GET news_headlines/_search
@@ -251,7 +251,7 @@ GET Enter_the_name_of_the_index_here/_search
 }
 ```
 
-10. the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it.
+10. ***the user remembers that she/he is throwing a party for all of her/his friends this weekend. She/He searches for news headlines regarding "party planning" to get some ideas for it.***
 
 ```json
 GET news_headlines/_search
@@ -351,7 +351,7 @@ GET Enter_name_of_the_index_here/_search
 }
 ```
 
-11. Query all data that has the phrase "Michelle Obama" in the headline. Then, perform aggregations on the queried data and retrieve up to 100 categories that exist in the queried data.
+11. ***Query all data that has the phrase "Michelle Obama" in the headline. Then, perform aggregations on the queried data and retrieve up to 100 categories that exist in the queried data.***
 
 ```json
 GET news_headlines/_search
@@ -404,7 +404,7 @@ GET Enter_name_of_the_index_here/_search
 }
 ```
 
-12. Query for political headline about "Michelle Obama" 
+12. ***Query for political headline about "Michelle Obama"***
 
 All hits must match the phrase "Michelle Obama" in the field headline and match the term "POLITICS" in the field category. 
 
@@ -459,7 +459,7 @@ GET Enter_name_of_the_index_here/_search
 }
 ```
 
-13. Get all headline about "Michelle Obama" except for the ones that belong in the "WEDDINGS" category.
+13. ***Get all headline about "Michelle Obama" except for the ones that belong in the "WEDDINGS" category.***
 
 ```json
 GET news_headlines/_search
@@ -513,7 +513,7 @@ GET Enter_name_of_the_index_here/_search
   }
 } 
 ```
-14. During the Black History Month, it is possible that the user may be looking up "Michelle Obama" in the context of "BLACK VOICES" category rather than in the context of "WEDDINGS", "TASTE", or "STYLE" categories. 
+14. ***During the Black History Month, it is possible that the user may be looking up "Michelle Obama" in the context of "BLACK VOICES" category rather than in the context of "WEDDINGS", "TASTE", or "STYLE" categories.***
 
 ```json
 GET news_headlines/_search
@@ -574,7 +574,7 @@ GET Enter_name_of_the_index_here/_search
 }
 ```
 
-14. Get all headlines about "Michelle Obama" which published within the date range "2014-03-25" and "2016-03-25"
+14. ***Get all headlines about "Michelle Obama" which published within the date range "2014-03-25" and "2016-03-25"***
 
 ```json
 GET news_headlines/_search
@@ -649,7 +649,7 @@ GET Enter_name_of_the_index_here/_search
 }
 ```
 
-15. Get all headlines about "Michelle Obama", and favor articles that mention her biography "Becoming", and terms like "women" and "empower".
+15. ***Get all headlines about "Michelle Obama", and favor articles that mention her biography "Becoming", and terms like "women" and "empower".***
 
 ```json
 GET news_headlines/_search 
