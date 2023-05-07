@@ -54,22 +54,16 @@ PUT ecommerce_data
 
 ***3. Add [e-commerce dataset](https://www.kaggle.com/carrie1/ecommerce-data) to Elasticsearch*** 
 
-<details open><summary><i>Note:</i></summary><blockquote>
-
+***Note:***
 > also you can download from [datasets-4-examples](https://github.com/rasoulifarhad/elastic-stack/blob/main/elasticsearch/datasets-4-examples/dataset/e-commerce-data.zip)
 > 
 
-</blockquote></details>
 
-
-<details open><summary><i>Note:</i></summary><blockquote>
-
-The File Data Visualizer feature can be found in Kibana under the Machine Learning Data Visualizer section.
-
+***Note:***  
+> The File Data Visualizer feature can be found in Kibana under the Machine Learning Data Visualizer section.
+> 
 > See [Ingest with kibana upload](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/ingest-with-kibana-upload.md)
 > 
-
-</blockquote></details>
 
 ---
 
