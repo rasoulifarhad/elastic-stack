@@ -593,174 +593,182 @@ GET /products/_search
 
 ***Use [filter](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-bucket-filter-aggregation.html) sub-aggregation to return results for a specific reseller.***
 
-    ```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
-    GET /products/_search
-    {
-    "query": {
-        "match": {
-        "name": "led tv"
-        }
-    },
-    "aggs": {
-        "resellers": {
-        "nested": {
-            "path": "resellers"
-        },
-        "aggs": {
-            "filter_resellers": {
-            "filter": {
-                "bool": {
-                "filter": [ 
-                    {
-                    "term": {
-                        "resellers.reseller": "companyB"
-                    }
-                    }
-                ]
-                }
-            },
-            "aggs": {
-                "min_price": {
-                "min": {
-                    "field": "resellers.price"
-                }
-                }
-            }
-            }
-        }
-        }
+```json
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "name": "led tv"
     }
+  },
+  "aggs": {
+    "resellers": {
+      "nested": {
+        "path": "resellers"
+      },
+      "aggs": {
+        "filter_resellers": {
+          "filter": {
+            "bool": {
+              "filter": [
+                {
+                  "term": {
+                    "resellers.reseller": "companyB"
+                  }
+                }
+              ]
+            }
+          },
+          "aggs": {
+            "min_price": {
+              "min": {
+                "field": "resellers.price"
+              }
+            }
+          }
+        }
+      }
     }
+  }
+}
+```
 
-    ```
+  <details><summary>Rersponse</summary>
 
-    <details>
-
-    <summary>Rersponse</summary>
-
-    ```json
-    {
-    "took" : 1,
-    "timed_out" : false,
-    "_shards" : {
-        "total" : 1,
-        "successful" : 1,
-        "skipped" : 0,
-        "failed" : 0
+  ```json
+  {
+    "took": 1,
+    "timed_out": false,
+    "_shards": {
+      "total": 1,
+      "successful": 1,
+      "skipped": 0,
+      "failed": 0
     },
-    "hits" : {
-        "total" : {
-        "value" : 1,
-        "relation" : "eq"
-        },
-        "max_score" : 0.5753642,
-        "hits" : [
+    "hits": {
+      "total": {
+        "value": 1,
+        "relation": "eq"
+      },
+      "max_score": 0.5753642,
+      "hits": [
         {
-            "_index" : "products",
-            "_type" : "_doc",
-            "_id" : "1",
-            "_score" : 0.5753642,
-            "_source" : {
-            "name" : "LED TV",
-            "resellers" : [
-                {
-                "reseller" : "companyA",
-                "price" : 350
-                },
-                {
-                "reseller" : "companyB",
-                "price" : 500
-                }
+          "_index": "products",
+          "_type": "_doc",
+          "_id": "1",
+          "_score": 0.5753642,
+          "_source": {
+            "name": "LED TV",
+            "resellers": [
+              {
+                "reseller": "companyA",
+                "price": 350
+              },
+              {
+                "reseller": "companyB",
+                "price": 500
+              }
             ]
-            }
+          }
         }
-        ]
+      ]
     },
-    "aggregations" : {
-        "resellers" : {
-        "doc_count" : 2,
-        "filter_resellers" : {
-            "doc_count" : 1,
-            "min_price" : {
-            "value" : 500.0
-            }
+    "aggregations": {
+      "resellers": {
+        "doc_count": 2,
+        "filter_resellers": {
+          "doc_count": 1,
+          "min_price": {
+            "value": 500
+          }
         }
-        }
+      }
     }
-    }
+  }
+  ```
 
-    ```
+  </details>
 
-    </details>
+</blockquote></details>
+
+---
 
 #### Reverse nested aggregation
 
-Example, we have an index for a ticket system with issues and comments. The comments are inlined into the issue documents as nested documents.
+***Example, we have an index for a ticket system with issues and comments. The comments are inlined into the issue documents as nested documents.***
 
-- Index data
+<details open><summary><i>Mappings:</i></summary><blockquote>
 
-    ```json
-
-    PUT /issues
-    {
-    "mappings": {
+```json
+PUT /issues
+{
+  "mappings": {
+    "properties": {
+      "tags": {
+        "type": "keyword"
+      },
+      "comments": {
+        "type": "nested",
         "properties": {
-        "tags": {
+          "username": {
             "type": "keyword"
-        },
-        "comments": {
-            "type": "nested",
-            "properties": {
-            "username": {
-                "type": "keyword"
-            },
-            "comment": {
-                "type": "text"
-            }
-            }
+          },
+          "comment": {
+            "type": "text"
+          }
         }
-        }
+      }
     }
-    }
+  }
+}
+```
 
-    ```
+</blockquote></details>
 
-- Find the top commenters' username that have commented and per top commenter the top tags of the issues the user has commented on.
+---
 
-    ```json
+***Find the top commenters' username that have commented and per top commenter the top tags of the issues the user has commented on.***
 
-    GET /issues/_search
-    {
-    "query": {
-        "match_all": {}
-    },
-    "aggs": {
-        "comments": {
-        "nested": {
-            "path": "comments"
-        },
-        "aggs": {
-            "top_usernames": {
-            "terms": {
-                "field": "comments.username"
-            },
-            "aggs": {
-                "comment_to_issue": {
-                "reverse_nested": {}, 
-                "aggs": {
-                    "top_tags_per_comment": {
-                    "terms": {
-                        "field": "tags"
-                    }
-                    }
+<details open><summary><i>Query DSL</i></summary><blockquote>
+
+```json
+GET /issues/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "comments": {
+      "nested": {
+        "path": "comments"
+      },
+      "aggs": {
+        "top_usernames": {
+          "terms": {
+            "field": "comments.username"
+          },
+          "aggs": {
+            "comment_to_issue": {
+              "reverse_nested": {},
+              "aggs": {
+                "top_tags_per_comment": {
+                  "terms": {
+                    "field": "tags"
+                  }
                 }
-                }
+              }
             }
-            }
+          }
         }
-        }
+      }
     }
-    }
+  }
+}
+```
 
-    ```
+</blockquote></details>
+
+---
+
