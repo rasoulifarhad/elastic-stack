@@ -4,20 +4,21 @@
 
 1. ***Run Elasticsearch && Kibana***
 
+```
 docker compose up -d
-
-Open the Kibana console(AKA Dev Tools). 
+```
 
 2. ***Add [news headlines dataset](https://www.kaggle.com/rmisra/news-category-dataset) to Elasticsearch***
 
-Import news headlines dataset to index news_headlines
+> Import news headlines dataset to index news_headlines
+> 
 
 3. ***Open the Kibana console(AKA Dev Tools).***
 
-Write query DSLs in the left panel of the Kibana console. Click on the query to make sure it is selected(dark grey bar) and click on the green arrow to send the query. 
+> Write query DSLs in the left panel of the Kibana console. Click on the query to make sure it is selected(dark grey bar) and click on the green arrow to send the query. 
+> 
 
 4. ***Get information about documents in an index***
-
 
 ```json
 GET news_headlines/_search
