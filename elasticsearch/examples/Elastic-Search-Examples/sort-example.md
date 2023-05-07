@@ -180,31 +180,42 @@ GET /my-index-000001/_search
 
 <details open><summary><i>Index data</i></summary><blockquote>
 
-```json
-PUT /my-index-000001
-{
-  "mappings": {
-    "properties": {
-      "post_date": { "type": "date" },
-      "user": {
-        "type": "keyword"
-      },
-      "name": {
-        "type": "keyword"
-      },
-      "age": { "type": "integer" }
+  <details open><summary><i>Mapping</i></summary>
+
+  ```json
+  PUT /my-index-000001
+  {
+    "mappings": {
+      "properties": {
+        "post_date": { "type": "date" },
+        "user": {
+          "type": "keyword"
+        },
+        "name": {
+          "type": "keyword"
+        },
+        "age": { "type": "integer" }
+      }
     }
   }
-}
+  ```
 
-PUT /my-index-000002/_doc/1
-{
-  "post_date": "2023-02-05",
-  "user": "farhad",
-  "name": "alireza",
-  "age": 45
-}
-```
+  </details>
+
+
+  <details open><summary><i>Indexing</i></summary>
+
+  ```json
+  PUT /my-index-000002/_doc/1
+  {
+    "post_date": "2023-02-05",
+    "user": "farhad",
+    "name": "alireza",
+    "age": 45
+  }
+  ```
+
+  </details>
 
 </blockquote></details>
 
@@ -355,39 +366,49 @@ GET /my-index-000002/_search
 
 <details open><summary><i>Index data</i></summary><blockquote>
 
-```json
-PUT /index_long
-{
-  "mappings": {
-    "properties": {
-      "field01": {
-        "type": "long"
+  <details open><summary><i>Mapping</i></summary>
+
+  ```json
+  PUT /index_long
+  {
+    "mappings": {
+      "properties": {
+        "field01": {
+          "type": "long"
+        }
       }
     }
   }
-}
+  ```
 
-PUT /index_double
-{
-  "mappings": {
-    "properties": {
-      "field01": {
-        "type": "double"
+  </details>
+
+  <details open><summary><i>Indexing</i></summary>
+
+  ```json
+  PUT /index_double
+  {
+    "mappings": {
+      "properties": {
+        "field01": {
+          "type": "double"
+        }
       }
     }
   }
-}
 
-PUT /index_long/_doc/1
-{
-  "field01": 30
-}
+  PUT /index_long/_doc/1
+  {
+    "field01": 30
+  }
 
-PUT /index_double/_doc/2
-{
-  "field01": 55.34
-}
-```
+  PUT /index_double/_doc/2
+  {
+    "field01": 55.34
+  }
+  ```
+
+  </details>
 
 </blockquote></details>
 
@@ -549,29 +570,39 @@ The `missing` parameter specifies how docs which are missing the sort field shou
 
 <details open><summary><i>Index data</i></summary><blockquote>
 
-```json
-PUT /my-index-000003
+  <details open><summary><i>Mapping</i></summary>
 
-PUT /my-index-000003/_doc/1
-{
-  "product": "product-01",
-  "price": 100
-  
-}
+  ```json
+  PUT /my-index-000003
+  ```
 
-PUT /my-index-000003/_doc/2
-{
-  "product": "product-02",
-  "price": 50
-  
-}
+  </details>
 
-PUT /my-index-000003/_doc/3
-{
-  "product": "product-03"
+  <details open><summary><i>Indexing</i></summary>
 
-}
-```
+  ```json
+  PUT /my-index-000003/_doc/1
+  {
+    "product": "product-01",
+    "price": 100
+    
+  }
+
+  PUT /my-index-000003/_doc/2
+  {
+    "product": "product-02",
+    "price": 50
+    
+  }
+
+  PUT /my-index-000003/_doc/3
+  {
+    "product": "product-03"
+
+  }
+  ```
+
+  </details>
 
 </blockquote></details>
 
