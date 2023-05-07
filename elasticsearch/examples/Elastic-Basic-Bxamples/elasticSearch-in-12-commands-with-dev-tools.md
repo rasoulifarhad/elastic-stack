@@ -528,7 +528,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 
 ---
 
-10. Search for all "beer" products that are PUBLISHED, and in stock. Sorted by cheapest to most expensive
+***10. Search for all "beer" products that are PUBLISHED, and in stock. Sorted by cheapest to most expensive***
 
 ***Let's add several more beer products.***
 
