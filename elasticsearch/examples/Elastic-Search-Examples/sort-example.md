@@ -1,17 +1,19 @@
 ## Sort
 
-- Sort Values
-- Sort Ordere
-- Sort mode option
-- Sorting numeric fields
-- Sorting within nested objects
-- Missing Values
-- Ignoring Unmapped Fields
-- Geo Distance Sorting
-- Script Based Sorting
-- Track Scores
+> ***Sort Values***  
+> ***Sort Ordere***  
+> ***Sort mode option***  
+> ***Sorting numeric fields***  
+> ***Sorting within nested objects***  
+> ***Missing Values***  
+> ***Ignoring Unmapped Fields***  
+> ***Geo Distance Sorting***  
+> ***Script Based Sorting***  
+> ***Track Scores***  
 
 See [Sort search results](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/sort-search-results.html)
+
+---
 
 ### Run Elasticsearch && Kibana 
 
@@ -23,9 +25,7 @@ docker compose up -d
 
 #### Index sample data
 
-<details open><summary><i>Index data</i></summary><blockquote>
-
-  <details open><summary><i>Indexing</i></summary>
+<details open><summary><i>Indexing</i></summary><blockquote>
 
   ```json
   PUT /my-index-000001/_doc/1?refresh
@@ -34,8 +34,6 @@ docker compose up -d
     "price": [20, 4]
   }
   ```
-
-  </details>
 
 </blockquote></details>
 
