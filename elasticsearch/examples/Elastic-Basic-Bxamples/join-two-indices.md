@@ -1,44 +1,60 @@
 ### Joining two indices 
 
-```markdown
-POST /_aliases
-{
-  "actions": [
-    {
-      "add": {
-        "index": "index_1",
-        "alias": "new_index_alias"
-      }
-    },
-    {
-      "add": {
-        "index": "index_2",
-        "alias": "new_index_alias"
-      }
-    }
-  ]
-}
+<details open><summary><i></i></summary><blockquote>
 
-curl -XPOST "http://localhost:9200/_aliases?pretty" -H 'Content-Type: application/json' -d'
-{
-  "actions": [
-    {
-      "add": {
-        "index": "index_1",
-        "alias": "new_index_alias"
-      }
-    },
-    {
-      "add": {
-        "index": "index_2",
-        "alias": "new_index_alias"
-      }
-    }
-  ]
-}'
-```
+  <details open><summary><i>dev tools:</i></summary>
 
-**Note:**
+  ```json
+  POST /_aliases
+  {
+    "actions": [
+      {
+        "add": {
+          "index": "index_1",
+          "alias": "new_index_alias"
+        }
+      },
+      {
+        "add": {
+          "index": "index_2",
+          "alias": "new_index_alias"
+        }
+      }
+    ]
+  }
+  ```
+
+  </details>
+
+  <details><summary><i>curl:</i></summary>
+
+  ```json
+  curl -XPOST "http://localhost:9200/_aliases?pretty" -H 'Content-Type: application/json' -d'
+  {
+    "actions": [
+      {
+        "add": {
+          "index": "index_1",
+          "alias": "new_index_alias"
+        }
+      },
+      {
+        "add": {
+          "index": "index_2",
+          "alias": "new_index_alias"
+        }
+      }
+    ]
+  }'
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
+
+* **Note:***
 
 ```
 # Get a list of your cluster’s aliases
