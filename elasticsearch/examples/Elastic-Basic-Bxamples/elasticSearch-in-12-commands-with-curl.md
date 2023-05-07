@@ -675,7 +675,7 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 
 11. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
 
-***Note:**
+***Note:***
 > Previous query just involved three conditions that must be ALL TRUE to hold. That's equivalent to "A and B and C".
 > 
 
