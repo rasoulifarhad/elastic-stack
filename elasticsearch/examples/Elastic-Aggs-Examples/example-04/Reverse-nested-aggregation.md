@@ -140,11 +140,11 @@ GET /club/_search
 
 Two step: 
 
-1.  First the query uses terms filter to group documents by teams. 
+***1.  First the query uses terms filter to group documents by teams.***
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>Request:</i></summary>
+  <details open><summary><i>Request:</i></summary>
 
   ```json
   GET /club/_search
@@ -163,7 +163,7 @@ Two step:
 
   </details>
 
-  <details open><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
   ```json
   {
@@ -216,7 +216,7 @@ Two step:
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>Request:</i></summary>
+  <details open><summary><i>Request:</i></summary>
 
   ```json
   GET /club/_search
@@ -252,7 +252,7 @@ Two step:
 
   </details>
 
-  <details open><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
   ```json
   {
@@ -328,7 +328,7 @@ From [previous part](#how-many-players-in-each-team-played-in-at-least-30-games)
 
 <details open><summary><i></i></summary><blockquote>
 
-  <details><summary><i>Request:</i></summary>
+  <details open><summary><i>Request:</i></summary>
 
   ```json
   GET /club/_search
@@ -372,7 +372,7 @@ From [previous part](#how-many-players-in-each-team-played-in-at-least-30-games)
 
   </details>
 
-  <details open><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
   ```json
   {
