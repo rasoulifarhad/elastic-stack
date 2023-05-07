@@ -1985,11 +1985,18 @@ docker cp dataset/synonyms.txt example-02-elasticsearch-1:/usr/share/elasticsear
 
 </blockquote></details>
 
-Path of synonym.txt is relative to the config location. 
+***Note:***
+> Path of synonym.txt is relative to the config location.  
+> 
 
-The synonym analyzer is configured with the filter. this filter tokenizes synonyms with whatever tokenizer and token filters appear before it in the chain.
+***Note:***
+> The synonym analyzer is configured with the filter. this filter tokenizes synonyms with whatever tokenizer and token filters appear before it in the chain.
+> 
 
-To test the analyzer created in the index, we can call the _analyze endpoint:
+
+***To test the analyzer created in the index, we can call the _analyze endpoint:***
+
+<details open><summary><i>Test analyzer:</i></summary><blockquote>
 
 ```json
 GET /test_index2/_analyze
@@ -1999,34 +2006,41 @@ GET /test_index2/_analyze
 }
 ```
 
-We can see that the token for “PS” is replaced with the synonym specified.
+***We can see that the token for “PS” is replaced with the synonym specified.***
 
   <details><summary>Response:</summary>
 
-```json
-{
-  "tokens" : [
-    {
-      "token" : "PlayStation",
-      "start_offset" : 0,
-      "end_offset" : 2,
-      "type" : "SYNONYM",
-      "position" : 0
-    },
-    {
-      "token" : "3",
-      "start_offset" : 3,
-      "end_offset" : 4,
-      "type" : "word",
-      "position" : 1
-    }
-  ]
-}
-```
+  ```json
+  {
+    "tokens" : [
+      {
+        "token" : "PlayStation",
+        "start_offset" : 0,
+        "end_offset" : 2,
+        "type" : "SYNONYM",
+        "position" : 0
+      },
+      {
+        "token" : "3",
+        "start_offset" : 3,
+        "end_offset" : 4,
+        "type" : "word",
+        "position" : 1
+      }
+    ]
+  }
+  ```
 
 </details>
 
-Let’s add some documents to the index and test if it works properly in searching:
+</blockquote></details>
+
+---
+
+***Let’s add some documents to the index and test if it works properly in searching:***
+
+
+<details open><summary><i>Indexing</i></summary><blockquote>
 
 ```json
 PUT /test_synonym_graph/_doc/1
@@ -2079,413 +2093,489 @@ PUT /test_index2/_doc/3
 }
 ```
 
-We can perform a simple search with the match keyword:
+</blockquote></details>
 
-```json
-GET /test_synonym_graph/_search
-{
-  "query": {
-    "match": {
-      "name": "PS"
-    }
-  }  
-}
 
-GET /test_synonym_graph2/_search
-{
-  "query": {
-    "match": {
-      "name": "PS"
-    }
-  }  
-}
+***We can perform a simple search with the match keyword:***
 
-GET /test_index2/_search
-{
-  "query": {
-    "match": {
-      "name": "PS"
-    }
-  }  
-}
-```
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
-  <details><summary>Response:</summary>
+  <details><summary><i>Query DSL</i></summary><blockquote>
 
-```json
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
-    },
-    "max_score" : 1.7563686,
-    "hits" : [
-      {
-        "_index" : "test_synonym_graph",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : 1.7563686,
-        "_source" : {
-          "name" : "Play Station 5r"
-        }
-      },
-      {
-        "_index" : "test_synonym_graph",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : 1.0417082,
-        "_source" : {
-          "name" : "PS 3"
-        }
-      },
-      {
-        "_index" : "test_synonym_graph",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : 1.0417082,
-        "_source" : {
-          "name" : "PlayStation 4"
-        }
+  ```json
+  GET /test_synonym_graph/_search
+  {
+    "query": {
+      "match": {
+        "name": "PS"
       }
-    ]
+    }  
   }
-}
+  ```
 
-{
-  "took" : 0,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 1.0417082,
-    "hits" : [
-      {
-        "_index" : "test_synonym_graph2",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : 1.0417082,
-        "_source" : {
-          "name" : "PlayStation 4"
-        }
-      }
-    ]
-  }
-}
-
-{
-  "took" : 0,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
-    },
-    "max_score" : 1.0417082,
-    "hits" : [
-      {
-        "_index" : "test_synonym_graph2",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : 1.0417082,
-        "_source" : {
-          "name" : "PlayStation 4"
-        }
-      }
-    ]
-  }
-}
-
-
-{
-  "took" : 203,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
-    },
-    "max_score" : 0.13353139,
-    "hits" : [
-      {
-        "_index" : "test_index2",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : 0.13353139,
-        "_source" : {
-          "name" : "PS 3"
-        }
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
       },
-      {
-        "_index" : "test_index2",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : 0.13353139,
-        "_source" : {
-          "name" : "PlayStation 4"
-        }
-      },
-      {
-        "_index" : "test_index2",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : 0.13353139,
-        "_source" : {
-          "name" : "Play Station 5r"
-        }
-      }
-    ]
-  }
-}
-```
-
-</details>
-
-Repair test_synonym_graph2 index:
-
-```json
-PUT /test_synonym_graph2
-{
-  "settings": {
-    "index": {
-      "analysis": {
-        "analyzer": {
-          "index_analyzer": {
-            "tokenizer": "standard",
-            "filter": ["lowercase"]
-          },
-          "search_analyzer": {
-            "tokenizer": "standard",
-            "filter": ["lowercase", "synonym_filter"]
+      "max_score" : 1.7563686,
+      "hits" : [
+        {
+          "_index" : "test_synonym_graph",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : 1.7563686,
+          "_source" : {
+            "name" : "Play Station 5r"
           }
         },
-        "filter": {
-          "synonym_filter": {
-            "type": "synonym_graph",
-            "synonyms": [
-              "PS, PlayStation, Play Station"
-            ]
+        {
+          "_index" : "test_synonym_graph",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 1.0417082,
+          "_source" : {
+            "name" : "PS 3"
           }
-        }
-      }
-    }
-  },
-  "mappings": {
-    "properties": {
-      "name": {
-        "type": "text", 
-        "analyzer": "index_analyzer",
-        "search_analyzer": "search_analyzer"
-      }
-    }
-  }
-}
-```
-
-Test Search :
-
-```json
-GET /test_synonym_graph2/_search
-{
-  "query": {
-    "match": {
-      "name": "PS"
-    }
-  }  
-}
-```
-
-  <details><summary>Response:</summary>
-
-```json
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
-    },
-    "max_score" : 1.7563686,
-    "hits" : [
-      {
-        "_index" : "test_synonym_graph2",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : 1.7563686,
-        "_source" : {
-          "name" : "Play Station 5r"
-        }
-      },
-      {
-        "_index" : "test_synonym_graph2",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : 1.0417082,
-        "_source" : {
-          "name" : "PS 3"
-        }
-      },
-      {
-        "_index" : "test_synonym_graph2",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : 1.0417082,
-        "_source" : {
-          "name" : "PlayStation 4"
-        }
-      }
-    ]
-  }
-}
-```
-
-</details>
-
-- **Note**:
-
-    To change the synonyms of an existing index, we can recreate the index and reindex all the documents, which is silly and inefficient.
-
-    A better way is to update the settings of the index. However, we need to close the index before the settings can be updated, and then re-open it so it can be accessed:
-
-    ```json
-    POST /test_synonym_graph2/_close
-
-    PUT /test_synonym_graph2/_settings
-    {
-      "settings": {
-        "index.analysis.filter.synonym_filter.synonyms": [
-          "PS, PlayStation, Play Station"
-          ]
-      }
-    }
-
-    POST /test_synonym_graph2/_open
-
-    ```
-
-    After the above commands are run, let’s test the search_analyzer with the _analyzer endpoint and see the tokens generated:
-
-    ```json
-    
-    GET /test_synonym_graph2/_analyze
-    {
-      "analyzer": "search_analyzer",
-      "text": "PS 3"
-    }    
-
-    ```
-
-    <details>
-    <summary>Response:</summary>
-
-    ```json
-    {
-      "tokens" : [
-        {
-          "token" : "playstation",
-          "start_offset" : 0,
-          "end_offset" : 2,
-          "type" : "SYNONYM",
-          "position" : 0,
-          "positionLength" : 2
         },
         {
-          "token" : "play",
-          "start_offset" : 0,
-          "end_offset" : 2,
-          "type" : "SYNONYM",
-          "position" : 0
-        },
-        {
-          "token" : "ps",
-          "start_offset" : 0,
-          "end_offset" : 2,
-          "type" : "<ALPHANUM>",
-          "position" : 0,
-          "positionLength" : 2
-        },
-        {
-          "token" : "station",
-          "start_offset" : 0,
-          "end_offset" : 2,
-          "type" : "SYNONYM",
-          "position" : 1
-        },
-        {
-          "token" : "3",
-          "start_offset" : 3,
-          "end_offset" : 4,
-          "type" : "<NUM>",
-          "position" : 2
+          "_index" : "test_synonym_graph",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : 1.0417082,
+          "_source" : {
+            "name" : "PlayStation 4"
+          }
         }
       ]
     }
+  }
+  ```
 
-    ```
+  </details>
 
-    </detals>
+  </blockquote></details>
 
-    It shows that the “PS” search query is replaced and expanded with the tokens of the three synonyms (which is controlled by the expand option). It also proves that if equivalent synonyms are applied at index time, the size of the resultant index can be increased quite significantly.
+  <details open><summary><i>Query DSL</i></summary><blockquote>
 
-    Then when we perform the same search again.
+  ```json
+  GET /test_synonym_graph2/_search
+  {
+    "query": {
+      "match": {
+        "name": "PS"
+      }
+    }  
+  }
+  ```
+
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "took" : 0,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 1.0417082,
+      "hits" : [
+        {
+          "_index" : "test_synonym_graph2",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : 1.0417082,
+          "_source" : {
+            "name" : "PlayStation 4"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+  </blockquote></details>
+
+  <details open><summary><i>Query DSL</i></summary><blockquote>
+
+  ```json
+  GET /test_synonym_graph2/_search
+  {
+    "query": {
+      "match": {
+        "name": "PS"
+      }
+    }  
+  }
+  ```
+
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "took" : 0,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 1.0417082,
+      "hits" : [
+        {
+          "_index" : "test_synonym_graph2",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : 1.0417082,
+          "_source" : {
+            "name" : "PlayStation 4"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+  </blockquote></details>
+
+  <details open><summary><i>Query DSL</i></summary><blockquote>
+
+  ```json
+  GET /test_index2/_search
+  {
+    "query": {
+      "match": {
+        "name": "PS"
+      }
+    }  
+  }
+  ```
+
+  <details><summary><i>Response</i></summary>
+
+  ```json
+  {
+    "took" : 203,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
+      },
+      "max_score" : 0.13353139,
+      "hits" : [
+        {
+          "_index" : "test_index2",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 0.13353139,
+          "_source" : {
+            "name" : "PS 3"
+          }
+        },
+        {
+          "_index" : "test_index2",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : 0.13353139,
+          "_source" : {
+            "name" : "PlayStation 4"
+          }
+        },
+        {
+          "_index" : "test_index2",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : 0.13353139,
+          "_source" : {
+            "name" : "Play Station 5r"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+  </blockquote></details>
+
+</blockquote></details>
+
+---
+
+***Repair test_synonym_graph2 index:***
+
+<details open><summary><i></i></summary><blockquote>
+
+  <details><summary><i>Mappings:</i></summary>
+
+  ```json
+  PUT /test_synonym_graph2
+  {
+    "settings": {
+      "index": {
+        "analysis": {
+          "analyzer": {
+            "index_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase"]
+            },
+            "search_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase", "synonym_filter"]
+            }
+          },
+          "filter": {
+            "synonym_filter": {
+              "type": "synonym_graph",
+              "synonyms": [
+                "PS, PlayStation, Play Station"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "mappings": {
+      "properties": {
+        "name": {
+          "type": "text", 
+          "analyzer": "index_analyzer",
+          "search_analyzer": "search_analyzer"
+        }
+      }
+    }
+  }
+  ```
+
+  </details>
+
+  <details open><summary><i>Test Search</i></summary><blockquote>
+
+  ```json
+  GET /test_synonym_graph2/_search
+  {
+    "query": {
+      "match": {
+        "name": "PS"
+      }
+    }  
+  }
+  ```
+
+  <details><summary>Response:</summary>
+
+  ```json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
+      },
+      "max_score" : 1.7563686,
+      "hits" : [
+        {
+          "_index" : "test_synonym_graph2",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : 1.7563686,
+          "_source" : {
+            "name" : "Play Station 5r"
+          }
+        },
+        {
+          "_index" : "test_synonym_graph2",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 1.0417082,
+          "_source" : {
+            "name" : "PS 3"
+          }
+        },
+        {
+          "_index" : "test_synonym_graph2",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : 1.0417082,
+          "_source" : {
+            "name" : "PlayStation 4"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+  </blockquote></details>
+
+</blockquote></details>
+
+
+<details open><summary><i>Note:</i></summary><blockquote>
+
+  To change the synonyms of an existing index, we can recreate the index and reindex all the documents, which is silly and inefficient.
+
+  A better way is to update the settings of the index. However, we need to close the index before the settings can be updated, and then re-open it so it can be accessed:
+
+  <details open><summary><i></i></summary>
+
+  ```json
+  POST /test_synonym_graph2/_close
+
+  PUT /test_synonym_graph2/_settings
+  {
+    "settings": {
+      "index.analysis.filter.synonym_filter.synonyms": [
+        "PS, PlayStation, Play Station"
+        ]
+    }
+  }
+
+  POST /test_synonym_graph2/_open
+  ```
+
+  </details>
+
+
+  ***After the above commands are run, let’s test the search_analyzer with the _analyzer endpoint and see the tokens generated:***
+
+  <details open><summary><i></i></summary><blockquote>
+
+  ```json
+  GET /test_synonym_graph2/_analyze
+  {
+    "analyzer": "search_analyzer",
+    "text": "PS 3"
+  }    
+  ```
+
+  <details><summary>Response:</summary>
+
+  ```json
+  {
+    "tokens" : [
+      {
+        "token" : "playstation",
+        "start_offset" : 0,
+        "end_offset" : 2,
+        "type" : "SYNONYM",
+        "position" : 0,
+        "positionLength" : 2
+      },
+      {
+        "token" : "play",
+        "start_offset" : 0,
+        "end_offset" : 2,
+        "type" : "SYNONYM",
+        "position" : 0
+      },
+      {
+        "token" : "ps",
+        "start_offset" : 0,
+        "end_offset" : 2,
+        "type" : "<ALPHANUM>",
+        "position" : 0,
+        "positionLength" : 2
+      },
+      {
+        "token" : "station",
+        "start_offset" : 0,
+        "end_offset" : 2,
+        "type" : "SYNONYM",
+        "position" : 1
+      },
+      {
+        "token" : "3",
+        "start_offset" : 3,
+        "end_offset" : 4,
+        "type" : "<NUM>",
+        "position" : 2
+      }
+    ]
+  }
+
+  ```
+
+  </detals>
+
+  </blockquote></details>
+
+  It shows that the “PS” search query is replaced and expanded with the tokens of the three synonyms (which is controlled by the expand option). It also proves that if equivalent synonyms are applied at index time, the size of the resultant index can be increased quite significantly.
+
+  Then when we perform the same search again.
+
+</blockquote></details>
+
+---
 
 When the synonyms have been added, we can close and open the index to make it effective. However, since we mark the synonym filter as updateable, we can reload the search analyzer to make the changes effective immediately without closing the index and thus with no downtime.
 
-let’s add more synonyms to the synonym file, which will then has the content as follows:
+***let’s add more synonyms to the synonym file, which will then has the content as follows:***
 
 ```
-
 # This is a comment! The file is named synonyms.txt.
 PS, Play Station, PlayStation
 JS => JavaScript
 TS => TypeScript
 Py => Python
-
 ```
 
-To reload the search analyzers of an index, we need to call the `_reload_search_analyzers` endpoint:
+***To reload the search analyzers of an index, we need to call the `_reload_search_analyzers` endpoint:***
 
 ```json
 POST /test_synonym_graph/_reload_search_analyzers
-
 ```
 
-Now when we analyze the “JS” string, we will see the “javascript” token returned:
+***Now when we analyze the “JS” string, we will see the “javascript” token returned:***
+
+<details open><summary><i>Analyze:</i></summary><blockquote>
 
 ```json
 GET /test_synonym_graph/_analyze
@@ -2497,34 +2587,36 @@ GET /test_synonym_graph/_analyze
 
   <details><summary>Response:</summary>
 
-```json
-{
-  "tokens" : [
-    {
-      "token" : "javascript",
-      "start_offset" : 0,
-      "end_offset" : 2,
-      "type" : "SYNONYM",
-      "position" : 0
-    }
-  ]
-}
-```
+  ```json
+  {
+    "tokens" : [
+      {
+        "token" : "javascript",
+        "start_offset" : 0,
+        "end_offset" : 2,
+        "type" : "SYNONYM",
+        "position" : 0
+      }
+    ]
+  }
+  ```
 
-</details>
+  </details>
 
+  <details><summary>Note:</summary>
 
-<details>
-<summary>Note:</summary>
+  Two important things should be noted here:
 
-Two important things should be noted here:
+  - If updateable is set to true for a synonym filter, then the corresponding analyzer can only be used as a search_analyzer, and cannot be used for indexing, even if the type is synonym.
 
-- If updateable is set to true for a synonym filter, then the corresponding analyzer can only be used as a search_analyzer, and cannot be used for indexing, even if the type is synonym.
-
-- The updateable option can only be used when a synonym file is used with the synonym_path option, and not when the synonyms are provided directly with the synonyms option.
+  - The updateable option can only be used when a synonym file is used with the synonym_path option, and not when the synonyms are provided directly with the synonyms option.
 
 
-</details>
+  </details>
+
+</blockquote></details>
+
+---
 
 #### Useful commands
 
