@@ -898,7 +898,11 @@ GET /beers/_search
 
 </blockquote></details>
 
+---
+
 ###### 
+
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
 ```json
 GET /beers/_search
@@ -914,114 +918,117 @@ GET /beers/_search
 
   <details><summary>Response:</summary>
 
-```json
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 6,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 17.032831,
-    "hits" : [
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
-        "_score" : 17.032831,
-        "_source" : {
-          "name" : "Porter",
-          "country" : "Poland",
-          "price" : 4.521201190967011,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
-        }
+    "hits" : {
+      "total" : {
+        "value" : 6,
+        "relation" : "eq"
       },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "9c499b27ec24d095a42bf4dd51bf42d481bede12",
-        "_score" : 17.032831,
-        "_source" : {
-          "name" : "Krakus",
-          "country" : "Poland",
-          "price" : 3.0919758904836714,
-          "city" : "Zywiec",
-          "name_breweries" : "Browar Zywiec",
-          "coordinates" : "49.6622,19.1742"
+      "max_score" : 17.032831,
+      "hits" : [
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "244c6b68f6c6768c721296c8bc023615ab6587af",
+          "_score" : 17.032831,
+          "_source" : {
+            "name" : "Porter",
+            "country" : "Poland",
+            "price" : 4.521201190967011,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "9c499b27ec24d095a42bf4dd51bf42d481bede12",
+          "_score" : 17.032831,
+          "_source" : {
+            "name" : "Krakus",
+            "country" : "Poland",
+            "price" : 3.0919758904836714,
+            "city" : "Zywiec",
+            "name_breweries" : "Browar Zywiec",
+            "coordinates" : "49.6622,19.1742"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "cabb68c777846795bd5b5bfca2535b20e2086910",
+          "_score" : 7.913264,
+          "_source" : {
+            "name" : "O.K. Beer",
+            "country" : "Poland",
+            "price" : 0.030807094117204503,
+            "city" : "Brzesko",
+            "name_breweries" : "Browar Okocim",
+            "coordinates" : "49.9622,20.6003"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "b0050545dd49f5b8809700b9c6d493a94be0d4c2",
+          "_score" : 7.913264,
+          "_source" : {
+            "name" : "Okocim Porter",
+            "country" : "Poland",
+            "price" : 8.78690910474888,
+            "city" : "Brzesko",
+            "name_breweries" : "Browar Okocim",
+            "coordinates" : "49.9622,20.6003"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "09cda3148f088f4d15692431870ef115f6346743",
+          "_score" : 6.076418,
+          "_source" : {
+            "name" : "Porter Czarny Boss / Black BOSS Porter",
+            "country" : "Poland",
+            "price" : 2.99497018728464,
+            "city" : "Witnica",
+            "name_breweries" : "BOSS Browar Witnica S.A.",
+            "coordinates" : "52.6739,14.9004"
+          }
+        },
+        {
+          "_index" : "beers",
+          "_type" : "_doc",
+          "_id" : "1a18ae6f33c34eb7e4fa87a446df0112bbf32905",
+          "_score" : 6.076418,
+          "_source" : {
+            "name" : "Mocny BOSS / BOSS Beer",
+            "country" : "Poland",
+            "price" : 6.725042889806513,
+            "city" : "Witnica",
+            "name_breweries" : "BOSS Browar Witnica S.A.",
+            "coordinates" : "52.6739,14.9004"
+          }
         }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "cabb68c777846795bd5b5bfca2535b20e2086910",
-        "_score" : 7.913264,
-        "_source" : {
-          "name" : "O.K. Beer",
-          "country" : "Poland",
-          "price" : 0.030807094117204503,
-          "city" : "Brzesko",
-          "name_breweries" : "Browar Okocim",
-          "coordinates" : "49.9622,20.6003"
-        }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "b0050545dd49f5b8809700b9c6d493a94be0d4c2",
-        "_score" : 7.913264,
-        "_source" : {
-          "name" : "Okocim Porter",
-          "country" : "Poland",
-          "price" : 8.78690910474888,
-          "city" : "Brzesko",
-          "name_breweries" : "Browar Okocim",
-          "coordinates" : "49.9622,20.6003"
-        }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "09cda3148f088f4d15692431870ef115f6346743",
-        "_score" : 6.076418,
-        "_source" : {
-          "name" : "Porter Czarny Boss / Black BOSS Porter",
-          "country" : "Poland",
-          "price" : 2.99497018728464,
-          "city" : "Witnica",
-          "name_breweries" : "BOSS Browar Witnica S.A.",
-          "coordinates" : "52.6739,14.9004"
-        }
-      },
-      {
-        "_index" : "beers",
-        "_type" : "_doc",
-        "_id" : "1a18ae6f33c34eb7e4fa87a446df0112bbf32905",
-        "_score" : 6.076418,
-        "_source" : {
-          "name" : "Mocny BOSS / BOSS Beer",
-          "country" : "Poland",
-          "price" : 6.725042889806513,
-          "city" : "Witnica",
-          "name_breweries" : "BOSS Browar Witnica S.A.",
-          "coordinates" : "52.6739,14.9004"
-        }
-      }
-    ]
+      ]
+    }
   }
-}
-```
+  ```
 
-</details>
+  </details>
 
+</blockquote></details>
+
+---
 
 ######
 
@@ -1100,9 +1107,7 @@ GET /beers/_search
 
 ##### Match query
 
-<details>
-
-<summary>Note:</summary>
+<details open><summary>Note:</summary>
 
 Returns documents that match a provided text, number, date or boolean value. The provided text is analyzed before matching.
 
@@ -1290,8 +1295,7 @@ GET /beers/_search
 
 </blockquote></details>
 
-
-With operator :
+***With operator:***
 
 <details open><summary><i>Query DSL</i></summary><blockquote>
 
@@ -1373,8 +1377,9 @@ GET /beers/_search
 
 </blockquote></details>
 
+***Try this:***
 
-<details open><summary><i>Try this :</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 
   <details open><summary><i>1.</i></summary><blockquote>
