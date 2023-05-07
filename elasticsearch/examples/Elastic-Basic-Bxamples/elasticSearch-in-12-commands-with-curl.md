@@ -801,10 +801,11 @@ In this query, we still have three conditions that have to be all true, but the 
 
 
 **Note:** 
+> In this query, we still have a "must" keyword, but its first contains a "should" keyword. The whole query is equivalent to: (A or B or C) AND D AND E. The "should" implies that as long as one condition is met, the (A or B or C) statement returns true.
+> 
 
-In this query, we still have a "must" keyword, but its first contains a "should" keyword. The whole query is equivalent to: (A or B or C) AND D AND E. The "should" implies that as long as one condition is met, the (A or B or C) statement returns true.
-
-A tweak we can do is adjust the "minimum_should_match" (msm) parameter, so we can require that two or three or N conditions be met for the statement to be true. In our example, if msm=2, it means a product has to have two matching tags to be considered true (i.e a product has to be both poultry and kampai).
+> A tweak we can do is adjust the "minimum_should_match" (msm) parameter, so we can require that two or three or N conditions be met for the statement to be true. In our example, if msm=2, it means a product has to have two matching tags to be considered true (i.e a product has to be both poultry and kampai).
+> 
 
 12. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], and in stock. The price should be between 0 to 300 only. Sorted by cheapest to most expensive**
 
