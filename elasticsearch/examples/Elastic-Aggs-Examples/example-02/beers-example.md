@@ -797,7 +797,7 @@ GET /beers/_search
   }
   ```
 
-    <details><summary>Response:</summary>
+  <details><summary>Response:</summary>
 
   ```json
   {
@@ -840,7 +840,7 @@ GET /beers/_search
   }
   ```
 
-    <details><summary>Response:</summary>
+  <details><summary>Response:</summary>
 
   ```json
   {
