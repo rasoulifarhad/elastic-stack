@@ -6,6 +6,8 @@ From [ElasticSearch: Zero to Hero in 12 Commands](https://dev.to/awscommunity-as
 
 In ElasticSearch, we store our data in indexes (similar to tables in your MySQL database). We populate indexes with documents (similar to rows). We will create and set up your first index in the subsequent commands.
 
+---
+
 ***1. Verify the ES cluster is accessible***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
@@ -40,6 +42,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 
 </blockquote></details>
 
+---
 
 ***2. Create an index***
 
@@ -62,6 +65,8 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
   </details>
 
 </blockquote></details>
+
+---
 
 ***3. Create the mapping for the index***
 
@@ -111,6 +116,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 
 </blockquote></details>
 
+---
 
 ***4. Show the mapping of the index***
 
@@ -158,6 +164,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 
 </blockquote></details>
 
+---
 
 #### Data Operations with our ES Index
 
@@ -279,6 +286,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 
 </blockquote></details>
 
+---
 
 ***6. Display all the data***
 
@@ -296,6 +304,8 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
   </details>
 
 </blockquote></details>
+
+---
 
 ***7. Exact search with product id***
 
@@ -354,6 +364,8 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
   </details>
 
 </blockquote></details>
+
+---
 
 ***8. Fuzzy search with titles***
 
@@ -419,6 +431,7 @@ In ElasticSearch, we store our data in indexes (similar to tables in your MySQL 
 > In the default setting, we can get the product "Best Selling Beer Flavor" even with our incomplete query "Beer Flavor". There are other settings that allow us to tolerate misspellings or incomplete words to show results (i.e Bee Flavo)
 > 
 
+---
 
 ***9. Sorted by prices***
 
