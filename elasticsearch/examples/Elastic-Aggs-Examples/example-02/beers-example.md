@@ -1,11 +1,12 @@
 ### Beers
 
-See [Elasticsearch aggregations](https://github.com/russmedia/elasticsearch-aggregations)
+From [Elasticsearch aggregations](https://github.com/russmedia/elasticsearch-aggregations)
 
 #### Create index
 
-```json
+<details open><summary><i>Mappings</i></summary><blockquote>
 
+```json
 PUT /beers
 {
   "mappings": {
@@ -32,51 +33,70 @@ PUT /beers
     }
   }
 }
-
 ```
+
+</blockquote></details>
+
+---
 
 #### Load data
 
-```
+<details open><summary><i>Loading..</i></summary><blockquote>
 
+```
 $ python3 -m pip install elasticsearch@7.17.9
 $ cd dataset
 $ python3 load_beers.py
 
 ```
 
+</blockquote></details>
+
+---
+
 #### Query context
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
-GET /beers/_search
-{
-  "query": {
-    "match": {
-      "name": "Porter"
+  <details open><summary><i>Query DSL</i></summary>
+
+  ```json
+  GET /beers/_search
+  {
+    "query": {
+      "match": {
+        "name": "Porter"
+      }
     }
   }
-}
+  ```
+  
+  </details>
 
-```
+  <details open><summary><i>Query DSL</i></summary><blockquote>
 
-```json
-
-GET /beers/_explain/64df95ea31ef345e49b17212c1a25a56af8304db
-{
-  "query": {
-    "match": {
-      "name": "Porter"
+  ```json
+  GET /beers/_explain/64df95ea31ef345e49b17212c1a25a56af8304db
+  {
+    "query": {
+      "match": {
+        "name": "Porter"
+      }
     }
   }
-}
+  ```
 
-```
+  </details>
+
+</blockquote></details>
+
+---
 
 #### Filter context
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /beers/_search
 {
   "query": {
@@ -91,16 +111,19 @@ GET /beers/_search
     }
   }
 }
-
 ```
+</blockquote></details>
+
+---
 
 ####  Aggregations
 
 
 ##### stats
 
-```json
+<details open><summary><i>Query DSL: aggs</i></summary><blockquote>
 
+```json
 GET /beers/_search
 {
   "size": 0,
@@ -112,47 +135,51 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
-Response:
+  <details><summary><i>Response</i></summary>
 
-```json
-
-{
-  "took" : 14,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 5745,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 14,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "price_stats" : {
-      "count" : 5745,
-      "min" : 9.145146468654275E-4,
-      "max" : 9.99954605102539,
-      "avg" : 5.029514939119019,
-      "sum" : 28894.563325238763
+    "hits" : {
+      "total" : {
+        "value" : 5745,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "price_stats" : {
+        "count" : 5745,
+        "min" : 9.145146468654275E-4,
+        "max" : 9.99954605102539,
+        "avg" : 5.029514939119019,
+        "sum" : 28894.563325238763
+      }
     }
   }
-}
+  ```
 
-```
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### extended_stats
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /beers/_search
 {
   "size": 0,
@@ -164,62 +191,66 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
-Response:
+  <details><summary><i>Response</i></summary>
 
-```json
-
-{
-  "took" : 5,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 5745,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 5,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "price_stats" : {
-      "count" : 5745,
-      "min" : 9.145146468654275E-4,
-      "max" : 9.99954605102539,
-      "avg" : 5.029514939119019,
-      "sum" : 28894.563325238763,
-      "sum_of_squares" : 192551.22757202818,
-      "variance" : 8.220294111126075,
-      "variance_population" : 8.220294111126075,
-      "variance_sampling" : 8.221725220825087,
-      "std_deviation" : 2.867105528425153,
-      "std_deviation_population" : 2.867105528425153,
-      "std_deviation_sampling" : 2.867355091512924,
-      "std_deviation_bounds" : {
-        "upper" : 10.763725995969324,
-        "lower" : -0.7046961177312872,
-        "upper_population" : 10.763725995969324,
-        "lower_population" : -0.7046961177312872,
-        "upper_sampling" : 10.764225122144866,
-        "lower_sampling" : -0.7051952439068288
+    "hits" : {
+      "total" : {
+        "value" : 5745,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "price_stats" : {
+        "count" : 5745,
+        "min" : 9.145146468654275E-4,
+        "max" : 9.99954605102539,
+        "avg" : 5.029514939119019,
+        "sum" : 28894.563325238763,
+        "sum_of_squares" : 192551.22757202818,
+        "variance" : 8.220294111126075,
+        "variance_population" : 8.220294111126075,
+        "variance_sampling" : 8.221725220825087,
+        "std_deviation" : 2.867105528425153,
+        "std_deviation_population" : 2.867105528425153,
+        "std_deviation_sampling" : 2.867355091512924,
+        "std_deviation_bounds" : {
+          "upper" : 10.763725995969324,
+          "lower" : -0.7046961177312872,
+          "upper_population" : 10.763725995969324,
+          "lower_population" : -0.7046961177312872,
+          "upper_sampling" : 10.764225122144866,
+          "lower_sampling" : -0.7051952439068288
+        }
       }
     }
   }
-}
+  ```
 
-```
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Percentiles
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /beers/_search
 {
   "size": 0,
@@ -238,62 +269,66 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
-Response:
+  <details><summary><i>Response</i></summary>
 
-```json
-
-{
-  "took" : 12,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 5745,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 12,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "price_buckets" : {
-      "values" : [
-        {
-          "key" : 20.0,
-          "value" : 2.0875760673900734
-        },
-        {
-          "key" : 40.0,
-          "value" : 4.037840286701443
-        },
-        {
-          "key" : 60.0,
-          "value" : 6.0116843727443285
-        },
-        {
-          "key" : 80.0,
-          "value" : 8.026191552565747
-        }
-      ]
+    "hits" : {
+      "total" : {
+        "value" : 5745,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "price_buckets" : {
+        "values" : [
+          {
+            "key" : 20.0,
+            "value" : 2.0875760673900734
+          },
+          {
+            "key" : 40.0,
+            "value" : 4.037840286701443
+          },
+          {
+            "key" : 60.0,
+            "value" : 6.0116843727443285
+          },
+          {
+            "key" : 80.0,
+            "value" : 8.026191552565747
+          }
+        ]
+      }
     }
   }
-}
+  ```
 
-```
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Buckets
 
 ###### terms
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /beers/_search
 {
   "size": 0,
@@ -306,86 +341,90 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
-Response:
+  <details><summary><i>Response</i></summary>
 
-```json
-
-{
-  "took" : 3,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 5745,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 3,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "country_beers_bucket" : {
-      "doc_count_error_upper_bound" : 0,
-      "sum_other_doc_count" : 160,
-      "buckets" : [
-        {
-          "key" : "United States",
-          "doc_count" : 4554
-        },
-        {
-          "key" : "Belgium",
-          "doc_count" : 319
-        },
-        {
-          "key" : "Germany",
-          "doc_count" : 254
-        },
-        {
-          "key" : "United Kingdom",
-          "doc_count" : 191
-        },
-        {
-          "key" : "Canada",
-          "doc_count" : 153
-        },
-        {
-          "key" : "Austria",
-          "doc_count" : 25
-        },
-        {
-          "key" : "Netherlands",
-          "doc_count" : 25
-        },
-        {
-          "key" : "Switzerland",
-          "doc_count" : 25
-        },
-        {
-          "key" : "Australia",
-          "doc_count" : 22
-        },
-        {
-          "key" : "France",
-          "doc_count" : 17
-        }
-      ]
+    "hits" : {
+      "total" : {
+        "value" : 5745,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "country_beers_bucket" : {
+        "doc_count_error_upper_bound" : 0,
+        "sum_other_doc_count" : 160,
+        "buckets" : [
+          {
+            "key" : "United States",
+            "doc_count" : 4554
+          },
+          {
+            "key" : "Belgium",
+            "doc_count" : 319
+          },
+          {
+            "key" : "Germany",
+            "doc_count" : 254
+          },
+          {
+            "key" : "United Kingdom",
+            "doc_count" : 191
+          },
+          {
+            "key" : "Canada",
+            "doc_count" : 153
+          },
+          {
+            "key" : "Austria",
+            "doc_count" : 25
+          },
+          {
+            "key" : "Netherlands",
+            "doc_count" : 25
+          },
+          {
+            "key" : "Switzerland",
+            "doc_count" : 25
+          },
+          {
+            "key" : "Australia",
+            "doc_count" : 22
+          },
+          {
+            "key" : "France",
+            "doc_count" : 17
+          }
+        ]
+      }
     }
   }
-}
+  ```
 
-```
+  </details>
+
+</blockquote></details>
+
+---
 
 ###### buckets with narrow search
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /beers/_search
 {
   "size": 0,
@@ -409,86 +448,90 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
-Response:
+  <details><summary><i>Response</i></summary>
 
-```json
-
-{
-  "took" : 3,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 254,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 3,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "city_beers_bucket" : {
-      "doc_count_error_upper_bound" : 0,
-      "sum_other_doc_count" : 140,
-      "buckets" : [
-        {
-          "key" : "Bamberg",
-          "doc_count" : 34
-        },
-        {
-          "key" : "Kulmbach",
-          "doc_count" : 13
-        },
-        {
-          "key" : "Konstanz",
-          "doc_count" : 12
-        },
-        {
-          "key" : "Munich",
-          "doc_count" : 12
-        },
-        {
-          "key" : "Dsseldorf",
-          "doc_count" : 11
-        },
-        {
-          "key" : "Bremen",
-          "doc_count" : 7
-        },
-        {
-          "key" : "Kelheim",
-          "doc_count" : 7
-        },
-        {
-          "key" : "Aying",
-          "doc_count" : 6
-        },
-        {
-          "key" : "Freising",
-          "doc_count" : 6
-        },
-        {
-          "key" : "Kempten",
-          "doc_count" : 6
-        }
-      ]
+    "hits" : {
+      "total" : {
+        "value" : 254,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "city_beers_bucket" : {
+        "doc_count_error_upper_bound" : 0,
+        "sum_other_doc_count" : 140,
+        "buckets" : [
+          {
+            "key" : "Bamberg",
+            "doc_count" : 34
+          },
+          {
+            "key" : "Kulmbach",
+            "doc_count" : 13
+          },
+          {
+            "key" : "Konstanz",
+            "doc_count" : 12
+          },
+          {
+            "key" : "Munich",
+            "doc_count" : 12
+          },
+          {
+            "key" : "Dsseldorf",
+            "doc_count" : 11
+          },
+          {
+            "key" : "Bremen",
+            "doc_count" : 7
+          },
+          {
+            "key" : "Kelheim",
+            "doc_count" : 7
+          },
+          {
+            "key" : "Aying",
+            "doc_count" : 6
+          },
+          {
+            "key" : "Freising",
+            "doc_count" : 6
+          },
+          {
+            "key" : "Kempten",
+            "doc_count" : 6
+          }
+        ]
+      }
     }
   }
-}
+  ```
 
-```
+  </details>
+
+</blockquote></details>
+
+---
 
 ###### filters
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /beers/_search
 {
   "size": 0,
@@ -527,60 +570,64 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
-Response:
+  <details><summary><i>Response</i></summary>
 
-```json
-
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 5745,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "country_beers" : {
-      "meta" : { },
-      "buckets" : {
-        "Austria" : {
-          "doc_count" : 25
-        },
-        "Czech" : {
-          "doc_count" : 0
-        },
-        "Germany" : {
-          "doc_count" : 254
-        },
-        "Hungary" : {
-          "doc_count" : 2
-        },
-        "Poland" : {
-          "doc_count" : 6
+    "hits" : {
+      "total" : {
+        "value" : 5745,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "country_beers" : {
+        "meta" : { },
+        "buckets" : {
+          "Austria" : {
+            "doc_count" : 25
+          },
+          "Czech" : {
+            "doc_count" : 0
+          },
+          "Germany" : {
+            "doc_count" : 254
+          },
+          "Hungary" : {
+            "doc_count" : 2
+          },
+          "Poland" : {
+            "doc_count" : 6
+          }
         }
       }
     }
   }
-}
+  ```
 
-```
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Nested
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /beers/_search
 {
   "size": 0,
@@ -630,97 +677,100 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
-Response:
+  <details><summary><i>Response</i></summary>
 
-```json
-
-{
-  "took" : 5,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 5745,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 5,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [ ]
-  },
-  "aggregations" : {
-    "country_beers" : {
-      "meta" : { },
-      "buckets" : {
-        "Austria" : {
-          "doc_count" : 25,
-          "price_stats" : {
-            "count" : 25,
-            "min" : 0.540674090385437,
-            "max" : 9.012656211853027,
-            "avg" : 4.409108197689056,
-            "sum" : 110.22770494222641
-          }
-        },
-        "Czech" : {
-          "doc_count" : 0,
-          "price_stats" : {
-            "count" : 0,
-            "min" : null,
-            "max" : null,
-            "avg" : null,
-            "sum" : 0.0
-          }
-        },
-        "Germany" : {
-          "doc_count" : 254,
-          "price_stats" : {
-            "count" : 254,
-            "min" : 0.03262186422944069,
-            "max" : 9.968053817749023,
-            "avg" : 5.347151345932695,
-            "sum" : 1358.1764418669045
-          }
-        },
-        "Hungary" : {
-          "doc_count" : 2,
-          "price_stats" : {
-            "count" : 2,
-            "min" : 4.4082231521606445,
-            "max" : 7.311609745025635,
-            "avg" : 5.85991644859314,
-            "sum" : 11.71983289718628
-          }
-        },
-        "Poland" : {
-          "doc_count" : 6,
-          "price_stats" : {
-            "count" : 6,
-            "min" : 0.1493198722600937,
-            "max" : 7.175299644470215,
-            "avg" : 4.26553022613128,
-            "sum" : 25.59318135678768
+    "hits" : {
+      "total" : {
+        "value" : 5745,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [ ]
+    },
+    "aggregations" : {
+      "country_beers" : {
+        "meta" : { },
+        "buckets" : {
+          "Austria" : {
+            "doc_count" : 25,
+            "price_stats" : {
+              "count" : 25,
+              "min" : 0.540674090385437,
+              "max" : 9.012656211853027,
+              "avg" : 4.409108197689056,
+              "sum" : 110.22770494222641
+            }
+          },
+          "Czech" : {
+            "doc_count" : 0,
+            "price_stats" : {
+              "count" : 0,
+              "min" : null,
+              "max" : null,
+              "avg" : null,
+              "sum" : 0.0
+            }
+          },
+          "Germany" : {
+            "doc_count" : 254,
+            "price_stats" : {
+              "count" : 254,
+              "min" : 0.03262186422944069,
+              "max" : 9.968053817749023,
+              "avg" : 5.347151345932695,
+              "sum" : 1358.1764418669045
+            }
+          },
+          "Hungary" : {
+            "doc_count" : 2,
+            "price_stats" : {
+              "count" : 2,
+              "min" : 4.4082231521606445,
+              "max" : 7.311609745025635,
+              "avg" : 5.85991644859314,
+              "sum" : 11.71983289718628
+            }
+          },
+          "Poland" : {
+            "doc_count" : 6,
+            "price_stats" : {
+              "count" : 6,
+              "min" : 0.1493198722600937,
+              "max" : 7.175299644470215,
+              "avg" : 4.26553022613128,
+              "sum" : 25.59318135678768
+            }
           }
         }
+      },
+      "price_stats" : {
+        "count" : 5745,
+        "min" : 9.145146468654275E-4,
+        "max" : 9.99954605102539,
+        "avg" : 5.029514939119019,
+        "sum" : 28894.563325238763
       }
-    },
-    "price_stats" : {
-      "count" : 5745,
-      "min" : 9.145146468654275E-4,
-      "max" : 9.99954605102539,
-      "avg" : 5.029514939119019,
-      "sum" : 28894.563325238763
     }
   }
-}
+  ```
 
-```
+  </details>
+
+</blockquote></details>
+
+---
 
 #### Advanced fulltext search
 
@@ -731,7 +781,6 @@ Response:
 With `slop=1`: 
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -743,14 +792,12 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 2,
   "timed_out" : false,
@@ -769,7 +816,6 @@ GET /beers/_search
     "hits" : [ ]
   }
 }
-
 ```
 
 </details>
@@ -777,7 +823,6 @@ GET /beers/_search
 With `slop=2`: 
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -795,7 +840,6 @@ GET /beers/_search
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 2,
   "timed_out" : false,
@@ -843,7 +887,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -851,7 +894,6 @@ GET /beers/_search
 ###### 
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -861,14 +903,12 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 1,
   "timed_out" : false,
@@ -972,7 +1012,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -981,7 +1020,6 @@ GET /beers/_search
 ######
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -992,14 +1030,12 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 2,
   "timed_out" : false,
@@ -1047,7 +1083,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -1065,7 +1100,6 @@ The match query is the standard query for performing a full-text search, includi
 </details>
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -1077,14 +1111,12 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
 <details>
   <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 20,
   "timed_out" : false,
@@ -1132,7 +1164,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -1140,7 +1171,6 @@ GET /beers/_search
 ##### Query boost
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -1170,7 +1200,6 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
 <details>
@@ -1178,7 +1207,6 @@ GET /beers/_search
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 7,
   "timed_out" : false,
@@ -1240,7 +1268,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -1248,7 +1275,6 @@ GET /beers/_search
 With operator :
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -1289,7 +1315,6 @@ GET /beers/_search
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 1,
   "timed_out" : false,
@@ -1323,7 +1348,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>  
@@ -1333,7 +1357,6 @@ GET /beers/_search
   1. 
 
   ```json
-
   GET /beers/_search
   {
     "query": {
@@ -1372,7 +1395,6 @@ GET /beers/_search
   2. 
 
   ```json
-
   GET /beers/_search
   {
     "query": {
@@ -1416,7 +1438,6 @@ GET /beers/_search
 Elasticsearch supports an envelope type, which consists of coordinates for upper left and lower right points of the shape to represent a bounding rectangle in the format [[minLon, maxLat], [maxLon, minLat]]:
 
 ```json
-
 POST /example/_doc
 {
   "location" : {
@@ -1424,7 +1445,6 @@ POST /example/_doc
     "coordinates" : [ [100.0, 1.0], [101.0, 0.0] ]
   }
 }
-
 ```
 
 The following is an example of an envelope using the WKT BBOX format:
@@ -1432,12 +1452,10 @@ The following is an example of an envelope using the WKT BBOX format:
 NOTE: WKT specification expects the following order: minLon, maxLon, maxLat, minLat.
 
 ```json
-
 POST /example/_doc
 {
   "location" : "BBOX (100.0, 102.0, 2.0, 0.0)"
 }
-
 ```
 
 ```
@@ -1461,7 +1479,6 @@ See [Find GPS Coordinates on Google maps](https://www.maps.ie/coordinates.html)
 -->
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -1490,14 +1507,12 @@ GET /beers/_search
     }
   }  
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 12,
   "timed_out" : false,
@@ -1545,7 +1560,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -1553,7 +1567,6 @@ GET /beers/_search
 ##### Geo-search `by distance from point (Munich)`
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -1578,14 +1591,12 @@ GET /beers/_search
   },
   "size": 5
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 5,
   "timed_out" : false,
@@ -1675,7 +1686,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -1683,7 +1693,6 @@ GET /beers/_search
 ##### Geo-search `by drawing a polygon (Bregenz - Schwarzach - Dornibirn)`
 
 ```json
-
 GET /beers/_search
 {
   "query": {
@@ -1718,14 +1727,12 @@ GET /beers/_search
     }
   }
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 #! Deprecated field [geo_polygon] used, replaced by [[geo_shape] query where polygons are defined in geojson or wkt]
 {
   "took" : 2,
@@ -1788,7 +1795,6 @@ GET /beers/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -1805,7 +1811,6 @@ docker cp dataset/synonyms.txt example-02-elasticsearch-1:/usr/share/elasticsear
 2. Create index, and configures a synonym filter
 
 ```json
-
 PUT /test_synonym_graph
 {
   "settings": {
@@ -1912,7 +1917,6 @@ PUT /test_index2
     }
   }
 }
-
 ```
 
 Path of synonym.txt is relative to the config location. 
@@ -1922,13 +1926,11 @@ The synonym analyzer is configured with the filter. this filter tokenizes synony
 To test the analyzer created in the index, we can call the _analyze endpoint:
 
 ```json
-
 GET /test_index2/_analyze
 {
   "analyzer": "index_analyzer",
   "text": "PS 3"
 }
-
 ```
 
 We can see that the token for “PS” is replaced with the synonym specified.
@@ -1937,7 +1939,6 @@ We can see that the token for “PS” is replaced with the synonym specified.
 <summary>Response:</summary>
 
 ```json
-
 {
   "tokens" : [
     {
@@ -1956,7 +1957,6 @@ We can see that the token for “PS” is replaced with the synonym specified.
     }
   ]
 }
-
 ```
 
 </details>
@@ -1964,7 +1964,6 @@ We can see that the token for “PS” is replaced with the synonym specified.
 Let’s add some documents to the index and test if it works properly in searching:
 
 ```json
-
 PUT /test_synonym_graph/_doc/1
 {
   "name": "PS 3"
@@ -2013,13 +2012,11 @@ PUT /test_index2/_doc/3
 {
   "name": "Play Station 5r"
 }
-
 ```
 
 We can perform a simple search with the match keyword:
 
 ```json
-
 GET /test_synonym_graph/_search
 {
   "query": {
@@ -2046,14 +2043,12 @@ GET /test_index2/_search
     }
   }  
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 1,
   "timed_out" : false,
@@ -2206,7 +2201,6 @@ GET /test_index2/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -2214,7 +2208,6 @@ GET /test_index2/_search
 Repair test_synonym_graph2 index:
 
 ```json
-
 PUT /test_synonym_graph2
 {
   "settings": {
@@ -2251,13 +2244,11 @@ PUT /test_synonym_graph2
     }
   }
 }
-
 ```
 
 Test Search :
 
 ```json
-
 GET /test_synonym_graph2/_search
 {
   "query": {
@@ -2266,14 +2257,12 @@ GET /test_synonym_graph2/_search
     }
   }  
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 {
   "took" : 1,
   "timed_out" : false,
@@ -2320,7 +2309,6 @@ GET /test_synonym_graph2/_search
     ]
   }
 }
-
 ```
 
 </details>
@@ -2332,7 +2320,6 @@ GET /test_synonym_graph2/_search
     A better way is to update the settings of the index. However, we need to close the index before the settings can be updated, and then re-open it so it can be accessed:
 
     ```json
-
     POST /test_synonym_graph2/_close
 
     PUT /test_synonym_graph2/_settings
@@ -2364,7 +2351,6 @@ GET /test_synonym_graph2/_search
     <summary>Response:</summary>
 
     ```json
-
     {
       "tokens" : [
         {
@@ -2432,7 +2418,6 @@ Py => Python
 To reload the search analyzers of an index, we need to call the `_reload_search_analyzers` endpoint:
 
 ```json
-
 POST /test_synonym_graph/_reload_search_analyzers
 
 ```
@@ -2440,20 +2425,17 @@ POST /test_synonym_graph/_reload_search_analyzers
 Now when we analyze the “JS” string, we will see the “javascript” token returned:
 
 ```json
-
 GET /test_synonym_graph/_analyze
 {
   "analyzer": "search_analyzer",
   "text": "JS"
 }
-
 ```
 
 <details>
 <summary>Response:</summary>
 
 ```json
-
 {
   "tokens" : [
     {
@@ -2465,7 +2447,6 @@ GET /test_synonym_graph/_analyze
     }
   ]
 }
-
 ```
 
 </details>
@@ -2488,7 +2469,6 @@ Two important things should be noted here:
 ##### Get indices:
 
 ```json
-
 GET http://localhost:9200/_cat/indices?v
 
 ```
@@ -2496,7 +2476,6 @@ GET http://localhost:9200/_cat/indices?v
 ##### Index description:
 
 ```json
-
 GET http://localhost:9200/beers
 
 ```
@@ -2504,7 +2483,6 @@ GET http://localhost:9200/beers
 ##### Index mappings:
 
 ```json
-
 http://localhost:9200/beers/_mapping
 
 ```
@@ -2512,7 +2490,6 @@ http://localhost:9200/beers/_mapping
 ##### Delete index:
 
 ```json
-
 DELETE http://localhost:9200/beers
 
 ```
