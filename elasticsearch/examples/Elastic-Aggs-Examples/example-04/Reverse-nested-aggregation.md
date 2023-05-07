@@ -140,6 +140,7 @@ GET /club/_search
 
 <details open><summary><i>Two step:</i></summary><blockquote>
 
+---
 
 ***1.  First the query uses terms filter to group documents by teams.***
 
