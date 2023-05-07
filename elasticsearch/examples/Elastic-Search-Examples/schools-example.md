@@ -400,142 +400,183 @@ docker compose up -d
 This query uses query parser and query_string keyword.
 
 7. 
+<details open><summary><i>This query matches a text or phrase with more than one field.</i></summary><blockquote>
 
-curl -XGET "http://singleElasticsearch71602:9200/schools/_search" -H 'Content-Type: application/json' -d'
-{
-  "query": {
-    "query_string": {
-      "query": "beautiful"
-    }
-  }
-}'
+  <details open><summary><i>Curl</i></summary>
 
-GET /schools/_search
-{
-  "query": {
-    "query_string": {
-      "query": "beautiful"
-    }
-  }
-}
-
-Response :
-
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
-    },
-    "max_score" : 1.2199391,
-    "hits" : [
-      {
-        "_index" : "schools",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : 1.2199391,
-        "_source" : {
-          "name" : "Central School",
-          "description" : "CBSE Affiliation",
-          "street" : "Nagan",
-          "city" : "paprola",
-          "state" : "HP",
-          "zip" : "176115",
-          "location" : [
-            31.8955385,
-            76.8380405
-          ],
-          "fees" : 2200,
-          "tags" : [
-            "Senior Secondary",
-            "beautiful campus"
-          ],
-          "rating" : "3.3"
-        }
+  ```
+  curl -XGET "http://singleElasticsearch71602:9200/schools/_search" -H 'Content-Type: application/json' -d'
+  {
+    "query": {
+      "query_string": {
+        "query": "beautiful"
       }
-    ]
+    }
+  }'
+  ```
+
+  </details>
+
+  <details><summary><i>Dev Tools</i></summary>
+
+  ```
+  GET /schools/_search
+  {
+    "query": {
+      "query_string": {
+        "query": "beautiful"
+      }
+    }
   }
-}
+  ```
+
+  </details>
+
+  <details><summary><i>Response</i></summary>
+
+  ```
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 1.2199391,
+      "hits" : [
+        {
+          "_index" : "schools",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : 1.2199391,
+          "_source" : {
+            "name" : "Central School",
+            "description" : "CBSE Affiliation",
+            "street" : "Nagan",
+            "city" : "paprola",
+            "state" : "HP",
+            "zip" : "176115",
+            "location" : [
+              31.8955385,
+              76.8380405
+            ],
+            "fees" : 2200,
+            "tags" : [
+              "Senior Secondary",
+              "beautiful campus"
+            ],
+            "rating" : "3.3"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Term Level Queries
 
-8. 
+<details open><summary><i>This query matches a text or phrase with more than one field.</i></summary><blockquote>
 
-curl -XGET "http://localhost:9200/schools/_search?pretty" -H 'Content-Type: application/json' -d'
-{
-  "query": {
-    "term": {
-      "zip": {
-        "value": "176115"
-      }
-    }
-  }
-}'
+  <details open><summary><i>Curl</i></summary>
 
-GET /schools/_search
-{
-  "query": {
-    "term": {
-      "zip": {
-        "value": "176115"
-      }
-    }
-  }
-}
-
-Response:
-
-{
-  "took" : 0,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
-    },
-    "max_score" : 1.3862942,
-    "hits" : [
-      {
-        "_index" : "schools",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : 1.3862942,
-        "_source" : {
-          "name" : "Central School",
-          "description" : "CBSE Affiliation",
-          "street" : "Nagan",
-          "city" : "paprola",
-          "state" : "HP",
-          "zip" : "176115",
-          "location" : [
-            31.8955385,
-            76.8380405
-          ],
-          "fees" : 2200,
-          "tags" : [
-            "Senior Secondary",
-            "beautiful campus"
-          ],
-          "rating" : "3.3"
+  ```
+  curl -XGET "http://localhost:9200/schools/_search?pretty" -H 'Content-Type: application/json' -d'
+  {
+    "query": {
+      "term": {
+        "zip": {
+          "value": "176115"
         }
       }
-    ]
+    }
+  }'
+  ```
+
+  </details>
+
+  <details><summary><i>Dev Tools</i></summary>
+
+  ```
+  GET /schools/_search
+  {
+    "query": {
+      "term": {
+        "zip": {
+          "value": "176115"
+        }
+      }
+    }
   }
-}
+  ```
+
+  </details>
+
+  <details><summary><i>Response</i></summary>
+
+  ```
+  {
+    "took" : 0,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : 1.3862942,
+      "hits" : [
+        {
+          "_index" : "schools",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : 1.3862942,
+          "_source" : {
+            "name" : "Central School",
+            "description" : "CBSE Affiliation",
+            "street" : "Nagan",
+            "city" : "paprola",
+            "state" : "HP",
+            "zip" : "176115",
+            "location" : [
+              31.8955385,
+              76.8380405
+            ],
+            "fees" : 2200,
+            "tags" : [
+              "Senior Secondary",
+              "beautiful campus"
+            ],
+            "rating" : "3.3"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
 
 ##### Range Query
 
@@ -546,29 +587,43 @@ This query is used to find the objects having values between the ranges of value
 - lte: less-than equal to
 - lt : less-than
 
-9. 
+<details open><summary><i>Range Query</i></summary><blockquote>
 
-curl -XGET "http://localhost:9200/schools/_search?pretty" -H 'Content-Type: application/json' -d'
-{
-  "query": {
-    "range": {
-      "rating": {
-        "gte": 3.5
+  <details open><summary><i>Curl</i></summary>
+
+  ```
+  curl -XGET "http://localhost:9200/schools/_search?pretty" -H 'Content-Type: application/json' -d'
+  {
+    "query": {
+      "range": {
+        "rating": {
+          "gte": 3.5
+        }
+      }
+    }
+  }'
+  ```
+
+  </details>
+
+  <details><summary><i>Dev Tools</i></summary>
+
+  ```
+  GET /schools/_search
+  {
+    "query": {
+      "range": {
+        "rating": {
+          "gte": 3.5
+        }
       }
     }
   }
-}'
+  ```
 
-GET /schools/_search
-{
-  "query": {
-    "range": {
-      "rating": {
-        "gte": 3.5
-      }
-    }
-  }
-}
+  </details>
+
+</blockquote></details>
 
 
 There exist other types of term level queries also such as −
@@ -578,6 +633,8 @@ There exist other types of term level queries also such as −
 - **Missing query**: This is completely opposite to exists query, this query searches for objects without specific fields or fields having null value.
 
 - **Wildcard or regexp query**: This query uses regular expressions to find patterns in the objects.
+
+---
 
 ##### Compound Queries
 
