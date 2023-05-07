@@ -17,20 +17,29 @@ See [Sort search results](https://www.elastic.co/guide/en/elasticsearch/referenc
 
 ```
 docker compose up -d
-
 ```
 
 ### Examples
 
 #### Index sample data
 
-```json
-PUT /my-index-000001/_doc/1?refresh
-{
-  "product": "chocolate",
-  "price": [20, 4]
-}
-```
+<details open><summary><i>Index data</i></summary><blockquote>
+
+  <details open><summary><i>Indexing</i></summary>
+
+  ```json
+  PUT /my-index-000001/_doc/1?refresh
+  {
+    "product": "chocolate",
+    "price": [20, 4]
+  }
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
 
 #### Sort mode option
 
