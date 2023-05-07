@@ -21,6 +21,8 @@ See [Sort search results](https://www.elastic.co/guide/en/elasticsearch/referenc
 docker compose up -d
 ```
 
+---
+
 ### Examples
 
 #### Index sample data
