@@ -6,7 +6,17 @@
 docker compose up -d
 ```
 
+---
+
 ***2. Add kibana_sample_data_logs && kibana_sample_data_ecommerce data Kibana /Home /Try sample data***
+
+> ***Import kibana*** [Sample eCommerce orders](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/add-sample-data.md#sample-ecommerce-orders)
+>  
+
+> ***Import kibana*** [Sample web logs](https://github.com/rasoulifarhad/elastic-stack/blob/main/kibana/add-sample-data.md#sample-web-logs)
+>  
+
+---
 
 ***3. How many unique sku’s can be found in our e-commerce data?***
 
