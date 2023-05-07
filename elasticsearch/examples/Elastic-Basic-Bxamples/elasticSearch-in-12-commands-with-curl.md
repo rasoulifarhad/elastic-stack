@@ -675,9 +675,12 @@ In the default setting, we can get the product "Best Selling Beer Flavor" even w
 
 11. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], that are PUBLISHED, and in stock. Sorted by cheapest to most expensive**
 
-Previous query just involved three conditions that must be ALL TRUE to hold. That's equivalent to "A and B and C".
+***Note:**
+> Previous query just involved three conditions that must be ALL TRUE to hold. That's equivalent to "A and B and C".
+> 
 
-In this query, we still have three conditions that have to be all true, but the 1st condition is marked as true if it has either "poultry", "kampai", or "best-seller". In this example, we introduce the syntax for "OR":
+> In this query, we still have three conditions that have to be all true, but the 1st condition is marked as true if it has either "poultry", "kampai", or "best-seller". In this example, we introduce the syntax for "OR":
+> 
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -809,7 +812,8 @@ In this query, we still have three conditions that have to be all true, but the 
 
 12. **Search for all products that have at least 1 of the following tags ['poultry, 'kampai', 'best-seller'], and in stock. The price should be between 0 to 300 only. Sorted by cheapest to most expensive**
 
-This query is similar to #11 but we added another criteria that the price of the products returned should only be between 0 and 300.
+> This query is similar to #11 but we added another criteria that the price of the products returned should only be between 0 and 300.
+> 
 
 <details open><summary><i></i></summary><blockquote>
 
