@@ -25,19 +25,18 @@ docker compose up -d
 #### Index sample data
 
 ```json
-
 PUT /my-index-000001/_doc/1?refresh
 {
   "product": "chocolate",
   "price": [20, 4]
 }
-
 ```
 
 #### Sort mode option
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /my-index-000001/_search
 {
   "query": {
@@ -59,54 +58,57 @@ GET /my-index-000001/_search
 
 ``` 
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-{
-  "took" : 8,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 8,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "my-index-000001",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : null,
-        "_source" : {
-          "product" : "chocolate",
-          "price" : [
-            20,
-            4
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "my-index-000001",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : null,
+          "_source" : {
+            "product" : "chocolate",
+            "price" : [
+              20,
+              4
+            ]
+          },
+          "sort" : [
+            12
           ]
-        },
-        "sort" : [
-          12
-        ]
-      }
-    ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
+  </details>
 
-</details>
+</blockquote></details>
+
+---
 
 #### Sort mode option
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /my-index-000001/_search
 {
   "query": {
@@ -124,60 +126,61 @@ GET /my-index-000001/_search
     }
   ]
 }
-
 ``` 
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-{
-  "took" : 1,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 1,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "my-index-000001",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : null,
-        "_source" : {
-          "product" : "chocolate",
-          "price" : [
-            20,
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "my-index-000001",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : null,
+          "_source" : {
+            "product" : "chocolate",
+            "price" : [
+              20,
+              4
+            ]
+          },
+          "sort" : [
             4
           ]
-        },
-        "sort" : [
-          4
-        ]
-      }
-    ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
+  </details>
 
-</details>
+</blockquote></details>
 
+---
 
 #### The search response includes sort values for each document. 
 
 ###### Index data
 
-```json
+<details open><summary><i>Index data</i></summary><blockquote>
 
+```json
 PUT /my-index-000001
 {
   "mappings": {
@@ -201,13 +204,17 @@ PUT /my-index-000002/_doc/1
   "name": "alireza",
   "age": 45
 }
-
 ```
+
+</blockquote></details>
+
+---
 
 ###### Search data
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /my-index-000002/_search
 {
   "query": {
@@ -225,61 +232,62 @@ GET /my-index-000002/_search
     "_score"
   ]
 }
-
-``` 
-
-<details>
-<summary>Response:</summary>
-
-```json
-
-{
-  "took" : 768,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
-    },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "my-index-000002",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : 0.2876821,
-        "_source" : {
-          "post_date" : "2023-02-05",
-          "user" : "farhad",
-          "name" : "alireza",
-          "age" : 45
-        },
-        "sort" : [
-          "2023-02-05T00:00:00.000Z",
-          "farhad",
-          "alireza",
-          45,
-          0.2876821
-        ]
-      }
-    ]
-  }
-}
-
 ```
-</details>
 
+  <details><summary>Response:</summary>
+
+  ```json
+  {
+    "took" : 768,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
+    },
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "my-index-000002",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 0.2876821,
+          "_source" : {
+            "post_date" : "2023-02-05",
+            "user" : "farhad",
+            "name" : "alireza",
+            "age" : 45
+          },
+          "sort" : [
+            "2023-02-05T00:00:00.000Z",
+            "farhad",
+            "alireza",
+            45,
+            0.2876821
+          ]
+        }
+      ]
+    }
+  }
+  ```
+
+  </details>
+
+</blockquote></details>
+
+---
 
 #### The search response includes sort values for each document.
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /my-index-000002/_search
 {
   "query": {
@@ -296,56 +304,58 @@ GET /my-index-000002/_search
 
 ``` 
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-
-{
-  "took" : 0,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 1,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 0,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "my-index-000002",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : null,
-        "_source" : {
-          "post_date" : "2023-02-05",
-          "user" : "farhad",
-          "name" : "alireza",
-          "age" : 45
-        },
-        "sort" : [
-          "2023-02-05T00:00:00.000Z"
-        ]
-      }
-    ]
+    "hits" : {
+      "total" : {
+        "value" : 1,
+        "relation" : "eq"
+      },
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "my-index-000002",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : null,
+          "_source" : {
+            "post_date" : "2023-02-05",
+            "user" : "farhad",
+            "name" : "alireza",
+            "age" : 45
+          },
+          "sort" : [
+            "2023-02-05T00:00:00.000Z"
+          ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
+  </details>
 
-</details>
+</blockquote></details>
+
+---
 
 #### For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
 
 ##### Index data
 
-```json
+<details open><summary><i>Index data</i></summary><blockquote>
 
+```json
 PUT /index_long
 {
   "mappings": {
@@ -377,13 +387,17 @@ PUT /index_double/_doc/2
 {
   "field01": 55.34
 }
-
 ```
+
+</blockquote></details>
+
+---
 
 ##### Search data
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /index_double,index_long/_search
 {
   "sort": [
@@ -395,66 +409,67 @@ GET /index_double,index_long/_search
     }
   ]
 }
-
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-
-{
-  "took" : 886,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 2,
-    "successful" : 2,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 2,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 886,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 2,
+      "successful" : 2,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "index_double",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : null,
-        "_source" : {
-          "field01" : 55.34
-        },
-        "sort" : [
-          55.34
-        ]
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
       },
-      {
-        "_index" : "index_long",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : null,
-        "_source" : {
-          "field01" : 30
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "index_double",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : null,
+          "_source" : {
+            "field01" : 55.34
+          },
+          "sort" : [
+            55.34
+          ]
         },
-        "sort" : [
-          30.0
-        ]
-      }
-    ]
+        {
+          "_index" : "index_long",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : null,
+          "_source" : {
+            "field01" : 30
+          },
+          "sort" : [
+            30.0
+          ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
-</details>
+  </details>
 
+</blockquote></details>
+
+---
 
 #### For numeric fields it is also possible to cast the values from one type to another using the numeric_type option. 
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /index_double,index_long/_search
 {
   "sort": [
@@ -469,58 +484,59 @@ GET /index_double,index_long/_search
 
 ``` 
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-
-{
-  "took" : 14,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 2,
-    "successful" : 2,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 2,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 14,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 2,
+      "successful" : 2,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "index_double",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : null,
-        "_source" : {
-          "field01" : 55.34
-        },
-        "sort" : [
-          55
-        ]
+    "hits" : {
+      "total" : {
+        "value" : 2,
+        "relation" : "eq"
       },
-      {
-        "_index" : "index_long",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : null,
-        "_source" : {
-          "field01" : 30
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "index_double",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : null,
+          "_source" : {
+            "field01" : 55.34
+          },
+          "sort" : [
+            55
+          ]
         },
-        "sort" : [
-          30
-        ]
-      }
-    ]
+        {
+          "_index" : "index_long",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : null,
+          "_source" : {
+            "field01" : 30
+          },
+          "sort" : [
+            30
+          ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
+  </details>
 
-</details>
+</blockquote></details>
+
+---
 
 #### Sorting within nested objects 
 
@@ -531,8 +547,9 @@ The `missing` parameter specifies how docs which are missing the sort field shou
 
 ###### Index data
 
-```json
+<details open><summary><i>Index data</i></summary><blockquote>
 
+```json
 PUT /my-index-000003
 
 PUT /my-index-000003/_doc/1
@@ -554,13 +571,17 @@ PUT /my-index-000003/_doc/3
   "product": "product-03"
 
 }
-
 ```
+
+</blockquote></details>
+
+---
 
 ###### Search data
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /my-index-000003/_search
 {
   "query": {
@@ -574,79 +595,81 @@ GET /my-index-000003/_search
     }
   ]
 }
-
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-
-{
-  "took" : 0,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 0,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-02",
-          "price" : 50
-        },
-        "sort" : [
-          50
-        ]
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
       },
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-01",
-          "price" : 100
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-02",
+            "price" : 50
+          },
+          "sort" : [
+            50
+          ]
         },
-        "sort" : [
-          100
-        ]
-      },
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-03"
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-01",
+            "price" : 100
+          },
+          "sort" : [
+            100
+          ]
         },
-        "sort" : [
-          9223372036854775807
-        ]
-      }
-    ]
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-03"
+          },
+          "sort" : [
+            9223372036854775807
+          ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
-</details>
+  </details>
+
+</blockquote></details>
+
+---
 
 #### Missing values
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /my-index-000003/_search
 {
   "query": {
@@ -664,79 +687,81 @@ GET /my-index-000003/_search
 
 ``` 
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-
-{
-  "took" : 0,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 0,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-03"
-        },
-        "sort" : [
-          -9223372036854775808
-        ]
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
       },
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-02",
-          "price" : 50
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-03"
+          },
+          "sort" : [
+            -9223372036854775808
+          ]
         },
-        "sort" : [
-          50
-        ]
-      },
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-01",
-          "price" : 100
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-02",
+            "price" : 50
+          },
+          "sort" : [
+            50
+          ]
         },
-        "sort" : [
-          100
-        ]
-      }
-    ]
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-01",
+            "price" : 100
+          },
+          "sort" : [
+            100
+          ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
+  </details>
 
-</details>
+</blockquote></details>
+
+---
 
 #### Ignoring Unmapped Fields
 
 By default, the search request will fail if there is no mapping associated with a field. The unmapped_type option allows you to ignore fields that have no mapping and not sort by them. The value of this parameter is used to determine what sort values to emit. Here is an example of how it can be used:
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /_search
 {
   "sort" : [
@@ -746,16 +771,20 @@ GET /_search
     "term" : { "product" : "chocolate" }
   }
 }
-
 ```
+
+</blockquote></details>
+
+---
 
 If any of the indices that are queried doesn’t have a mapping for price then Elasticsearch will handle it as if there was a mapping of type long, with all documents in this index having no value for this field.
 
 
 #### Script Based Sorting
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /my-index-000003/_search
 {
   "query": {
@@ -780,78 +809,81 @@ GET /my-index-000003/_search
 
 ``` 
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-{
-  "took" : 8,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 8,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : null,
-    "hits" : [
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-03"
-        },
-        "sort" : [
-          0.0
-        ]
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
       },
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-02",
-          "price" : 50
+      "max_score" : null,
+      "hits" : [
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-03"
+          },
+          "sort" : [
+            0.0
+          ]
         },
-        "sort" : [
-          55.00000000000001
-        ]
-      },
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : null,
-        "_source" : {
-          "product" : "product-01",
-          "price" : 100
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-02",
+            "price" : 50
+          },
+          "sort" : [
+            55.00000000000001
+          ]
         },
-        "sort" : [
-          110.00000000000001
-        ]
-      }
-    ]
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : null,
+          "_source" : {
+            "product" : "product-01",
+            "price" : 100
+          },
+          "sort" : [
+            110.00000000000001
+          ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
+  </details>
 
-</details>
+</blockquote></details>
+
+---
 
 #### Track Scores
 
 When sorting on a field, scores are not computed. By setting `track_scores` to true, scores will still be computed and tracked.
 
-```json
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
+```json
 GET /my-index-000003/_search
 {
   "query": {
@@ -874,80 +906,81 @@ GET /my-index-000003/_search
     }
   ]
 }
-
 ```
 
-<details>
-<summary>Response:</summary>
+  <details><summary>Response:</summary>
 
-```json
-
-{
-  "took" : 7,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 1,
-    "successful" : 1,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : {
-      "value" : 3,
-      "relation" : "eq"
+  ```json
+  {
+    "took" : 7,
+    "timed_out" : false,
+    "_shards" : {
+      "total" : 1,
+      "successful" : 1,
+      "skipped" : 0,
+      "failed" : 0
     },
-    "max_score" : 1.0,
-    "hits" : [
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "1",
-        "_score" : 1.0,
-        "_source" : {
-          "product" : "product-01",
-          "price" : 100
-        },
-        "sort" : [
-          110.00000000000001
-        ]
+    "hits" : {
+      "total" : {
+        "value" : 3,
+        "relation" : "eq"
       },
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "2",
-        "_score" : 1.0,
-        "_source" : {
-          "product" : "product-02",
-          "price" : 50
+      "max_score" : 1.0,
+      "hits" : [
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "1",
+          "_score" : 1.0,
+          "_source" : {
+            "product" : "product-01",
+            "price" : 100
+          },
+          "sort" : [
+            110.00000000000001
+          ]
         },
-        "sort" : [
-          55.00000000000001
-        ]
-      },
-      {
-        "_index" : "my-index-000003",
-        "_type" : "_doc",
-        "_id" : "3",
-        "_score" : 1.0,
-        "_source" : {
-          "product" : "product-03"
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "2",
+          "_score" : 1.0,
+          "_source" : {
+            "product" : "product-02",
+            "price" : 50
+          },
+          "sort" : [
+            55.00000000000001
+          ]
         },
-        "sort" : [
-          0.0
-        ]
-      }
-    ]
+        {
+          "_index" : "my-index-000003",
+          "_type" : "_doc",
+          "_id" : "3",
+          "_score" : 1.0,
+          "_source" : {
+            "product" : "product-03"
+          },
+          "sort" : [
+            0.0
+          ]
+        }
+      ]
+    }
   }
-}
+  ```
 
-```
+  </details>
 
-</details>
+</blockquote></details>
+
+---
 
 ###### Clean
 
-```json
+<details open><summary><i>Clean</i></summary><blockquote>
 
+```json
 DELETE /my-index-000001
 DELETE /my-index-000002
 DELETE /my-index-000003
@@ -955,3 +988,5 @@ DELETE /index_double
 DELETE /index_long
 
 ```
+
+</blockquote></details>
