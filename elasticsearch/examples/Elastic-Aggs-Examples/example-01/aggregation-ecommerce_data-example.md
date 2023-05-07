@@ -5,10 +5,9 @@
 ***1. Run Elasticsearch && Kibana*** 
 
 
-```json
+```
 docker compose up -d
 ```
-Open the Kibana console(AKA Dev Tools). 
 
 ***2. Define index***  
 
