@@ -138,7 +138,8 @@ GET /club/_search
 > Aggregations on nested documents
 > 
 
-**Two step:**
+<details open><summary><i>Two step:</i></summary><blockquote>
+
 
 ***1.  First the query uses terms filter to group documents by teams.***
 
@@ -314,6 +315,9 @@ GET /club/_search
   ```
 
   </details>
+
+</blockquote></details>
+
 
 </blockquote></details>
 
