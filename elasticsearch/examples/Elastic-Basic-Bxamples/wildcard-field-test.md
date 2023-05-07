@@ -1,9 +1,7 @@
 ### You index and search a wildcard field as follows
 
-**Create mappings**:
 
-
-<details open><summary><i>Mappings</i></summary><blockquote>
+<details open><summary><i>Create mappings</i></summary><blockquote>
 
 ```json
 DELETE /my-index-000001
@@ -24,7 +22,6 @@ PUT my-index-000001
 
 ---
 
-***Index doc***
 
 <details open><summary><i>Index document</i></summary><blockquote>
 
@@ -39,7 +36,6 @@ PUT my-index-000001/_doc/1
 
 ---
 
-***Search wildcard***:
 
 <details open><summary><i>Search wildcard</i></summary><blockquote>
 
@@ -95,7 +91,6 @@ GET my-index-000001/_search
 
 ---
 
-**Clean**:
 
 <details open><summary><i>Clean</i></summary><blockquote>
 
