@@ -1,6 +1,6 @@
 ### Aggregation Example
 
-[base link](https://dev.to/lisahjung/beginner-s-guide-running-aggregations-with-elasticsearch-and-kibana-16bn)
+From [beginner guide running aggregations with ..](https://dev.to/lisahjung/beginner-s-guide-running-aggregations-with-elasticsearch-and-kibana-16bn)
 
 ***1. Run Elasticsearch && Kibana*** 
 
