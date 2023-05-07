@@ -87,7 +87,7 @@ POST _reindex
 
 ---
 
-5. Remove the negative values from the field "UnitPrice"
+***5. Remove the negative values from the field "UnitPrice"***
 
 <details open><summary><i>Query DSL</i></summary><blockquote>
 
@@ -369,7 +369,7 @@ Each document is a transaction of an item and it contains the following fields:
 
 ---
 
-13. et number of unique customers in our transaction data 
+***13. Get number of unique customers in our transaction data*** 
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -665,7 +665,7 @@ GET ecommerce_data/_search
 
 </blockquote></details>
 
-***Change order:** 
+***Change order:*** 
 
 <details open><summary><i>Query DSL</i></summary><blockquote>
 
@@ -871,7 +871,7 @@ GET ecommerce_data/_search
 
 </blockquote></details>
 
-***Changing sort order** 
+***Changing sort order*** 
 
 <details open><summary><i>Query DSL</i></summary><blockquote>
 
