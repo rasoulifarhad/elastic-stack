@@ -4,68 +4,69 @@ See [5 simple examples to understand ES aggregation](https://blog.joshsoftware.c
 
 #### Bulk Insert documents (Cars store) 
 
-- Mapping
+<details open><summary><i>Mapping:</i></summary><blockquote>
 
-  ```json
-
-  PUT /cars
-  {
-    "mappings": {
-      "properties": {
-        "manufacturer": {
-          "type": "keyword"
-        },
-        "model": {
-          "type": "keyword"
-        },
-        "price": {
-          "type": "long"
-        },
-        "sold_date": {
-          "type": "date"
-        }
+```json
+PUT /cars
+{
+  "mappings": {
+    "properties": {
+      "manufacturer": {
+        "type": "keyword"
+      },
+      "model": {
+        "type": "keyword"
+      },
+      "price": {
+        "type": "long"
+      },
+      "sold_date": {
+        "type": "date"
       }
     }
   }
+}
+```
 
-  ```
+</blockquote></details>
 
-- Bulk insert
+---
 
-  ```json
+<details open><summary><i>Bulk insert:</i></summary><blockquote>
 
-  POST _bulk
-  {"index":{"_index":"cars","_id":"1"}}
-  {"manufacturer":"Audi","model":"A6","price":3900000,"sold_date":"2020-03-10"}
-  {"index":{"_index":"cars","_id":"2"}}
-  {"manufacturer":"Ford","model":"Fiesta","price":580000,"sold_date":"2020-07-18"}
-  {"index":{"_index":"cars","_id":"3"}}
-  {"manufacturer":"Audi","model":"A7","price":6500000,"sold_date":"2020-05-28"}
-  {"index":{"_index":"cars","_id":"4"}}
-  {"manufacturer":"Audi","model":"A8","price":14900000,"sold_date":"2020-06-10"}
-  {"index":{"_index":"cars","_id":"5"}}
-  {"manufacturer":"Ford","model":"Linea","price":420000,"sold_date":"2020-05-26"}
-  {"index":{"_index":"cars","_id":"6"}}
-  {"manufacturer":"Ford","model":"Figo","price":480000,"sold_date":"2020-07-13"}
-  {"index":{"_index":"cars","_id":"7"}}
-  {"manufacturer":"Maruti","model":"Swift","price":680000,"sold_date":"2020-05-25"}
-  {"index":{"_index":"cars","_id":"8"}}
-  {"manufacturer":"Tata","model":"Nexon","price":880000,"sold_date":"2020-05-25"}
-  {"index":{"_index":"cars","_id":"8"}}
-  {"manufacturer":"Tata","model":"Altroz","price":680000,"sold_date":"2020-03-25"}
-  {"index":{"_index":"cars","_id":"9"}}
-  {"manufacturer":"Tata","model":"Tigor","price":520000,"sold_date":"2020-07-25"}
+```json
+POST _bulk
+{"index":{"_index":"cars","_id":"1"}}
+{"manufacturer":"Audi","model":"A6","price":3900000,"sold_date":"2020-03-10"}
+{"index":{"_index":"cars","_id":"2"}}
+{"manufacturer":"Ford","model":"Fiesta","price":580000,"sold_date":"2020-07-18"}
+{"index":{"_index":"cars","_id":"3"}}
+{"manufacturer":"Audi","model":"A7","price":6500000,"sold_date":"2020-05-28"}
+{"index":{"_index":"cars","_id":"4"}}
+{"manufacturer":"Audi","model":"A8","price":14900000,"sold_date":"2020-06-10"}
+{"index":{"_index":"cars","_id":"5"}}
+{"manufacturer":"Ford","model":"Linea","price":420000,"sold_date":"2020-05-26"}
+{"index":{"_index":"cars","_id":"6"}}
+{"manufacturer":"Ford","model":"Figo","price":480000,"sold_date":"2020-07-13"}
+{"index":{"_index":"cars","_id":"7"}}
+{"manufacturer":"Maruti","model":"Swift","price":680000,"sold_date":"2020-05-25"}
+{"index":{"_index":"cars","_id":"8"}}
+{"manufacturer":"Tata","model":"Nexon","price":880000,"sold_date":"2020-05-25"}
+{"index":{"_index":"cars","_id":"8"}}
+{"manufacturer":"Tata","model":"Altroz","price":680000,"sold_date":"2020-03-25"}
+{"index":{"_index":"cars","_id":"9"}}
+{"manufacturer":"Tata","model":"Tigor","price":520000,"sold_date":"2020-07-25"}
+```
 
-  ```
+---
 
 #### What is the average price of all sold cars which have manufacturer Audi ?
 
-W       hat elasticsearch query we can use to get this result:
+What elasticsearch query we can use to get this result:
 
 - Query DSL
 
-  ```json
-
+```json
   GET /cars/_search
   {
     "size": 0,
@@ -81,83 +82,77 @@ W       hat elasticsearch query we can use to get this result:
         }
       }
     }
-  }
-
-  ```
+}
+```
 
 - Response
 
-  ```json
-
-  {
-    "took" : 5,
-    "timed_out" : false,
-    "_shards" : {
-      "total" : 1,
-      "successful" : 1,
-      "skipped" : 0,
-      "failed" : 0
+```json
+{
+  "took" : 5,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 3,
+      "relation" : "eq"
     },
-    "hits" : {
-      "total" : {
-        "value" : 3,
-        "relation" : "eq"
-      },
-      "max_score" : null,
-      "hits" : [ ]
-    },
-    "aggregations" : {
-      "average price" : {
-        "value" : 8433333.333333334
-      }
+    "max_score" : null,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "average price" : {
+      "value" : 8433333.333333334
     }
   }
-
-  ```
+}
+```
 
 #### Find all cars made by Ford and average price of only those cars sold in Jul 2020
 
 What elasticsearch query we can use to get this result:
 
-- Query DSL
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
-  ```json
-
-  GET /cars/_search
-  {
-    "size": 100,
-    "query": {
-      "match": {
-        "manufacturer": "Ford"
-      }
-    },
-    "aggs": {
-      "ju_2020_solded": {
-        "filter": {
-          "range": {
-            "sold_date": {
-              "gte": "2020-07-01",
-              "lte": "2020-07-31"
-            }
+```json
+GET /cars/_search
+{
+  "size": 100,
+  "query": {
+    "match": {
+      "manufacturer": "Ford"
+    }
+  },
+  "aggs": {
+    "ju_2020_solded": {
+      "filter": {
+        "range": {
+          "sold_date": {
+            "gte": "2020-07-01",
+            "lte": "2020-07-31"
           }
-        },
-        "aggs": {
-          "average price": {
-            "avg": {
-              "field": "price"
-            }
+        }
+      },
+      "aggs": {
+        "average price": {
+          "avg": {
+            "field": "price"
           }
         }
       }
     }
   }
+}
+```
 
-  ```
-
-- Response
+  <details><summary><i>Response</i></summary>
 
   ```json
-
   {
     "took" : 5,
     "timed_out" : false,
@@ -221,43 +216,45 @@ What elasticsearch query we can use to get this result:
       }
     }
   }
-
   ```
+
+  </details>
+
+</blockquote></details>
+
+---
 
 #### What is the total price of all cars sold in Jul 2020 ?
 
 What elasticsearch query we can use to get this result:
 
-- Query DSL
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
-  ```json
-
-  GET /cars/_search
-  {
-    "size": 0, 
-    "query": {
-      "range": {
-        "sold_date": {
-          "gte": "2020-07-01",
-          "lte": "2020-07-31"
-        }
+```json
+GET /cars/_search
+{
+  "size": 0, 
+  "query": {
+    "range": {
+      "sold_date": {
+        "gte": "2020-07-01",
+        "lte": "2020-07-31"
       }
-    },
-    "aggs": {
-      "total_price": {
-        "sum": {
-          "field": "price"
-        }
+    }
+  },
+  "aggs": {
+    "total_price": {
+      "sum": {
+        "field": "price"
       }
     }
   }
+}
+```
 
-  ```
-
-- Response
+  <details><summary><i>Response</i></summary>
 
   ```json
-
   {
     "took" : 2,
     "timed_out" : false,
@@ -281,43 +278,44 @@ What elasticsearch query we can use to get this result:
       }
     }
   }
-
   ```
 
+  </details>
+
+</blockquote></details>
+
+---
 
 #### Which are the most popular car manufacturers?
 
 What elasticsearch query we can use to get this result:
 
-- Query DSL
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
-  ```json
-
-  GET /cars/_search
-  {
-    "size": 0,
-    "query": {
-      "range": {
-        "sold_date": {
-          "from": "now-3y"
-        }
+```json
+GET /cars/_search
+{
+  "size": 0,
+  "query": {
+    "range": {
+      "sold_date": {
+        "from": "now-3y"
       }
-    },
-    "aggs": {
-      "group_by_make": {
-        "terms": {
-          "field": "manufacturer"
-        }
+    }
+  },
+  "aggs": {
+    "group_by_make": {
+      "terms": {
+        "field": "manufacturer"
       }
     }
   }
+}
+```
 
-  ```
-
-- Response
+  <details><summary><i>Response</i></summary>
 
   ```json
-
   {
     "took" : 2,
     "timed_out" : false,
@@ -360,45 +358,46 @@ What elasticsearch query we can use to get this result:
       }
     }
   }
-
   ```
 
+  </details>
+
+</blockquote></details>
+
+---
 
 ####  How much sales were made each month ?
 
 What elasticsearch query we can use to get this result:
 
-- Query DSL
+<details open><summary><i>Query DSL</i></summary><blockquote>
 
-  ```json
-
-  GET /cars/_search
-  {
-    "size": 0,
-    "aggs": {
-      "sales_over_time": {
-        "date_histogram": {
-          "field": "sold_date",
-          "calendar_interval": "month",
-          "format": "MM-yyyy"
-        },
-        "aggs": {
-          "monthly_sales": {
-            "sum": {
-              "field": "price"
-            }
+```json
+GET /cars/_search
+{
+  "size": 0,
+  "aggs": {
+    "sales_over_time": {
+      "date_histogram": {
+        "field": "sold_date",
+        "calendar_interval": "month",
+        "format": "MM-yyyy"
+      },
+      "aggs": {
+        "monthly_sales": {
+          "sum": {
+            "field": "price"
           }
         }
       }
     }
   }
+}
+```
 
-  ```
-
-- Response
+  <details><summary><i>Response</i></summary>
 
   ```json
-
   {
     "took" : 3,
     "timed_out" : false,
@@ -463,5 +462,10 @@ What elasticsearch query we can use to get this result:
       }
     }
   }
-
   ```
+
+  </details>
+
+</blockquote></details>
+
+---
