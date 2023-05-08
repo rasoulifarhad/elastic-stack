@@ -6,10 +6,15 @@ The enrich processor adds new data to incoming documents and requires a few spec
 
 ![enrich process](enrich-process.svg)
 
-#### Add docs
+#### Create source index
+
+Use the [create index API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html) or [index API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html) to create a source index.
+
+<details open><summary><i>Define index</i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
-
 POST _bulk?pretty
 {"index":{"_index":"companies","_id":"1"}}
 {"company_name":"Elastic EV","address":"800 West El Camino Real, Suite 350","city":"Mountain View, CA 94040","ticker_symbol":"ESTC","market_cap":"8B"}
@@ -31,14 +36,13 @@ PUT /stocks/_doc/2?pretty
   "ticker": "MDB",
   "last_trade": 365
 }
-
 ```
 
-<details>
-  <summary>cURL</summary>
-  
+</details>
+
+<details><summary><i>curl</i></summary>
+
 ```json
-  
 curl -XPOST "localhost:9200/_bulk?pretty" -H 'Content-Type: application/json' -d'
 {"index":{"_index":"companies","_id":"1"}}
 {"company_name":"Elastic EV","address":"800 West El Camino Real, Suite 350","city":"Mountain View, CA 94040","ticker_symbol":"ESTC","market_cap":"8B"}
@@ -60,14 +64,20 @@ curl -XPUT "localhost:9200/stocks/_doc/2?pretty" -H 'Content-Type: application/j
   "ticker": "MDB",
   "last_trade": 365
 }'
-
 ```
   
 </details>
 
-#### Addd enrichment policy
+</blockquote></details>
 
-***Use the create enrich policy API to create a enrich policy.***
+#### Create an enrich policy 
+
+***Use the [create enrich policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/put-enrich-policy-api.html) to create a enrich policy.***
+
+
+<details open><summary><i>define enrich policy</i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 PUT /_enrich/policy/add_company_data_policy?pretty
@@ -85,33 +95,11 @@ PUT /_enrich/policy/add_company_data_policy?pretty
 }
 ```
 
-***Use the execute enrich policy API to create the enrich index for an existing enrich policy.****
+</details>
 
-> ***Note:***
->> Once created, you cannot update or index documents to an enrich index. Instead, update your source indices and execute the enrich policy again. 
-
->> Use the delete enrich policy API to delete an existing enrich policy and its enrich index.
+<details><summary><i>curl</i></summary>
 
 ```json
-PUT /_enrich/policy/add_company_data_policy/_execute?pretty
-```
-
-> The enrich index contains documents from the policy’s source indices. Enrich indices always begin with .enrich-*, are read-only, and are force merged.
-
-```json
-GET /.enrich-add_company_data_policy?pretty
-
-```
-
-> ***Enrich stats API***
-
->> `GET /_enrich/_stats`
-
-
-<details><summary>cURL</summary>
-  
-```json
-  
 curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy?pretty" -H 'Content-Type: application/json' -d'
 {
   "match": {
@@ -125,19 +113,93 @@ curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy?pretty" -H 'Co
     ]
   }
 }'
-
-curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
-
-curl -XGET "localhost:9200/.enrich-add_company_data_policy?pretty"
-
 ```
 
 </details>
 
-#### Add a pipeline that uses the enrichment policy
+</blockquote></details>
+
+
+#### Execute enrich policy 
+
+***Use the [execute enrich policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/execute-enrich-policy-api.html) to create the enrich index for the policy.***
+
+> ***Note:***
+>> Once created, you cannot update or index documents to an enrich index. Instead, update your source indices and execute the enrich policy again. 
+
+>> Use the delete enrich policy API to delete an existing enrich policy and its enrich index.
+
+<details open><summary><i>execute enrich policy</i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
+PUT /_enrich/policy/add_company_data_policy/_execute?pretty
+```
 
+</details>
+
+<details><summary><i>curl</i></summary>
+
+```json
+curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
+```
+
+</details>
+
+</blockquote></details>
+
+#### Chech enrich index
+
+***The enrich index contains documents from the policy’s source indices. Enrich indices always begin with .enrich-*, are read-only, and are force merged.***
+
+<details open><summary><i>enrich index</i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
+
+```json
+GET /.enrich-add_company_data_policy?pretty
+```
+
+</details>
+
+<details><summary><i>curl</i></summary>
+
+```json
+curl -XGET "localhost:9200/.enrich-add_company_data_policy?pretty"
+```
+
+</details>
+
+</blockquote></details>
+
+#### Enrich stats API
+
+> `GET /_enrich/_stats`
+
+
+#### Add a pipeline that uses the enrichment policy
+
+***Use the create or update pipeline API to create an ingest pipeline.***
+
+<details><summary><i>Recap</i></summary><blockquote>
+
+> ***In the pipeline, add an enrich processor that includes:***
+
+>> Your enrich policy.  
+
+>> The field of incoming documents used to match documents from the enrich index.  
+
+>> The target_field used to store appended enrich data for incoming documents. This field contains the match_field and enrich_fields specified in your enrich policy.  
+
+</blockquote></details>
+
+
+<details open><summary><i>define pipeline</i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
+
+```json
 PUT /_ingest/pipeline/enrich_stock_data?pretty
 {
   "processors": [
@@ -156,14 +218,13 @@ PUT /_ingest/pipeline/enrich_stock_data?pretty
     }
   ]
 }
-
 ```
 
-<details>
-  <summary>cURL</summary>
-  
-```json
+</details>
 
+<details><summary><i>curl</i></summary>
+
+```json
 curl -XPUT "localhost:9200/_ingest/pipeline/enrich_stock_data?pretty" -H 'Content-Type: application/json' -d'
 {
   "processors": [
@@ -182,15 +243,21 @@ curl -XPUT "localhost:9200/_ingest/pipeline/enrich_stock_data?pretty" -H 'Conten
     }
   ]
 }'
-
 ```
 
 </details>
 
+</blockquote></details>
+
 #### Enrich existing documents
 
-```json
+***Use reindex API with pipeline to index enriched data into another index .***
 
+<details open><summary><i>enrich</i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
+
+```json
 POST /_reindex?pretty
 {
   "source": {
@@ -203,15 +270,13 @@ POST /_reindex?pretty
 }
 
 GET /full_stock_data/_search?pretty
-
-
 ```
 
-<details>
-  <summary>cURL</summary>
+</details>
+
+<details><summary><i>curl</i></summary>
 
 ```json
-
 curl -XPOST "localhost:9200/_reindex?pretty" -H 'Content-Type: application/json' -d'
 {
   "source": {
@@ -224,15 +289,24 @@ curl -XPOST "localhost:9200/_reindex?pretty" -H 'Content-Type: application/json'
 }'
 
 curl -XGET "localhost:9200/full_stock_data/_search?pretty"
-
 ```
 
 </details>
 
+</blockquote></details>
+
 #### Enrich incoming data
 
-```json
+***Use the ingest pipeline to index a document.***
 
+> The incoming document should include the field specified in your enrich processor.
+
+
+<details open><summary><i>enrich</i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
+
+```json
 PUT /full_stock_data/_doc/3?pretty&pipeline=enrich_stock_data
 {
   "ticker": "SPLK",
@@ -286,14 +360,13 @@ GET /full_stock_data/_doc/4?pretty
     }
   }
 }
-
 ```
 
-<details>
-  <summary>cURL</summary>
+</details>
+
+<details><summary><i>curl</i></summary>
 
 ```json
-
 curl -XPUT "localhost:9200/full_stock_data/_doc/3?pretty&pipeline=enrich_stock_data" -H 'Content-Type: application/json' -d'
 {
   "ticker": "SPLK",
@@ -347,15 +420,20 @@ curl -XGET "localhost:9200/full_stock_data/_doc/4?pretty"
     }
   }
 }
-
 ```
 
 </details>
 
+</blockquote></details>
+
 #### Fix documents that could not be enriched by the last run
 
-```json
 
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
+
+```json
 PUT /_enrich/policy/add_company_data_policy/_execute?pretty
 
 GET /.enrich-add_company_data_policy?pretty
@@ -374,14 +452,13 @@ POST full_stock_data/_update_by_query?pretty
     }
   }
 }
-
 ```
 
-<details>
-  <summary>cURL</summary>
+</details>
+
+<details><summary><i>curl</i></summary>
 
 ```json
-
 curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?pretty"
 
 curl -XGET "localhost:9200/.enrich-add_company_data_policy?pretty"
@@ -400,15 +477,20 @@ curl -XPOST "localhost:9200/full_stock_data/_update_by_query?pretty" -H 'Content
     }
   }
 }'
-
 ```
 
 </details>
 
+</blockquote></details>
+
+
 #### Final
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+<details open><summary><i>dev tools</i></summary>
+
+```json
 GET _cat/indices/.enrich-add_company_data_policy*,companies,full_stock_data?s=i&v&h=idx,storeSize&pretty
 
 DELETE /companies?pretty
@@ -416,15 +498,13 @@ DELETE /companies?pretty
 DELETE /stocks?pretty
 
 DELETE /full_stock_data?pretty
-
-
 ```
 
-<details>
-  <summary>cURL</summary>
+</details>
+
+<details><summary><i>curl</i></summary>
 
 ```json
-
 curl -XGET "localhost:9200/_cat/indices/.enrich-add_company_data_policy*,companies,full_stock_data?s=i&v&h=idx,storeSize&pretty"
 
 curl -XDELETE "localhost:9200/companies?pretty"
@@ -432,8 +512,10 @@ curl -XDELETE "localhost:9200/companies?pretty"
 curl -XDELETE "localhost:9200/stocks?pretty"
 
 curl -XDELETE "localhost:9200/full_stock_data?pretty"
-
-
 ```
 
 </details>
+
+</blockquote></details>
+
+
