@@ -434,6 +434,9 @@ yellow open   name_keyword_idx XIFC4-UERpuuHa39HNTUQg   1   1         20        
 
 #### Comparing the storage size between the indices with _disk_usage
 
+> Analyzes the disk usage of each field of an index or data stream. 
+> 
+
 <details open><summary><i>Analyze index disk usage API</i></summary><blockquote>
 
 ```json
