@@ -138,7 +138,6 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 ***2.*** Search for books with the words “in Action” in the title field:
 
-
 <details open><summary><i></i></summary><blockquote>
 
 <details open><summary><i>dev tools</i></summary>
