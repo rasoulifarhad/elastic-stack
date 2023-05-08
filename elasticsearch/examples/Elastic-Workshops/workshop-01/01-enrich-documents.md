@@ -160,7 +160,9 @@ curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?prett
 
 #### Chech enrich index
 
-***The enrich index contains documents from the policy’s source indices. Enrich indices always begin with .enrich-*, are read-only, and are force merged.***
+> The enrich index contains documents from the policy’s `source indices`.  
+
+> Enrich indices begin with `.enrich-*`, are `read-only`, and are `force merged`.  
 
 <details open><summary><i>enrich index</i></summary><blockquote>
 
@@ -308,7 +310,7 @@ curl -XGET "localhost:9200/full_stock_data/_search?pretty"
 
 ***Use the ingest pipeline to index a document.***
 
-> The incoming document should include the field specified in your enrich processor.
+> The incoming document should include ***the field specified in your enrich processor***.
 
 
 <details open><summary><i>enrich</i></summary><blockquote>
