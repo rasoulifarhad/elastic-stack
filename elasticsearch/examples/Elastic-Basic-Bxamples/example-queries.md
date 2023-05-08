@@ -694,7 +694,7 @@ Result:
 
 The query_string query provides a means of executing multi_match queries, bool queries, boosting, fuzzy matching, wildcards, regexp, and range queries in a concise shorthand syntax.
 
-10. Search for the terms “search algorithm” in which one of the book authors is “grant ingersoll” or “tom morton.” apply a boost of 2 to the summary field.
+***10. Search for the terms “search algorithm” in which one of the book authors is “grant ingersoll” or “tom morton.” apply a boost of 2 to the summary field.***
 
 
 ```json
@@ -780,7 +780,7 @@ Result:
 
 The simple_query_string query is a version of the query_string query that is more suitable for use in a single search box that is exposed to users because it replaces the use of AND/OR/NOT with +/|/-, respectively, and it discards invalid parts of a query instead of throwing an exception if a user makes a mistake.
 
-11. 
+***11. Simple Query String***
 
 
 ```json
@@ -864,7 +864,7 @@ Result:
 
 ##### Term/Terms Query
 
-12. Search for all books in our index published by Manning Publications.
+***12. Search for all books in our index published by Manning Publications.***
 
 
 ```json
@@ -951,7 +951,7 @@ Result:
 }
 ```
 
-13. Search for all books in our index published by oreilly or packt Publications.
+***13. Search for all books in our index published by oreilly or packt Publications.***
 
 
 ```json
@@ -1014,7 +1014,7 @@ Result:
 
 ##### Term Query - Sorted
 
-14. Search for all books in our index published by Manning Publications and sort with publish date.
+***14. Search for all books in our index published by Manning Publications and sort with publish date.***
 
 
 ```json
@@ -1122,7 +1122,7 @@ Result:
 
 ##### Range Query
 
-15. Search for books published in 2015.
+***15. Search for books published in 2015.***
 
 
 ```json
@@ -1202,7 +1202,7 @@ Result:
 
 ##### Bool Query
 
-16. Search for books with the term “Elasticsearch” in the title or summary but we want to filter our results to only those with 20 or more reviews.
+***16. Search for books with the term “Elasticsearch” in the title or summary but we want to filter our results to only those with 20 or more reviews.***
 
 
 ```json
@@ -1296,7 +1296,7 @@ Result:
 }
 ```
 
-17. Search for books that have at least 20 reviews, must not be published before 2015 and should be published by O'Reilly.
+***17. Search for books that have at least 20 reviews, must not be published before 2015 and should be published by O'Reilly.***
 
 
 ```json
