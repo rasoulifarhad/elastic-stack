@@ -363,9 +363,7 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
 }
 ```
 
-<details><summary><i>Test</i></summary><blockquote>
-
-<details open><summary><i>Test</i></summary>
+<details><summary><i>Test pipeline</i></summary>
 
 ```json
 POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
@@ -388,14 +386,9 @@ POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
     }
   ]
 }
-```
 
-</details>
+Error:
 
-
-<details open><summary><i>Test Error:</i></summary>
-
-```json
 {
   "docs" : [
     {
@@ -421,7 +414,7 @@ POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 
 <details><summary><i>curl:</i></summary>
 
-<details open><summary><i>Pipeline</i></summary>
+<details open><summary><i>Pipeline</i></summary><blockquote>
 
 ```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
@@ -453,8 +446,6 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
 }'
 ```
 
-<details>
-
 <details><summary><i>Test</i></summary><blockquote>
 
 <details open><summary><i>Test</i></summary>
@@ -480,14 +471,9 @@ curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulat
     }
   ]
 }'
-```
 
-</details>
+Error: 
 
-
-<details><summary><i>Test Error:</i></summary>
-
-```json
 {
   "docs" : [
     {
