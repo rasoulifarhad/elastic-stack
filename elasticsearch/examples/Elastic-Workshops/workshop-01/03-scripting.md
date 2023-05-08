@@ -244,7 +244,7 @@ curl -XGET "http://singleElasticsearch:9200/persons/_search?pretty" -H 'Content-
 
 #### Storing Scripts
 
-We can store the script in a pipeline with a script processor:
+> We can store the script in a pipeline with a `script processor`:
 
 ```json
 PUT _ingest/pipeline/calc_age_pipeline?pretty
@@ -284,16 +284,20 @@ curl -XPUT "http://singleElasticsearch:9200/_ingest/pipeline/calc_age_pipeline?p
 
 </details>
 
-In pipelines you address now the fields not anymore over the “doc-map”, but over “ctx-map”. The painless contexts and their different variables and ways to access data can be confusing.
+> In pipelines you address the fields over `ctx-map`.  
 
-Note:
-- if your script is used in a pipeline, request the field-values with “ctx[field-name]”
-- if your script is used in an _update or _update_by_query API, request field-values by “ctx._source[field-name]”
-- if your script is used in the _search API with a query or runtime-mapping statement, request the field-values by doc[field-name].value
-- parameters can ingested by dot-notion, for example params.today, or by bracket-notion like params[‘today’].
-- Params in a stored script cannot be accessed over params.xxx or params[xxx]. Pass them when you call the script as you see it in the example for calling scripts by the APIs.
+***Note:***
+> if your script is used in a ***pipeline***, request the field-values with `ctx[field-name]`  
 
-You can store the script under the “calc_age_script” in the cluster state and call it later by its ID:
+> if your script is used in an `_update` or `_update_by_query` API, request field-values by `ctx._source[field-name]`  
+
+> if your script is used in the `_search` API with a `query` or `runtime-mapping` statement, request the field-values by `doc[field-name].value`  
+
+> parameters can ingested by ***dot-notion***, for example `params.today`, or by `bracket-notion` like `params[‘today’]`.  
+
+> Params in a ***stored script*** cannot be accessed over `params.xxx` or `params[xxx]`. Pass them when you call the script.  
+
+You can store the script under the `calc_age_script` in the cluster state and call it later ***by its ID***:
 
 ```json
 PUT _scripts/calc_age_script?pretty
@@ -321,9 +325,9 @@ curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_script?pretty" -H 
 
 </details>
 
-#### Calling scripts with the update_by_query API
+#### Calling scripts with the `update_by_query` API
 
-The document fields are now called by “ctx._source[field-name]”. 
+> The document fields are now called by `ctx._source[field-name]`.  
 
 ```json
 POST persons/_update_by_query?pretty
@@ -340,8 +344,7 @@ POST persons/_update_by_query?pretty
 }
 ```
 
-<details>
-   <summary>cURL</summary>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://singleElasticsearch:9200/persons/_update_by_query?pretty" -H 'Content-Type: application/json' -d'
@@ -374,8 +377,7 @@ POST persons/_update/1?pretty
 }
 ```
 
-<details>
-   <summary>cURL</summary>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://singleElasticsearch:9200/persons/_update/1?pretty" -H 'Content-Type: application/json' -d'
@@ -409,11 +411,17 @@ POST _reindex?pretty
     }
   }
 }
+```
 
+<details open><summary><i>check index</i></summary><blockquote>
+
+```json
 GET persons_with_age/_search?pretty
+```
 
-Response:
+<details><summary><i>curl:</i></summary>
 
+```json
 {
   "took" : 0,
   "timed_out" : false,
@@ -447,8 +455,11 @@ Response:
 }
 ```
 
-<details>
-   <summary>cURL</summary>
+</details>
+
+</blockquote></details>
+
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://singleElasticsearch:9200/_reindex?pretty" -H 'Content-Type: application/json' -d'
@@ -504,9 +515,9 @@ curl -XGET "http://singleElasticsearch:9200/persons_with_age/_search?pretty"
 
 </details>
 
-#### Calling scripts with the _search API
+#### Calling scripts with the `_search` API
 
-To get the script working we need to update the script and the variables. We need the “doc-map” and the “.value” method to access the values:
+> To get the script working we need to update the script and the variables. We need the `doc-map` and the `.value` method to access the values:  
 
 ```json
 PUT _scripts/calc_age_script?pretty
@@ -518,7 +529,11 @@ PUT _scripts/calc_age_script?pretty
     """
   }
 }
+```
 
+<details open><summary><i>use script</i></summary><blockquote>
+
+```json
 GET /persons/_search?pretty
 {
   "script_fields": {
@@ -532,9 +547,11 @@ GET /persons/_search?pretty
     }
   }
 }
+```
 
-Response:
+<details><summary><i>curl:</i></summary>
 
+```json
 {
   "took" : 4,
   "timed_out" : false,
@@ -567,8 +584,11 @@ Response:
 }
 ```
 
-<details>
-   <summary>cURL</summary>
+</details>
+
+</blockquote></details>
+
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_script?pretty" -H 'Content-Type: application/json' -d'
@@ -629,9 +649,9 @@ Response:
 
 </details>
 
-#### Calling scripts with a search-template
+#### Calling scripts with a `search-template`
 
-Stored scripts are not supported for runtime mappings. Therefore, the script has to be stored inline. However, we can use search templates. Search templates are scripts, but written in “mustache”.
+Stored scripts are not supported for runtime mappings. Therefore, the script has to be stored inline. However, we can use search templates. Search templates are scripts, but written in `mustache`.
 
 The request’s source supports the same parameters as the search API's request body. source also supports Mustache variables, typically enclosed in double curly brackets: {{my-var}}. When you run a templated search, Elasticsearch replaces these variables with values from params.
 
@@ -661,8 +681,11 @@ PUT _scripts/calc_age_template
     "act_year": "today"
   }
 }
+```
 
-# Validate a search templateedit
+<details open><summary><i>Validate a search template</i></summary><blockquote>
+
+```json
 POST _render/template?pretty
 {
   "id": "calc_age_template",
@@ -670,9 +693,11 @@ POST _render/template?pretty
     "act_year": 2022
   }
 }
+```
 
-Result:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "template_output" : {
     "runtime_mappings" : {
@@ -691,7 +716,16 @@ Result:
     ]
   }
 }
+```
 
+</details>
+
+</blockquote></details>
+
+
+<details open><summary><i>Search template</i></summary><blockquote>
+
+```json
 GET persons/_search/template
 {
   "source": "fields",
@@ -700,9 +734,11 @@ GET persons/_search/template
     "act_year": 2022
   }
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 5,
   "timed_out" : false,
@@ -741,8 +777,11 @@ Response:
 }
 ```
 
-<details>
-   <summary>cURL</summary>
+</details>
+
+</blockquote></details>
+
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_template" -H 'Content-Type: application/json' -d'
@@ -851,6 +890,10 @@ Response:
 
 #### Context
 
+> A context provides variables and fields, classes and methods, and what kind of values can be returned.  
+
+<details><summary><i>Recap:</i></summary>
+
 A context provides variables and fields, classes and methods, and what kind of values can be returned. So to speak: your script may run perfectly in a pipeline, but it fails in a runtime field. And even worse; your stored script works flawlessly in your pipeline, but if you use it for an update, it fails.
 
 To make it short: a context provides and sets the boundaries in which your script will operate.
@@ -864,9 +907,10 @@ examples:
 - runtime fields
 - fields
 
-##### the challenge
+</details>
 
-To show you how to handle the different contexts, we will solve the same challenge in all the contexts. This is our data:
+##### Solve the same challenge in all the contexts
+
 
 ```json
 PUT companies/_doc/1?pretty
@@ -877,8 +921,7 @@ PUT companies/_doc/1?pretty
 }
 ```
 
-<details>
-   <summary>cURL</summary>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPUT "http://singleElasticsearch:9200/companies/_doc/1?pretty" -H 'Content-Type: application/json' -d'
@@ -893,7 +936,7 @@ curl -XPUT "http://singleElasticsearch:9200/companies/_doc/1?pretty" -H 'Content
 
 ##### ingest-processor-context
 
-Pipelines can access the source of a document direct via the “ctx-map” variable and by “dot-notion”:
+> ***Pipelines*** can access the source of a document direct via the `ctx-map` variable and by `dot-notion`:  
 
 ```json
 PUT _ingest/pipeline/calc_outstanding_pipeline?pretty
@@ -1005,18 +1048,18 @@ Result:
 
 </details>
 
-The fields can also be addressed with “ctx[field-name]”, called the “bracket-notion”:
+> ***The fields can also be addressed with `ctx[field-name]`, called the `bracket-notion`:***  
 
 ```markdown
 double outstanding = ctx['market_cap'] / ctx['share_price'];
 ctx['outstanding'] = (long)outstanding
 ```
 
-The **“bracket-notion”** allows greater flexibility. Fields like ctx[‘a b’] are possible, while the **“dot-notion”** prevents a call like “ctx.a b”. To be safe, use the “dot-notion” as much as possible.
+The **`bracket-notion`** allows greater flexibility. Fields like ctx[‘a b’] are possible, while the **`dot-notion`** prevents a call like `ctx.a b`. To be safe, use the `dot-notion` as much as possible.
 
-##### update- and update_by_query-contex
+##### `update-` and `update_by_query-`contex
 
-The update-, update_by_query- and the reindex-contexts use the map “ctx._source” to access the document fields:
+> ***The `update-`, `update_by_query-` and the `reindex-contexts` use the map `ctx._source` to access the document fields:***  
 
 ```json
 DELETE companies/_doc/1?pretty
@@ -1102,11 +1145,11 @@ Result:
 
 </details>
 
-The update-context also provides the variable **“ctx.now”** with the current timestamp. update_by_query and reindex do not provide this variable.
+> ***The `update-context` also provides the variable `ctx.now` with the current timestamp. `update_by_query` and `reindex` do not provide this variable.***
 
-The update-, update_by_query- and the reindex-contexts are providing the special variable “op”. Which lets you delete the document if needed:
+> ***The `update-`, `update_by_query-` and the `reindex-contexts` are providing the special variable `op`. Which lets you delete the document if needed:*** 
 
-```
+```json
 "script" : {
   "source": """
   ctx.op = 'delete'      
@@ -1116,7 +1159,7 @@ The update-, update_by_query- and the reindex-contexts are providing the special
 
 ##### reindex-context
 
-The reindex-context does not provide any further variables or methods other than the update or update_by_query does. Here is just an example for a script that accesses the “ctx._source”-map by the “dot-notion”:
+> ***The `reindex-context` does not provide any further variables or methods other than the `update` or `update_by_query` does. Here is just an example for a script that accesses the `ctx._source`-map by the `dot-notion`:***  
 
 ```json
 POST _reindex?pretty
@@ -1200,7 +1243,7 @@ Result:
 
 ##### runetime_field-context
 
-The runtime_field-context uses “doc-map” for accessing document fields. This map is read-only.
+> ***The `runtime_field-context` uses `doc-map` for accessing document fields. This map is read-only.***  
 
 ```json
 GET companies/_search
@@ -1268,8 +1311,7 @@ Result:
 }
 ```
 
-<details>
-   <summary>cURL</summary>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XGET "http://singleElasticsearch:9200/companies/_search" -H 'Content-Type: application/json' -d'
@@ -1339,11 +1381,11 @@ Result:
 
 </details>
 
-The runtime_field-context is the only one that uses the emit-method for returning results. emit can’t return null-values and at least one object must be returned, therefore test the values before you emit them.
+> ***The `runtime_field-context` is the only one that uses the `emit`-method for returning results. `emit` can’t return `null-values` and at least one object must be returned, therefore test the values before you emit them.***  
 
 ##### fields-context
 
-Scripted fields are very similar to the runtime-field context. However, grok and dissect patterns are not available – runtime_fields do provide these methods.
+> ***`Scripted fields` are very similar to the `runtime-field` context. However, __grok__ and __dissect__ patterns are not available – `runtime_fields` do provide these methods.***  
 
 ```json
 GET companies/_search
