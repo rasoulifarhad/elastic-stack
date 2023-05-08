@@ -3,7 +3,8 @@
 ##### Create an index
 
 1. Create a new index and index some documents using the [bulk API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html):
-```markdown
+
+```json
 PUT /book
 { 
   "settings": { "number_of_shards": 1 }
@@ -15,7 +16,8 @@ curl -XPUT "http://localhost:9200/book?pretty" -H 'Content-Type: application/jso
 }'
 ```
 
-```markdown
+
+```json
 POST /book/_bulk
 {"index":{"_id":1}}
 {"title":"Elasticsearch: The Definitive Guide","authors":["clinton gormley","zachary tong"],"summary":"A distibuted real-time search and analytics engine","publish_date":"2015-02-07","num_reviews":20,"publisher":"oreilly"}
@@ -41,12 +43,14 @@ curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: applicat
 
 2. Basic match query(searches for the string “guide” in all the fields)
 
-```markdown
+
+```json
 GET /book/_search?q=guide
 
 curl -XGET "http://localhost:9200/book/_search?q=guide"
 ```
-```markdown
+
+```json
 GET /book/_search
 {
   "query": {
@@ -70,12 +74,14 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 2. Search for books with the words “in Action” in the title field:
 
-```markdown
+
+```json
 GET /book/_search?q=title:in action
 
 curl -XGET "http://localhost:9200/book/_search?q=title:in action"
 ```
-```markdown
+
+```json
 GET /book/_search
 {
   "query": {
@@ -104,7 +110,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 3. Boosting
 
-```markdown
+
+```json
 GET /book/_search
 {
   "query": {
@@ -131,7 +138,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 4. Search for a book with the word “Elasticsearch” OR “Solr” in the title, AND is authored by “clinton gormley” but NOT authored by “radu gheorge”
 
-```markdown
+
+```json
 GET /book/_search
 {
   "query": {
@@ -213,7 +221,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 }'
 ```
 
-```markdown
+
+```json
 # simplified version
 GET /book/_search
 {
@@ -255,7 +264,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors. 
 
-```markdown
+
+```json
 POST /book/_search
 {
   "query": {
@@ -314,7 +324,8 @@ Wildcard queries allow you to specify a pattern to match instead of the entire t
 
 6. find all records that have an author whose name begins with the letter ‘t’:
 
-```markdown
+
+```json
 POST /book/_search
 {
   "query": {
@@ -351,7 +362,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 ```
 Result:
 
-```markdown
+
+```json
 {
   "took" : 6,
   "timed_out" : false,
@@ -433,7 +445,8 @@ Result:
 
 7. 
 
-```markdown
+
+```json
 POST /book/_search
 {
   "query": {
@@ -467,7 +480,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 2,
   "timed_out" : false,
@@ -514,7 +528,8 @@ The match phrase query requires that all the terms in the query string be presen
 
 8. 
 
-```markdown
+
+```json
 POST /book/_search
 {
   "query": {
@@ -544,7 +559,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 8,
   "timed_out" : false,
@@ -594,7 +610,8 @@ Match phrase prefix queries provide search-as-you-type or a poor man’s version
 
 9. 
 
-```markdown
+
+```json
 POST /book/_search
 {
   "query": {
@@ -626,7 +643,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 3,
   "timed_out" : false,
@@ -678,7 +696,8 @@ The query_string query provides a means of executing multi_match queries, bool q
 
 10. Search for the terms “search algorithm” in which one of the book authors is “grant ingersoll” or “tom morton.” apply a boost of 2 to the summary field.
 
-```markdown
+
+```json
 POST /book/_search
 {
   "query": {
@@ -714,7 +733,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 13,
   "timed_out" : false,
@@ -762,7 +782,8 @@ The simple_query_string query is a version of the query_string query that is mor
 
 11. 
 
-```markdown
+
+```json
 POST /book/_search
 {
   "query": {
@@ -798,7 +819,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 5,
   "timed_out" : false,
@@ -844,7 +866,8 @@ Result:
 
 12. Search for all books in our index published by Manning Publications.
 
-```markdown
+
+```json
 POST /book/_search
 {
   "query": {
@@ -872,7 +895,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 1,
   "timed_out" : false,
@@ -929,7 +953,8 @@ Result:
 
 13. Search for all books in our index published by oreilly or packt Publications.
 
-```markdown
+
+```json
 POST /book/_search?pretty
 {
   "query": {
@@ -953,7 +978,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 1,
   "timed_out" : false,
@@ -990,7 +1016,8 @@ Result:
 
 14. Search for all books in our index published by Manning Publications and sort with publish date.
 
-```markdown
+
+```json
 POST /book/_search?pretty
 {
   "query": {
@@ -1028,7 +1055,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 1,
   "timed_out" : false,
@@ -1096,7 +1124,8 @@ Result:
 
 15. Search for books published in 2015.
 
-```markdown
+
+```json
 POST /book/_search?pretty
 {
   "query": {
@@ -1126,7 +1155,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 0,
   "timed_out" : false,
@@ -1174,7 +1204,8 @@ Result:
 
 16. Search for books with the term “Elasticsearch” in the title or summary but we want to filter our results to only those with 20 or more reviews.
 
-```markdown
+
+```json
 POST /book/_search?pretty
 {
   "query": {
@@ -1230,7 +1261,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 1,
   "timed_out" : false,
@@ -1266,7 +1298,8 @@ Result:
 
 17. Search for books that have at least 20 reviews, must not be published before 2015 and should be published by O'Reilly.
 
-```markdown
+
+```json
 POST /book/_search?pretty
 {
   "query": {
@@ -1340,7 +1373,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 Result:
 
-```markdown
+
+```json
 {
   "took" : 1,
   "timed_out" : false,
