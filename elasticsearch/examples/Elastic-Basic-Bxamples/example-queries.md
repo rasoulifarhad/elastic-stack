@@ -410,7 +410,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 ***Fuzzy Queries***
 
-***5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors. ***
+***5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors.***
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -484,11 +484,14 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 ---
 
 
-**Note:** Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match.
+**Note:** 
+> Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match.
+> 
 
 ***Wildcard Query***
 
-Wildcard queries allow you to specify a pattern to match instead of the entire term. ? matches any character and * matches zero or more characters.
+> Wildcard queries allow you to specify a pattern to match instead of the entire term. ? matches any character and * matches zero or more characters.
+>
 
 ***6. find all records that have an author whose name begins with the letter ‘t’:***
 
@@ -727,7 +730,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 ***Match Phrase Query***
 
-The match phrase query requires that all the terms in the query string be present in the document, be in the order specified in the query string and be close to each other. By default, the terms are required to be exactly beside each other but you can specify the slop value which indicates how far apart terms are allowed to be while still considering the document a match.
+> The match phrase query requires that all the terms in the query string be present in the document, be in the order specified in the query string and be close to each other. By default, the terms are required to be exactly beside each other but you can specify the slop value which indicates how far apart terms are allowed to be while still considering the document a match.
+> 
 
 ***8. Match Phrase Query***
 
@@ -826,7 +830,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 ***Match Phrase Prefix***
 
-Match phrase prefix queries provide search-as-you-type or a poor man’s version of autocomplete at query time without needing to prepare your data in any way. Like the match_phrase query, it accepts a slop parameter to make the word order and relative positions somewhat less rigid. It also accepts the max_expansions parameter to limit the number of terms matched in order to reduce resource intensity.
+> Match phrase prefix queries provide search-as-you-type or a poor man’s version of autocomplete at query time without needing to prepare your data in any way. Like the match_phrase query, it accepts a slop parameter to make the word order and relative positions somewhat less rigid. It also accepts the max_expansions parameter to limit the number of terms matched in order to reduce resource intensity.
+> 
 
 ***9. Match Phrase Prefix***
 
@@ -925,11 +930,14 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 ---
 
-**Note:** Using the match phrase prefix query for search autocompletion
+**Note:**
+> Using the match phrase prefix query for search autocompletion
+> 
 
 ***Query String***
 
-The query_string query provides a means of executing multi_match queries, bool queries, boosting, fuzzy matching, wildcards, regexp, and range queries in a concise shorthand syntax.
+> The query_string query provides a means of executing multi_match queries, bool queries, boosting, fuzzy matching, wildcards, regexp, and range queries in a concise shorthand syntax.
+> 
 
 ***10. Search for the terms “search algorithm” in which one of the book authors is “grant ingersoll” or “tom morton.” apply a boost of 2 to the summary field.***
 
@@ -1032,7 +1040,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 ***Simple Query String***
 
-The simple_query_string query is a version of the query_string query that is more suitable for use in a single search box that is exposed to users because it replaces the use of AND/OR/NOT with +/|/-, respectively, and it discards invalid parts of a query instead of throwing an exception if a user makes a mistake.
+> The simple_query_string query is a version of the query_string query that is more suitable for use in a single search box that is exposed to users because it replaces the use of AND/OR/NOT with +/|/-, respectively, and it discards invalid parts of a query instead of throwing an exception if a user makes a mistake.
+> 
 
 ***11. Simple Query String***
 
