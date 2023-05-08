@@ -36,10 +36,12 @@ From [Ingest Pipelines](https://cdax.ch/2022/01/30/elastic-workshop-2-ingest-pip
 
 </blockquote></details>
 
+---
+
 #### Create a pipeline with a set processor
 
-```json
 
+```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -81,14 +83,12 @@ GET /companies/_doc/1?pretty
     "city_array" : "Mountain View, Ca 94040"
   }
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
   
 ```json
-
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -130,7 +130,6 @@ curl -XGET "localhost:9200/companies/_doc/1?pretty"
     "city_array" : "Mountain View, Ca 94040"
   }
 }
-
 ```
 
 </details>
@@ -138,7 +137,6 @@ curl -XGET "localhost:9200/companies/_doc/1?pretty"
 #### Split processor
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -156,14 +154,12 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
   
 ```json
-
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -189,7 +185,6 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
 #### Run _update_by_query
 
 ```json
-
 POST companies/_update_by_query?pretty&pipeline=split-city-string-to-array
 {
   "query": {
@@ -235,14 +230,12 @@ GET /companies/_search?pretty
     ]
   }
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
 
 ```json
-
 curl -XPOST "localhost:9200/companies/_update_by_query?pretty&pipeline=split-city-string-to-array" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -288,7 +281,6 @@ curl -XGET "localhost:9200/companies/_search?pretty"
     ]
   }
 }
-
 ```
 
 </details>
@@ -296,7 +288,6 @@ curl -XGET "localhost:9200/companies/_search?pretty"
 #### Remove leading spaces with gsub processor
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -372,7 +363,6 @@ Error:
   <summary>cURL</summary>
 
 ```json
-
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -440,7 +430,6 @@ Error:
     }
   ]
 }
-
 ```
 
 </details>
@@ -448,7 +437,6 @@ Error:
 #### Setting conditions in processors
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -527,14 +515,12 @@ Result:
     }
   ]
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
 
 ```json
-
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -613,7 +599,6 @@ Result:
     }
   ]
 }
-
 ```
 
 </details>
@@ -621,7 +606,6 @@ Result:
 #### Handling pipeline failures
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -651,14 +635,12 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -688,7 +670,6 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
-
 ```
 
 </details>
@@ -696,7 +677,6 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
 #### The script processor
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -789,14 +769,12 @@ Result:
     }
   ]
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
 
 ```json
-
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -889,7 +867,6 @@ Result:
     }
   ]
 }
-
 ```
 
 </details>
@@ -898,7 +875,6 @@ Result:
 
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -994,7 +970,6 @@ Result:
     }
   ]
 }
-
 ```
 
 <details>
@@ -1105,7 +1080,6 @@ Result:
 #### The convert processor
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -1205,7 +1179,6 @@ Result:
     }
   ]
 }
-
 ```
 
 <details>
@@ -1315,7 +1288,6 @@ Result:
 #### The remove processor
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -1413,14 +1385,12 @@ Result:
     }
   ]
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
   
   ```json
-
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -1521,7 +1491,6 @@ Result:
 #### The rename processor
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -1623,14 +1592,12 @@ Result:
     }
   ]
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
   
   ```json
-
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -1735,7 +1702,6 @@ Result:
 #### The full pipeline
 
 ```json
-
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
   "description": "Changes incoming company data",
@@ -1789,14 +1755,12 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
   
   ```json
-
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -1853,7 +1817,6 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
 #### The result
 
 ```json
-
 POST /companies/_update_by_query?pretty&pipeline=split-city-string-to-array
 
 GET /companies/_doc/1?pretty
@@ -1878,14 +1841,12 @@ Result:
     "state" : "CA"
   }
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
 
 ```json
-
 curl -XPOST "http://singleElasticsearch:9200/companies/_update_by_query?pretty&pipeline=split-city-string-to-array"
 
 curl -XGET "http://singleElasticsearch:9200/companies/_doc/1?pretty"
@@ -1910,7 +1871,6 @@ Result:
     "state" : "CA"
   }
 }
-
 ```
 
 </details>
@@ -1920,19 +1880,16 @@ Result:
 Instead of defining the pipeline, every time we ingest data, the pipeline can be set as a default per index:
 
 ```json
-
 PUT companies/_settings
 {
   "index.default_pipeline": "split-city-string-to-array"
 }
-
 ```
 
 <details>
   <summary>cURL</summary>
 
 ```json
-
 curl -XPUT "localhost:9200/companies/_settings" -H 'Content-Type: application/json' -d'
 {
   "index.default_pipeline": "split-city-string-to-array"
