@@ -2,17 +2,37 @@
 
 From [Ingest Pipelines](https://cdax.ch/2022/01/30/elastic-workshop-2-ingest-pipelines/)
 
-#### Raw data
+#### Goal
+
+<details open><summary><i>Raw document</i></summary><blockquote>
 
 ```json
-
-"company_name": "Elastic EV", 
-"address": "800 West El Camino Real, Suite 350", 
-"city": "Mountain View, Ca 94040",
-"ticker_symbol": "ESTC", 
-"market_cap": "8B"
-
+{
+  "company_name": "Elastic EV", 
+  "address": "800 West El Camino Real, Suite 350", 
+  "city": "Mountain View, Ca 94040",
+  "ticker_symbol": "ESTC", 
+  "market_cap": "8B"
+}
 ```
+
+</blockquote></details>
+
+<details open><summary><i>Converted document</i></summary><blockquote>
+
+```json
+{
+  "company_name": "Elastic EV", 
+  "address": "800 West El Camino Real, Suite 350", 
+  "ticker_symbol": "ESTC", 
+  "market_cap": "8B",
+  "state": "CA",
+  "city": "Mountain View",
+  "zip": 94040
+}
+```
+
+</blockquote></details>
 
 #### Create a pipeline with a set processor
 
