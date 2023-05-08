@@ -63,6 +63,8 @@ curl -XPUT "localhost:9200/stocks/_doc/2?pretty" -H 'Content-Type: application/j
 
 #### Addd enrichment policy
 
+***Use the create enrich policy API to create a enrich policy.***
+
 ```json
 PUT /_enrich/policy/add_company_data_policy?pretty
 {
@@ -77,15 +79,32 @@ PUT /_enrich/policy/add_company_data_policy?pretty
     ]
   }
 }
+```
 
+***Use the execute enrich policy API to create the enrich index for an existing enrich policy.****
+
+> ***Note:***
+>> Once created, you cannot update or index documents to an enrich index. Instead, update your source indices and execute the enrich policy again. 
+
+>> Use the delete enrich policy API to delete an existing enrich policy and its enrich index.
+
+```json
 PUT /_enrich/policy/add_company_data_policy/_execute?pretty
+```
 
+> The enrich index contains documents from the policy’s source indices. Enrich indices always begin with .enrich-*, are read-only, and are force merged.
+
+```json
 GET /.enrich-add_company_data_policy?pretty
 
 ```
 
-<details>
-  <summary>cURL</summary>
+> ***Enrich stats API***
+
+>> `GET /_enrich/_stats`
+
+
+<details><summary>cURL</summary>
   
 ```json
   
