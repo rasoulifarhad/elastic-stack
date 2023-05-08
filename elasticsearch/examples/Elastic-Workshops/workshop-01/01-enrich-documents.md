@@ -4,11 +4,13 @@ From [ElasticWorkshop](https://github.com/PascalThalmann/ElasticWorkshop/tree/gh
 
 ### Setup
 
-***Recap***
+<details><summary><i>Recap</i></summary><blockquote>
 
 The enrich processor adds new data to incoming documents and requires a few special components:
 
 ![enrich process](enrich-process.svg)
+
+</blockquote></details>
 
 ---
 
