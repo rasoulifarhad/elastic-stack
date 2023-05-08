@@ -59,6 +59,7 @@ curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: applicat
 ```
 
 </blockquote></details>
+
 ##### Basic match query
 
 ***2. Basic match query(searches for the string “guide” in all the fields)***
@@ -154,6 +155,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 ```
 
 </blockquote></details>
+
 ##### Boosting
 
 ***3. Boosting***
@@ -192,6 +194,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 ```
 
 </blockquote></details>
+
 ##### Bool Query
 
 ***4. Search for a book with the word “Elasticsearch” OR “Solr” in the title, AND is authored by “clinton gormley” but NOT authored by “radu gheorge”***
@@ -338,6 +341,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 ```
 
 </blockquote></details>
+
 ##### Fuzzy Queries
 
 ***5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors. ***
