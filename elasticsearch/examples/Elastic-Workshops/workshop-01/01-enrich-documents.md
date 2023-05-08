@@ -168,9 +168,14 @@ curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?prett
 
 #### Chech enrich index
 
+<details><summary><i>Note:</i></summary><blockquote>
+
 > The enrich index contains documents from the policy’s `source indices`.  
 
 > Enrich indices begin with `.enrich-*`, are `read-only`, and are `force merged`.  
+
+</blockquote></details>
+
 
 <details open><summary><i>enrich index</i></summary><blockquote>
 
