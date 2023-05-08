@@ -94,7 +94,7 @@ GET /companies/_doc/1?pretty
 
 </blockquote></details>
 
-<details><summary>cURL</summary>
+<details><summary>cURL</summary><blockquote>
   
 <details open><summary><i>Pipeline</i></summary><blockquote>
 
@@ -150,7 +150,7 @@ curl -XGET "localhost:9200/companies/_doc/1?pretty"
 
 </blockquote></details>
 
-</details>
+</blockquote></details>
 
 ---
 
