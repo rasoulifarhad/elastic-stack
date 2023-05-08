@@ -380,7 +380,7 @@ POST /book/_search
 
 </details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -482,10 +482,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -614,10 +611,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -707,10 +701,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -805,10 +796,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -909,10 +897,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -1009,10 +994,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -1099,10 +1081,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -1196,10 +1175,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -1287,10 +1263,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -1401,10 +1374,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -1521,10 +1491,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
@@ -1647,10 +1614,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-  <details><summary><i>Response:</i></summary>
-
-
-<details open><summary><i>dev tools</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary><blockquote>
 
 ```json
 {
