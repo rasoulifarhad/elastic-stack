@@ -19,8 +19,7 @@ Response:
 }
 ```
 
-<details>
-<summary>cURL</summary>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://singleElasticsearch:9200/_scripts/painless/_execute?pretty" -H 'Content-Type: application/json' -d'
@@ -66,8 +65,7 @@ Response:
 }
 ```
 
-<details>
-<summary>cURL</summary>
+<details><summary><i>curl:</i></summary>
     
 ```json
 curl -XPOST "http://singleElasticsearch:9200/_scripts/painless/_execute?pretty" -H 'Content-Type: application/json' -d'
@@ -91,7 +89,7 @@ Response:
 
 #### Working with data
 
-To read the value of a field, you need to access the “doc-map”, then the field-name and you should also use the “.value” notion to read fields in the runtime_mapping API.
+> To read the value of a field, you need to access the `doc-map`, then the `field-name` and you should also use the `.value` notion to read fields in the `runtime_mapping` API.
 
 ```json
 PUT persons/_doc/1?pretty
@@ -121,9 +119,11 @@ GET persons/_search?pretty
     "age"
   ]
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 10,
   "timed_out" : false,
@@ -162,8 +162,9 @@ Response:
 
 ```
 
-<details>
-<summary>cURL</summary>
+</details>
+
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPUT "http://singleElasticsearch:9200/persons/_doc/1?pretty" -H 'Content-Type: application/json' -d'
@@ -252,8 +253,7 @@ PUT _ingest/pipeline/calc_age_pipeline?pretty
 }
 ```
 
-<details>
-<summary>cURL</summary>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPUT "http://singleElasticsearch:9200/_ingest/pipeline/calc_age_pipeline?pretty" -H 'Content-Type: application/json' -d'
@@ -296,8 +296,7 @@ PUT _scripts/calc_age_script?pretty
 }
 ```
 
-<details>
-<summary>cURL</summary>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPUT "http://singleElasticsearch:9200/_scripts/calc_age_script?pretty" -H 'Content-Type: application/json' -d'
