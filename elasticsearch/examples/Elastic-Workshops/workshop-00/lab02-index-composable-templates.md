@@ -144,27 +144,27 @@ GET blackfriday_orders
 
 ##### Indices that will successfully inherit the templated configuration
 
-> PUT blackfriday_orders
-> 
-> PUT americaorders
-> 
-> PUT cancelled--orders
-> 
-> PUT undefined101orders
-> 
+> `PUT blackfriday_orders`
+
+> `PUT americaorders`
+
+> `PUT cancelled--orders`
+
+> `PUT undefined101orders`
+
 
 ##### Indices will not be inheriting the configuration as the name will not match with the pattern
 
-> PUT blackfriday_orders2
-> 
-> PUT open_orders_
-> 
-> PUT allorders_total
+> `PUT blackfriday_orders2`
+
+> `PUT open_orders_`
+
+> `PUT allorders_total`
 
 
 ##### all the indices derived from a template have the same alias – all_orders – in this case. There is an advantage of having such alias – we can simply query on this single alias rather than multiple indices.
 
-> GET blackfriday_orders,americaorders,undefined101orders/_search
+> `GET blackfriday_orders,americaorders,undefined101orders/_search`
 > 
 
 <details open><summary><i>Query on alias </i></summary><blockquote>
