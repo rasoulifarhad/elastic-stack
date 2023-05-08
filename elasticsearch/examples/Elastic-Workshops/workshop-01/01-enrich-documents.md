@@ -10,6 +10,7 @@ The enrich processor adds new data to incoming documents and requires a few spec
 
 ![enrich process](enrich-process.svg)
 
+---
 
 #### Create source index
 
@@ -75,6 +76,8 @@ curl -XPUT "localhost:9200/stocks/_doc/2?pretty" -H 'Content-Type: application/j
 
 </blockquote></details>
 
+---
+
 #### Create an enrich policy 
 
 ***Use the [create enrich policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/put-enrich-policy-api.html) to create a enrich policy.***
@@ -124,6 +127,7 @@ curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy?pretty" -H 'Co
 
 </blockquote></details>
 
+---
 
 #### Execute enrich policy 
 
@@ -158,6 +162,8 @@ curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy/_execute?prett
 
 </blockquote></details>
 
+---
+
 #### Chech enrich index
 
 > The enrich index contains documents from the policy’s `source indices`.  
@@ -184,10 +190,12 @@ curl -XGET "localhost:9200/.enrich-add_company_data_policy?pretty"
 
 </blockquote></details>
 
+
 #### Enrich stats API
 
 > `GET /_enrich/_stats`
 
+---
 
 #### Add a pipeline that uses the enrichment policy
 
@@ -260,6 +268,8 @@ curl -XPUT "localhost:9200/_ingest/pipeline/enrich_stock_data?pretty" -H 'Conten
 
 </blockquote></details>
 
+---
+
 #### Enrich existing documents
 
 ***Use reindex API with pipeline to index enriched data into another index .***
@@ -305,6 +315,8 @@ curl -XGET "localhost:9200/full_stock_data/_search?pretty"
 </details>
 
 </blockquote></details>
+
+---
 
 #### Enrich incoming data
 
@@ -437,6 +449,8 @@ curl -XGET "localhost:9200/full_stock_data/_doc/4?pretty"
 
 </blockquote></details>
 
+---
+
 #### Fix documents that could not be enriched by the last run
 
 
@@ -494,6 +508,7 @@ curl -XPOST "localhost:9200/full_stock_data/_update_by_query?pretty" -H 'Content
 
 </blockquote></details>
 
+---
 
 #### Final
 
@@ -528,5 +543,3 @@ curl -XDELETE "localhost:9200/full_stock_data?pretty"
 </details>
 
 </blockquote></details>
-
-
