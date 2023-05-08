@@ -150,7 +150,7 @@ POST _reindex
 }
 ```
 
-<details open><summary><i></i></summary><blockquote>
+<details open><summary><i>Test analyzer</i></summary><blockquote>
 
 ```json
 GET /first_name_idx/_analyze
@@ -413,7 +413,7 @@ POST /_reindex
 > We can check the primary storage size of each index using the CAT indices API:
 > 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i>cat api</i></summary><blockquote>
 
 ```json
 GET _cat/indices/*_idx?v
@@ -437,7 +437,7 @@ yellow open   name_keyword_idx XIFC4-UERpuuHa39HNTUQg   1   1         20        
 <details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
-POST /first_name_idx,all_fields_idx,name_idx,name_keyword_idx/_disk_usage?run_expensive_tasks=true&filter_path=*.store_size,*.all_fields
+POST /*_idx/_disk_usage?run_expensive_tasks=true&filter_path=*.store_size,*.all_fields
 ```
 
 <details><summary><i>Response:</i></summary>
