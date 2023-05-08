@@ -176,8 +176,7 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary>cURL</summary>
   
 ```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
@@ -202,7 +201,11 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
 
 </details>
 
+---
+
 #### Run _update_by_query
+
+<details open><summary><i>update by query</i></summary><blockquote>
 
 ```json
 POST companies/_update_by_query?pretty&pipeline=split-city-string-to-array
@@ -211,7 +214,11 @@ POST companies/_update_by_query?pretty&pipeline=split-city-string-to-array
     "match_all": {}
   }
 }
+```
 
+<details><summary>check update</summary>
+
+```json
 GET /companies/_search?pretty
 
 {
@@ -252,8 +259,14 @@ GET /companies/_search?pretty
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+</details>
+
+</blockquote></details>
+
+
+<details><summary>cURL</summary><blockquote>
+
+<details open><summary><i>update by query</i></summary><blockquote>
 
 ```json
 curl -XPOST "localhost:9200/companies/_update_by_query?pretty&pipeline=split-city-string-to-array" -H 'Content-Type: application/json' -d'
@@ -262,7 +275,11 @@ curl -XPOST "localhost:9200/companies/_update_by_query?pretty&pipeline=split-cit
     "match_all": {}
   }
 }'
+```
 
+<details><summary>check update</summary>
+
+```json
 curl -XGET "localhost:9200/companies/_search?pretty"
 
 {
@@ -304,6 +321,12 @@ curl -XGET "localhost:9200/companies/_search?pretty"
 ```
 
 </details>
+
+</blockquote></details>
+
+</blockquote></details>
+
+---
 
 #### Remove leading spaces with gsub processor
 
