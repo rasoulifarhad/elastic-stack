@@ -40,6 +40,7 @@ From [Ingest Pipelines](https://cdax.ch/2022/01/30/elastic-workshop-2-ingest-pip
 
 #### Create a pipeline with a set processor
 
+<details open><summary><i>Pipeline</i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
@@ -54,7 +55,11 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
+```
 
+<details><summary><i>Test pipeline</i></summary>
+
+```json
 PUT /companies/_doc/1?pretty&pipeline=split-city-string-to-array
 {
   "company_name": "Elastic EV",
@@ -85,9 +90,14 @@ GET /companies/_doc/1?pretty
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+</details>
+
+</blockquote></details>
+
+<details><summary>cURL</summary>
   
+<details open><summary><i>Pipeline</i></summary><blockquote>
+
 ```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
@@ -101,7 +111,11 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
     }
   ]
 }'
+```
 
+<details><summary><i>Test pipeline</i></summary>
+
+```json
 curl -XPUT "localhost:9200/companies/_doc/1?pretty&pipeline=split-city-string-to-array" -H 'Content-Type: application/json' -d'
 {
   "company_name": "Elastic EV",
@@ -133,6 +147,12 @@ curl -XGET "localhost:9200/companies/_doc/1?pretty"
 ```
 
 </details>
+
+</blockquote></details>
+
+</details>
+
+---
 
 #### Split processor
 
