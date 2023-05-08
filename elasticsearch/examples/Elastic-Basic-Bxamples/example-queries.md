@@ -15,7 +15,7 @@ PUT /book
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPUT "http://localhost:9200/book?pretty" -H 'Content-Type: application/json' -d'
@@ -43,7 +43,7 @@ POST /book/_bulk
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: application/json' -d'
@@ -69,7 +69,13 @@ curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: applicat
 
 ```json
 GET /book/_search?q=guide
+```
 
+</blockquote></details>
+
+<details><summary><i>curl:</i></summary><blockquote>
+
+```json
 curl -XGET "http://localhost:9200/book/_search?q=guide"
 ```
 
@@ -91,7 +97,7 @@ GET /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -114,7 +120,13 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 ```json
 GET /book/_search?q=title:in action
+```
 
+</blockquote></details>
+
+<details><summary><i>curl:</i></summary><blockquote>
+
+```json
 curl -XGET "http://localhost:9200/book/_search?q=title:in action"
 ```
 
@@ -138,7 +150,7 @@ GET /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -178,7 +190,7 @@ GET /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -246,7 +258,7 @@ GET /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -293,10 +305,11 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 </blockquote></details>
 
 
+***simplified version***
+
 <details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
-# simplified version
 GET /book/_search
 {
   "query": {
@@ -318,7 +331,7 @@ GET /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -346,8 +359,9 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 ***5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors. ***
 
+<details open><summary><i></i></summary><blockquote>
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search
@@ -364,9 +378,9 @@ POST /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -381,14 +395,13 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   "_source": ["title", "summary", "publish_date"],
   "size": 1
 }'
-  ```
-
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary>
 ```
 
-</blockquote></details>
+</details>
+
+  <details><summary><i>Response:</i></summary>
+
+```json
 ...
   "hits" : {
     "total" : {
@@ -409,8 +422,10 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
         }
  .....       
 ```
+</details>
 
 </blockquote></details>
+
 
 **Note:** Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match.
 
@@ -444,7 +459,7 @@ POST /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -578,7 +593,7 @@ POST /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -673,7 +688,7 @@ POST /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -770,7 +785,7 @@ POST /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -872,7 +887,7 @@ POST /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -972,7 +987,7 @@ POST /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1066,7 +1081,7 @@ POST /book/_search
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1165,7 +1180,7 @@ POST /book/_search?pretty
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1249,7 +1264,7 @@ POST /book/_search?pretty
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1367,7 +1382,7 @@ POST /book/_search?pretty
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1474,7 +1489,7 @@ POST /book/_search?pretty
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1591,7 +1606,7 @@ POST /book/_search?pretty
 
 </blockquote></details>
 
-<details><summary><i>curl:</i></summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
