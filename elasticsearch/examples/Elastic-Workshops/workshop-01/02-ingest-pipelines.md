@@ -1951,6 +1951,8 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
 
 #### The result
 
+<details open><summary><i>Pipeline</i></summary><blockquote>
+
 ```json
 POST /companies/_update_by_query?pretty&pipeline=split-city-string-to-array
 
@@ -1977,6 +1979,8 @@ Result:
   }
 }
 ```
+
+</blockquote></details>
 
 <details><summary><i>curl:</i></summary><blockquote>
 
