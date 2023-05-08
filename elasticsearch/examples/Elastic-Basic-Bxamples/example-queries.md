@@ -4,7 +4,9 @@
 
 ***1. Create a new index and index some documents using the [bulk API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html):***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 PUT /book
@@ -13,9 +15,9 @@ PUT /book
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPUT "http://localhost:9200/book?pretty" -H 'Content-Type: application/json' -d'
@@ -24,10 +26,14 @@ curl -XPUT "http://localhost:9200/book?pretty" -H 'Content-Type: application/jso
 }'
 ```
 
+</details>
+
 </blockquote></details>
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_bulk
@@ -41,9 +47,9 @@ POST /book/_bulk
 {"title":"Solr in Action","authors":["trey grainger","timothy potter"],"summary":"Comprehensive guide to implementing a scalable search engine using Apache Solr","publish_date":"2014-04-05","num_reviews":23,"publisher":"manning"}
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: application/json' -d'
@@ -58,6 +64,8 @@ curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: applicat
 '
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Basic match query
@@ -65,23 +73,29 @@ curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: applicat
 ***2. Basic match query(searches for the string “guide” in all the fields)***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 GET /book/_search?q=guide
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?q=guide"
 ```
 
+</details>
+
 </blockquote></details>
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 GET /book/_search
@@ -95,9 +109,9 @@ GET /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -110,29 +124,37 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
   }
 }'
 ```
+
+</details>
 
 </blockquote></details>
 
 ***2. Search for books with the words “in Action” in the title field:***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 GET /book/_search?q=title:in action
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?q=title:in action"
 ```
 
+</details>
+
 </blockquote></details>
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 GET /book/_search
@@ -148,9 +170,9 @@ GET /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -165,6 +187,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
   "_source": ["title", "summary", "publish_date"]
 }'
 ```
+
+</details>
 
 </blockquote></details>
 
@@ -173,7 +197,9 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 ***3. Boosting***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 GET /book/_search
@@ -188,9 +214,9 @@ GET /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -204,6 +230,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
   "_source": ["title", "summary", "publish_date"]
 }'
 ```
+
+</details>
 
 </blockquote></details>
 
@@ -212,7 +240,9 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 ***4. Search for a book with the word “Elasticsearch” OR “Solr” in the title, AND is authored by “clinton gormley” but NOT authored by “radu gheorge”***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 GET /book/_search
@@ -256,9 +286,9 @@ GET /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -301,13 +331,17 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
   }
 }'
 ```
+
+</details>
 
 </blockquote></details>
 
 
 ***simplified version***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 GET /book/_search
@@ -329,9 +363,9 @@ GET /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -352,6 +386,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
   }
 }'
 ```
+
+</details>
 
 </blockquote></details>
 
@@ -424,6 +460,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 ```
 </details>
 
+</details>
+
 </blockquote></details>
 
 
@@ -436,7 +474,9 @@ Wildcard queries allow you to specify a pattern to match instead of the entire t
 ***6. find all records that have an author whose name begins with the letter ‘t’:***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search
@@ -457,9 +497,9 @@ POST /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -479,6 +519,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   }
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -562,6 +604,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Regexp Query
@@ -569,7 +613,9 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 ***7. Regexp Query***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search
@@ -588,9 +634,9 @@ POST /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -608,6 +654,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   }
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -654,6 +702,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Match Phrase Query
@@ -663,7 +713,9 @@ The match phrase query requires that all the terms in the query string be presen
 ***8. Match Phrase Query***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search
@@ -680,9 +732,9 @@ POST /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -698,6 +750,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   "_source": ["title", "summary", "publish_date"]
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -747,6 +801,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Match Phrase Prefix
@@ -756,7 +812,9 @@ Match phrase prefix queries provide search-as-you-type or a poor man’s version
 ***9. Match Phrase Prefix***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search
@@ -774,9 +832,9 @@ POST /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -793,6 +851,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   "_source": ["title", "summary", "publish_date"]
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -842,6 +902,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 **Note:** Using the match phrase prefix query for search autocompletion
@@ -853,7 +915,9 @@ The query_string query provides a means of executing multi_match queries, bool q
 ***10. Search for the terms “search algorithm” in which one of the book authors is “grant ingersoll” or “tom morton.” apply a boost of 2 to the summary field.***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search
@@ -873,9 +937,9 @@ POST /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -894,6 +958,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   }
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -941,6 +1007,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Simple Query String
@@ -950,7 +1018,9 @@ The simple_query_string query is a version of the query_string query that is mor
 ***11. Simple Query String***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search
@@ -970,9 +1040,9 @@ POST /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -991,6 +1061,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   }
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -1038,6 +1110,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Term/Terms Query
@@ -1045,7 +1119,9 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 ***12. Search for all books in our index published by Manning Publications.***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search
@@ -1061,9 +1137,9 @@ POST /book/_search
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1078,6 +1154,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   "_source": ["title", "publish_date", "publisher"]
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -1138,12 +1216,16 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ***13. Search for all books in our index published by oreilly or packt Publications.***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search?pretty
@@ -1157,9 +1239,9 @@ POST /book/_search?pretty
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1172,6 +1254,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   "_source": ["title", "publish_date", "publisher"]
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -1210,6 +1294,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Term Query - Sorted
@@ -1217,7 +1303,9 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 ***14. Search for all books in our index published by Manning Publications and sort with publish date.***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search?pretty
@@ -1238,9 +1326,9 @@ POST /book/_search?pretty
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1260,6 +1348,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   ]
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -1329,6 +1419,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Range Query
@@ -1336,7 +1428,9 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 ***15. Search for books published in 2015.***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search?pretty
@@ -1353,9 +1447,9 @@ POST /book/_search?pretty
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1371,6 +1465,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   "_source": ["title", "publish_date", "publisher"]
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -1420,6 +1516,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ##### Bool Query
@@ -1427,7 +1525,9 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 ***16. Search for books with the term “Elasticsearch” in the title or summary but we want to filter our results to only those with 20 or more reviews.***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search?pretty
@@ -1457,9 +1557,9 @@ POST /book/_search?pretty
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1488,6 +1588,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   "_source": ["title","summary","publisher", "num_reviews"]
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -1527,12 +1629,16 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 }
 ```
 
+</details>
+
 </blockquote></details>
 
 ***17. Search for books that have at least 20 reviews, must not be published before 2015 and should be published by O'Reilly.***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
+
+<details open><summary><i>dev tools</i></summary>
 
 ```json
 POST /book/_search?pretty
@@ -1571,9 +1677,9 @@ POST /book/_search?pretty
 }
 ```
 
-</blockquote></details>
+</details>
 
-<details><summary><i>curl:</i></summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 ```json
 curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: application/json' -d'
@@ -1611,6 +1717,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   "_source": ["title","summary","publisher", "num_reviews", "publish_date"]
 }'
   ```
+
+</details>
 
 </blockquote></details>
 
@@ -1650,6 +1758,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
   }
 }
 ```
+
+</details>
 
 </blockquote></details>
 
