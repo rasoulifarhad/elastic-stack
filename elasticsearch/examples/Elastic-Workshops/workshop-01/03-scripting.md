@@ -91,7 +91,6 @@ Response:
 
 > To read the value of a field, you need to access the `doc-map`, then the `field-name` and you should also use the `.value` notion to read fields in the `runtime_mapping` API.
 
-<details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
 PUT persons/_doc/1?pretty
@@ -100,7 +99,11 @@ PUT persons/_doc/1?pretty
   "sur_name": "Smith",
   "year_of_birth": 1925
 }
+```
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 GET persons/_search?pretty
 {
   "runtime_mappings": {
