@@ -500,6 +500,8 @@ Error:
 
 #### Setting conditions in processors
 
+<details open><summary><i>Pipeline</i></summary><blockquote>
+
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
@@ -586,6 +588,8 @@ Result:
 ```
 
 </details>
+
+</blockquote></details>
 
 <details><summary><i>curl:</i></summary><blockquote>
 
@@ -676,6 +680,8 @@ Result:
 
 #### Handling pipeline failures
 
+<details open><summary><i>Pipeline</i></summary><blockquote>
+
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
@@ -707,6 +713,8 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
   ]
 }
 ```
+
+</blockquote></details>
 
 <details><summary><i>curl:</i></summary><blockquote>
 
@@ -747,6 +755,8 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
 ---
 
 #### The script processor
+
+<details open><summary><i>Pipeline</i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
@@ -848,6 +858,8 @@ Result:
 ```
 
 </details>
+
+</blockquote></details>
 
 <details><summary><i>curl:</i></summary><blockquote>
 
@@ -953,6 +965,8 @@ Result:
 #### The uppercase processor
 
 
+<details open><summary><i>Pipeline</i></summary><blockquote>
+
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
@@ -1056,6 +1070,8 @@ Result:
 ```
 
 </details>
+
+</blockquote></details>
 
 <details><summary><i>curl:</i></summary><blockquote>
 
@@ -1164,6 +1180,8 @@ Result:
 
 #### The convert processor
 
+<details open><summary><i>Pipeline</i></summary><blockquote>
+
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
@@ -1272,10 +1290,11 @@ Result:
 
 </details>
 
+</blockquote></details>
+
 <details><summary><i>curl:</i></summary><blockquote>
   
-  ```json
-  
+```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -1370,14 +1389,15 @@ Result:
     }
   ]
 }
-
-  ```
+```
   
 </blockquote></details>
 
 ---
 
 #### The remove processor
+
+<details open><summary><i>Pipeline</i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
@@ -1484,6 +1504,8 @@ Result:
 ```
 
 </details>
+
+</blockquote></details>
 
 <details><summary><i>curl:</i></summary><blockquote>
   
@@ -1588,6 +1610,8 @@ Result:
 ---
 
 #### The rename processor
+
+<details open><summary><i>Pipeline</i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
@@ -1698,6 +1722,8 @@ Result:
 ```
 
 </details>
+
+</blockquote></details>
 
 <details><summary><i>curl:</i></summary><blockquote>
   
