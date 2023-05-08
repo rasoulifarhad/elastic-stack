@@ -94,7 +94,7 @@ GET /companies/_doc/1?pretty
 
 </blockquote></details>
 
-<details><summary>cURL</summary><blockquote>
+<details><summary><i>curl:</i></summary>
   
 <details open><summary><i>Pipeline</i></summary><blockquote>
 
@@ -264,7 +264,7 @@ GET /companies/_search?pretty
 </blockquote></details>
 
 
-<details><summary>cURL</summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
 <details open><summary><i>update by query</i></summary><blockquote>
 
@@ -419,9 +419,9 @@ POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 </blockquote></details>
 
 
-<details><summary>cURL</summary><blockquote>
+<details><summary><i>curl:</i></summary>
 
-<details open><summary><i>Pipeline</i></summary><blockquote>
+<details open><summary><i>Pipeline</i></summary>
 
 ```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
@@ -453,7 +453,11 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
 }'
 ```
 
-<details open><summary><i>Test</i></summary><blockquote>
+<details>
+
+<details><summary><i>Test</i></summary><blockquote>
+
+<details open><summary><i>Test</i></summary>
 
 ```json
 curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulate?pretty" -H 'Content-Type: application/json' -d'
@@ -476,9 +480,14 @@ curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulat
     }
   ]
 }'
+```
 
-Error:
+</details>
 
+
+<details><summary><i>Test Error:</i></summary>
+
+```json
 {
   "docs" : [
     {
@@ -498,6 +507,12 @@ Error:
 ```
 
 </details>
+
+</blockquote></details>
+
+</blockquote></details>
+
+---
 
 #### Setting conditions in processors
 
