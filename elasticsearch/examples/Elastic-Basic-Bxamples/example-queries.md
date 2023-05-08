@@ -2,7 +2,7 @@
 
 ##### Create an index
 
-1. Create a new index and index some documents using the [bulk API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html):
+***1. Create a new index and index some documents using the [bulk API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html):***
 
 ```json
 PUT /book
@@ -41,7 +41,7 @@ curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: applicat
 ```
 ##### Basic match query
 
-2. Basic match query(searches for the string “guide” in all the fields)
+***2. Basic match query(searches for the string “guide” in all the fields)***
 
 
 ```json
@@ -72,7 +72,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 }'
 ```
 
-2. Search for books with the words “in Action” in the title field:
+***2. Search for books with the words “in Action” in the title field:***
 
 
 ```json
@@ -108,7 +108,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 ```
 ##### Boosting
 
-3. Boosting
+***3. Boosting***
 
 
 ```json
@@ -136,7 +136,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 ```
 ##### Bool Query
 
-4. Search for a book with the word “Elasticsearch” OR “Solr” in the title, AND is authored by “clinton gormley” but NOT authored by “radu gheorge”
+***4. Search for a book with the word “Elasticsearch” OR “Solr” in the title, AND is authored by “clinton gormley” but NOT authored by “radu gheorge”***
 
 
 ```json
@@ -262,7 +262,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 ```
 ##### Fuzzy Queries
 
-5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors. 
+***5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors. ***
 
 
 ```json
@@ -322,7 +322,7 @@ Result:
 
 Wildcard queries allow you to specify a pattern to match instead of the entire term. ? matches any character and * matches zero or more characters.
 
-6. find all records that have an author whose name begins with the letter ‘t’:
+***6. find all records that have an author whose name begins with the letter ‘t’:***
 
 
 ```json
@@ -443,7 +443,7 @@ Result:
 
 ##### Regexp Query
 
-7. 
+***7. ***
 
 
 ```json
@@ -526,7 +526,7 @@ Result:
 
 The match phrase query requires that all the terms in the query string be present in the document, be in the order specified in the query string and be close to each other. By default, the terms are required to be exactly beside each other but you can specify the slop value which indicates how far apart terms are allowed to be while still considering the document a match.
 
-8. 
+***8. ***
 
 
 ```json
@@ -608,7 +608,7 @@ Result:
 
 Match phrase prefix queries provide search-as-you-type or a poor man’s version of autocomplete at query time without needing to prepare your data in any way. Like the match_phrase query, it accepts a slop parameter to make the word order and relative positions somewhat less rigid. It also accepts the max_expansions parameter to limit the number of terms matched in order to reduce resource intensity.
 
-9. 
+***9. ***
 
 
 ```json
