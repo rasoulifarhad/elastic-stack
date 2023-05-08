@@ -330,6 +330,9 @@ curl -XGET "localhost:9200/companies/_search?pretty"
 
 #### Remove leading spaces with gsub processor
 
+
+<details open><summary><i>Pipeline</i></summary><blockquote>
+
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
@@ -358,7 +361,13 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
+```
 
+<details><summary><i>Test</i></summary><blockquote>
+
+<details open><summary><i>Test</i></summary>
+
+```json
 POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 {
   "docs": [
@@ -379,9 +388,14 @@ POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
     }
   ]
 }
+```
 
-Error:
+</details>
 
+
+<details open><summary><i>Test Error:</i></summary>
+
+```json
 {
   "docs" : [
     {
@@ -398,12 +412,16 @@ Error:
     }
   ]
 }
-
-
 ```
 
-<details>
-  <summary>cURL</summary>
+</details>
+
+</blockquote></details>
+
+
+<details><summary>cURL</summary><blockquote>
+
+<details open><summary><i>Pipeline</i></summary><blockquote>
 
 ```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
@@ -433,7 +451,11 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
     }
   ]
 }'
+```
 
+<details open><summary><i>Test</i></summary><blockquote>
+
+```json
 curl -XPOST "localhost:9200/_ingest/pipeline/split-city-string-to-array/_simulate?pretty" -H 'Content-Type: application/json' -d'
 {
   "docs": [
