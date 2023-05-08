@@ -1832,6 +1832,8 @@ Result:
 
 #### The full pipeline
 
+<details open><summary><i>Pipeline</i></summary><blockquote>
+
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
 {
@@ -1887,6 +1889,8 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
   ]
 }
 ```
+
+</blockquote></details>
 
 <details><summary><i>curl:</i></summary><blockquote>
   
