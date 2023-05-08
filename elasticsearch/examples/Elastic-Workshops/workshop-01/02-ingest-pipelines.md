@@ -788,7 +788,11 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
+```
 
+<details><summary><i>Test pipeline</i></summary>
+
+```json
 POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 {
   "docs": [
@@ -842,6 +846,8 @@ Result:
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>curl:</i></summary><blockquote>
 
@@ -990,7 +996,11 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
+```
 
+<details><summary><i>Test pipeline</i></summary>
+
+```json
 POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 {
   "docs": [
@@ -1044,6 +1054,8 @@ Result:
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>curl:</i></summary><blockquote>
 
@@ -1199,7 +1211,11 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
+```
 
+<details><summary><i>Test pipeline</i></summary>
+
+```json
 POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 {
   "docs": [
@@ -1253,6 +1269,8 @@ Result:
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>curl:</i></summary><blockquote>
   
@@ -1411,7 +1429,11 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
+```
 
+<details><summary><i>Test pipeline</i></summary>
+
+```json
 POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 {
   "docs": [
@@ -1460,6 +1482,8 @@ Result:
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>curl:</i></summary><blockquote>
   
@@ -1619,7 +1643,11 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
+```
 
+<details><summary><i>Test pipeline</i></summary>
+
+```json
 POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 {
   "docs": [
@@ -1668,6 +1696,8 @@ Result:
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>curl:</i></summary><blockquote>
   
