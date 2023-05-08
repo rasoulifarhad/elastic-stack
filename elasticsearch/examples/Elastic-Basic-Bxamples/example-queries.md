@@ -1,6 +1,6 @@
 ### Example Queries
 
-##### Create an index
+***Create an index***
 
 ***1. Create a new index and index some documents using the [bulk API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html):***
 
@@ -68,7 +68,7 @@ curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: applicat
 
 </blockquote></details>
 
-##### Basic match query
+***Basic match query***
 
 ***2. Basic match query(searches for the string “guide” in all the fields)***
 
@@ -192,7 +192,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 </blockquote></details>
 
-##### Boosting
+***Boosting***
 
 ***3. Boosting***
 
@@ -235,7 +235,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 </blockquote></details>
 
-##### Bool Query
+***Bool Query***
 
 ***4. Search for a book with the word “Elasticsearch” OR “Solr” in the title, AND is authored by “clinton gormley” but NOT authored by “radu gheorge”***
 
@@ -391,7 +391,7 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 </blockquote></details>
 
-##### Fuzzy Queries
+***Fuzzy Queries***
 
 ***5. Fuzzy matching can be enabled on Match and Multi-Match queries to catch spelling errors. ***
 
@@ -467,7 +467,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 **Note:** Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match.
 
-##### Wildcard Query
+***Wildcard Query***
 
 Wildcard queries allow you to specify a pattern to match instead of the entire term. ? matches any character and * matches zero or more characters.
 
@@ -608,7 +608,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Regexp Query
+***Regexp Query***
 
 ***7. Regexp Query***
 
@@ -706,7 +706,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Match Phrase Query
+***Match Phrase Query***
 
 The match phrase query requires that all the terms in the query string be present in the document, be in the order specified in the query string and be close to each other. By default, the terms are required to be exactly beside each other but you can specify the slop value which indicates how far apart terms are allowed to be while still considering the document a match.
 
@@ -805,7 +805,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Match Phrase Prefix
+***Match Phrase Prefix***
 
 Match phrase prefix queries provide search-as-you-type or a poor man’s version of autocomplete at query time without needing to prepare your data in any way. Like the match_phrase query, it accepts a slop parameter to make the word order and relative positions somewhat less rigid. It also accepts the max_expansions parameter to limit the number of terms matched in order to reduce resource intensity.
 
@@ -908,7 +908,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 **Note:** Using the match phrase prefix query for search autocompletion
 
-##### Query String
+***Query String***
 
 The query_string query provides a means of executing multi_match queries, bool queries, boosting, fuzzy matching, wildcards, regexp, and range queries in a concise shorthand syntax.
 
@@ -1011,7 +1011,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Simple Query String
+***Simple Query String***
 
 The simple_query_string query is a version of the query_string query that is more suitable for use in a single search box that is exposed to users because it replaces the use of AND/OR/NOT with +/|/-, respectively, and it discards invalid parts of a query instead of throwing an exception if a user makes a mistake.
 
@@ -1114,7 +1114,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Term/Terms Query
+***Term/Terms Query***
 
 ***12. Search for all books in our index published by Manning Publications.***
 
@@ -1298,7 +1298,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Term Query - Sorted
+***Term Query - Sorted***
 
 ***14. Search for all books in our index published by Manning Publications and sort with publish date.***
 
@@ -1423,7 +1423,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Range Query
+***Range Query***
 
 ***15. Search for books published in 2015.***
 
@@ -1520,7 +1520,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Bool Query
+***Bool Query***
 
 ***16. Search for books with the term “Elasticsearch” in the title or summary but we want to filter our results to only those with 20 or more reviews.***
 
@@ -1763,6 +1763,6 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
-##### Function Score
+***Function Score***
 
 
