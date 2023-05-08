@@ -313,20 +313,20 @@ PUT _index_template/my_orders_template2
 ##### Summary
 
 > An index contains mappings, settings and aliases: the mappings define the fields schema, settings set the index parameters such as number of shards and replicas, and aliases give alternate names to the index.
-> 
+
 > Templates allow us to create indices with predefined configurations. Naming an index with a name that matches the index-pattern defined in a specific template will automatically configure that index according to the template.
-> 
+
 > Elasticsearch introduced composable index templates in version 7.8. Composable index templates allow modularity and versioning of templates. 
-> 
+ 
 > The composable templates consist of none or more component templates. 
-> 
+
 > An index template can have its own configuration defined too. 
-> 
+
 > A component template is a reusable template with predefined configuration, just like a composable index template. 
-> 
+
 > However, component templates are expected to be part of an index template; They are useless if they are not “composed” into an index template. 
-> 
+
 > Component templates have no index pattern defined in them – which is another reason they are “expected” to be part of an index template.
-> 
+
 > Each of the templates has a priority – a positive number. The higher the number, the greater the precedence for that template to be applied.
-> 
+
