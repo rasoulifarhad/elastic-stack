@@ -1,10 +1,15 @@
-### Enrich documents
+## Enrich documents
 
 From [ElasticWorkshop](https://github.com/PascalThalmann/ElasticWorkshop/tree/gh-pages/1_enrich_documents)
+
+### Setup
+
+***Recap***
 
 The enrich processor adds new data to incoming documents and requires a few special components:
 
 ![enrich process](enrich-process.svg)
+
 
 #### Create source index
 
