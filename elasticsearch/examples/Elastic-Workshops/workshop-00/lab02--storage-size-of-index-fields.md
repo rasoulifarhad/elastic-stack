@@ -434,7 +434,7 @@ yellow open   name_keyword_idx XIFC4-UERpuuHa39HNTUQg   1   1         20        
 
 #### Comparing the storage size between the indices with _disk_usage
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i>Analyze index disk usage API</i></summary><blockquote>
 
 ```json
 POST /*_idx/_disk_usage?run_expensive_tasks=true&filter_path=*.store_size,*.all_fields
