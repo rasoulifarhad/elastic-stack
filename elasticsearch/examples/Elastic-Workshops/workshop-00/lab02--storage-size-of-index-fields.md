@@ -4,12 +4,14 @@ from [elasticsearch-field-size-calculating-storage-size-of-index-fields](https:/
 
 ####  Create indices
 
-The _disk_usage API is available since ES 7.15 and provides an analysis of the disk usage of each field of an index or data stream.
+> The _disk_usage API is available since ES 7.15 and provides an analysis of the disk usage of each field of an index or data stream.
+> 
 
 ##### Creating an index that includes all fields
 
-```json
+<details><summary><i>Define Index</i></summary>
 
+```json
 PUT all_fields_idx
 {
   "settings": {
@@ -42,13 +44,15 @@ PUT all_fields_idx
     }
   }
 }
-
 ```
 
-##### Index Documents 
+</details>
+
+##### Bulk Index Documents 
+
+<details><summary><i>Bulk ingest data</i></summary>
 
 ```json
-
 POST all_fields_idx/_bulk
 { "index": {}}
 { "name": "Nelson Mandela","first_name": "Nelson"}
@@ -90,13 +94,13 @@ POST all_fields_idx/_bulk
 { "name": "Kalpana Chawla ","first_name": "Kalpana"}
 { "index": {}}
 { "name": "Rosa Parks","first_name": "Rosa"}
-
 ```
+
+</details>
 
 ##### Creating an index that includes only first_name field
 
 ```json
-
 PUT first_name_idx
 {
   "settings": {
@@ -130,13 +134,11 @@ PUT first_name_idx
     }
   }
 }
-
 ```
 
 ##### index the documents from all_fields_idx to first_name_idx
 
 ```json
-
 POST _reindex
 {
   "source": {
@@ -146,14 +148,21 @@ POST _reindex
     "index": "first_name_idx"
   }
 }
+```
 
+<details open><summary><i></i></summary><blockquote>
 
+```json
 GET /first_name_idx/_analyze
 {
   "analyzer": "ngram_analyzer",
   "text": "Anne Frank"
 }
+```
 
+<details><summary><i>Response:</i></summary>
+
+```json
 {
   "tokens" : [
     {
@@ -333,13 +342,15 @@ GET /first_name_idx/_analyze
     }
   ]
 }
-
 ```
+
+</details>
+
+<blockquote></details>
 
 ##### Creating an index that includes only name field
 
 ```json
-
 PUT name_idx
 {
   "mappings": {
@@ -351,13 +362,11 @@ PUT name_idx
     }
   }
 }
-
 ```
 
 ##### index the documents from all_fields_idx to  name_idx
 
 ```json
-
 POST _reindex
 {
   "source": {
@@ -367,15 +376,11 @@ POST _reindex
     "index": "name_idx"
   }
 }
-
-
 ```
-
 
 ##### Creating an index that includes only name field of keyword type
 
 ```json
-
 PUT name_keyword_idx
 {
   "mappings": {
@@ -387,13 +392,11 @@ PUT name_keyword_idx
     }
   }
 }
-
 ```
 
 ##### index the documents from all_fields_idx to  name_keyword_idx
 
 ```json
-
 POST /_reindex
 {
   "source": {
@@ -403,35 +406,43 @@ POST /_reindex
     "index": "name_keyword_idx"
   }
 }
-
 ```
 
 #### Comparing the storage size between the indices
 
-We can check the primary storage size of each index using the CAT indices API:
+> We can check the primary storage size of each index using the CAT indices API:
+> 
+
+<details open><summary><i>dev tools</i></summary><blockquote>
+
+```json
+GET _cat/indices/*_idx?v
+```
+<details><summary><i>Response:</i></summary>
 
 ```
-
-GET _cat/indices/*_idx?v
-
-Response:
-
 health status index            uuid                   pri rep docs.count docs.deleted store.size pri.store.size
 yellow open   first_name_idx   mSMi8utPTYOCA9OWeaEDVw   1   1         20            0      7.1kb          7.1kb
 yellow open   name_idx         Ip3gFo3MSci7LfJrXyuIqA   1   1         20            0      4.9kb          4.9kb
 yellow open   all_fields_idx   ijYgMSvjRaWoVxMYrWawPA   1   1         20            0      8.6kb          8.6kb
 yellow open   name_keyword_idx XIFC4-UERpuuHa39HNTUQg   1   1         20            0        5kb            5kb
-
 ```
+
+</details>
+
+</blockquote></details>
 
 #### Comparing the storage size between the indices with _disk_usage
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 POST /first_name_idx,all_fields_idx,name_idx,name_keyword_idx/_disk_usage?run_expensive_tasks=true&filter_path=*.store_size,*.all_fields
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "all_fields_idx" : {
     "store_size" : "8.6kb",
@@ -498,5 +509,9 @@ Response:
     }
   }
 }
-
 ```
+
+</details>
+
+</blockquote></details>
+
