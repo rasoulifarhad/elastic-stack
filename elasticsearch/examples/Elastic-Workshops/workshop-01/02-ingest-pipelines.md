@@ -529,7 +529,11 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
     }
   ]
 }
+```
 
+<details><summary><i>Test pipeline</i></summary>
+
+```json
 POST /_ingest/pipeline/split-city-string-to-array/_simulate?pretty
 {
   "docs": [
@@ -581,8 +585,9 @@ Result:
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+</details>
+
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
@@ -665,7 +670,9 @@ Result:
 }
 ```
 
-</details>
+</blockquote></details>
+
+---
 
 #### Handling pipeline failures
 
@@ -701,8 +708,7 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/split-city-string-to-array?pretty
@@ -736,7 +742,9 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
 }
 ```
 
-</details>
+</blockquote></details>
+
+---
 
 #### The script processor
 
@@ -835,8 +843,7 @@ Result:
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
@@ -933,7 +940,9 @@ Result:
 }
 ```
 
-</details>
+</blockquote></details>
+
+---
 
 #### The uppercase processor
 
@@ -1036,11 +1045,9 @@ Result:
 }
 ```
 
-<details>
-  <summary>cURL</summary>
-  
-  ```json
-  
+<details><summary><i>curl:</i></summary><blockquote>
+
+```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -1137,9 +1144,11 @@ Result:
   ]
 }
 
-  ```
+```
   
-</details>
+</blockquote></details>
+
+---
 
 #### The convert processor
 
@@ -1245,8 +1254,7 @@ Result:
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary><i>curl:</i></summary><blockquote>
   
   ```json
   
@@ -1347,7 +1355,9 @@ Result:
 
   ```
   
-</details>
+</blockquote></details>
+
+---
 
 #### The remove processor
 
@@ -1451,8 +1461,7 @@ Result:
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary><i>curl:</i></summary><blockquote>
   
   ```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
@@ -1550,7 +1559,9 @@ Result:
   
   ```
   
-</details>
+</blockquote></details>
+
+---
 
 #### The rename processor
 
@@ -1658,10 +1669,9 @@ Result:
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary><i>curl:</i></summary><blockquote>
   
-  ```json
+```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -1758,10 +1768,11 @@ Result:
     }
   ]
 }
+```
 
-  ```
+</blockquote></details>
 
-</details>
+---
 
 #### The full pipeline
 
@@ -1821,10 +1832,9 @@ PUT /_ingest/pipeline/split-city-string-to-array?pretty
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary><i>curl:</i></summary><blockquote>
   
-  ```json
+```json
 curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -H 'Content-Type: application/json' -d'
 {
   "description": "Changes incoming company data",
@@ -1873,11 +1883,12 @@ curl -XPUT "localhost:9200/_ingest/pipeline/split-city-string-to-array?pretty" -
     }
   ]
 }'
+```
+  
+</blockquote></details>
 
-  ```
-  
-  </details>
-  
+---
+
 #### The result
 
 ```json
@@ -1907,8 +1918,7 @@ Result:
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPOST "http://singleElasticsearch:9200/companies/_update_by_query?pretty&pipeline=split-city-string-to-array"
@@ -1936,8 +1946,10 @@ Result:
   }
 }
 ```
+  
+</blockquote></details>
 
-</details>
+---
 
 #### Setting a pipeline as default for an index
 
@@ -1950,16 +1962,14 @@ PUT companies/_settings
 }
 ```
 
-<details>
-  <summary>cURL</summary>
+<details><summary><i>curl:</i></summary><blockquote>
 
 ```json
 curl -XPUT "localhost:9200/companies/_settings" -H 'Content-Type: application/json' -d'
 {
   "index.default_pipeline": "split-city-string-to-array"
 }'
-
 ```
 
-</details>
+</blockquote></details>
 
