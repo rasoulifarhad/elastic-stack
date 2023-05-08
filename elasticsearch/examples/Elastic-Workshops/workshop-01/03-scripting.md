@@ -101,7 +101,7 @@ PUT persons/_doc/1?pretty
 }
 ```
 
-<details open><summary><i></i></summary><blockquote>
+<details open><summary><i></i></summary>
 
 ```json
 GET persons/_search?pretty
@@ -169,7 +169,7 @@ GET persons/_search?pretty
 
 </details>
 
-</blockquote></details>
+</details>
 
 <details><summary><i>curl:</i></summary>
 
