@@ -30,6 +30,7 @@ curl -XPUT "http://localhost:9200/book?pretty" -H 'Content-Type: application/jso
 
 </blockquote></details>
 
+---
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -68,6 +69,8 @@ curl -XPOST "http://localhost:9200/book/_bulk?pretty" -H 'Content-Type: applicat
 
 </blockquote></details>
 
+---
+
 ***Basic match query***
 
 ***2. Basic match query(searches for the string “guide” in all the fields)***
@@ -93,6 +96,8 @@ curl -XGET "http://localhost:9200/book/_search?q=guide"
 
 </blockquote></details>
 
+---
+
 <details open><summary><i></i></summary><blockquote>
 
 <details open><summary><i>dev tools</i></summary>
@@ -128,6 +133,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 </details>
 
 </blockquote></details>
+
+---
 
 ***2. Search for books with the words “in Action” in the title field:***
 
@@ -152,6 +159,8 @@ curl -XGET "http://localhost:9200/book/_search?q=title:in action"
 
 </blockquote></details>
 
+---
+
 <details open><summary><i></i></summary><blockquote>
 
 <details open><summary><i>dev tools</i></summary>
@@ -191,6 +200,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 </details>
 
 </blockquote></details>
+
+---
 
 ***Boosting***
 
@@ -234,6 +245,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 </details>
 
 </blockquote></details>
+
+---
 
 ***Bool Query***
 
@@ -336,6 +349,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 
 </blockquote></details>
 
+---
+
 
 ***simplified version***
 
@@ -390,6 +405,8 @@ curl -XGET "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applica
 </details>
 
 </blockquote></details>
+
+---
 
 ***Fuzzy Queries***
 
@@ -464,6 +481,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
+---
+
 
 **Note:** Instead of specifying "AUTO" you can specify the numbers 0, 1, or 2 to indicate the maximum number of edits that can be made to the string to find a match.
 
@@ -522,9 +541,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -608,6 +625,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
+---
+
 ***Regexp Query***
 
 ***7. Regexp Query***
@@ -657,9 +676,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -705,6 +722,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 </details>
 
 </blockquote></details>
+
+---
 
 ***Match Phrase Query***
 
@@ -753,9 +772,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -804,6 +821,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 </details>
 
 </blockquote></details>
+
+---
 
 ***Match Phrase Prefix***
 
@@ -854,9 +873,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -905,6 +922,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 </details>
 
 </blockquote></details>
+
+---
 
 **Note:** Using the match phrase prefix query for search autocompletion
 
@@ -961,9 +980,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -1010,6 +1027,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 </details>
 
 </blockquote></details>
+
+---
 
 ***Simple Query String***
 
@@ -1064,9 +1083,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -1114,6 +1131,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
+---
+
 ***Term/Terms Query***
 
 ***12. Search for all books in our index published by Manning Publications.***
@@ -1157,9 +1176,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -1220,6 +1237,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
+---
+
 ***13. Search for all books in our index published by oreilly or packt Publications.***
 
 
@@ -1257,9 +1276,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -1297,6 +1314,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 </details>
 
 </blockquote></details>
+
+---
 
 ***Term Query - Sorted***
 
@@ -1351,9 +1370,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -1423,6 +1440,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </blockquote></details>
 
+---
+
 ***Range Query***
 
 ***15. Search for books published in 2015.***
@@ -1468,9 +1487,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -1519,6 +1536,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 </details>
 
 </blockquote></details>
+
+---
 
 ***Bool Query***
 
@@ -1591,9 +1610,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
 
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -1632,6 +1650,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 </details>
 
 </blockquote></details>
+
+---
 
 ***17. Search for books that have at least 20 reviews, must not be published before 2015 and should be published by O'Reilly.***
 
@@ -1720,9 +1740,7 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 
 </details>
 
-</blockquote></details>
-
-  <details><summary><i>Response:</i></summary><blockquote>
+  <details><summary><i>Response:</i></summary>
 
 ```json
 {
@@ -1762,6 +1780,8 @@ curl -XPOST "http://localhost:9200/book/_search?pretty" -H 'Content-Type: applic
 </details>
 
 </blockquote></details>
+
+---
 
 ***Function Score***
 
