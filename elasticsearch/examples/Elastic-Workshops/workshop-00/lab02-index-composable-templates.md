@@ -303,12 +303,12 @@ PUT _index_template/my_orders_template2
 
 ##### Precedence of templates
 
-> Does the configuration defined in the component template override the one defined on the main index template itself? Or the other way around? Well, there are some rules:
-> 
+> ***Does the configuration defined in the component template override the one defined on the main index template itself? Or the other way around? Well, there are some rules:***
+
 >> An index created with configurations explicitly takes precedence over everything – this means if you create an index with explicit configuration, don’t expect them to be overridden by the templates.
->> 
+
 >> Legacy templates (templates created before version 7.8) carry a lower priority than the composable templates.
->> 
+
 
 ##### Summary
 
