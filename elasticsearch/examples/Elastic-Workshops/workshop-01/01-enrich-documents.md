@@ -13,7 +13,7 @@ The enrich processor adds new data to incoming documents and requires a few spec
 
 #### Create source index
 
-Use the [create index API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html) or [index API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html) to create a source index.
+***Use the [create index API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html) or [index API](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html) to create a source index.***
 
 <details open><summary><i>Define index</i></summary><blockquote>
 
@@ -129,10 +129,14 @@ curl -XPUT "localhost:9200/_enrich/policy/add_company_data_policy?pretty" -H 'Co
 
 ***Use the [execute enrich policy API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/execute-enrich-policy-api.html) to create the enrich index for the policy.***
 
-> ***Note:***
->> Once created, you cannot update or index documents to an enrich index. Instead, update your source indices and execute the enrich policy again. 
+<details><summary><i>Note:</i></summary><blockquote>
 
->> Use the delete enrich policy API to delete an existing enrich policy and its enrich index.
+> Once created, you cannot update or index documents to an enrich index. Instead, update your source indices and execute the enrich policy again. 
+
+> Use the delete enrich policy API to delete an existing enrich policy and its enrich index.
+
+</blockquote></details>
+
 
 <details open><summary><i>execute enrich policy</i></summary><blockquote>
 
@@ -187,7 +191,7 @@ curl -XGET "localhost:9200/.enrich-add_company_data_policy?pretty"
 
 ***Use the create or update pipeline API to create an ingest pipeline.***
 
-<details><summary><i>Recap</i></summary><blockquote>
+<details><summary><i>Note:</i></summary><blockquote>
 
 > ***In the pipeline, add an enrich processor that includes:***
 
