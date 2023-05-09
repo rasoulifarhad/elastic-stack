@@ -3,9 +3,10 @@
 
 #### Dataset
 
-BANO – The Open National Address Database, by OpenStreetMap France
+***BANO***: The Open National Address Database, by OpenStreetMap France
 
-A document describes a postal address in France. It looks like this:
+
+> A document describes a postal address in France. It looks like this:
 
 ```json
 # demo_csv index
@@ -13,13 +14,11 @@ A document describes a postal address in France. It looks like this:
   "@timestamp":"2023-04-21T01:05:47", 
   "message":"950020003K-1,1,Rue du Carrefour,95450,Ableiges,C+O,49.069446,1.968904"
 }
-
 ```
 
-We should instead index our documents using the following format:
+> We should instead index our documents using the following format:
 
 ```json
-
 # demo_csv_bano index
 {
   "location": {
@@ -34,46 +33,48 @@ We should instead index our documents using the following format:
   },
   "source": "C+O"
 }
-
 ```
 
-And we could also use the first column as the `_id`: `950020003K-1`.
+> ***And we could also use the first column as the `_id`: `950020003K-1`.***
 
 #### Setup
 
 ##### Run Elastic Stack
 
 ```
-
 docker-compose down -v
 docker compose up -d
-
 ```
 
 ##### download region
 
 ```
- wget http://bano.openstreetmap.fr/data/bano-95.csv -P $(pwd)/dataset
- 
+wget http://bano.openstreetmap.fr/data/bano-95.csv -P $(pwd)/dataset
 ```
 
 ##### create bulk file
 
 ```
-head -10000 bano-95.csv | while read -r line; do NOW=$(date +"%Y-%m-%dT%T") ; printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; done > $(pwd)/dataset/bulk-bano-95.ndjson
+head -10000 bano-95.csv | 
+while read -r line; do \
+  NOW=$(date +"%Y-%m-%dT%T") \
+  printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n" \
+done >$(pwd)/dataset/bulk-bano-95.ndjson
 ```
 
 ##### ingest documents
 
 ```
-curl -XPOST "localhost/demo_csv/_bulk" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/bulk-bano-95.ndjson" | jq '{took: .took, errors: .errors}' ; echo
-
+curl -s -XPOST "localhost/demo_csv/_bulk" \
+  -u elastic:changeme \
+  -H 'Content-Type: application/x-ndjson' \
+  --data-binary "@dataset/bulk-bano-95.ndjson" \
+  | jq '{took: .took, errors: .errors}' ; echo
 ```
 
 ##### Test ingested documents
 
 ```json
-
 GET /demo_csv/_count
 
 {
@@ -85,13 +86,17 @@ GET /demo_csv/_count
     "failed" : 0
   }
 }
-
-curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_count" -H 'Content-Type: application/json' | jq '.'
-
 ```
 
-```json
+<details><summary><i>curl:</i></summary>
 
+```json
+curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_count" -H 'Content-Type: application/json' | jq '.'
+```
+
+</details>
+
+```json
 GET /demo_csv/_search
 {
   "query": {
@@ -100,7 +105,11 @@ GET /demo_csv/_search
   "from": 0,
   "size": 1
 }
+```
 
+<details><summary><i>curl:</i></summary>
+
+```json
 curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_search" -H 'Content-Type: application/json' -d'
 {
   "query": {
@@ -109,9 +118,13 @@ curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_search" -H 'Content-
   "from": 0,
   "size": 1
 }' | jq '.'
+```
 
-Response:
+</details>
 
+<details><summary><i>Response:</i></summary>
+
+```json
 {
   "took": 1,
   "timed_out": false,
@@ -141,17 +154,25 @@ Response:
     ]
   }
 }
-
 ```
 
+</details>
+
 ```json
-
 GET /demo_csv
+```
 
+<details><summary><i>curl:</i></summary>
+
+```json
 curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv" | jq '.'
+```
 
-Response: 
+</details>
 
+<details><summary><i>Response:</i></summary>
+
+```json
 {
   "demo_csv" : {
     "aliases" : { },
@@ -192,17 +213,19 @@ Response:
     }
   }
 }
-
 ```
 
+</details>
 
 #### Create ingest pipeline
 
-1. Add the CSV Processor 
-    "field": message  converted to   "target_fields":[ _id, address.number, address.street_name, address.zipcode, address.city, source, location.lat, location.lon ]
+1. ***Add the CSV Processor***
+
+> `message` field converted to  
+>> `"target_fields":[ _id, address.number, address.street_name, address.zipcode, address.city, source, location.lat, location.lon ]`  
+
 
 ```json
-
 PUT _ingest/pipeline/bano
 {
   "description": "bano",
@@ -224,14 +247,13 @@ PUT _ingest/pipeline/bano
     }
   ]
 }
-
 ```    
 
-2. Add Remove Processor
-  remove non needed fields: `@timestamp` and `message`.
+2. ***Add Remove Processor***
+  
+> remove non needed fields: `@timestamp` and `message`.  
   
 ```json
-
 PUT _ingest/pipeline/bano
 {
   "description": "bano",
@@ -261,14 +283,13 @@ PUT _ingest/pipeline/bano
     }
   ]
 }
-
 ```    
   
-3. Add Convert lat to float
-   "field": "location.lat" converted to float type
+3. ***Add Convert lat to float***
+
+> `location.lat`  field converted to `float` type  
 
 ```json
-
 PUT _ingest/pipeline/bano
 {
   "description": "bano",
@@ -305,14 +326,13 @@ PUT _ingest/pipeline/bano
     }
   ]
 }
+```
 
-```    
-
-4. Add Convert lon to float
-   "field": "location.lon" converted to float type
+4. ***Add Convert lon to float***
+   
+> `location.lon` converted to `float` type  
 
 ```json
-
 PUT _ingest/pipeline/bano
 {
   "description": "bano",
@@ -356,14 +376,13 @@ PUT _ingest/pipeline/bano
     }
   ]
 }
+```
 
-```    
+5. ***Add Failure Processor***
 
-5. Add Failure Processor
-   set the value of ignore  to "can not extract data"
+> set the value of `ignore` to `"can not extract data"`  
 
 ```json
-
 PUT _ingest/pipeline/bano
 {
   "description": "bano",
@@ -419,13 +438,11 @@ PUT _ingest/pipeline/bano
     }
   ]
 }
+```
 
-```    
-
-6. Final pipeline
+6. ***Final pipeline***
 
 ```json
-
 PUT _ingest/pipeline/bano
 {
   "description": "bano",
@@ -481,13 +498,11 @@ PUT _ingest/pipeline/bano
     }
   ]
 }
-
-```    
+```
 
 #### reindex demo_csv index to demo_csv_bano index using pipeline created
 
 ```json
-
 POST /_reindex?wait_for_completion=true
 {
   "source": {
@@ -498,15 +513,17 @@ POST /_reindex?wait_for_completion=true
     "pipeline": "bano"
   }
 }
-
 ```
 
+<details open><summary><i>Check index</i></summary><blockquote>
+
 ```json
-
 GET /demo_csv_bano/_search
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 1,
   "timed_out" : false,
@@ -562,7 +579,10 @@ Response:
         }
       },
       .....
-      
 ```
+
+</details>
+
+</blockquote></details>
 
 
