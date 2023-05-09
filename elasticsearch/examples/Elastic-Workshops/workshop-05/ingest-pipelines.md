@@ -15,7 +15,7 @@ PUT devoxx-france/_doc/1
 }
 ```
 
-2. ***Check that the document ***
+2. ***Check that the document***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
