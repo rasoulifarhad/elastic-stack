@@ -129,9 +129,15 @@ curl -XPOST "localhost:9200/demo-ingest-regions/_bulk" -s -u elastic:$ELASTIC_PA
 
 <details open><summary><i>check documents</i></summary><blockquote>
 
+<details open><summary><i></i></summary><blockquote>
+
 ```json
 curl -s -XGET "localhost:9200/demo-ingest-person/_count" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' | jq '.'
+```
 
+<details><summary><i>Response:</i></summary>
+
+```json
 {
   "count" : 240,
   "_shards" : {
@@ -142,6 +148,10 @@ curl -s -XGET "localhost:9200/demo-ingest-person/_count" -u elastic:$ELASTIC_PAS
   }
 }
 ```
+
+</details>
+
+</blockquote></details>
 
 
 <details open><summary><i></i></summary><blockquote>
