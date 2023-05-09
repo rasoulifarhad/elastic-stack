@@ -30,9 +30,9 @@ PUT workshop_test
 
 </details>
 
----
-
 #### Inserting points
+
+---
 
 > ***For geospatial data there are a number of different ways to specify the coordinates.***
 
@@ -91,9 +91,9 @@ POST workshop_test/_doc/4
 
 </details>
 
----
-
 #### Bulk insertion
+
+---
 
 ***Define a new index***
 
@@ -153,10 +153,9 @@ PUT _bulk
 
 </details>
 
----
-
 #### Querying
 
+---
 
 <details><summary><i>Filter by value, get only a number of columns and order the results</i></summary>
 
@@ -252,11 +251,11 @@ GET flight_tracking*/_search
 
 </details>
 
----
-
 #### Aggregations
 
-Get some aggregations (metrics and histogram buckets) for positions that are not on the ground, for the last 30 minutes, and with positive altitudes.
+---
+
+> ***Get some aggregations (metrics and histogram buckets) for positions that are not on the ground, for the last 30 minutes, and with positive altitudes.***  
 
 <details><summary><i>aggs</i></summary>
 
@@ -300,16 +299,15 @@ GET flight_tracking*/_search
 
 </details>
 
----
-
 #### Geospatial Queries
 
-Find documents in your index using geospatial conditions.
+---
+
+> ***Find documents in your index using geospatial conditions.***
 
 ***Note***: 
 > Use the website http://bboxfinder.com to get coordinates and bounding boxes.  
 > You can get quickly a polygon representation using [this tool](https://boundingbox.klokantech.com/) and getting the GeoJSON output.  
-
 
 <!-- Point and radius query -->
 
@@ -333,8 +331,6 @@ GET flight_tracking*/_search
 </details>
 
 ---
-
-
 
 <!-- Bounding box query -->
 
@@ -362,7 +358,6 @@ GET flight_tracking*/_search
 </details>
 
 ---
-
 
 <!-- Shape query -->
 
@@ -404,7 +399,6 @@ GET flight_tracking*/_count
 
 ---
 
-
 <!-- Metric aggregations -->
 <!-- By bounding box -->
 
@@ -433,7 +427,6 @@ GET flight_tracking*/_search
 </details>
 
 ---
-
 
 <!-- Centroid -->
 <!-- [Centroid](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-metrics-geocentroid-aggregation.html) -->
