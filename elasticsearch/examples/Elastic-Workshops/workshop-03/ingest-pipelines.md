@@ -154,9 +154,11 @@ curl -s -XGET "localhost:9200/demo-ingest-person/_search" -u elastic:$ELASTIC_PA
 OR 
 
 curl -s -XGET "localhost:9200/demo-ingest-person/_search?size=1" -u elastic:$ELASTIC_PASSWORD | jq '.'
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 1,
   "timed_out" : false,
@@ -190,11 +192,15 @@ Response:
 }
 ```
 
+</details>
+
 ```json
 curl -s -XGET "localhost:9200/demo-ingest-regions/_count" -u elastic:$ELASTIC_PASSWORD | jq '.'
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "count" : 96,
   "_shards" : {
@@ -205,6 +211,8 @@ Response:
   }
 }
 ```
+
+</details>
 
 
 ```json
@@ -221,9 +229,11 @@ curl -s -XGET "localhost:9200/demo-ingest-regions/_search" -u elastic:$ELASTIC_P
 OR 
 
 curl -s -XGET "localhost:9200/demo-ingest-regions/_search?size=1" -u elastic:$ELASTIC_PASSWORD | jq '.'
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 7,
   "timed_out" : false,
@@ -275,6 +285,8 @@ Response:
                   ],
   ........
 ```
+
+</details>
 
 ### Create ingest pipeline
 
@@ -402,15 +414,19 @@ We need to execute this policy
 
 ```json
 curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy/_execute" -u elastic:$ELASTIC_PASSWORD | jq '.'
+```
 
-Response: 
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "status" : {
     "phase" : "COMPLETE"
   }
 }
 ```
+
+</details>
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
@@ -452,10 +468,11 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
     }
   ]
 }
+```
 
+<details><summary><i>Response:</i></summary>
 
-Response:
-
+```json
 {
   "docs" : [
     {
@@ -493,8 +510,10 @@ Response:
       }
     }
   ]
-  }
+}
 ```
+
+</details>
 
 ***3. Rename the region number field to `region`***
 
@@ -544,10 +563,11 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
     }
   ]
 }
+```
 
+<details><summary><i>Response:</i></summary>
 
-Response:
-
+```json
 {
   "docs" : [
     {
@@ -599,8 +619,10 @@ Response:
       }
     }
   ]
-  }
+}
 ```
+
+</details>
 
 ***4. Rename the region name field to `region_name`.***
 
@@ -658,9 +680,11 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
     }
   ]
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "docs" : [
     {
@@ -710,8 +734,10 @@ Response:
       }
     }
   ]
-  }
+}
 ```
+
+</details>
 
 ***5. Remove the non needed fields (`geo_data`)***
 
@@ -774,9 +800,11 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
     }
   ]
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "docs" : [
     {
@@ -816,8 +844,10 @@ Response:
       }
     }
   ]
-  }
+}
 ```
+
+</details>
 
 ***6. Final pipeline***
 
@@ -1106,6 +1136,8 @@ curl -s -XGET "localhost:9200/demo-ingest-person-new/_search" -u elastic:$ELASTI
 
 #### Circle processor
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
 PUT circles
 {
@@ -1117,7 +1149,11 @@ PUT circles
     }
   }
 }
+```
 
+<details><summary><i>curl:</i></summary>
+
+```json
 curl -s -XPUT "localhost:9200/circles" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
 {
   "mappings": {
@@ -1129,6 +1165,13 @@ curl -s -XPUT "localhost:9200/circles" -u elastic:$ELASTIC_PASSWORD -H 'Content-
   }
 }' | jq '.'
 ```
+
+</details>
+
+</blockquote></details>
+
+
+<details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
 PUT _ingest/pipeline/polygonize_circles
@@ -1144,7 +1187,11 @@ PUT _ingest/pipeline/polygonize_circles
     }
   ]
 }
+```
 
+<details><summary><i>curl:</i></summary>
+
+```json
 curl -s -XPUT "localhost:9200/_ingest/pipeline/polygonize_circles" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
 {
   "description": "translate circle to polygon",
@@ -1160,14 +1207,25 @@ curl -s -XPUT "localhost:9200/_ingest/pipeline/polygonize_circles" -u elastic:$E
 }' | jq '.'
 ```
 
+</details>
+
+</blockquote></details>
+
+
 ##### Example: Circle defined in Well Known Text
+
+<details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
 PUT circles/_doc/1?pipeline=polygonize_circles
 {
   "circle": "CIRCLE (30 10 40)"
 }
+```
 
+<details><summary><i>Response:</i></summary>
+
+```json
 {
   "_index" : "circles",
   "_type" : "_doc",
@@ -1182,18 +1240,33 @@ PUT circles/_doc/1?pipeline=polygonize_circles
   "_seq_no" : 0,
   "_primary_term" : 1
 }
+```
 
+</details>
+
+<details><summary><i>curl:</i></summary>
+
+```json
 curl -s -XPUT "localhost:9200/circles/_doc/1?pipeline=polygonize_circles" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
 {
   "circle": "CIRCLE (30 10 40)"
 }' | jq '.'
 ```
 
+</details>
+
+</blockquote></details>
+
+
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
 GET /circles/_doc/1
+```
 
-Response: 
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "_index" : "circles",
   "_type" : "_doc",
@@ -1206,9 +1279,19 @@ Response:
     "circle" : "POLYGON ((30.000365257263184 10.0, 30.000111397193788 10.00034284530941, 29.999706043744222 10.000213571721195, 29.999706043744222 9.999786428278805, 30.000111397193788 9.99965715469059, 30.000365257263184 10.0))"
   }
 }
+```
 
+</details>
+
+<details><summary><i>curl:</i></summary>
+
+```json
 curl -s -XGET "localhost:9200/circles/_doc/1" -u elastic:$ELASTIC_PASSWORD  | jq '.'
 ```
+
+</details>
+
+</blockquote></details>
 
 ##### Example: Circle defined in GeoJSON
 
@@ -1232,11 +1315,15 @@ curl -s -XPUT "localhost:9200/circles/_doc/2?pipeline=polygonize_circles" -u ela
 }' | jq '.'
 ```
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
 GET circles/_doc/2
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "_index" : "circles",
   "_type" : "_doc",
@@ -1279,9 +1366,19 @@ Response:
     }
   }
 }
+```
 
+</details>
+
+<details><summary><i>curl:</i></summary>
+
+```json
 curl -s -XGET "localhost:9200/circles/_doc/2" -u elastic:$ELASTIC_PASSWORD  | jq '.'
 ```
+
+</details>
+
+</blockquote></details>
 
 ##### Notes on Accuracy
 
