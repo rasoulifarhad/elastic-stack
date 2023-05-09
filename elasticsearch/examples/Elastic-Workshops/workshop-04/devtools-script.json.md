@@ -1,7 +1,7 @@
 ## Elasticsearch queries
 
 
-### Index creation
+#### Index creation
 
 <details><summary><i>Create an index with a given mapping that contains a geo_point type</i></summary>
 
@@ -32,7 +32,7 @@ PUT workshop_test
 
 ---
 
-### Inserting points
+#### Inserting points
 
 For geospatial data there are a number of different ways to specify the coordinates.
 
@@ -93,7 +93,7 @@ POST workshop_test/_doc/4
 
 ---
 
-### Bulk insertion
+#### Bulk insertion
 
 ***Define a new index***
 
@@ -155,7 +155,7 @@ PUT _bulk
 
 ---
 
-### Querying
+#### Querying
 
 
 <details><summary><i>Filter by value, get only a number of columns and order the results</i></summary>
@@ -254,7 +254,7 @@ GET flight_tracking*/_search
 
 ---
 
-### Aggregations
+#### Aggregations
 
 Get some aggregations (metrics and histogram buckets) for positions that are not on the ground, for the last 30 minutes, and with positive altitudes.
 
@@ -302,7 +302,7 @@ GET flight_tracking*/_search
 
 ---
 
-### Geospatial Queries
+#### Geospatial Queries
 
 Find documents in your index using geospatial conditions.
 
