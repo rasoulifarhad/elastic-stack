@@ -1,11 +1,27 @@
-# Show the Person dataset
+
+<details><summary><i>Show the Person dataset</i></summary>
+
+```json
 GET /demo-ingest-person/_search?size=1
+```
 
-# We have a list of french regions in demo-ingest-regions
+</details>
+
+
+
+<details><summary><i>We have a list of french regions in demo-ingest-regions</i></summary>
+
+```json
 GET /demo-ingest-regions/_search?size=1
+```
 
-# Define an enrich policy. It reads from demo-ingest-regions index
-# And tries to geo match on the location field
+</details>
+
+
+
+<details><summary><i> Define an enrich policy. It reads from demo-ingest-regions index And tries to geo match on the location field</i></summary>
+
+```json
 PUT /_enrich/policy/demo-ingest-regions-policy
 {
   "geo_match": {
@@ -14,13 +30,29 @@ PUT /_enrich/policy/demo-ingest-regions-policy
     "enrich_fields": [ "region", "name" ]
   }
 }
-# We need to execute this policy
-POST /_enrich/policy/demo-ingest-regions-policy/_execute
+```
 
-# We can define an ingest pipeline (using the REST API here). It will:
-# * Enrich the dataset by using our demo-ingest-regions-policy Policy
-# * Rename the region number and region name fields
-# * Remove the non needed fields
+</details>
+
+<details><summary><i>We need to execute this policy</i></summary>
+
+```json
+POST /_enrich/policy/demo-ingest-regions-policy/_execute
+```
+
+</details>
+
+
+<details><summary><i>Define an ingest pipeline:</i></summary><blockquote>
+
+We can define an ingest pipeline (using the REST API here). It will:
+- Enrich the dataset by using our demo-ingest-regions-policy Policy
+- Rename the region number and region name fields
+- Remove the non needed fields
+
+<details><summary><i>Ingest pipeline:</i></summary>
+
+```json
 PUT /_ingest/pipeline/demo-ingest-enrich
 {
   "description": "Enrich French Regions",
@@ -52,8 +84,15 @@ PUT /_ingest/pipeline/demo-ingest-enrich
     }
   ]
 }
+```
 
-# We can simulate this (optionally with ?verbose)
+</details>
+
+</blockquote></details>
+
+<details><summary><i>We can simulate this (optionally with ?verbose)</i></summary>
+
+```json
 POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 {
   "docs": [
@@ -71,8 +110,13 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
       }
   ]
 }
+```
 
-# We can reindex our existing dataset to enrich it with our pipeline
+</details>
+
+<details><summary><i>We can reindex our existing dataset to enrich it with our pipeline</i></summary>
+
+```json
 POST /_reindex
 {
   "source": {
@@ -83,9 +127,24 @@ POST /_reindex
     "pipeline": "demo-ingest-enrich"
   }
 }
+```
 
-# Compare the source index and the destination index
+</details>
+
+<details><summary><i>Compare the source index and the destination index</i></summary><blockquote>
+
+<details><summary><i></i></summary>
+
+```json
 GET /demo-ingest-person/_search?size=1
+```
+
+</details>
+
+
+<details><summary><i></i></summary>
+
+```json
 GET /demo-ingest-person-new/_search?size=1
 {
   "aggs": {
@@ -96,4 +155,8 @@ GET /demo-ingest-person-new/_search?size=1
     }
   }
 }
+```
 
+</details>
+
+</blockquote>
