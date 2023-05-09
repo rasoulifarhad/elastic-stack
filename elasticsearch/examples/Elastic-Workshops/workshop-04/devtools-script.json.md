@@ -34,7 +34,7 @@ PUT workshop_test
 
 #### Inserting points
 
-For geospatial data there are a number of different ways to specify the coordinates.
+> ***For geospatial data there are a number of different ways to specify the coordinates.***
 
 <details><summary><i>As a string: latitude, longitude</i></summary>
 
