@@ -2,6 +2,10 @@
 
 from [elastic-workshop](https://github.com/jsanz/elastic-workshop)
 
+#### Dataset?
+
+The [Natural Earth Airports](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/airports/) dataset is `airports-bulk.ndjson`
+
 #### Goal
 
 > **Buid a pipeline which transforms ___Source Document___ to ___target Document___**
@@ -102,7 +106,7 @@ curl -s -XPUT "localhost:9200/airports" -u elastic:$ELASTIC_PASSWORD  -H 'Conten
 
 ```
 curl -XPOST "localhost:9200/airports/_bulk" \
-   -s -u elastic:$ELASTIC_PASSWORD \
+  -s -u elastic:$ELASTIC_PASSWORD \
   -H 'Content-Type: application/x-ndjson' \
   --data-binary "@dataset/airports-bulk.ndjson" \
   | jq '{took: .took, errors: .errors}' ; echo
