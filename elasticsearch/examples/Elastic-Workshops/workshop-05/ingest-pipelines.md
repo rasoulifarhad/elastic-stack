@@ -1,6 +1,6 @@
 ### Indexing documents
 
-1. Index a document in the `devoxx-france` index:
+1. ***Index a document in the `devoxx-france` index:***
 
 
 ```json
@@ -10,7 +10,7 @@ PUT devoxx-france/_doc/1
 }
 ```
 
-2. Check that the document 
+2. ***Check that the document ***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -39,7 +39,7 @@ GET /devoxx-france/_doc/1
 
 </blockquote></details>
 
-3. Update the document:
+3. ***Update the document:***
 
 ```json
 PUT /devoxx-france/_doc/1
@@ -50,7 +50,7 @@ PUT /devoxx-france/_doc/1
 ```
 
 
-4. Check that the document updated correctly
+4. ***Check that the document updated correctly***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -80,7 +80,7 @@ GET /devoxx-france/_doc/1
 
 </blockquote></details>
 
-5. Remove the document
+5. ***Remove the document***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -111,7 +111,7 @@ DELETE /devoxx-france/_doc/1
 
 </blockquote></details>
 
-6. check that document deleted
+6. ***check that document deleted***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -134,7 +134,7 @@ GET /devoxx-france/_doc/1
 
 </blockquote></details>
 
-7. Create a new document
+7. ***Create a new document***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -176,7 +176,7 @@ PUT /devoxx-france/_doc/2
 
 </blockquote></details>
 
-8. Get mapping
+8. ***Get mapping***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -213,7 +213,7 @@ GET /devoxx-france/_mapping
 
 </blockquote></details>
 
-9. Change the mapping to use text for both message and session fields
+9. ***Change the mapping to use text for both message and session fields***
 
 ```json
 DELETE /devoxx-france
@@ -233,7 +233,7 @@ PUT /devoxx-france
 }
 ```
 
-10. Reindex doc 1
+10. ***Reindex doc 1***
 
 ```json
 PUT /devoxx-france/_doc/1
@@ -243,7 +243,7 @@ PUT /devoxx-france/_doc/1
 }
 ```
 
-11. the doc 2
+11. ***the doc 2***
 
 ```json
 PUT /devoxx-france/_doc/2
@@ -253,7 +253,7 @@ PUT /devoxx-france/_doc/2
 }
 ```
 
-12. Search for documents where message has "Devoxx".
+12. ***Search for documents where message has "Devoxx".***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -316,7 +316,7 @@ GET /devoxx-france/_search
 
 </blockquote></details>
 
-13. Search for documents where message has "Devoxx" or session has recherche, the more terms, the better.
+13. ***Search for documents where message has "Devoxx" or session has recherche, the more terms, the better.***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -417,7 +417,9 @@ Buid a pipeline which transforms it to:
 
 #### Create ingest pipeline
 
-1. Add `dissect` processor
+--- 
+
+1. ***Add `dissect` processor***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -502,7 +504,7 @@ POST /_ingest/pipeline/_simulate
 </blockquote></details>
 
 
-2. Add `date` processor
+2. ***Add `date` processor***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -605,7 +607,7 @@ POST /_ingest/pipeline/_simulate
 </blockquote></details>
 
 
-3. Add `convert` processor for `note` field
+3. ***Add `convert` processor for `note` field***
 
 
 <details open><summary><i>dev tools</i></summary><blockquote>
@@ -721,7 +723,7 @@ POST /_ingest/pipeline/_simulate
 </blockquote></details>
 
 
-4. Final pipeline
+4. ***Final pipeline***
 
 ```json
 PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
@@ -759,6 +761,9 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 
 #### Add index `devoxx-france-2023`
 
+---
+
+1. ***Create index***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -781,7 +786,7 @@ PUT /devoxx-france-2023
 </blockquote></details>
 
 
-#### Add ingest pipeline as the default pipeline for index `devoxx-france-2023`
+2. ***Add ingest pipeline as the default pipeline for index `devoxx-france-2023`***
 
 ```json
 PUT /devoxx-france-2023/_settings
@@ -790,7 +795,7 @@ PUT /devoxx-france-2023/_settings
 }
 ```
 
-#### Check index `devoxx-france-2023`
+3. ***Check index `devoxx-france-2023`***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -834,7 +839,7 @@ GET /devoxx-france-2023
 </blockquote></details>
 
 
-#### Bulk index documents in index `devoxx-france-2023`
+4. ***Bulk index documents in index `devoxx-france-2023`***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
@@ -897,7 +902,7 @@ POST /devoxx-france-2023/_bulk
 </blockquote></details>
 
 
-#### Check indexed documents
+5. ***Check indexed documents***
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
