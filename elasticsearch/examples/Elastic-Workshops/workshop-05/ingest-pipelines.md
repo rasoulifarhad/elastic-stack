@@ -17,7 +17,7 @@ PUT devoxx-france/_doc/1
 
 2. ***Check that the document***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 GET /devoxx-france/_doc/1
@@ -57,7 +57,7 @@ PUT /devoxx-france/_doc/1
 
 4. ***Check that the document updated correctly***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 GET /devoxx-france/_doc/1
@@ -87,7 +87,7 @@ GET /devoxx-france/_doc/1
 
 5. ***Remove the document***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 DELETE /devoxx-france/_doc/1
@@ -118,7 +118,7 @@ DELETE /devoxx-france/_doc/1
 
 6. ***check that document deleted***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 GET /devoxx-france/_doc/1
@@ -141,7 +141,7 @@ GET /devoxx-france/_doc/1
 
 7. ***Create a new document***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 PUT /devoxx-france/_doc/2
@@ -183,7 +183,7 @@ PUT /devoxx-france/_doc/2
 
 8. ***Get mapping***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 GET /devoxx-france/_mapping
@@ -260,7 +260,7 @@ PUT /devoxx-france/_doc/2
 
 12. ***Search for documents where message has "Devoxx".***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 GET /devoxx-france/_search
@@ -323,7 +323,7 @@ GET /devoxx-france/_search
 
 13. ***Search for documents where message has "Devoxx" or session has recherche, the more terms, the better.***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 GET /devoxx-france/_search
@@ -401,7 +401,10 @@ GET /devoxx-france/_search
 
 > See [lab2](https://github.com/dadoonet/DevoxxFR-2023/blob/main/labs/lab2.md)  
 
-Source document :
+> **Buid a pipeline which transforms ___Source Document___ to ___target Document___**  
+
+
+<details open><summary><i>Source Document:</i></summary>
 
 ```json
 {
@@ -409,7 +412,10 @@ Source document :
 }
 ```
 
-Buid a pipeline which transforms it to:
+</details>
+
+
+<details open><summary><i>Target Document:</i></summary>
 
 ```json
 {
@@ -420,13 +426,15 @@ Buid a pipeline which transforms it to:
 }
 ```
 
+</details>
+
 #### Create pipeline
  
 ---
 
 1. ***Add `dissect` processor***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
@@ -511,7 +519,7 @@ POST /_ingest/pipeline/_simulate
 
 2. ***Add `date` processor***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
@@ -615,7 +623,7 @@ POST /_ingest/pipeline/_simulate
 3. ***Add `convert` processor for `note` field***
 
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
@@ -770,7 +778,7 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 
 1. ***Create index***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 PUT /devoxx-france-2023
@@ -802,7 +810,7 @@ PUT /devoxx-france-2023/_settings
 
 3. ***Check index `devoxx-france-2023`***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 GET /devoxx-france-2023
@@ -846,7 +854,7 @@ GET /devoxx-france-2023
 
 4. ***Bulk index documents in index `devoxx-france-2023`***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 POST /devoxx-france-2023/_bulk
@@ -909,7 +917,7 @@ POST /devoxx-france-2023/_bulk
 
 5. ***Check indexed documents***
 
-<details open><summary><i>dev tools</i></summary><blockquote>
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 GET /devoxx-france-2023/_search
