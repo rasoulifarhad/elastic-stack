@@ -1,4 +1,9 @@
+## Workshop 05
+
+
 ### Indexing documents
+
+---
 
 1. ***Index a document in the `devoxx-france` index:***
 
@@ -417,6 +422,7 @@ Buid a pipeline which transforms it to:
 
 #### Create pipeline
  
+---
 
 1. ***Add `dissect` processor***
 
