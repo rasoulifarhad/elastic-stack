@@ -4,12 +4,10 @@
 
 
 ```json
-
 PUT devoxx-france/_doc/1
 {
   "message": "Welcome to Devoxx France 2023"
 }
-
 ```
 
 2. Check that the document 
@@ -401,32 +399,29 @@ from [lab2](https://github.com/dadoonet/DevoxxFR-2023/blob/main/labs/lab2.md)
 Source document :
 
 ```json
-
 {
   "content": "Welcome to Devoxx France 2023|Un moteur de recherche de documents d'entreprise|2023-04-12|4.5"
 }
-
 ```
 
 Buid a pipeline which transforms it to:
 
 ```json
-
 {
   "message": "Welcome to Devoxx France 2023",
   "session": "Un moteur de recherche de documents d'entreprise",
   "date": "2023-01-02T00:00:00.000Z",
   "note": 4.5
 }
-
 ```
 
 #### Create ingest pipeline
 
 1. Add `dissect` processor
 
-```json
+<details open><summary><i>dev tools</i></summary><blockquote>
 
+```json
 PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 {
   "processors": [
@@ -443,8 +438,11 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
     }
   ]
 }
+```
 
+<details open><summary><i>test pipeline</i></summary><blockquote>
 
+```json
 POST /_ingest/pipeline/_simulate
 {
   "pipeline": {
@@ -470,9 +468,11 @@ POST /_ingest/pipeline/_simulate
     }
   ]
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "docs" : [
     {
@@ -493,13 +493,20 @@ Response:
     }
   ]
 }
-
 ```
- 
+
+</details>
+
+</blockquote></details>
+
+</blockquote></details>
+
+
 2. Add `date` processor
 
-```json
+<details open><summary><i>dev tools</i></summary><blockquote>
 
+```json
 PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 {
   "processors": [
@@ -525,7 +532,11 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
     }
   ]
 }
+```
 
+<details open><summary><i>test pipe;ine</i></summary><blockquote>
+
+```json
 POST /_ingest/pipeline/_simulate
 {
   "pipeline": {
@@ -560,9 +571,11 @@ POST /_ingest/pipeline/_simulate
     }
   ]
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "docs" : [
     {
@@ -583,14 +596,21 @@ Response:
     }
   ]
 }
-
 ```
+
+</details>
+
+</blockquote></details>
+
+</blockquote></details>
+
 
 3. Add `convert` processor for `note` field
 
 
-```json
+<details open><summary><i>dev tools</i></summary><blockquote>
 
+```json
 PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 {
   "processors": [
@@ -622,7 +642,11 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
     }
   ]
 }
+```
 
+<details open><summary><i>test pipe;ine</i></summary><blockquote>
+
+```json
 POST /_ingest/pipeline/_simulate
 {
   "pipeline": {
@@ -663,9 +687,11 @@ POST /_ingest/pipeline/_simulate
     }
   ]
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "docs" : [
     {
@@ -686,13 +712,18 @@ Response:
     }
   ]
 }
-
 ```
+
+</details>
+
+</blockquote></details>
+
+</blockquote></details>
+
 
 4. Final pipeline
 
 ```json
-
 PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 {
   "processors": [
@@ -724,45 +755,52 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
     }
   ]
 }
-
 ```
 
 #### Add index `devoxx-france-2023`
 
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 PUT /devoxx-france-2023
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "acknowledged" : true,
   "shards_acknowledged" : true,
   "index" : "devoxx-france-2023"
 }
-
 ```
+
+</details>
+
+</blockquote></details>
+
 
 #### Add ingest pipeline as the default pipeline for index `devoxx-france-2023`
 
 ```json
-
 PUT /devoxx-france-2023/_settings
 {
   "index.default_pipeline": "devoxx-france-2023-ingest-pipeline"
 }
-
 ```
 
 #### Check index `devoxx-france-2023`
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 GET /devoxx-france-2023
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "devoxx-france-2023" : {
     "aliases" : { },
@@ -789,21 +827,28 @@ Response:
     }
   }
 }
-
 ```
+
+</details>
+
+</blockquote></details>
+
 
 #### Bulk index documents in index `devoxx-france-2023`
 
-```json
+<details open><summary><i>dev tools</i></summary><blockquote>
 
+```json
 POST /devoxx-france-2023/_bulk
 {"index":{}}
 {"content":"Welcome to Devoxx France 2023|Un moteur de recherche de documents d'entreprise|2023-04-12|4.5"}
 {"index":{}}
 {"content":"Welcome to Devoxx France 2023|The Developer Portal: Open the Gate to Productivity|2023-04-13|5.0"}
+```
 
-Response: 
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 34,
   "ingest_took" : 0,
@@ -845,17 +890,24 @@ Response:
     }
   ]
 }
-
 ```
+
+</details>
+
+</blockquote></details>
+
 
 #### Check indexed documents
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 GET /devoxx-france-2023/_search
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 186,
   "timed_out" : false,
@@ -899,5 +951,9 @@ Response:
     ]
   }
 }
-
 ```
+
+</details>
+
+</blockquote></details>
+
