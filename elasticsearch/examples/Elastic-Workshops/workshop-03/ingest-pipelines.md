@@ -57,7 +57,7 @@ cat dataset/persons.json | jq --slurp -c '.[] | select( .address.country == "Fra
 
 ***Create mapping:***
 
-```json
+```
 curl -s -XDELETE "localhost:9200/demo-ingest-person"  -u elastic:$ELASTIC_PASSWORD  | jq '.'
 
 curl -s -XDELETE "localhost:9200/demo-ingest-person-new"  -u elastic:$ELASTIC_PASSWORD  | jq '.'
@@ -114,7 +114,7 @@ cat dataset/france_departments_v7.geo.json | jq -c '.features | .[] | [{ index :
 
 ***Create mapping:***
 
-```json
+```
 curl -s -XDELETE "localhost:9200/demo-ingest-regions"  -u elastic:$ELASTIC_PASSWORD | jq '.'
 
 curl -s -XPUT "localhost:9200/demo-ingest-regions" -u elastic:$ELASTIC_PASSWORD -H 'kbn-xsrf: true' -H 'Content-Type: application/json' -d"@mappings/demo-ingest-regions.mappings.json" ; echo 
