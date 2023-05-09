@@ -408,7 +408,7 @@ POST /_ingest/pipeline/demo-ingest-circle/_simulate
 
 - **We can define an enrich policy. It reads from `demo-ingest-regions` index and tries to geo match on the `location` field.**
 
-```json
+```
 curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
 {
   "geo_match": {
@@ -421,7 +421,7 @@ curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy" -u elas
 
 - ***We need to execute this policy***
 
-```json
+```
 curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy/_execute" -u elastic:$ELASTIC_PASSWORD | jq '.'
 ```
 
