@@ -525,6 +525,8 @@ PUT _ingest/pipeline/bano
 }
 ```
 
+---
+
 #### Test pipeline
 
 > reindex `demo_csv` index to `demo_csv_bano` index using ***pipeline** created  
