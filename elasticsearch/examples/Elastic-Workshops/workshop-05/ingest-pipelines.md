@@ -2,6 +2,7 @@
 
 1. Index a document in the `devoxx-france` index:
 
+
 ```json
 
 PUT devoxx-france/_doc/1
@@ -13,12 +14,15 @@ PUT devoxx-france/_doc/1
 
 2. Check that the document 
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 GET /devoxx-france/_doc/1
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "_index" : "devoxx-france",
   "_type" : "_doc",
@@ -31,30 +35,34 @@ Response:
     "message" : "Welcome to Devoxx France 2023"
   }
 }
-
 ```
+
+</details>
+
+</blockquote></details>
 
 3. Update the document:
 
 ```json
-
 PUT /devoxx-france/_doc/1
 {
   "message": "Welcome to Devoxx France 2023",
   "session": "2023-04-12"
 }
-
 ```
 
 
 4. Check that the document updated correctly
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 GET /devoxx-france/_doc/1
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "_index" : "devoxx-france",
   "_type" : "_doc",
@@ -68,17 +76,23 @@ Response:
     "session" : "2023-04-12"
   }
 }
-
 ```
+
+</details>
+
+</blockquote></details>
 
 5. Remove the document
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 DELETE /devoxx-france/_doc/1
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "_index" : "devoxx-france",
   "_type" : "_doc",
@@ -93,38 +107,50 @@ Response:
   "_seq_no" : 2,
   "_primary_term" : 1
 }
-
 ```
+
+</details>
+
+</blockquote></details>
 
 6. check that document deleted
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 GET /devoxx-france/_doc/1
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "_index" : "devoxx-france",
   "_type" : "_doc",
   "_id" : "1",
   "found" : false
 }
-	
 ```
+
+</details>
+
+</blockquote></details>
 
 7. Create a new document
 
-```json
+<details open><summary><i>dev tools</i></summary><blockquote>
 
+```json
 PUT /devoxx-france/_doc/2
 {
   "message": "Welcome to Devoxx France 2023",
   "session": "Un moteur de recherche de documents d'entreprise"
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "error" : {
     "root_cause" : [
@@ -146,17 +172,23 @@ Response:
   },
   "status" : 400
 }
-
 ```
+
+</details>
+
+</blockquote></details>
 
 8. Get mapping
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
-
 GET /devoxx-france/_mapping
+```
 
-Response: 
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "devoxx-france" : {
     "mappings" : {
@@ -177,12 +209,15 @@ Response:
     }
   }
 }
-
 ```
+
+</details>
+
+</blockquote></details>
+
 9. Change the mapping to use text for both message and session fields
 
 ```json
-
 DELETE /devoxx-france
 
 PUT /devoxx-france
@@ -198,38 +233,33 @@ PUT /devoxx-france
     }
   }
 }
-
 ```
-
 
 10. Reindex doc 1
 
 ```json
-
 PUT /devoxx-france/_doc/1
 {
   "message": "Welcome to Devoxx France 2023",
   "session": "2023-04-12"
 }
-
 ```
 
 11. the doc 2
 
 ```json
-
 PUT /devoxx-france/_doc/2
 {
   "message": "Welcome to Devoxx France 2023",
   "session": "Un moteur de recherche de documents d'entreprise"
 }
-
 ```
 
 12. Search for documents where message has "Devoxx".
 
-```json
+<details open><summary><i>dev tools</i></summary><blockquote>
 
+```json
 GET /devoxx-france/_search
 {
   "query": {
@@ -238,9 +268,11 @@ GET /devoxx-france/_search
     }
   }
 }
+```
 
-Response:
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 721,
   "timed_out" : false,
@@ -280,13 +312,17 @@ Response:
     ]
   }
 }
-
 ```
+
+</details>
+
+</blockquote></details>
 
 13. Search for documents where message has "Devoxx" or session has recherche, the more terms, the better.
 
-```json
+<details open><summary><i>dev tools</i></summary><blockquote>
 
+```json
 GET /devoxx-france/_search
 {
   "query": {
@@ -306,9 +342,11 @@ GET /devoxx-france/_search
     }
   }
 }
+```
 
-Response: 
+<details><summary><i>Response:</i></summary>
 
+```json
 {
   "took" : 9,
   "timed_out" : false,
@@ -348,8 +386,11 @@ Response:
     ]
   }
 }
-
 ```
+
+</details>
+
+</blockquote></details>
 
 ### Ingest Pipelines
 

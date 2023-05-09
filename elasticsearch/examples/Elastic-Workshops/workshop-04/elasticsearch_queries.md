@@ -309,7 +309,7 @@ GET flight_tracking*/_search
 > Use the website http://bboxfinder.com to get coordinates and bounding boxes.  
 > You can get quickly a polygon representation using [this tool](https://boundingbox.klokantech.com/) and getting the GeoJSON output.  
 
-<!-- Point and radius query -->
+##### Point and radius query
 
 <details open><summary><i>With the geo_distance query type get the positions near Barajas airport:</i></summary>
 
@@ -332,7 +332,7 @@ GET flight_tracking*/_search
 
 ---
 
-<!-- Bounding box query -->
+##### Bounding box query
 
 <details open><summary><i>Get the locations in the approximate bounding box of the JFK airport:</i></summary>
 
@@ -359,7 +359,7 @@ GET flight_tracking*/_search
 
 ---
 
-<!-- Shape query -->
+##### Shape query
 
 <details open><summary><i>Let's find how many positions go over a polygon that covers the city of Wuhan.</i></summary>
 
@@ -399,8 +399,8 @@ GET flight_tracking*/_count
 
 ---
 
-<!-- Metric aggregations -->
-<!-- By bounding box -->
+##### Metric aggregations By bounding box
+
 
 <details open><summary><i>Let's find the bounding box of all positions where countryOrigin is Monaco using the geo_bounds aggregation.</i></summary>
 
@@ -428,8 +428,9 @@ GET flight_tracking*/_search
 
 ---
 
-<!-- Centroid -->
-<!-- [Centroid](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-metrics-geocentroid-aggregation.html) -->
+##### Metric aggregations Centroid
+
+> See [Centroid](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-metrics-geocentroid-aggregation.html)  
 
 <details open><summary><i>Get the centroids of the top 5 Ryanair flights with more positions.</i></summary>
 
@@ -455,15 +456,21 @@ GET flight_tracking*/_search
 
 </details>
 
-<!--
+---
 
-Geoline aggregation
-This aggregation takes a group of points and returns the line that connects them given a sorting field. You usually want this aggregation to be combined with a filter or a terms aggregation to retrieve lines that connect the locations of a particular asset or grouped by an identifier like an airplane callsign field.
+##### Geoline aggregation
 
-In this example we filter the last 15 minutes data for the airplane JST574, and the request the line aggregation representation using the timePosition field.
+> Takes a group of points and returns the line that connects them given a sorting field. 
 
-IMPORTANT: You need to adapt the callsign and the date filter values to your own data, using Discover or Maps.
+***Note***
+> Combine with a filter or a terms aggregation to retrieve lines that connect the locations of a asset .  
 
+
+<!--IMPORTANT: You need to adapt the callsign and the date filter values to your own data, using Discover or Maps.-->
+
+<details open><summary><i>filter the last 15 minutes data for the airplane JST574, and the request the line aggregation representation using the timePosition field.</i></summary>
+
+```json
 GET flight_tracking_*/_search
 {
   "size": 0,
@@ -488,12 +495,23 @@ GET flight_tracking_*/_search
     }
   }
 }
-Bucket aggregations
-Group your query results using geospatial aggregations.
+```
 
-Buffers
-Group positions around CDG airport in rings (also known as buffers in the geospatial world) of 10, 20, and 30 kilometers and return results using an object instead of an array:
+</details>
 
+---
+
+<!--
+
+##### Bucket aggregations
+
+> Group your query results using geospatial aggregations.  
+
+- ***Buffers***
+
+<details open><summary><i>Group positions around CDG airport in rings (also known as buffers in the geospatial world) of 10, 20, and 30 kilometers and return results using an object instead of an array.</i></summary>
+
+```json
 GET flight_tracking*/_search
 {
   "size": 0,
@@ -510,12 +528,24 @@ GET flight_tracking*/_search
           { "from": 10, "to": 20, "key": "10-20km" },
           { "from": 20, "to": 30, "key": "20-30km" }
         ]
-      } } } }
-Tile grid
-In the geospatial industry there is a common way to bucket the Earth using the square grid many online maps use. This schema uses a Z/X/Y notation that Elasticsearch can use to return your buckets.
+      } 
+    } 
+  } 
+}
+```
 
-Let's find the zoom level 6 buckets for positions in mainland France.
+</details>
 
+---
+
+- ***Tile grid***
+
+> In the geospatial industry there is a common way to bucket the Earth using the square grid many online maps use. This schema uses a Z/X/Y notation that Elasticsearch can use to return your buckets.
+
+
+<details open><summary><i>find the zoom level 6 buckets for positions in mainland France.</i></summary>
+
+```json
 GET flight_tracking*/_search
 {
   "size": 0,
@@ -543,16 +573,31 @@ GET flight_tracking*/_search
           "geotile_grid": {
             "field": "location",
             "precision": 6
-          } } } } } }
-IMPORTANT: Be careful with the precision parameter, a high value can potentially return millions of buckets, so you should only ask for high-precision results in a very small bounding box, or for small datasets.
+          } 
+        } 
+      } 
+    } 
+  } 
+}
+```
 
-TIP: You can get quickly a polygon representation using this tool and getting the GeoJSON output.
+</details>
 
-Hex grid
-You can perform a similar query to the previous but instead of getting back buckets in the Z/X/Y schema, you get hexagons with the Uber's h3 cell identifier. Same note about the precision parameter applies to this aggregation.
+***Note*** 
+> Be careful with the precision parameter, a high value can potentially return millions of buckets, so you should only ask for high-precision results in a very small bounding box, or for small datasets.  
 
-TIP: You may find this viewer useful to render the location of a given h3 cell id.
+---
 
+- ***Hex grid***
+
+> You can perform a similar query to the previous but instead of getting back buckets in the Z/X/Y schema, you get hexagons with the Uber's h3 cell identifier. Same note about the precision parameter applies to this aggregation.
+
+***Note*** 
+> This viewer is useful to render the location of a given h3 cell id.  
+
+<details open><summary><i></i></summary>
+
+```json
 GET flight_tracking*/_search
 {
   "size": 0,
@@ -580,9 +625,16 @@ GET flight_tracking*/_search
           "geohex_grid": {
             "field": "location",
             "precision": 3
-          } } } } } }
-          
-          
+          } 
+        } 
+      } 
+    } 
+  } 
+}
+```
+
+</details>
+         
 -->
 
 
