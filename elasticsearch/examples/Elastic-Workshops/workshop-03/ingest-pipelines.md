@@ -372,7 +372,7 @@ POST /_ingest/pipeline/demo-ingest-circle/_simulate
 
 ***2. Add Enrich Ingest Processor***
 
-We have an existing person dataset. It contains the name, the date of birth, the country and the geo location point.
+- ***We have an existing person dataset. It contains the `name`, the `date of birth`, the `country` and the `geo location` point.***
 
 ```json
 {
@@ -383,7 +383,7 @@ We have an existing person dataset. It contains the name, the date of birth, the
 }
 ```
 
-We also have a regions dataset. It contains all the french regions (or departments) with the region number, name and the polygons which represents the shape of the region.
+- ***We also have a regions dataset. It contains all the french regions (or departments) with the region number, name and the polygons which represents the shape of the region.***
 
 ```json
 {
@@ -406,7 +406,7 @@ We also have a regions dataset. It contains all the french regions (or departmen
 }
 ```
 
-We can define an enrich policy. It reads from demo-ingest-regions index and tries to geo match on the location field.
+- **We can define an enrich policy. It reads from `demo-ingest-regions` index and tries to geo match on the `location` field.**
 
 ```json
 curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d' 
@@ -419,24 +419,13 @@ curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy" -u elas
 }' | jq '.'
 ```
 
-We need to execute this policy
+- ***We need to execute this policy***
 
 ```json
 curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy/_execute" -u elastic:$ELASTIC_PASSWORD | jq '.'
 ```
 
-<details><summary><i>Response:</i></summary>
-
-```json
-{
-  "status" : {
-    "phase" : "COMPLETE"
-  }
-}
-```
-
-</details>
-
+- **Now enrich processor can work**
 
 <details open><summary><i>dev tools</i></summary><blockquote>
 
