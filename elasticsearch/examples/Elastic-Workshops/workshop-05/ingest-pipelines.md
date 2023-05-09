@@ -392,9 +392,9 @@ GET /devoxx-france/_search
 
 ### Ingest Pipelines
 
-from [lab2](https://github.com/dadoonet/DevoxxFR-2023/blob/main/labs/lab2.md)
+---
 
-#### Steps
+> See [lab2](https://github.com/dadoonet/DevoxxFR-2023/blob/main/labs/lab2.md)  
 
 Source document :
 
@@ -415,9 +415,8 @@ Buid a pipeline which transforms it to:
 }
 ```
 
-#### Create ingest pipeline
-
---- 
+#### Create pipeline
+ 
 
 1. ***Add `dissect` processor***
 
