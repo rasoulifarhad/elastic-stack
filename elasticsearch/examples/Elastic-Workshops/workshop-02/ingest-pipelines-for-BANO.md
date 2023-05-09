@@ -76,6 +76,8 @@ curl -s -XPOST "localhost/demo_csv/_bulk" \
 
 - ***Get count of documents***
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
 GET /demo_csv/_count
 ```
@@ -104,7 +106,11 @@ curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_count" -H 'Content-T
 
 </details>
 
+</blockquote></details>
+
 - ***Search documents***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
 GET /demo_csv/_search
@@ -168,8 +174,11 @@ curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_search" -H 'Content-
 
 </details>
 
+</blockquote></details>
 
 - ***Check indec definition***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
 GET /demo_csv
@@ -229,6 +238,8 @@ curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv" | jq '.'
 ```
 
 </details>
+
+</blockquote></details>
 
 ---
 
