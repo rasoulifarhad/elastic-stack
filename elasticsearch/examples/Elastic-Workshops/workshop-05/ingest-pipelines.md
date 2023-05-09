@@ -440,7 +440,7 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 }
 ```
 
-<details open><summary><i>test pipeline</i></summary><blockquote>
+<details><summary><i>test pipeline</i></summary><blockquote>
 
 ```json
 POST /_ingest/pipeline/_simulate
@@ -534,7 +534,7 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 }
 ```
 
-<details open><summary><i>test pipe;ine</i></summary><blockquote>
+<details><summary><i>test pipeLine</i></summary><blockquote>
 
 ```json
 POST /_ingest/pipeline/_simulate
@@ -644,7 +644,7 @@ PUT /_ingest/pipeline/devoxx-france-2023-ingest-pipeline
 }
 ```
 
-<details open><summary><i>test pipe;ine</i></summary><blockquote>
+<details><summary><i>test pipeLine</i></summary><blockquote>
 
 ```json
 POST /_ingest/pipeline/_simulate
