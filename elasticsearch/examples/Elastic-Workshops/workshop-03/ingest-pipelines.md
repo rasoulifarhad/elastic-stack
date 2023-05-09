@@ -109,7 +109,7 @@ cat dataset/france_departments_v7.geo.json | jq -c '.features | .[] | [{ index :
       }
     }
   }
-  }
+}
 ```
 
 ***Create mapping:***
@@ -294,6 +294,8 @@ Create pipeline `demo-ingest-circle`.
 
 ***1. Add a `Circle` processor on `location` field with a `Geo-shape` Shape type.***
 
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
 PUT /_ingest/pipeline/demo-ingest-circle
 {
@@ -306,10 +308,10 @@ PUT /_ingest/pipeline/demo-ingest-circle
       }
     }
   ]
-  }
+}
 ```
 
-Test docs:
+<details><summary><i>Test docs::</i></summary>
 
 ```json
 {
@@ -329,10 +331,12 @@ Test docs:
       ]
     }
   }
-  }
+}
 ```
 
-Test pipeline:
+</details>
+
+<details><summary><i>Test pipeline:</i></summary>
 
 ```json
 POST /_ingest/pipeline/demo-ingest-circle/_simulate
@@ -356,10 +360,15 @@ POST /_ingest/pipeline/demo-ingest-circle/_simulate
       }
     }
   ]
-  }
+}
 ```
 
-Adjust the Error distance to `100` and show the effect when running again the test.
+</details>
+
+</blockquote></details>
+
+***Note:***
+> Adjust the Error distance to `100` and show the effect when running again the test.  
 
 ***2. Add Enrich Ingest Processor***
 
@@ -428,6 +437,9 @@ curl -s -XPUT "localhost:9200/_enrich/policy/demo-ingest-regions-policy/_execute
 
 </details>
 
+
+<details open><summary><i>dev tools</i></summary><blockquote>
+
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
 {
@@ -441,10 +453,10 @@ PUT /_ingest/pipeline/demo-ingest-enrich
       }
     }
   ]
-  }
+}
 ```
 
-Test pipeline:
+<details><summary><i>Test pipeline:</i></summary>
 
 ```json
 POST /_ingest/pipeline/demo-ingest-enrich/_simulate
@@ -469,6 +481,8 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>Response:</i></summary>
 
@@ -515,7 +529,12 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 
 </details>
 
+</blockquote></details>
+
+
 ***3. Rename the region number field to `region`***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
@@ -536,10 +555,10 @@ PUT /_ingest/pipeline/demo-ingest-enrich
       }
     }
   ]
-  }
+}
 ```
 
-Test pipeline:
+<details><summary><i>Test pipeline:</i></summary>
 
 ```json
 POST /_ingest/pipeline/demo-ingest-enrich/_simulate
@@ -564,6 +583,8 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>Response:</i></summary>
 
@@ -624,7 +645,12 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 
 </details>
 
+</blockquote></details>
+
+
 ***4. Rename the region name field to `region_name`.***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
@@ -653,10 +679,10 @@ PUT /_ingest/pipeline/demo-ingest-enrich
       }
     }
   ]
-  }
+}
 ```
 
-Test pipeline:
+<details><summary><i>Test pipeline:</i></summary>
 
 ```json
 POST /_ingest/pipeline/demo-ingest-enrich/_simulate
@@ -681,6 +707,8 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>Response:</i></summary>
 
@@ -739,7 +767,12 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 
 </details>
 
+</blockquote></details>
+
+
 ***5. Remove the non needed fields (`geo_data`)***
+
+<details open><summary><i>dev tools</i></summary><blockquote>
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
@@ -773,10 +806,10 @@ PUT /_ingest/pipeline/demo-ingest-enrich
       }
     }
   ]
-  }
+}
 ```
 
-Test pipeline:
+<details><summary><i>Test pipeline:</i></summary>
 
 ```json
 POST /_ingest/pipeline/demo-ingest-enrich/_simulate
@@ -801,6 +834,8 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
   ]
 }
 ```
+
+</details>
 
 <details><summary><i>Response:</i></summary>
 
@@ -848,6 +883,8 @@ POST /_ingest/pipeline/demo-ingest-enrich/_simulate
 ```
 
 </details>
+
+</blockquote></details>
 
 ***6. Final pipeline***
 
@@ -1108,7 +1145,7 @@ GET /demo-ingest-person-new/_search
       ]
     }
   }
-  }
+}
 ```
 
 </details>
@@ -1400,7 +1437,7 @@ PUT /example
       }
     }
   }
-  }
+}
 ```
 
 Input Structure : Shapes can be represented using either the [GeoJSON](http://geojson.org/) or [Well-Known Text](https://docs.opengeospatial.org/is/12-063r5/12-063r5.html) (WKT) format.
@@ -1419,7 +1456,7 @@ POST /example/_doc
       38.897676
     ]
   }
-  }
+}
 ```
 
 Point in WKT:
@@ -1428,7 +1465,7 @@ Point in WKT:
 POST /example/_doc
 {
   "location" : "POINT (-77.03653 38.897676)"
-  }
+}
 ```
 
 - LineString: A linestring defined by an array of two or more positions. By specifying only two points, the linestring will represent a straight line. Specifying more than two points creates an arbitrary path. 
@@ -1451,7 +1488,7 @@ POST /example/_doc
       ]
     ]
   }
-  }
+}
 ```
 
 LineString in WKT:
@@ -1460,7 +1497,7 @@ LineString in WKT:
 POST /example/_doc
 {
   "location" : "POINT (-77.03653 38.897676)"
-  }
+}
 ```
 
 - Polygon: A polygon is defined by a list of a list of points. The first and last points in each (outer) list must be the same (the polygon must be closed).
@@ -1476,7 +1513,7 @@ POST /example/_doc
       [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]
     ]
   }
-  }
+}
 ```
 
 Polygon in WKT:
@@ -1485,7 +1522,7 @@ Polygon in WKT:
 POST /example/_doc
 {
   "location" : "POLYGON ((100.0 0.0, 101.0 0.0, 101.0 1.0, 100.0 1.0, 100.0 0.0))"
-  }
+}
 ```
 
 The first array represents the outer boundary of the polygon, the other arrays represent the interior shapes ("holes"). 
@@ -1502,7 +1539,7 @@ POST /example/_doc
       [ [100.2, 0.2], [100.8, 0.2], [100.8, 0.8], [100.2, 0.8], [100.2, 0.2] ]
     ]
   }
-  }
+}
 ```
 
 The following is an example of a polygon with a hole in WKT:
@@ -1511,7 +1548,7 @@ The following is an example of a polygon with a hole in WKT:
 POST /example/_doc
 {
   "location" : "POLYGON ((100.0 0.0, 101.0 0.0, 101.0 1.0, 100.0 1.0, 100.0 0.0), (100.2 0.2, 100.8 0.2, 100.8 0.8, 100.2 0.8, 100.2 0.2))"
-  }
+}
 ```
 
 **Polygon orientation**: A polygon’s orientation indicates the order of its vertices: `RIGHT` (counterclockwise) or `LEFT` (clockwise). A polygon’s orientation indicates the order of its vertices: RIGHT (counterclockwise) or LEFT (clockwise).
@@ -1535,7 +1572,7 @@ POST /example/_doc
       [102.0, 2.0], [103.0, 2.0]
     ]
   }
-  }
+}
 ```
 
 The following is an example of a list of WKT points:
@@ -1544,7 +1581,7 @@ The following is an example of a list of WKT points:
 POST /example/_doc
 {
   "location" : "MULTIPOINT (102.0 2.0, 103.0 2.0)"
-  }
+}
 ```
 
 - MultiLineString
@@ -1562,7 +1599,7 @@ POST /example/_doc
       [ [100.2, 0.2], [100.8, 0.2], [100.8, 0.8], [100.2, 0.8] ]
     ]
   }
-  }
+}
 ```
 
 The following is an example of a list of WKT linestrings:
@@ -1571,7 +1608,7 @@ The following is an example of a list of WKT linestrings:
 POST /example/_doc
 {
   "location" : "MULTILINESTRING ((102.0 2.0, 103.0 2.0, 103.0 3.0, 102.0 3.0), (100.0 0.0, 101.0 0.0, 101.0 1.0, 100.0 1.0), (100.2 0.2, 100.8 0.2, 100.8 0.8, 100.2 0.8))"
-  }
+}
 ```
 
 - MultiPolygon
@@ -1589,7 +1626,7 @@ POST /example/_doc
         [[100.2, 0.2], [100.8, 0.2], [100.8, 0.8], [100.2, 0.8], [100.2, 0.2]] ]
     ]
   }
-  }
+}
 ```
 
 The following is an example of a list of WKT polygons (second polygon contains a hole):
@@ -1598,7 +1635,7 @@ The following is an example of a list of WKT polygons (second polygon contains a
 POST /example/_doc
 {
   "location" : "MULTIPOLYGON (((102.0 2.0, 103.0 2.0, 103.0 3.0, 102.0 3.0, 102.0 2.0)), ((100.0 0.0, 101.0 0.0, 101.0 1.0, 100.0 1.0, 100.0 0.0), (100.2 0.2, 100.8 0.2, 100.8 0.8, 100.2 0.8, 100.2 0.2)))"
-  }
+}
 ```
 
 - Geometry Collection
@@ -1621,7 +1658,7 @@ POST /example/_doc
       }
     ]
   }
-  }
+}
 ```
 
 The following is an example of a collection of WKT geometry objects:
@@ -1630,7 +1667,7 @@ The following is an example of a collection of WKT geometry objects:
 POST /example/_doc
 {
   "location" : "GEOMETRYCOLLECTION (POINT (100.0 0.0), LINESTRING (101.0 0.0, 102.0 1.0))"
-  }
+}
 ```
 
 - Envelope: Elasticsearch supports an envelope type, which consists of coordinates for upper left and lower right points of the shape to represent a bounding rectangle in the format [[minLon, maxLat], [maxLon, minLat]]:
@@ -1643,7 +1680,7 @@ POST /example/_doc
     "type" : "envelope",
     "coordinates" : [ [100.0, 1.0], [101.0, 0.0] ]
   }
-  }
+}
 ```
 
 The following is an example of an envelope using the WKT BBOX format:
@@ -1654,7 +1691,7 @@ NOTE: WKT specification expects the following order: minLon, maxLon, maxLat, min
 POST /example/_doc
 {
   "location" : "BBOX (100.0, 102.0, 2.0, 0.0)"
-  }
+}
 ```
 
 - Circle: Elasticsearch supports a circle type, which consists of a center point with a radius.
@@ -1674,7 +1711,7 @@ PUT /circle-example
       }
     }
   }
-  }
+}
 ```
 
 The following request indexes a circle geo-shape.
@@ -1690,7 +1727,7 @@ POST /circle-example/_doc
     ],
     "radius": "100m"
   }
-  }
+}
 ```
 
 Note: The inner radius field is required. If not specified, then the units of the radius will default to METERS.
