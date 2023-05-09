@@ -308,7 +308,7 @@ Response:
 
 Create pipeline `demo-ingest-circle`.
 
-1. Add a `Circle` processor on `location` field with a `Geo-shape` Shape type.
+***1. Add a `Circle` processor on `location` field with a `Geo-shape` Shape type.***
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-circle
@@ -377,7 +377,7 @@ POST /_ingest/pipeline/demo-ingest-circle/_simulate
 
 Adjust the Error distance to `100` and show the effect when running again the test.
 
-2. Add Enrich Ingest Processor
+***2. Add Enrich Ingest Processor***
 
 We have an existing person dataset. It contains the name, the date of birth, the country and the geo location point.
 
@@ -534,7 +534,7 @@ Response:
   }
 ```
 
-3. Rename the region number field to `region`. 
+***3. Rename the region number field to `region`. ***
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
@@ -640,7 +640,7 @@ Response:
   }
 ```
 
-4. Rename the region name field to `region_name`.
+***4. Rename the region name field to `region_name`.***
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
@@ -751,7 +751,7 @@ Response:
   }
 ```
 
-5. Remove the non needed fields (`geo_data`)
+***5. Remove the non needed fields (`geo_data`)***
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
@@ -857,7 +857,7 @@ Response:
   }
 ```
 
-6. Final pipeline
+***6. Final pipeline***
 
 ```json
 
