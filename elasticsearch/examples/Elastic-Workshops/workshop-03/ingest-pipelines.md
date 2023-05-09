@@ -127,6 +127,8 @@ curl -XPOST "localhost:9200/demo-ingest-regions/_bulk" -s -u elastic:$ELASTIC_PA
 
 #### Test ingested documents
 
+<details open><summary><i>check documents</i></summary><blockquote>
+
 ```json
 curl -s -XGET "localhost:9200/demo-ingest-person/_count" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' | jq '.'
 
@@ -141,18 +143,10 @@ curl -s -XGET "localhost:9200/demo-ingest-person/_count" -u elastic:$ELASTIC_PAS
 }
 ```
 
+
+<details open><summary><i></i></summary><blockquote>
+
 ```json
-curl -s -XGET "localhost:9200/demo-ingest-person/_search" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d'
-{
-  "query": {
-    "match_all": {}
-  },
-  "from": 0,
-  "size": 1
-}' | jq '.'
-
-OR 
-
 curl -s -XGET "localhost:9200/demo-ingest-person/_search?size=1" -u elastic:$ELASTIC_PASSWORD | jq '.'
 ```
 
@@ -194,6 +188,11 @@ curl -s -XGET "localhost:9200/demo-ingest-person/_search?size=1" -u elastic:$ELA
 
 </details>
 
+</blockquote></details>
+
+
+<details open><summary><i></i></summary><blockquote>
+
 ```json
 curl -s -XGET "localhost:9200/demo-ingest-regions/_count" -u elastic:$ELASTIC_PASSWORD | jq '.'
 ```
@@ -214,6 +213,9 @@ curl -s -XGET "localhost:9200/demo-ingest-regions/_count" -u elastic:$ELASTIC_PA
 
 </details>
 
+</blockquote></details>
+
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 curl -s -XGET "localhost:9200/demo-ingest-regions/_search" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d'
@@ -224,11 +226,6 @@ curl -s -XGET "localhost:9200/demo-ingest-regions/_search" -u elastic:$ELASTIC_P
   "from": 0,
   "size": 1
 }' | jq '.'
-
-
-OR 
-
-curl -s -XGET "localhost:9200/demo-ingest-regions/_search?size=1" -u elastic:$ELASTIC_PASSWORD | jq '.'
 ```
 
 <details><summary><i>Response:</i></summary>
@@ -287,6 +284,12 @@ curl -s -XGET "localhost:9200/demo-ingest-regions/_search?size=1" -u elastic:$EL
 ```
 
 </details>
+
+</blockquote></details>
+
+</blockquote></details>
+
+---
 
 ### Create ingest pipeline
 
