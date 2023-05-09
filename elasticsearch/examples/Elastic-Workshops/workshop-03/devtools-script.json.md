@@ -50,7 +50,7 @@ We can define an ingest pipeline (using the REST API here). It will:
 - Rename the region number and region name fields
 - Remove the non needed fields
 
-<details><summary><i>Ingest pipeline:</i></summary>
+<details open><summary><i>Ingest pipeline:</i></summary>
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
@@ -133,7 +133,7 @@ POST /_reindex
 
 <details><summary><i>Compare the source index and the destination index</i></summary><blockquote>
 
-<details><summary><i></i></summary>
+<details open><summary><i></i></summary>
 
 ```json
 GET /demo-ingest-person/_search?size=1
@@ -142,7 +142,7 @@ GET /demo-ingest-person/_search?size=1
 </details>
 
 
-<details><summary><i></i></summary>
+<details open><summary><i></i></summary>
 
 ```json
 GET /demo-ingest-person-new/_search?size=1
