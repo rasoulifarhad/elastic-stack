@@ -3,7 +3,7 @@
 
 #### Index creation
 
-<details><summary><i>Create an index with a given mapping that contains a geo_point type</i></summary>
+<details open><summary><i>Create an index with a given mapping that contains a geo_point type</i></summary>
 
 ```json
 PUT workshop_test
@@ -36,7 +36,7 @@ PUT workshop_test
 
 > ***For geospatial data there are a number of different ways to specify the coordinates.***
 
-<details><summary><i>As a string: latitude, longitude</i></summary>
+<details open><summary><i>As a string: latitude, longitude</i></summary>
 
 ```json
 POST workshop_test/_doc/1
@@ -49,7 +49,7 @@ POST workshop_test/_doc/1
 
 </details>
 
-<details><summary><i>As a geohash:</i></summary>
+<details open><summary><i>As a geohash:</i></summary>
 
 ```json
 POST workshop_test/_doc/2
@@ -62,7 +62,7 @@ POST workshop_test/_doc/2
 
 </details>
 
-<details><summary><i>As an array: longitude, latitude</i></summary>
+<details open><summary><i>As an array: longitude, latitude</i></summary>
 
 ```json
 POST workshop_test/_doc/3
@@ -75,7 +75,7 @@ POST workshop_test/_doc/3
 
 </details>
 
-<details><summary><i>As an object:</i></summary>
+<details open><summary><i>As an object:</i></summary>
 
 ```json
 POST workshop_test/_doc/4
@@ -97,7 +97,7 @@ POST workshop_test/_doc/4
 
 ***Define a new index***
 
-<details><summary><i>mapping</i></summary>
+<details open><summary><i>mapping</i></summary>
 
 ```json
 PUT airports
@@ -125,7 +125,7 @@ PUT airports
 
 ***Insert more than one document in a single `_bulk` request***
 
-<details><summary><i>bulk request</i></summary>
+<details open><summary><i>bulk request</i></summary>
 
 ```json
 PUT _bulk
@@ -157,7 +157,7 @@ PUT _bulk
 
 ---
 
-<details><summary><i>Filter by value, get only a number of columns and order the results</i></summary>
+<details open><summary><i>Filter by value, get only a number of columns and order the results</i></summary>
 
 ```json
 GET flight_tracking*/_search
@@ -185,7 +185,7 @@ GET flight_tracking*/_search
 
 ---
 
-<details><summary><i>Just get the number of results using _count instead of _search using a bool query with a filter.</i></summary>
+<details open><summary><i>Just get the number of results using _count instead of _search using a bool query with a filter.</i></summary>
 
 ```json
 GET flight_tracking*/_count
@@ -206,7 +206,7 @@ GET flight_tracking*/_count
 
 ---
 
-<details><summary><i>A more complex query_string query using wildcards and operators</i></summary>
+<details open><summary><i>A more complex query_string query using wildcards and operators</i></summary>
 
 ```json
 GET flight_tracking*/_search
@@ -224,7 +224,7 @@ GET flight_tracking*/_search
 
 ---
 
-<details><summary><i>Combining queries with filters using the bool compounded query.</i></summary>
+<details open><summary><i>Combining queries with filters using the bool compounded query.</i></summary>
 
 ```json
 GET flight_tracking*/_search
@@ -257,7 +257,7 @@ GET flight_tracking*/_search
 
 > ***Get some aggregations (metrics and histogram buckets) for positions that are not on the ground, for the last 30 minutes, and with positive altitudes.***  
 
-<details><summary><i>aggs</i></summary>
+<details open><summary><i>aggs</i></summary>
 
 ```json
 GET flight_tracking*/_search
@@ -311,7 +311,7 @@ GET flight_tracking*/_search
 
 <!-- Point and radius query -->
 
-<details><summary><i>With the geo_distance query type get the positions near Barajas airport:</i></summary>
+<details open><summary><i>With the geo_distance query type get the positions near Barajas airport:</i></summary>
 
 ```json
 GET flight_tracking*/_search
@@ -334,7 +334,7 @@ GET flight_tracking*/_search
 
 <!-- Bounding box query -->
 
-<details><summary><i>Get the locations in the approximate bounding box of the JFK airport:</i></summary>
+<details open><summary><i>Get the locations in the approximate bounding box of the JFK airport:</i></summary>
 
 ```json
 GET flight_tracking*/_search
@@ -361,7 +361,7 @@ GET flight_tracking*/_search
 
 <!-- Shape query -->
 
-<details><summary><i>Let's find how many positions go over a polygon that covers the city of Wuhan.</i></summary>
+<details open><summary><i>Let's find how many positions go over a polygon that covers the city of Wuhan.</i></summary>
 
 ```json
 GET flight_tracking*/_count
@@ -402,7 +402,7 @@ GET flight_tracking*/_count
 <!-- Metric aggregations -->
 <!-- By bounding box -->
 
-<details><summary><i>Let's find the bounding box of all positions where countryOrigin is Monaco using the geo_bounds aggregation.</i></summary>
+<details open><summary><i>Let's find the bounding box of all positions where countryOrigin is Monaco using the geo_bounds aggregation.</i></summary>
 
 ```json
 GET flight_tracking*/_search
@@ -431,7 +431,7 @@ GET flight_tracking*/_search
 <!-- Centroid -->
 <!-- [Centroid](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/search-aggregations-metrics-geocentroid-aggregation.html) -->
 
-<details><summary><i>Get the centroids of the top 5 Ryanair flights with more positions.</i></summary>
+<details open><summary><i>Get the centroids of the top 5 Ryanair flights with more positions.</i></summary>
 
 ```json
 GET flight_tracking*/_search
@@ -453,6 +453,7 @@ GET flight_tracking*/_search
 }
 ```
 
+</details>
 
 <!--
 
@@ -583,50 +584,5 @@ GET flight_tracking*/_search
           
           
 -->
-
-</details>
-
----
-
-
-<!-- Point and radius query -->
-
-<details><summary><i>Combining queries with filters using the bool compounded query.</i></summary>
-
-```json
-
-```
-
-</details>
-
----
-
-
-<!-- Point and radius query -->
-
-<details><summary><i>Combining queries with filters using the bool compounded query.</i></summary>
-
-```json
-
-```
-
-</details>
-
----
-
-
-<!-- Point and radius query -->
-
-<details><summary><i>Combining queries with filters using the bool compounded query.</i></summary>
-
-```json
-
-```
-
-</details>
-
----
-
-
 
 
