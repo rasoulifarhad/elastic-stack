@@ -1431,7 +1431,7 @@ PUT /example
 
 Input Structure : Shapes can be represented using either the [GeoJSON](http://geojson.org/) or [Well-Known Text](https://docs.opengeospatial.org/is/12-063r5/12-063r5.html) (WKT) format.
 
-- Point: A point is a single geographic coordinate, such as the location of a building or the current position given by a smartphone’s Geolocation API.  
+- ***Point***: A point is a single geographic coordinate, such as the location of a building or the current position given by a smartphone’s Geolocation API.  
 
 Point in GeoJSON:
 
@@ -1457,7 +1457,7 @@ POST /example/_doc
 }
 ```
 
-- LineString: A linestring defined by an array of two or more positions. By specifying only two points, the linestring will represent a straight line. Specifying more than two points creates an arbitrary path. 
+- ***LineString***: A linestring defined by an array of two or more positions. By specifying only two points, the linestring will represent a straight line. Specifying more than two points creates an arbitrary path. 
 
 LineString in GeoJSON:
 
@@ -1489,7 +1489,7 @@ POST /example/_doc
 }
 ```
 
-- Polygon: A polygon is defined by a list of a list of points. The first and last points in each (outer) list must be the same (the polygon must be closed).
+- ***Polygon***: A polygon is defined by a list of a list of points. The first and last points in each (outer) list must be the same (the polygon must be closed).
 
 Polygon in GeoJSON:
 
@@ -1548,7 +1548,7 @@ GeoJSON polygons use a default orientation of RIGHT, regardless of orientation m
 
 You can override the default orientation for GeoJSON polygons using the document-level orientation parameter. 
 
-- MultiPoint
+- ***MultiPoint***
 
 The following is an example of a list of GeoJSON points:
 
@@ -1573,7 +1573,7 @@ POST /example/_doc
 }
 ```
 
-- MultiLineString
+- ***MultiLineString***
 
 The following is an example of a list of GeoJSON linestrings:
 
@@ -1600,7 +1600,7 @@ POST /example/_doc
 }
 ```
 
-- MultiPolygon
+- ***MultiPolygon***
 
 The following is an example of a list of GeoJSON polygons (second polygon contains a hole):
 
@@ -1627,7 +1627,7 @@ POST /example/_doc
 }
 ```
 
-- Geometry Collection
+- ***Geometry Collection***
 
 The following is an example of a collection of GeoJSON geometry objects:
 
@@ -1659,7 +1659,7 @@ POST /example/_doc
 }
 ```
 
-- Envelope: Elasticsearch supports an envelope type, which consists of coordinates for upper left and lower right points of the shape to represent a bounding rectangle in the format [[minLon, maxLat], [maxLon, minLat]]:
+- ***Envelope***: Elasticsearch supports an envelope type, which consists of coordinates for upper left and lower right points of the shape to represent a bounding rectangle in the format [[minLon, maxLat], [maxLon, minLat]]:
 
 
 ```json
@@ -1674,7 +1674,7 @@ POST /example/_doc
 
 The following is an example of an envelope using the WKT BBOX format:
 
-NOTE: WKT specification expects the following order: minLon, maxLon, maxLat, minLat.
+***Note***: WKT specification expects the following order: minLon, maxLon, maxLat, minLat.
 
 ```json
 POST /example/_doc
@@ -1683,7 +1683,7 @@ POST /example/_doc
 }
 ```
 
-- Circle: Elasticsearch supports a circle type, which consists of a center point with a radius.
+- ***Circle***: Elasticsearch supports a circle type, which consists of a center point with a radius.
 
 You cannot index the circle type using the default BKD tree indexing approach. Instead, use a circle ingest processor to approximate the circle as a polygon.
 
@@ -1719,6 +1719,6 @@ POST /circle-example/_doc
 }
 ```
 
-Note: The inner radius field is required. If not specified, then the units of the radius will default to METERS.
+***Note***: The inner radius field is required. If not specified, then the units of the radius will default to METERS.
 
-NOTE: Neither GeoJSON or WKT support a point-radius circle type.
+***Note***: Neither GeoJSON or WKT support a point-radius circle type.
