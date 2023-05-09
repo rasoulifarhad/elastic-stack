@@ -37,6 +37,8 @@
 
 > ***And we could also use the first column as the `_id`: `950020003K-1`.***
 
+---
+
 #### Setup
 
 ##### Run Elastic Stack
@@ -46,13 +48,13 @@ docker-compose down -v
 docker compose up -d
 ```
 
-##### download region
+##### Download region
 
 ```
 wget http://bano.openstreetmap.fr/data/bano-95.csv -P $(pwd)/dataset
 ```
 
-##### create bulk file
+##### Create bulk file
 
 ```
 head -10000 bano-95.csv | 
@@ -62,7 +64,7 @@ while read -r line; do \
 done >$(pwd)/dataset/bulk-bano-95.ndjson
 ```
 
-##### ingest documents
+##### Ingest documents
 
 ```
 curl -s -XPOST "localhost/demo_csv/_bulk" \
@@ -74,9 +76,15 @@ curl -s -XPOST "localhost/demo_csv/_bulk" \
 
 ##### Test ingested documents
 
+***Get count of documents***
+
 ```json
 GET /demo_csv/_count
+```
 
+<details><summary><i>Response:</i></summary>
+
+```json
 {
   "count" : 10000,
   "_shards" : {
@@ -88,6 +96,8 @@ GET /demo_csv/_count
 }
 ```
 
+</details>
+
 <details><summary><i>curl:</i></summary>
 
 ```json
@@ -95,6 +105,8 @@ curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_count" -H 'Content-T
 ```
 
 </details>
+
+***Search documents***
 
 ```json
 GET /demo_csv/_search
@@ -106,21 +118,6 @@ GET /demo_csv/_search
   "size": 1
 }
 ```
-
-<details><summary><i>curl:</i></summary>
-
-```json
-curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_search" -H 'Content-Type: application/json' -d'
-{
-  "query": {
-    "match_all": {}
-  },
-  "from": 0,
-  "size": 1
-}' | jq '.'
-```
-
-</details>
 
 <details><summary><i>Response:</i></summary>
 
@@ -158,17 +155,27 @@ curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_search" -H 'Content-
 
 </details>
 
-```json
-GET /demo_csv
-```
-
 <details><summary><i>curl:</i></summary>
 
 ```json
-curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv" | jq '.'
+curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv/_search" -H 'Content-Type: application/json' -d'
+{
+  "query": {
+    "match_all": {}
+  },
+  "from": 0,
+  "size": 1
+}' | jq '.'
 ```
 
 </details>
+
+
+***Check indec definition***
+
+```json
+GET /demo_csv
+```
 
 <details><summary><i>Response:</i></summary>
 
@@ -217,12 +224,30 @@ curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv" | jq '.'
 
 </details>
 
+<details><summary><i>curl:</i></summary>
+
+```json
+curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv" | jq '.'
+```
+
+</details>
+
+---
+
 #### Create ingest pipeline
 
 1. ***Add the CSV Processor***
 
 > `message` field converted to  
->> `"target_fields":[ _id, address.number, address.street_name, address.zipcode, address.city, source, location.lat, location.lon ]`  
+>> `_id`  
+>> `address.number`  
+>> `address.street_name`  
+>> `address.zipcode`  
+>> `address.city`  
+>> `source`  
+>> `location.lat`  
+>> `location.lon`  
+>>  
 
 
 ```json
@@ -500,7 +525,9 @@ PUT _ingest/pipeline/bano
 }
 ```
 
-#### reindex demo_csv index to demo_csv_bano index using pipeline created
+#### Test pipeline
+
+> reindex `demo_csv` index to `demo_csv_bano` index using ***pipeline** created  
 
 ```json
 POST /_reindex?wait_for_completion=true
@@ -514,6 +541,8 @@ POST /_reindex?wait_for_completion=true
   }
 }
 ```
+
+> check `demo_csv_bano` index  
 
 <details open><summary><i>Check index</i></summary><blockquote>
 
