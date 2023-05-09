@@ -534,7 +534,7 @@ Response:
   }
 ```
 
-***3. Rename the region number field to `region`. ***
+***3. Rename the region number field to `region`***
 
 ```json
 PUT /_ingest/pipeline/demo-ingest-enrich
