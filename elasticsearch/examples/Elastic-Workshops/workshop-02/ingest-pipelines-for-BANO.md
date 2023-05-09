@@ -1,7 +1,7 @@
-### Ingest Pipelines
+## Ingest Pipelines Workshop
 
 
-#### Dataset
+### Dataset?
 
 ***BANO***: The Open National Address Database, by OpenStreetMap France
 
@@ -39,22 +39,20 @@
 
 ---
 
-#### Setup
-
-##### Run Elastic Stack
+#### Run Elastic Stack
 
 ```
 docker-compose down -v
 docker compose up -d
 ```
 
-##### Download region
+#### Download region
 
 ```
 wget http://bano.openstreetmap.fr/data/bano-95.csv -P $(pwd)/dataset
 ```
 
-##### Create bulk file
+#### Create bulk file
 
 ```
 head -10000 bano-95.csv | 
@@ -64,7 +62,7 @@ while read -r line; do \
 done >$(pwd)/dataset/bulk-bano-95.ndjson
 ```
 
-##### Ingest documents
+#### Ingest documents
 
 ```
 curl -s -XPOST "localhost/demo_csv/_bulk" \
@@ -74,7 +72,7 @@ curl -s -XPOST "localhost/demo_csv/_bulk" \
   | jq '{took: .took, errors: .errors}' ; echo
 ```
 
-##### Test ingested documents
+#### Test ingested documents
 
 ***Get count of documents***
 
@@ -234,7 +232,7 @@ curl -XGET -s -u elastic:changeme "localhost:9200/demo_csv" | jq '.'
 
 ---
 
-#### Create ingest pipeline
+### Create ingest pipeline
 
 1. ***Add the CSV Processor***
 
@@ -527,7 +525,7 @@ PUT _ingest/pipeline/bano
 
 ---
 
-#### Test pipeline
+### Test pipeline
 
 > reindex `demo_csv` index to `demo_csv_bano` index using ***pipeline** created  
 
