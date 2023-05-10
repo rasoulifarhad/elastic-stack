@@ -81,4 +81,10 @@ docker run -p 80:80 -d madebybk/nextjs-random-json-logger:latest
 ![visualize-area-chart-for-error-code](images/visualize-area-chart-for-error-code.png)
 
 
+3. ***The result of the sample log `status` and `error_code` field will be analyzed.***
+
+**Area**
+
+![visualize-area-chart-for-status-and-error-code](images/visualize-area-chart-for-status-and-error-code.png)
+
 
