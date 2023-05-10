@@ -60,18 +60,25 @@ docker run -p 80:80 -d madebybk/nextjs-random-json-logger:latest
 
 #### Visualize
 
-1. The result of the sample log status (OK, WARN, FAIL) will be analyzed.
+1. ***The result of the sample log `status (OK, WARN, FAIL)` will be analyzed.***
 
-***Pie***
+**Pie**
 
 ![visualize-pie-chart-for-status](images/visualize-pie-chart-for-status.png)
 
-***Donut***
+**Donut**
 
 ![visualize-donut-chart-for-status](images/visualize-donut-chart-for-status.png)
 
-***Area***
+**Area**
 
 ![visualize-area-chart-for-status](images/visualize-area-chart-for-status.png)
+
+2. ***The result of the sample log `error_code` will be analyzed.***
+
+**Area**
+
+![visualize-area-chart-for-error-code](images/visualize-area-chart-for-error-code.png)
+
 
 
