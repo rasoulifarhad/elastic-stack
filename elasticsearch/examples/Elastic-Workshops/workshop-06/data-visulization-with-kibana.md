@@ -29,27 +29,27 @@ docker run -p 80:80 -d madebybk/nextjs-random-json-logger:latest
 
 #### Index log data
 
-- Go to `Home > upload a file`
+- Go to `Home > Upload a file`
 
 ![kibana-upload-file-01](images/kibana-upload-file-01.png)
 
-- s
+- In `Upload file` tab click `Select or drag and drop a file` select log file.
 
 ![kibana-upload-file-02](images/kibana-upload-file-02.png)
 
-- s
+- click `Import` buttom.
 
 ![kibana-upload-file-03](images/kibana-upload-file-03.png)
 
-- s
+- Enter name for index and click `Import`
 
 ![kibana-upload-file-04](images/kibana-upload-file-04.png)
 
-- s
+- Now click on `View index in Discover` to view imported logs
 
 ![kibana-upload-file-05](images/kibana-upload-file-05.png)
 
-- s
+- Import completed
 
 ![kibana-upload-file-06](images/kibana-upload-file-06.png)
 
