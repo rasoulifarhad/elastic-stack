@@ -74,16 +74,4 @@ docker run -p 80:80 -d madebybk/nextjs-random-json-logger:latest
 
 ![visualize-area-chart-for-status](images/visualize-area-chart-for-status.png)
 
-#### Verifying Data using Discover
 
-3. 
-
-#### Creating Graphs with Visualize && Dashboards
-
-##### Visualize (Pie)
-
-4. 
-
-##### Visualize (Area)
-
-5. 
