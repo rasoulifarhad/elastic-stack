@@ -1,6 +1,7 @@
 ## Data Visulization with Kibana
 
-from [kibana](https://catalog.workshops.aws/eks-logging/en-US/opensearch/3-kibana)
+> See [Data Visulization with Kibana](https://catalog.workshops.aws/eks-logging/en-US/opensearch/3-kibana)  
+
 
 ### Create dataset
 
