@@ -1,8 +1,8 @@
-### Data Visulization with Kibana
+## Data Visulization with Kibana
 
 from [kibana](https://catalog.workshops.aws/eks-logging/en-US/opensearch/3-kibana)
 
-#### Create dataset
+### Create dataset
 
 - ***Run log generator***
 
@@ -29,7 +29,7 @@ docker run -p 80:80 -d madebybk/nextjs-random-json-logger:latest
 
 ---
 
-#### Index log data
+### Index log data
 
 - ***Go to `Home > Upload a file`***
 
