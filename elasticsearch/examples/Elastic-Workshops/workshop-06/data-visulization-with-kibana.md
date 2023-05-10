@@ -31,27 +31,27 @@ docker run -p 80:80 -d madebybk/nextjs-random-json-logger:latest
 
 - Go to `Home > upload a file`
 
-![kibana-upload-file-01](/images/kibana-upload-file-01.png)
+![kibana-upload-file-01](images/kibana-upload-file-01.png)
 
 - s
 
-![kibana-upload-file-02](/images/kibana-upload-file-02.png)
+![kibana-upload-file-02](images/kibana-upload-file-02.png)
 
 - s
 
-![kibana-upload-file-03](/images/kibana-upload-file-03.png)
+![kibana-upload-file-03](images/kibana-upload-file-03.png)
 
 - s
 
-![kibana-upload-file-04](/images/kibana-upload-file-04.png)
+![kibana-upload-file-04](images/kibana-upload-file-04.png)
 
 - s
 
-![kibana-upload-file-05](/images/kibana-upload-file-05.png)
+![kibana-upload-file-05](images/kibana-upload-file-05.png)
 
 - s
 
-![kibana-upload-file-06](/images/kibana-upload-file-06.png)
+![kibana-upload-file-06](images/kibana-upload-file-06.png)
 
 1. 
 
