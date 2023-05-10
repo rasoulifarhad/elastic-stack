@@ -70,7 +70,9 @@ docker run -p 80:80 -d madebybk/nextjs-random-json-logger:latest
 
 ![visualize-donut-chart-for-status](images/visualize-donut-chart-for-status.png)
 
+***Area***
 
+![visualize-area-chart-for-status](images/visualize-area-chart-for-status.png)
 
 #### Verifying Data using Discover
 
