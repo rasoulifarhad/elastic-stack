@@ -8,7 +8,7 @@ from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
 
 
 
-1. Click ![kibana-primary-navigation-menue](/images/kibana-primary-navigation-menue.png) icon in the left menu to open the main menu, then click to `Stack Management > Index Patterns`.  Then, click [Create index patterns] button to open the index pattern creation screen.
+1. Click ![kibana-primary-navigation-menue](images/kibana-primary-navigation-menue.png) icon in the left menu to open the main menu, then click to `Stack Management > Index Patterns`.  Then, click [Create index patterns] button to open the index pattern creation screen.
 
 ![kibana-index-patters-01](images/kibana-index-patters-01.png)
 
