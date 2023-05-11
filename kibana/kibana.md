@@ -12,9 +12,11 @@ from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
 
 ![kibana-index-patters-01](images/kibana-index-patters-01.png)
 
-2. Enter your index pattern into `Name` field (***e.g. kibana_sample_data_logs or kibana_sample_data_*, The last * is called a wild card to use for matching multiple indexes.***)
+2. Enter your index pattern into `Name` field.
 
-> If Kibana detects an index with a timestamp, expand the Timestamp field menu, and then select the default field for filtering your data by time.  
+> e.g. kibana_sample_data_logs or kibana_sample_data_*, The last * is called a wild card to use for matching multiple indexes.
+  
+> If Kibana detects an index with a timestamp, expand the `Timestamp field` menu, and then select the default field for filtering your data by time.  
 
  
 ![kibana-index-patters-02](images/kibana-index-patters-02.png)
