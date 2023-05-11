@@ -1,7 +1,10 @@
 ### Kibana
 
+<!--
+
 from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
 
+-->
 #### Creating an Index pattern
 
 > See [Kibana Doc: Create an index pattern](https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html)  
