@@ -9,6 +9,7 @@ from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
 
 > See [Kibana Doc: Create an index pattern](https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html)  
 
+> ***Kibana requires an index pattern to access the Elasticsearch data that you want to explore. An index pattern selects the data to use and allows you to define properties of the fields.***  
 
 
 1. Click ![kibana-primary-navigation-menue](images/kibana-primary-navigation-menue.png) icon in the left menu to open the main menu, then click to `Stack Management > Index Patterns`.  Then, click [Create index patterns] button to open the index pattern creation screen.
