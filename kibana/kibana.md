@@ -4,6 +4,10 @@ from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
 
 #### Creating an Index pattern
 
+> See [Kibana Doc: Create an index pattern](https://www.elastic.co/guide/en/kibana/7.17/index-patterns.html)  
+
+
+
 1. Click ![kibana-primary-navigation-menue](/images/kibana-primary-navigation-menue.png) icon in the left menu to open the main menu, then click to `Stack Management > Index Patterns`.  Then, click [Create index patterns] button to open the index pattern creation screen.
 
 ![kibana-index-patters-01](kibana-index-patters-01.png)
