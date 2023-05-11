@@ -25,9 +25,9 @@ from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
 
 ![kibana-index-patters-03](images/kibana-index-patters-03.png)
 
-4. Select this index pattern when you search and visualize your data.(e.g. In `Discover`)
+4. Select created index pattern when you search and visualize your data.(e.g. In ***Discover***)
 
-> Discover is a tool for viewing data in Kibana.  
+> ***Discover*** is a tool for viewing data in Kibana.  
 
 
 ![kibana-index-patters-04](images/kibana-index-patters-04.png)
