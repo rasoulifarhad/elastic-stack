@@ -1,4 +1,4 @@
-### Kibana
+## Kibana
 
 <!--
 
@@ -34,6 +34,8 @@ from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
 
 
 ![kibana-index-patters-04](images/kibana-index-patters-04.png)
+
+#### Data Visualization with Discover
 
 
 #### Kibana Visualization
