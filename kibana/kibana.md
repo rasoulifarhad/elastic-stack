@@ -21,7 +21,7 @@ from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
  
 ![kibana-index-patters-02](images/kibana-index-patters-02.png)
 
-3. Click `Create index pattern1 button to create a new index pattern.
+3. Click `Create index pattern` button to create a new index pattern.
 
 ![kibana-index-patters-03](images/kibana-index-patters-03.png)
 
