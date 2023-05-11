@@ -40,13 +40,13 @@ from [kibana tutorial](https://phoenixnap.com/kb/kibana-tutorial)
 
 With Discover, you can quickly gain insight to your data: search and filter your data, get information about the structure of the fields, and present your findings in a visualization. You can also customize and save your searches and place them on a dashboard.
 
-> ***See [Discover](https://www.elastic.co/guide/en/kibana/7.17/discover.html)***
+> ***See [Kibana Doc: Discover](https://www.elastic.co/guide/en/kibana/7.17/discover.html)***
 
 ![kibana-index-patters-04](images/kibana-index-patters-04.png)
 
 ### Kibana Visualization
 
-> ***See [Dashboard and visualizations](https://www.elastic.co/guide/en/kibana/7.17/dashboard.html)***
+> ***See [Kibana Doc: Dashboard and visualizations](https://www.elastic.co/guide/en/kibana/7.17/dashboard.html)***
 
 <!--
 
