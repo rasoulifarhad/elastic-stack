@@ -15,6 +15,8 @@ docker compose up -d
 
 The script makes a request to ***OpenSky API*** and appends to a ***CSV file*** the contents. Once the file is generate it will ***use ogr2ogr to convert the CSV into a GeoJSON file***.
 
+<details><summary><i><b>Script</b></i></summary>
+
 ```sh
 # add csv header to file
 cat > dataset/data_header.csv <<EOF
@@ -39,7 +41,11 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
   dataset/${csv_file}
 ```
 
+</details>
+
 #### Create bulk file
+
+<details><summary><i><b>Script</b></i></summary>
 
 ```sh
 cat dataset/${csv_file} | \
@@ -57,7 +63,11 @@ while read -r line; do \
 done > dataset/flight_tracking_2023-04-22_20_42.ndjson
 ```
 
+</details>
+
 #### Bulk insert documents
+
+<details><summary><i><b>Script</b></i></summary>
 
 ```sh
 curl -XPOST "localhost:9200/flight_tracking/_bulk" \
@@ -74,6 +84,8 @@ curl -XPOST "localhost:9200/flight_tracking/_bulk" \
      --data-binary "@dataset/flight_tracking_2023-04-22_20_42.ndjson" \
      | jq '{took: .took, errors: .errors}' ; echo
 ```
+
+</details>
 
 #### Create flight tracking mappings
 
