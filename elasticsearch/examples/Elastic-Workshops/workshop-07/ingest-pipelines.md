@@ -164,6 +164,8 @@ curl -XPUT "localhost:9200/flight_tracking" \
 
 </details>
 
+---
+
 ### Create ingest pipeline
 
 1. Add the CSV Processor (Extracts fields from `message`)
