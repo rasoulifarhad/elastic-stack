@@ -13,9 +13,10 @@ docker compose up -d
 
 #### Download opensky states
 
-The script makes a request to OpenSky API and appends to a CSV file the contents. Once the file is generate it will use ogr2ogr to convert the CSV into a GeoJSON file.
+The script makes a request to ***OpenSky API*** and appends to a ***CSV file*** the contents. Once the file is generate it will ***use ogr2ogr to convert the CSV into a GeoJSON file***.
 
 ```sh
+# add csv header to file
 cat > dataset/data_header.csv <<EOF
 icao24,callsign,country,timePosition,lastContact,longitude,latitude,baroAltitude,onGround,velocity,heading,verticalRate,_,geoAltitude,transponderCode,spi,positionSource
 EOF
@@ -41,21 +42,37 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
 #### Create bulk file
 
 ```sh
-cat dataset/${csv_file} | while read -r line; do NOW=$(date +"%Y-%m-%dT%T") ; printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; done > dataset/"${filename_base}".ndjson
+cat dataset/${csv_file} | \
+while read -r line; do \
+  NOW=$(date +"%Y-%m-%dT%T") ; \
+  printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; \
+done > dataset/"${filename_base}".ndjson
 ```
 
 ```sh
-cat dataset/flight_tracking_2023-04-22_20_42.csv | while read -r line; do NOW=$(date +"%Y-%m-%dT%T") ; printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; done > dataset/flight_tracking_2023-04-22_20_42.ndjson
+cat dataset/flight_tracking_2023-04-22_20_42.csv | \
+while read -r line; do \
+  NOW=$(date +"%Y-%m-%dT%T") ; \
+  printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; \
+done > dataset/flight_tracking_2023-04-22_20_42.ndjson
 ```
 
 #### Bulk insert documents
 
 ```sh
-curl -XPOST "localhost:9200/flight_tracking/_bulk" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/${filename_base}.ndjson" | jq '{took: .took, errors: .errors}' ; echo
+curl -XPOST "localhost:9200/flight_tracking/_bulk" \
+     -s -u elastic:changeme \
+     -H 'Content-Type: application/x-ndjson' \
+     --data-binary "@dataset/${filename_base}.ndjson" \
+     | jq '{took: .took, errors: .errors}' ; echo
 ```
 
 ```sh
-curl -XPOST "localhost:9200/flight_tracking/_bulk" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/flight_tracking_2023-04-22_20_42.ndjson" | jq '{took: .took, errors: .errors}' ; echo
+curl -XPOST "localhost:9200/flight_tracking/_bulk" \
+     -s -u elastic:changeme \
+     -H 'Content-Type: application/x-ndjson' \
+     --data-binary "@dataset/flight_tracking_2023-04-22_20_42.ndjson" \
+     | jq '{took: .took, errors: .errors}' ; echo
 ```
 
 #### Create flight tracking mappings
