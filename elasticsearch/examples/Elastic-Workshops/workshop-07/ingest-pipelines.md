@@ -1,25 +1,21 @@
-### Ingest Pipelines
+## Ingest Pipelines
 
 
-#### Dataset
+### Dataset?
 
-
-#### Setup
-
-##### Run Elastic Stack
+#### Run Elastic Stack
 
 ```
-
 docker-compose down -v
 docker compose up -d
 
 ```
-##### download opensky states
+
+#### Download opensky states
 
 The script makes a request to OpenSky API and appends to a CSV file the contents. Once the file is generate it will use ogr2ogr to convert the CSV into a GeoJSON file.
 
-```json
-
+```
 cat > dataset/data_header.csv <<EOF
 icao24,callsign,country,timePosition,lastContact,longitude,latitude,baroAltitude,onGround,velocity,heading,verticalRate,_,geoAltitude,transponderCode,spi,positionSource
 EOF
@@ -40,34 +36,33 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
   -oo "Y_POSSIBLE_NAMES=Lat*" \
   -oo KEEP_GEOM_COLUMNS=NO \
   dataset/${csv_file}
-
 ```
 
-##### create bulk file
+#### Create bulk file
 
 ```
 cat dataset/${csv_file} | while read -r line; do NOW=$(date +"%Y-%m-%dT%T") ; printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; done > dataset/"${filename_base}".ndjson
-
-cat dataset/flight_tracking_2023-04-22_20_42.csv | while read -r line; do NOW=$(date +"%Y-%m-%dT%T") ; printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; done > dataset/flight_tracking_2023-04-22_20_42.ndjson
-
 ```
 
-##### ingest documents
+```
+cat dataset/flight_tracking_2023-04-22_20_42.csv | while read -r line; do NOW=$(date +"%Y-%m-%dT%T") ; printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; done > dataset/flight_tracking_2023-04-22_20_42.ndjson
+```
+
+#### Bulk insert documents
 
 ```
 curl -XPOST "localhost:9200/flight_tracking/_bulk" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/${filename_base}.ndjson" | jq '{took: .took, errors: .errors}' ; echo
-
-curl -XPOST "localhost:9200/flight_tracking/_bulk" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/flight_tracking_2023-04-22_20_42.ndjson" | jq '{took: .took, errors: .errors}' ; echo
-
-
 ```
 
-##### Create flight tracking mappings
+```
+curl -XPOST "localhost:9200/flight_tracking/_bulk" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/flight_tracking_2023-04-22_20_42.ndjson" | jq '{took: .took, errors: .errors}' ; echo
+```
 
-flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
+#### Create flight tracking mappings
+
+- `flight_tracking`  mapping is in `mappings/flight-tracking.mappings.json` file:
 
 ```json
-
 {
   "mappings": {
     "properties": {
@@ -124,27 +119,20 @@ flight_tracking  mapping is in `mappings/flight-tracking.mappings.json` file:
     }
   }
 }
-
 ```
 
-Create mapping:
+- Create mapping:
 
-```json
-
-curl -s -XDELETE "localhost:9200/flight_tracking"  -u elastic:$ELASTIC_PASSWORD  | jq '.'
-
+```
 curl -s -XPUT "localhost:9200/flight_tracking" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d"@mappings/flight-tracking.mappings.json" ; echo
-
 ```
 
-#### Create ingest pipeline
+### Create ingest pipeline
 
-1. Add the CSV Processor 
+1. Add the CSV Processor (Extracts fields from `message`)
 
-    "field": message  converted to   "target_fields":[ "icao24","callsign","country","timePosition","lastContact","longitude","latitude","baroAltitude","onGround","velocity","heading","verticalRate","_","geoAltitude","transponderCode","spi","positionSource" ]
 
 ```json
-
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 {
   "description": "sads",
@@ -171,18 +159,17 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
           "spi",
           "positionSource"
         ],
+        "trim":true,
         "ignore_missing": false
       }
     }
   ]
 }
-
 ```
 
 2. Add date processor 
 
 ```json
-
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 {
   "description": "sads",
@@ -209,6 +196,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
           "spi",
           "positionSource"
         ],
+        "trim":true,
         "ignore_missing": false
       }
     },
@@ -222,13 +210,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
     }
   ]
 }
-
 ```
 
-4. Convert "baroAltitude", "geoAltitude", "heading", "latitude", "longitude", "velocity", "verticalRate" fields to `double` type.
+4. Convert `baroAltitude`, `geoAltitude`, `heading`, `latitude`, `longitude`, `velocity`, `verticalRate` fields to `double` type.
 
 ```json
-
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 {
   "description": "sads",
@@ -255,6 +241,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
           "spi",
           "positionSource"
         ],
+        "trim":true,
         "ignore_missing": false
       }
     },
@@ -323,7 +310,6 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 5. 2. Add date processor 
 
 ```json
-
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 {
   "description": "sads",
@@ -350,6 +336,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
           "spi",
           "positionSource"
         ],
+        "trim":true,
         "ignore_missing": false
       }
     },
@@ -418,13 +405,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
     }
   ]
 }
-
 ```
 
-6. Convert "onGround", "spi" fields to `boolean` type.
+6. Convert `onGround`, `spi` fields to `boolean` type.
 
 ```json
-
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 {
   "description": "sads",
@@ -451,6 +436,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
           "spi",
           "positionSource"
         ],
+        "trim":true,
         "ignore_missing": false
       }
     },
@@ -533,13 +519,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
     }
   ]
 }
-
 ```
 
 7. Add location field
 
 ```json
-
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 {
   "description": "sads",
@@ -566,6 +550,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
           "spi",
           "positionSource"
         ],
+        "trim":true,
         "ignore_missing": false
       }
     },
@@ -654,13 +639,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
     }
   ]
 }
-
 ```
 
-8. Remove "message", "_", "latitude", "longitude" fields
+8. Remove `message`, `_`, `latitude`, `longitude` fields
 
 ```json
-
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 {
   "description": "sads",
@@ -687,6 +670,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
           "spi",
           "positionSource"
         ],
+        "trim":true,
         "ignore_missing": false
       }
     },
@@ -780,13 +764,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
     }
   ]
 }
-
 ```
 
 9. Final
 
 ```json
-
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 {
   "description": "sads",
@@ -813,6 +795,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
           "spi",
           "positionSource"
         ],
+        "trim":true,
         "ignore_missing": false
       }
     },
@@ -1041,13 +1024,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
     }
   ]  
 }
-
 ```
 
 10. simulate
 
 ```json
-
 POST /_ingest/pipeline/flight-tracking-ingest-pipeline/_simulate
 {
   "docs": [
@@ -1058,6 +1039,5 @@ POST /_ingest/pipeline/flight-tracking-ingest-pipeline/_simulate
       }
   ]
 }
-
 ```
 
