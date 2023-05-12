@@ -1,9 +1,6 @@
 ## Ingest Pipelines
 
-
-### Dataset?
-
-#### Run Elastic Stack
+### Run Elastic Stack
 
 ```
 docker-compose down -v
@@ -11,7 +8,7 @@ docker compose up -d
 
 ```
 
-#### Download opensky states
+### Download opensky states
 
 The script makes a request to ***OpenSky API*** and appends to a ***CSV file*** the contents. Once the file is generate it will ***use ogr2ogr to convert the CSV into a GeoJSON file***.
 
@@ -43,7 +40,7 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
 
 </details>
 
-#### Create bulk file
+### Create bulk file
 
 <details><summary><i><b>Script</b></i></summary>
 
@@ -65,7 +62,7 @@ done > dataset/flight_tracking_2023-04-22_20_42.ndjson
 
 </details>
 
-#### Bulk insert documents
+### Bulk insert documents
 
 <details><summary><i><b>Script</b></i></summary>
 
@@ -87,7 +84,7 @@ curl -XPOST "localhost:9200/flight_tracking/_bulk" \
 
 </details>
 
-#### Create flight tracking mappings
+### Create flight tracking mappings
 
 - `flight_tracking`  mapping is in `mappings/flight-tracking.mappings.json` file:
 
