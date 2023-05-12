@@ -79,6 +79,8 @@ curl -XPOST "localhost:9200/flight_tracking/_bulk" \
 
 - `flight_tracking`  mapping is in `mappings/flight-tracking.mappings.json` file:
 
+<details><summary><i><b>Mappings</b></i></summary>
+
 ```json
 {
   "mappings": {
@@ -138,7 +140,11 @@ curl -XPOST "localhost:9200/flight_tracking/_bulk" \
 }
 ```
 
+</details>
+
 - Create mapping:
+
+<details><summary><i><b>Create mapping</b></i></summary>
 
 ```sh
 curl -XPUT "localhost:9200/flight_tracking" \
@@ -147,10 +153,14 @@ curl -XPUT "localhost:9200/flight_tracking" \
      -d"@mappings/flight-tracking.mappings.json" ; echo
 ```
 
+</details>
+
 ### Create ingest pipeline
 
 1. Add the CSV Processor (Extracts fields from `message`)
 
+
+<details><summary><i><b>Pipeline</b></i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -187,7 +197,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 }
 ```
 
+</details>
+
 2. Add date processor 
+
+<details><summary><i><b>Pipeline</b></i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -232,7 +246,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 }
 ```
 
-4. Convert `baroAltitude`, `geoAltitude`, `heading`, `latitude`, `longitude`, `velocity`, `verticalRate` fields to `double` type.
+</details>
+
+3. Convert `baroAltitude`, `geoAltitude`, `heading`, `latitude`, `longitude`, `velocity`, `verticalRate` fields to `double` type.
+
+<details><summary><i><b>Pipeline</b></i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -324,10 +342,13 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
     }
   ]
 }
-
 ```
 
-5. 2. Add date processor 
+</details>
+
+4. Add date processor 
+
+<details><summary><i><b>Pipeline</b></i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -427,7 +448,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 }
 ```
 
-6. Convert `onGround`, `spi` fields to `boolean` type.
+</details>
+
+5. Convert `onGround`, `spi` fields to `boolean` type.
+
+<details><summary><i><b>Pipeline</b></i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -541,7 +566,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 }
 ```
 
-7. Add location field
+</details>
+
+6. Add location field
+
+<details><summary><i><b>Pipeline</b></i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -661,7 +690,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 }
 ```
 
-8. Remove `message`, `_`, `latitude`, `longitude` fields
+</details>
+
+7. Remove `message`, `_`, `latitude`, `longitude` fields
+
+<details><summary><i><b>Pipeline</b></i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -786,7 +819,11 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 }
 ```
 
-9. Final
+</details>
+
+8. Final
+
+<details><summary><i><b>Pipeline</b></i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -1046,7 +1083,9 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 }
 ```
 
-10. simulate
+</details>
+
+9. simulate
 
 ```json
 POST /_ingest/pipeline/flight-tracking-ingest-pipeline/_simulate
