@@ -40,21 +40,21 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
 
 #### Create bulk file
 
-```
+```sh
 cat dataset/${csv_file} | while read -r line; do NOW=$(date +"%Y-%m-%dT%T") ; printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; done > dataset/"${filename_base}".ndjson
 ```
 
-```
+```sh
 cat dataset/flight_tracking_2023-04-22_20_42.csv | while read -r line; do NOW=$(date +"%Y-%m-%dT%T") ; printf "{ \"index\" : {}}\n{\"@timestamp\":\"$NOW\", \"message\":\"$line\"}\n"; done > dataset/flight_tracking_2023-04-22_20_42.ndjson
 ```
 
 #### Bulk insert documents
 
-```
+```sh
 curl -XPOST "localhost:9200/flight_tracking/_bulk" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/${filename_base}.ndjson" | jq '{took: .took, errors: .errors}' ; echo
 ```
 
-```
+```sh
 curl -XPOST "localhost:9200/flight_tracking/_bulk" -s -u elastic:changeme -H 'Content-Type: application/x-ndjson' --data-binary "@dataset/flight_tracking_2023-04-22_20_42.ndjson" | jq '{took: .took, errors: .errors}' ; echo
 ```
 
