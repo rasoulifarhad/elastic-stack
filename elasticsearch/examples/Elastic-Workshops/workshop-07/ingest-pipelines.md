@@ -12,7 +12,7 @@ docker compose up -d
 
 The script makes a request to ***OpenSky API*** and appends to a ***CSV file*** the contents. Once the file is generate it will ***use ogr2ogr to convert the CSV into a GeoJSON file***.
 
-<details><summary><i><b>Script</b></i></summary>
+<details><summary><i>Script</i></summary>
 
 ```sh
 # add csv header to file
@@ -42,7 +42,7 @@ ogr2ogr -f GeoJSON dataset/${geojson_file} \
 
 ### Create bulk file
 
-<details><summary><i><b>Script</b></i></summary>
+<details><summary><i>Script</i></summary>
 
 ```sh
 cat dataset/${csv_file} | \
@@ -64,7 +64,7 @@ done > dataset/flight_tracking_2023-04-22_20_42.ndjson
 
 ### Bulk insert documents
 
-<details><summary><i><b>Script</b></i></summary>
+<details><summary><i>Script</i></summary>
 
 ```sh
 curl -XPOST "localhost:9200/flight_tracking/_bulk" \
@@ -88,7 +88,7 @@ curl -XPOST "localhost:9200/flight_tracking/_bulk" \
 
 - `flight_tracking`  mapping is in `mappings/flight-tracking.mappings.json` file:
 
-<details><summary><i><b>Mappings</b></i></summary>
+<details><summary><i>Mappings</i></summary>
 
 ```json
 {
@@ -153,7 +153,7 @@ curl -XPOST "localhost:9200/flight_tracking/_bulk" \
 
 - Create mapping:
 
-<details><summary><i><b>Create mapping</b></i></summary>
+<details><summary><i>Create mapping</i></summary>
 
 ```sh
 curl -XPUT "localhost:9200/flight_tracking" \
@@ -169,7 +169,7 @@ curl -XPUT "localhost:9200/flight_tracking" \
 1. Add the CSV Processor (Extracts fields from `message`)
 
 
-<details><summary><i><b>Pipeline</b></i></summary>
+<details><summary><i>Pipeline</i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -210,7 +210,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 
 2. Add date processor 
 
-<details><summary><i><b>Pipeline</b></i></summary>
+<details><summary><i>Pipeline</i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -259,7 +259,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 
 3. Convert `baroAltitude`, `geoAltitude`, `heading`, `latitude`, `longitude`, `velocity`, `verticalRate` fields to `double` type.
 
-<details><summary><i><b>Pipeline</b></i></summary>
+<details><summary><i>Pipeline</i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -357,7 +357,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 
 4. Add date processor 
 
-<details><summary><i><b>Pipeline</b></i></summary>
+<details><summary><i>Pipeline</i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -461,7 +461,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 
 5. Convert `onGround`, `spi` fields to `boolean` type.
 
-<details><summary><i><b>Pipeline</b></i></summary>
+<details><summary><i>Pipeline</i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -579,7 +579,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 
 6. Add location field
 
-<details><summary><i><b>Pipeline</b></i></summary>
+<details><summary><i>Pipeline</i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -703,7 +703,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 
 7. Remove `message`, `_`, `latitude`, `longitude` fields
 
-<details><summary><i><b>Pipeline</b></i></summary>
+<details><summary><i>Pipeline</i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
@@ -832,7 +832,7 @@ PUT _ingest/pipeline/flight-tracking-ingest-pipeline
 
 8. Final
 
-<details><summary><i><b>Pipeline</b></i></summary>
+<details><summary><i>Pipeline</i></summary>
 
 ```json
 PUT _ingest/pipeline/flight-tracking-ingest-pipeline
