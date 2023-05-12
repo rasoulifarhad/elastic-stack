@@ -15,7 +15,7 @@ docker compose up -d
 
 The script makes a request to OpenSky API and appends to a CSV file the contents. Once the file is generate it will use ogr2ogr to convert the CSV into a GeoJSON file.
 
-```
+```sh
 cat > dataset/data_header.csv <<EOF
 icao24,callsign,country,timePosition,lastContact,longitude,latitude,baroAltitude,onGround,velocity,heading,verticalRate,_,geoAltitude,transponderCode,spi,positionSource
 EOF
