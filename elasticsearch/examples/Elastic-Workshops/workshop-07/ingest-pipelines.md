@@ -140,8 +140,11 @@ curl -XPOST "localhost:9200/flight_tracking/_bulk" \
 
 - Create mapping:
 
-```
-curl -s -XPUT "localhost:9200/flight_tracking" -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/json' -d"@mappings/flight-tracking.mappings.json" ; echo
+```sh
+curl -XPUT "localhost:9200/flight_tracking" \
+     -s -u elastic:$ELASTIC_PASSWORD \
+     -H 'Content-Type: application/json' \
+     -d"@mappings/flight-tracking.mappings.json" ; echo
 ```
 
 ### Create ingest pipeline
