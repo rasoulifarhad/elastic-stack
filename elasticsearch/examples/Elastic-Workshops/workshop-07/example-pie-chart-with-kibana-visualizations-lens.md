@@ -9,17 +9,25 @@
 
 ### Steps
 
+- ***Click `Dashboard` link from navigation menu***
+
 ![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-01-01.png)
 
 ---
+
+- ***Then `Create New dashboard` button***
 
 ![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-01-02.png)
 
 ---
 
+- ***Then `Create visualization` button***
+
 ![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-03.png)
 
 ---
+
+- ***Choose `pie` chart***
 
 ![Pie chart](images/dashboard/Pie-chart-flight-tracking-based-on-country-04.png)
 
