@@ -56,7 +56,7 @@ curl -X POST "localhost:9200/my-index-000001/_bulk?refresh=true&pretty" -H 'Cont
 </blockquote></details>
 
 
-3. ***Add the runtime field to the index mapping ***
+3. ***Add the runtime field to the index mapping***
 
 <details open><summary><i>with DevTools:</i></summary><blockquote>
 
