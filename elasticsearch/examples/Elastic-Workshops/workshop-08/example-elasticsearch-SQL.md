@@ -1221,7 +1221,7 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
   "query": """
@@ -1244,7 +1244,7 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
   "query": """
