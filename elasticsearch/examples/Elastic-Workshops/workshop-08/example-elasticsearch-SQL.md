@@ -6,8 +6,9 @@
 
 ##### Bulk Index Books
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /library/_bulk
 {"index":{"_id": "Leviathan Wakes"}}
 {"name": "Leviathan Wakes", "author": "James S.A. Corey", "release_date": "2011-06-02", "page_count": 561}
@@ -15,116 +16,137 @@ POST /library/_bulk
 {"name": "Hyperion", "author": "Dan Simmons", "release_date": "1989-05-26", "page_count": 482}
 {"index":{"_id": "Dune"}}
 {"name": "Dune", "author": "Frank Herbert", "release_date": "1965-06-01", "page_count": 604}
-
 ```
+
+</blockquote></details>
+
+---
 
 #### SQL 
 
 **Using** [SQL search API](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/sql-search-api.html)
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT * FROM library WHERE release_date < '2000-01-01'"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
     author     |     name      |  page_count   |      release_date      
 ---------------+---------------+---------------+------------------------
 Dan Simmons    |Hyperion       |482            |1989-05-26T00:00:00.000Z
 Frank Herbert  |Dune           |604            |1965-06-01T00:00:00.000Z
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **Using** [SQL CLI](https://www.elastic.co/guide/en/elasticsearch/reference/7.17/sql-cli.html)
 
-```
+<details open><summary><i></i></summary><blockquote>
 
+```sql
 $ ./bin/elasticsearch-sql-cli
 
 sql> SELECT * FROM library WHERE release_date < '2000-01-01';
+```
 
-Response:
+<details><summary><i>Response</i></summary>
 
+```
     author     |     name      |  page_count   |      release_date      
 ---------------+---------------+---------------+------------------------
 Dan Simmons    |Hyperion       |482            |1989-05-26T00:00:00.000Z
 Frank Herbert  |Dune           |604            |1965-06-01T00:00:00.000Z
-
 ```
 
-```json
+</details>
 
+</blockquote></details>
+
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "Select 1 + 1 as result"
 }
-
 ```
+
+<details><summary><i>Response</i></summary>
 
 ```
     result     
 ---------------
 2              
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **Query parameters:**
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
 	"query": "SELECT YEAR(release_date) AS year FROM library WHERE page_count > 300 AND author = 'Frank Herbert' GROUP BY year HAVING COUNT(*) > 0"
 }
-
 ```
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
 	"query": "SELECT YEAR(release_date) AS year FROM library WHERE page_count > ? AND author = ? GROUP BY year HAVING COUNT(*) > ?",
 	"params": [300, "Frank Herbert", 0]
 }
-
 ```
 
+</details>
+
+</blockquote></details>
 
 ### Dogs
 
 
 ##### Bulk Index Dogs
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /dogs/_bulk
 {"index":{"_id":"1"}}
 {"dog_name":"rex","holdersName":"Daenerys","age":2}
 {"index":{"_id":"6"}}
 {"dog_name":"snoopy","holdersName":"Hattie","age":4}
-
 ```
 
-```json
+</blockquote></details>
 
+
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "DESCRIBE dogs"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
       column       |     type      |    mapping    
 -------------------+---------------+---------------
 age                |BIGINT         |long           
@@ -132,178 +154,201 @@ dog_name           |VARCHAR        |text
 dog_name.keyword   |VARCHAR        |keyword        
 holdersName        |VARCHAR        |text           
 holdersName.keyword|VARCHAR        |keyword        
-
 ```
+
+</details>
+
+</blockquote></details>
+
+---
 
 ##### SQL
 
 **1.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": """
       SELECT dog_name,age FROM dogs
   """
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
    dog_name    |      age      
 ---------------+---------------
 rex            |2              
 snoopy         |4              
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **2.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": """
       SELECT dog_name,age FROM dogs order by age desc
   """
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
    dog_name    |      age      
 ---------------+---------------
 snoopy         |4              
 rex            |2              
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **3.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": """
       SELECT COUNT(*) FROM dogs
   """
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
    COUNT(*)    
 ---------------
 2              
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **4.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": """
       SELECT avg(age) as myAlias  FROM dogs
   """
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
     myAlias    
 ---------------
 3.0            
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **5.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": """
       SELECT count(*) as count, avg(age) as myAlias  FROM dogs
   """
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
      count     |    myAlias    
 ---------------+---------------
 2              |3.0            
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **6.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT dog_name, count(*) as count FROM dogs GROUP BY  dog_name  order by dog_name asc"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
    dog_name    |     count     
 ---------------+---------------
 rex            |1              
 snoopy         |1              
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **7.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": """
       SELECT dog_name,age FROM dogs WHERE age =2
   """
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
    dog_name    |      age      
 ---------------+---------------
 rex            |2              
-
 ```
+
+</details>
+
+</blockquote></details>
+
+---
 
 ### Game of Thrones documets 
 
 ##### Bulk Index documents
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /game_of_thrones/_bulk
 {"index":{"_id":"1"}}
 {"name":{"firstname":"Daenerys","lastname":"Targaryen","ofHerName":1},"nickname":"Daenerys \"Stormborn\"","house":"Targaryen","gender":"F","parents":{"father":"Aerys","mother":"Rhaella"},"titles":["motherOfDragons","queenOfTheAndals","breakerOfChains","Khaleesi"]}
@@ -319,23 +364,26 @@ POST /game_of_thrones/_bulk
 {"words":"winterIsComing","hname":"Stark","sigil":"direwolf","seat":"Winterfell"}
 {"index":{"_id":"7"}}
 {"words":"hearMeRoar","hname":"Lannister","sigil":"lion","seat":"CasterlyRock"}
-
 ```
+
+</blockquote></details>
+
+---
 
 ##### SQL
 
 **1.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "DESCRIBE game_of_thrones"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
         column        |     type      |    mapping    
@@ -370,21 +418,24 @@ titles                |VARCHAR        |text
 titles.keyword        |VARCHAR        |keyword        
 words                 |VARCHAR        |text           
 words.keyword         |VARCHAR        |keyword        
-
 ```
- 
+
+</details>
+
+</blockquote></details>
+
 **2.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT name.*, house FROM game_of_thrones"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
 name.firstname | name.lastname |name.ofHerName |name.ofHisName |     house     
@@ -396,65 +447,73 @@ Jaime          |Lannister      |null           |1              |Lannister
 null           |null           |null           |null           |null           
 null           |null           |null           |null           |null           
 null           |null           |null           |null           |null           
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **3.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT TOP 2  name.*, house FROM game_of_thrones"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
 name.firstname | name.lastname |name.ofHerName |name.ofHisName |     house     
 ---------------+---------------+---------------+---------------+---------------
 Daenerys       |Targaryen      |1              |null           |Targaryen      
 Eddard         |Stark          |null           |1              |Stark          
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **4.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT name.*, house FROM game_of_thrones LIMIT 1"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
 name.firstname | name.lastname |name.ofHerName |name.ofHisName |     house     
 ---------------+---------------+---------------+---------------+---------------
 Daenerys       |Targaryen      |1              |null           |Targaryen      
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **5.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT name.firstname as firstname, house FROM game_of_thrones "
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
    firstname   |     house     
 ---------------+---------------
 Daenerys       |Targaryen      
@@ -464,21 +523,24 @@ Jaime          |Lannister
 null           |null           
 null           |null           
 null           |null           
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **6.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SHOW COLUMNS IN game_of_thrones"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
         column        |     type      |    mapping    
@@ -513,21 +575,24 @@ titles                |VARCHAR        |text
 titles.keyword        |VARCHAR        |keyword        
 words                 |VARCHAR        |text           
 words.keyword         |VARCHAR        |keyword        
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **7.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SHOW FUNCTIONS"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
       name       |     type      
@@ -562,20 +627,24 @@ LEAST            |CONDITIONAL
 NULLIF           |CONDITIONAL    
 NVL              |CONDITIONAL    
      ....
-
 ```
 
+</details>
+
+</blockquote></details>
+
 **8.** 
+
+<details open><summary><i></i></summary><blockquote>
 
 ```json
 POST /_sql?format=txt
 {
   "query": "SHOW FUNCTIONS LIKE 'A%'"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
      name      |     type      
@@ -587,33 +656,45 @@ ASIN           |SCALAR
 ATAN           |SCALAR         
 ATAN2          |SCALAR         
 ASCII          |SCALAR         
-
 ```
+
+</details>
+
+</blockquote></details>
+
+---
 
 ### Accounts documets 
 
 ##### Index Accounts
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
-curl -XPOST "localhost:9200/accounts/_bulk" -s -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/x-ndjson'  --data-binary "@dataset/accounts.json"; echo
-
+```sh
+curl -XPOST "localhost:9200/accounts/_bulk" \
+     -s -u elastic:$ELASTIC_PASSWORD \
+     -H 'Content-Type: application/x-ndjson'  \
+     --data-binary "@dataset/accounts.json"; echo
 ```
+
+</blockquote></details>
+
+---
 
 ##### SQL
 
 **1.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "DESCRIBE accounts"
 }
-
 ```
 
-Respoinse:
+<details><summary><i>Response</i></summary>
 
 ```
      column      |     type      |    mapping    
@@ -637,143 +718,165 @@ lastname         |VARCHAR        |text
 lastname.keyword |VARCHAR        |keyword        
 state            |VARCHAR        |text           
 state.keyword    |VARCHAR        |keyword        
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **2.** 
 
-```jsoj
+```json
 
 POST /_sql?format=txt
 {
   "query": "SELECT SUM(balance) FROM accounts"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
  SUM(balance)  
 ---------------
 25714837       
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **3.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT MAX(age), MIN(age), AVG(age) FROM accounts"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
    MAX(age)    |   MIN(age)    |   AVG(age)    
 ---------------+---------------+---------------
 40             |20             |30.171         
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **4.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT PERCENTILE(age, 95) AS \"95th\" FROM accounts"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
      95th      
 ---------------
 39.0           
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **5.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT gender , count(*)  FROM accounts  GROUP BY gender"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
     gender     |   count(*)    
 ---------------+---------------
 F              |493            
 M              |507            
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **6.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT gender, age, COUNT(*), SUM(balance) FROM accounts WHERE age IN (35,36) GROUP BY gender,age"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
     gender     |      age      |   COUNT(*)    | SUM(balance)  
 ---------------+---------------+---------------+---------------
 F              |35             |24             |472771         
 F              |36             |21             |505660         
 M              |35             |28             |678337         
 M              |36             |31             |647425         
-
 ```
+
+</details>
+
+</blockquote></details>
+
+---
 
 ### Peoples documets 
 
 ##### Index peoples
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```sh
 source .env
-curl -XPOST "localhost:9200/peoples/_bulk" -s -u elastic:$ELASTIC_PASSWORD -H 'Content-Type: application/x-ndjson'  --data-binary "@dataset/peoples.json" | jq '{took: .took, errors: .errors}' ; echo
-
+curl -XPOST "localhost:9200/peoples/_bulk" \
+     -s -u elastic:$ELASTIC_PASSWORD \
+     -H 'Content-Type: application/x-ndjson'  \
+     --data-binary "@dataset/peoples.json"  \
+     | jq '{took: .took, errors: .errors}' ; echo
 ```
+
+</blockquote></details>
 
 ##### SQL
 
 **1.** 
  
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "DESCRIBE peoples"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
      column      |     type      |    mapping    
 -----------------+---------------+---------------
 account_number   |BIGINT         |long           
@@ -795,24 +898,26 @@ lastname         |VARCHAR        |text
 lastname.keyword |VARCHAR        |keyword        
 state            |VARCHAR        |text           
 state.keyword    |VARCHAR        |keyword        
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **2.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT * FROM peoples WHERE age > 25 LIMIT 1000"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
 account_number |      address       |      age      |    balance    |     city      |            email            |   employer    |   firstname   |    gender     |   lastname    |     state     
 ---------------+--------------------+---------------+---------------+---------------+-----------------------------+---------------+---------------+---------------+---------------+---------------
 1              |880 Holmes Lane     |32             |39225          |Brogan         |amberduke@pyrami.com         |Pyrami         |Daenerys       |M              |Targaryen      |IL             
@@ -826,255 +931,312 @@ account_number |      address       |      age      |    balance    |     city  
 44             |502 Baycliff Terrace|37             |34487          |Yardville      |aureliaharding@orbalix.com   |Orbalix        |Aurelia        |M              |Harding        |DE             
 51             |334 River Street    |31             |14097          |Jacksonburg    |burtonmeyers@bezal.com       |Bezal          |Burton         |F              |Meyers         |MO             
 56             |857 Tabor Court     |32             |14992          |Sunnyside      |josienelson@emtrac.com       |Emtrac         |Josie          |M              |Nelson         |UT             
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **3.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT * FROM peoples WHERE firstname LIKE 'Da%'  LIMIT 1000"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
 account_number |      address       |      age      |    balance    |     city      |       email        |   employer    |   firstname   |    gender     |   lastname    |     state     
 ---------------+--------------------+---------------+---------------+---------------+--------------------+---------------+---------------+---------------+---------------+---------------
 1              |880 Holmes Lane     |32             |39225          |Brogan         |amberduke@pyrami.com|Pyrami         |Daenerys       |M              |Targaryen      |IL             
 18             |467 Hutchinson Court|33             |4180           |Orick          |daleadams@boink.com |Boink          |Dale           |M              |Adams          |MD             
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **4.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT * FROM peoples WHERE firstname NOT LIKE 'Da%'  LIMIT 1000"
 }
-
 ```
+
+</blockquote></details>
 
 **5.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT * FROM peoples WHERE age=32 AND gender='M' LIMIT 1000"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
 account_number |    address    |      age      |    balance    |     city      |        email         |   employer    |   firstname   |    gender     |   lastname    |     state     
 ---------------+---------------+---------------+---------------+---------------+----------------------+---------------+---------------+---------------+---------------+---------------
 1              |880 Holmes Lane|32             |39225          |Brogan         |amberduke@pyrami.com  |Pyrami         |Daenerys       |M              |Targaryen      |IL             
 56             |857 Tabor Court|32             |14992          |Sunnyside      |josienelson@emtrac.com|Emtrac         |Josie          |M              |Nelson         |UT             
-
 ```
+
+</details>
+
+</blockquote></details>
 
 **6.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT firstname, lastname, age FROM peoples WHERE age BETWEEN 35 AND 40 LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT firstname, lastname, age FROM peoples WHERE age NOT BETWEEN 35 AND 40 LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT firstname, lastname, age FROM peoples WHERE age IN (39, 36) LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT firstname, lastname, age FROM peoples WHERE age NOT IN (39, 36) LIMIT 1000"
 }
-
 ```
 
-Null safe Equality (<=>)edit
+</blockquote></details>
+
+***Null safe Equality (<=>)edit***
+
+<details open><summary><i></i></summary><blockquote>
 
 ```json
-
 POST /_sql?format=txt
 {
   "query": "SELECT 'elastic' <=> null AS equals"
 }
-
 ```
 
-Response: 
+<details><summary><i>Response:</i></summary>
 
 ```
 
     equals     
 ---------------
 false          
-
 ```
 
-```json
+</details>
 
+</blockquote></details>
+
+
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT null <=> null AS equals"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
     equals     
 ---------------
 true           
-
 ```
 
-```json
+</details>
 
+</blockquote></details>
+
+
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT SUM(account_number+age) AS sum FROM peoples  LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT first(age) AS childest, last(age) AS oldest FROM peoples  LIMIT 1000"
 }
-
 ```
 
-Response:
+<details><summary><i>Response</i></summary>
 
 ```
-
    childest    |    oldest     
 ---------------+---------------
 23             |39             
-
 ```
 
-```json
+</details>
 
+</blockquote></details>
+
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT gender, first(age)  FROM peoples GROUP by gender ORDER BY gender LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT count(ALL age) count_all, count(DISTINCT age) count_distinct FROM peoples  LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 # Quantify the shape of the distribution of input values in the field age.
 POST /_sql?format=txt
 {
   "query": "SELECT MIN(age), MAX(age), KURTOSIS(age) FROM peoples  LIMIT 1000"
 }
+```
 
+</blockquote></details>
+
+<details open><summary><i></i></summary><blockquote>
+
+```json
 # Quantify the shape of the distribution of input values in the field balance.
 POST /_sql?format=txt
 {
   "query": "SELECT MIN(balance), MAX(balance), KURTOSIS(balance) FROM peoples  LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 # Measure the variability of the input values in the field age.
 POST /_sql?format=txt
 {
   "query": "SELECT MIN(age), MAX(age), AVG(age), MAD(age) FROM peoples  LIMIT 1000"
 }
+```
 
+</blockquote></details>
+
+<details open><summary><i></i></summary><blockquote>
+
+```json
 # Measure the variability of the input values in the field balance.
 POST /_sql?format=txt
 {
   "query": "SELECT MIN(balance), MAX(balance), AVG(balance), MAD(balance) FROM peoples  LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT gender, PERCENTILE(balance, 95) FROM peoples GROUP BY gender LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT gender, PERCENTILE(balance, 95), PERCENTILE(age, 95)  FROM peoples GROUP BY gender LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT CONCAT(firstname, lastname) AS name, gender, age, balance FROM peoples ORDER BY balance desc LIMIT 1000"
 }
-
 ```
 
-```json
+</blockquote></details>
 
+<details open><summary><i></i></summary><blockquote>
+
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT gender, PERCENTILE_RANK(balance, 40000) AS rank  FROM peoples GROUP BY gender ORDER BY rank asc LIMIT 1000"
 }
-
 ```
+</blockquote></details>
+
 
 <!--
 
