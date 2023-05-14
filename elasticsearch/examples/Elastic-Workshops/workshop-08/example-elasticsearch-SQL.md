@@ -30,10 +30,17 @@ POST /library/_bulk
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT * FROM library WHERE release_date < '2000-01-01'"
+  "query": """
+    SELECT 
+      * 
+    FROM 
+      library 
+    WHERE 
+      release_date < '2000-01-01'
+  """
 }
 ```
 
@@ -75,10 +82,13 @@ Frank Herbert  |Dune           |604            |1965-06-01T00:00:00.000Z
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "Select 1 + 1 as result"
+  "query": """
+    SELECT
+      1 + 1 as result
+  """
 }
 ```
 
@@ -98,19 +108,41 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-	"query": "SELECT YEAR(release_date) AS year FROM library WHERE page_count > 300 AND author = 'Frank Herbert' GROUP BY year HAVING COUNT(*) > 0"
+	"query": """
+    SELECT 
+      YEAR(release_date) AS year 
+    FROM 
+      library 
+    WHERE 
+      page_count > 300 AND author = 'Frank Herbert' 
+    GROUP BY 
+      year 
+    HAVING 
+      COUNT(*) > 0
+  """
 }
 ```
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-	"query": "SELECT YEAR(release_date) AS year FROM library WHERE page_count > ? AND author = ? GROUP BY year HAVING COUNT(*) > ?",
+	"query": """
+    SELECT 
+      YEAR(release_date) AS year 
+    FROM 
+      library 
+    WHERE 
+      page_count > ? AND author = ? 
+    GROUP BY 
+      year 
+    HAVING 
+      COUNT(*) > ?
+  """,
 	"params": [300, "Frank Herbert", 0]
 }
 ```
@@ -139,10 +171,12 @@ POST /dogs/_bulk
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "DESCRIBE dogs"
+  "query": """
+    DESCRIBE dogs
+  """
 }
 ```
 
@@ -170,11 +204,14 @@ holdersName.keyword|VARCHAR        |keyword
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
   "query": """
-      SELECT dog_name,age FROM dogs
+    SELECT 
+       dog_name,age 
+    FROM 
+      dogs
   """
 }
 ```
@@ -196,11 +233,16 @@ snoopy         |4
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
   "query": """
-      SELECT dog_name,age FROM dogs order by age desc
+      SELECT 
+        dog_name,age 
+      FROM 
+        dogs 
+      ORDER BY 
+        age desc
   """
 }
 ```
@@ -222,11 +264,14 @@ rex            |2
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
   "query": """
-      SELECT COUNT(*) FROM dogs
+      SELECT 
+        COUNT(*) 
+      FROM 
+        dogs
   """
 }
 ```
@@ -247,11 +292,14 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
   "query": """
-      SELECT avg(age) as myAlias  FROM dogs
+      SELECT 
+        avg(age) as myAlias  
+      FROM 
+        dogs
   """
 }
 ```
@@ -272,11 +320,14 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
   "query": """
-      SELECT count(*) as count, avg(age) as myAlias  FROM dogs
+      SELECT 
+        count(*) as count, avg(age) as myAlias  
+      FROM 
+        dogs
   """
 }
 ```
@@ -297,10 +348,19 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT dog_name, count(*) as count FROM dogs GROUP BY  dog_name  order by dog_name asc"
+  "query": """
+    SELECT 
+      dog_name, count(*) as count 
+    FROM 
+      dogs 
+    GROUP BY  
+      dog_name  
+    ORDER BY 
+      dog_name asc
+  """
 }
 ```
 
@@ -321,11 +381,16 @@ snoopy         |1
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
   "query": """
-      SELECT dog_name,age FROM dogs WHERE age =2
+      SELECT 
+        dog_name,age 
+      FROM 
+        dogs 
+      WHERE 
+        age =2
   """
 }
 ```
@@ -378,10 +443,12 @@ POST /game_of_thrones/_bulk
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "DESCRIBE game_of_thrones"
+  "query": """
+    DESCRIBE game_of_thrones
+  """
 }
 ```
 
