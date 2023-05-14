@@ -497,10 +497,15 @@ words.keyword         |VARCHAR        |keyword
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT name.*, house FROM game_of_thrones"
+  "query": """
+    SELECT 
+      name.*, house 
+    FROM 
+      game_of_thrones
+  """
 }
 ```
 
@@ -526,10 +531,15 @@ null           |null           |null           |null           |null
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT TOP 2  name.*, house FROM game_of_thrones"
+  "query": """
+    SELECT 
+      TOP 2  name.*, house 
+    FROM 
+      game_of_thrones
+  """
 }
 ```
 
@@ -550,10 +560,17 @@ Eddard         |Stark          |null           |1              |Stark
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT name.*, house FROM game_of_thrones LIMIT 1"
+  "query": """
+    SELECT 
+      name.*, house 
+    FROM 
+      game_of_thrones 
+    LIMIT 
+      1
+  """
 }
 ```
 
@@ -573,10 +590,15 @@ Daenerys       |Targaryen      |1              |null           |Targaryen
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT name.firstname as firstname, house FROM game_of_thrones "
+  "query": """
+    SELECT 
+      name.firstname as firstname, house 
+    FROM 
+      game_of_thrones
+  """
 }
 ```
 
@@ -602,10 +624,12 @@ null           |null
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SHOW COLUMNS IN game_of_thrones"
+  "query": """
+    SHOW COLUMNS IN game_of_thrones
+  """
 }
 ```
 
@@ -654,10 +678,12 @@ words.keyword         |VARCHAR        |keyword
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SHOW FUNCTIONS"
+  "query": """
+    SHOW FUNCTIONS
+  """
 }
 ```
 
@@ -706,10 +732,12 @@ NVL              |CONDITIONAL
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SHOW FUNCTIONS LIKE 'A%'"
+  "query": """
+    SHOW FUNCTIONS LIKE 'A%'
+  """
 }
 ```
 
