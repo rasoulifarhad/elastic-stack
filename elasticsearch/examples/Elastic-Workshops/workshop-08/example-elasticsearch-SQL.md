@@ -689,10 +689,12 @@ curl -XPOST "localhost:9200/accounts/_bulk" \
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "DESCRIBE accounts"
+  "query": """
+    DESCRIBE accounts
+  """
 }
 ```
 
@@ -730,10 +732,15 @@ state.keyword    |VARCHAR        |keyword
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT SUM(balance) FROM accounts"
+  "query": """
+    SELECT 
+      SUM(balance) 
+    FROM 
+      accounts
+  """
 }
 ```
 
@@ -753,10 +760,15 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT MAX(age), MIN(age), AVG(age) FROM accounts"
+  "query": """
+    SELECT 
+      MAX(age), MIN(age), AVG(age) 
+    FROM 
+      accounts
+  """
 }
 ```
 
@@ -776,10 +788,15 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT PERCENTILE(age, 95) AS \"95th\" FROM accounts"
+  "query": """
+    SELECT 
+      PERCENTILE(age, 95) AS \"95th\" 
+    FROM 
+      accounts
+  """
 }
 ```
 
@@ -799,10 +816,17 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT gender , count(*)  FROM accounts  GROUP BY gender"
+  "query": """
+    SELECT 
+      gender , count(*)  
+    FROM 
+      accounts  
+    GROUP BY 
+      gender
+  """
 }
 ```
 
@@ -823,10 +847,19 @@ M              |507
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT gender, age, COUNT(*), SUM(balance) FROM accounts WHERE age IN (35,36) GROUP BY gender,age"
+  "query": """
+    SELECT 
+      gender, age, COUNT(*), SUM(balance) 
+    FROM 
+      accounts 
+    WHERE 
+      age IN (35,36) 
+    GROUP BY 
+      gender,age
+  """
 }
 ```
 
@@ -870,10 +903,12 @@ curl -XPOST "localhost:9200/peoples/_bulk" \
  
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "DESCRIBE peoples"
+  "query": """
+    DESCRIBE peoples
+  """
 }
 ```
 
@@ -911,10 +946,18 @@ state.keyword    |VARCHAR        |keyword
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT * FROM peoples WHERE age > 25 LIMIT 1000"
+  "query": """
+    SELECT 
+      * 
+    FROM 
+      peoples 
+    WHERE 
+      age > 25 
+    LIMIT 1000
+  """
 }
 ```
 
@@ -944,10 +987,18 @@ account_number |      address       |      age      |    balance    |     city  
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT * FROM peoples WHERE firstname LIKE 'Da%'  LIMIT 1000"
+  "query": """
+    SELECT 
+      * 
+    FROM 
+      peoples 
+    WHERE 
+      firstname LIKE 'Da%' 
+    LIMIT 1000
+  """
 }
 ```
 
@@ -968,10 +1019,18 @@ account_number |      address       |      age      |    balance    |     city  
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT * FROM peoples WHERE firstname NOT LIKE 'Da%'  LIMIT 1000"
+  "query": """
+    SELECT 
+      * 
+    FROM 
+      peoples 
+    WHERE 
+      firstname NOT LIKE 'Da%'  
+    LIMIT 1000
+  """
 }
 ```
 
