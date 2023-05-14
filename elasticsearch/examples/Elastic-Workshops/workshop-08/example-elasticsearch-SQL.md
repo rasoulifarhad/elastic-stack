@@ -666,7 +666,7 @@ ASCII          |SCALAR
 
 ---
 
-### Accounts documets 
+### Accounts documets
 
 #### Index Accounts
 
