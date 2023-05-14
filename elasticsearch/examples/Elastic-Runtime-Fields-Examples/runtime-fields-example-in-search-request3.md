@@ -1,7 +1,8 @@
-### Runtime Fields Example
+## Runtime Fields Example
 
-1. Define index and runtime fields
-```markdown
+1. ***Define index and runtime fields***
+
+```json
 PUT my-index-000001/
 {
   "mappings": {
@@ -20,8 +21,10 @@ PUT my-index-000001/
   }
 }
 ```
-2. Ingest some data
-```markdown
+
+2. ***Ingest some data***
+
+```json
 POST /my-index-000001/_bulk?refresh
 { "index": {}}
 { "@timestamp": "2020-06-21T15:00:01-05:00", "message" : "211.11.9.0 - - [2020-06-21T15:00:01-05:00] \"GET /english/index.html HTTP/1.0\" 304 0"}
@@ -46,8 +49,10 @@ POST /my-index-000001/_bulk?refresh
 { "index": {}}
 { "@timestamp": "2020-04-30T14:31:43-05:00", "message" : "247.37.0.0 - - [2020-04-30T14:31:43-05:00] \"GET /french/images/nav_venue_off.gif HTTP/1.0\" 304 0"}
 ```
-3. Search index
-```markdown
+
+3. ***Search index***
+
+```json
 GET my-index-000001/_search
 {
   "fields": [
@@ -57,8 +62,10 @@ GET my-index-000001/_search
   "_source": false
 }
 ```
-4. Add another runtime field (client_ip)
-```markdown
+
+4. ***Add another runtime field (client_ip)***
+
+```json
 PUT /my-index-000001/_mapping
 {
   "runtime": {
@@ -71,8 +78,10 @@ PUT /my-index-000001/_mapping
   }
 }
 ```
-5. Search index based on runtime field
-```markdown
+
+5. ***Search index based on runtime field***
+
+```json
 GET my-index-000001/_search
 {
   "size": 1,
@@ -84,7 +93,10 @@ GET my-index-000001/_search
   "fields" : ["*"]
 }
 ```
-6. Clean
-```markdown
+
+6. ***Clean***
+
+```json
 DELETE my-index-000001
 ```
+
