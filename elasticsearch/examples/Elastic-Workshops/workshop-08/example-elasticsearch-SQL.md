@@ -728,8 +728,9 @@ state.keyword    |VARCHAR        |keyword
 
 **2.** 
 
-```json
+<details open><summary><i></i></summary><blockquote>
 
+```json
 POST /_sql?format=txt
 {
   "query": "SELECT SUM(balance) FROM accounts"
