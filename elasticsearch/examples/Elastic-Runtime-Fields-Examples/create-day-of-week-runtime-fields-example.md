@@ -109,7 +109,9 @@ GET date_to_day/_search
     "day_of_week": {
       "type": "keyword",
       "script": {
-        "source": """emit(doc['timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.SHORT, Locale.ROOT))"""
+        "source": """
+          emit(doc['timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.SHORT, Locale.ROOT))
+        """
       }
     }
   },
@@ -133,7 +135,9 @@ curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: applic
     "day_of_week": {
       "type": "keyword",
       "script": {
-        "source": """emit(doc['timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.SHORT, Locale.ROOT))"""
+        "source": """
+          emit(doc['timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.SHORT, Locale.ROOT))
+        """
       }
     }
   },
@@ -164,7 +168,9 @@ PUT date_to_day/_mapping
     "day_of_week": {
       "type": "keyword",
       "script": {
-        "source": """emit(doc['timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.SHORT, Locale.ROOT))"""
+        "source": """
+          emit(doc['timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.SHORT, Locale.ROOT))
+        """
       }
     }
   }
@@ -180,7 +186,9 @@ curl -X GET "localhost:9200/date_to_day/_mapping" -H 'Content-Type: application/
     "day_of_week": {
       "type": "keyword",
       "script": {
-        "source": """emit(doc['timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.SHORT, Locale.ROOT))"""
+        "source": """
+          emit(doc['timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.SHORT, Locale.ROOT))
+        """
       }
     }
   }
