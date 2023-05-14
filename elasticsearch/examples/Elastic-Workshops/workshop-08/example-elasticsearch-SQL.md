@@ -981,10 +981,18 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT * FROM peoples WHERE age=32 AND gender='M' LIMIT 1000"
+  "query": """
+    SELECT 
+      * 
+    FROM 
+      peoples 
+    WHERE 
+      age=32 AND gender='M' 
+    LIMIT 1000
+  """
 }
 ```
 
@@ -1005,10 +1013,18 @@ account_number |    address    |      age      |    balance    |     city      |
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT firstname, lastname, age FROM peoples WHERE age BETWEEN 35 AND 40 LIMIT 1000"
+  "query": """
+    SELECT 
+      firstname, lastname, age 
+    FROM 
+      peoples 
+    WHERE 
+      age BETWEEN 35 AND 40 
+    LIMIT 1000
+  """
 }
 ```
 
@@ -1016,10 +1032,18 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT firstname, lastname, age FROM peoples WHERE age NOT BETWEEN 35 AND 40 LIMIT 1000"
+  "query": """
+    SELECT 
+      firstname, lastname, age 
+    FROM 
+      peoples 
+    WHERE 
+      age NOT BETWEEN 35 AND 40 
+    LIMIT 1000
+  """
 }
 ```
 
@@ -1027,10 +1051,18 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT firstname, lastname, age FROM peoples WHERE age IN (39, 36) LIMIT 1000"
+  "query": """
+    SELECT 
+      firstname, lastname, age 
+    FROM 
+      peoples 
+    WHERE 
+      age IN (39, 36) 
+    LIMIT 1000
+  """
 }
 ```
 
@@ -1038,10 +1070,19 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT firstname, lastname, age FROM peoples WHERE age NOT IN (39, 36) LIMIT 1000"
+  "query": """
+    SELECT 
+      firstname, lastname, age 
+    FROM 
+      peoples 
+    WHERE 
+      age NOT IN (39, 36) 
+    LIMIT 
+      1000
+  """
 }
 ```
 
@@ -1051,10 +1092,12 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT 'elastic' <=> null AS equals"
+  "query": """
+    SELECT 'elastic' <=> null AS equals
+  """
 }
 ```
 
@@ -1074,10 +1117,12 @@ false
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT null <=> null AS equals"
+  "query": """
+    SELECT null <=> null AS equals
+  """
 }
 ```
 
@@ -1096,10 +1141,12 @@ true
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT SUM(account_number+age) AS sum FROM peoples  LIMIT 1000"
+  "query": """
+    SELECT SUM(account_number+age) AS sum FROM peoples  LIMIT 1000
+  """
 }
 ```
 
@@ -1108,10 +1155,17 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT first(age) AS childest, last(age) AS oldest FROM peoples  LIMIT 1000"
+  "query": """
+    SELECT 
+      first(age) AS childest, last(age) AS oldest 
+    FROM 
+      peoples 
+    LIMIT 
+      1000
+  """
 }
 ```
 
@@ -1129,10 +1183,21 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT gender, first(age)  FROM peoples GROUP by gender ORDER BY gender LIMIT 1000"
+  "query": """
+    SELECT 
+      gender, first(age)  
+    FROM 
+      peoples 
+    GROUP by 
+      gender 
+    ORDER BY 
+      gender 
+    LIMIT 
+      1000
+  """
 }
 ```
 
@@ -1140,10 +1205,17 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT count(ALL age) count_all, count(DISTINCT age) count_distinct FROM peoples  LIMIT 1000"
+  "query": """
+    SELECT 
+      count(ALL age) count_all, count(DISTINCT age) count_distinct 
+    FROM 
+      peoples  
+    LIMIT 
+      1000
+  """
 }
 ```
 
@@ -1151,11 +1223,18 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 # Quantify the shape of the distribution of input values in the field age.
 POST /_sql?format=txt
 {
-  "query": "SELECT MIN(age), MAX(age), KURTOSIS(age) FROM peoples  LIMIT 1000"
+  "query": """
+    SELECT 
+      MIN(age), MAX(age), KURTOSIS(age) 
+    FROM 
+      peoples  
+    LIMIT 
+      1000
+  """
 }
 ```
 
@@ -1163,11 +1242,18 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 # Quantify the shape of the distribution of input values in the field balance.
 POST /_sql?format=txt
 {
-  "query": "SELECT MIN(balance), MAX(balance), KURTOSIS(balance) FROM peoples  LIMIT 1000"
+  "query": """
+    SELECT 
+      MIN(balance), MAX(balance), KURTOSIS(balance) 
+    FROM 
+        peoples  
+    LIMIT 
+      1000
+  """
 }
 ```
 
@@ -1175,11 +1261,20 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 # Measure the variability of the input values in the field age.
 POST /_sql?format=txt
 {
-  "query": "SELECT MIN(age), MAX(age), AVG(age), MAD(age) FROM peoples  LIMIT 1000"
+  "query": """
+    SELECT 
+      MIN(age), 
+      MAX(age), 
+      AVG(age), 
+      MAD(age) 
+    FROM 
+      peoples  
+    LIMIT 1000
+  """
 }
 ```
 
@@ -1187,11 +1282,21 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 # Measure the variability of the input values in the field balance.
 POST /_sql?format=txt
 {
-  "query": "SELECT MIN(balance), MAX(balance), AVG(balance), MAD(balance) FROM peoples  LIMIT 1000"
+  "query": """
+    SELECT 
+      MIN(balance), 
+      MAX(balance), 
+      AVG(balance), 
+      MAD(balance) 
+    FROM 
+      peoples  
+    LIMIT 
+      1000
+  """
 }
 ```
 
@@ -1199,10 +1304,19 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT gender, PERCENTILE(balance, 95) FROM peoples GROUP BY gender LIMIT 1000"
+  "query": """
+    SELECT 
+      gender, 
+      PERCENTILE(balance, 95) 
+    FROM 
+      peoples 
+    GROUP BY 
+      gender 
+    LIMIT 1000
+  """
 }
 ```
 
@@ -1210,10 +1324,20 @@ POST /_sql?format=txt
 
 <details open><summary><i></i></summary><blockquote>
 
-```json
+```sql
 POST /_sql?format=txt
 {
-  "query": "SELECT gender, PERCENTILE(balance, 95), PERCENTILE(age, 95)  FROM peoples GROUP BY gender LIMIT 1000"
+  "query": """
+    SELECT 
+      gender, 
+      PERCENTILE(balance, 95), 
+      PERCENTILE(age, 95)  
+    FROM 
+      peoples 
+    GROUP BY 
+      gender 
+    LIMIT 1000
+  """
 }
 ```
 
