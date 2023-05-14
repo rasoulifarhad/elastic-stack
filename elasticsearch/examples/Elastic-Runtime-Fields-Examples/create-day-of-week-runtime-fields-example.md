@@ -1,10 +1,10 @@
-### Runtime field example
+## Runtime field example
 
-#### Runtime field in index mapping
+### Runtime field in index mapping
 
-1. Define index
+1. ***Define index***
 
-```markdown
+```json
 PUT date_to_day
 {
   "mappings": {
@@ -21,11 +21,11 @@ PUT date_to_day
 }
 ```
 
-2. Ingest some data
+2. ***Ingest some data***
 
-with DevTools:
+<details open><summary><i>with DevTools:</i></summary><blockquote>
 
-```markdown
+```json
 POST date_to_day/_bulk
 {"index":{}}
 {"response_code": 200, "timestamp": "2021-01-01"}
@@ -49,9 +49,9 @@ POST date_to_day/_bulk
 {"response_code": 400, "timestamp": "2021-01-09"}
 ```
 
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
+```sh
 curl -X POST "localhost:9200/date_to_day/_bulk?refresh&pretty" -H 'Content-Type: application/json' -d'
 {"index":{}}
 {"response_code": 200, "timestamp": "2021-01-01"}
@@ -76,23 +76,33 @@ curl -X POST "localhost:9200/date_to_day/_bulk?refresh&pretty" -H 'Content-Type:
 '
 ```
 
-3. Show the index mapping
+</details>
 
-```markdown
-GET /date_to_day
+</blockquote></details>
+
+3. ***Show the index mapping***
+
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 GET /date_to_day/_mapping
 ```
 
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
-curl -X GET "localhost:9200/date_to_day?pretty"
+```sh
 curl -X GET "localhost:9200/date_to_day/_mapping?pretty"
 ```
 
-4. Create an ephemeral runtime field for day of week and aggregate on it
+</details>
 
-```markdown
+</blockquote></details>
+
+4. ***Create an ephemeral runtime field for day of week and aggregate on it***
+
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 GET date_to_day/_search
 {
   "runtime_mappings": {
@@ -114,9 +124,9 @@ GET date_to_day/_search
 }
 ```
 
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
+```sh
 curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "runtime_mappings": {
@@ -138,9 +148,16 @@ curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: applic
 }
 '
 ```
-5. Add the runtime field to the index mapping
 
-```markdown
+</details>
+
+</blockquote></details>
+
+5. ***Add the runtime field to the index mapping***
+
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 PUT date_to_day/_mapping
 {
   "runtime": {
@@ -154,9 +171,9 @@ PUT date_to_day/_mapping
 }
 ```
 
-with curl:
+<details><summary><i>with curl</i></summary>
 
-```markdown
+```sh
 curl -X GET "localhost:9200/date_to_day/_mapping" -H 'Content-Type: application/json' -d'
 {
   "runtime": {
@@ -171,21 +188,33 @@ curl -X GET "localhost:9200/date_to_day/_mapping" -H 'Content-Type: application/
 '
 ```
 
-6. Examine the mapping to see that the runtime field was added
+</details>
 
-```markdown
+</blockquote></details>
+
+6. ***Examine the mapping to see that the runtime field was added***
+
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 GET /date_to_day/_mapping
 ```
 
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
+```sh
 curl -X GET "localhost:9200/date_to_day/_mapping?pretty"
 ```
 
+</details>
+
+</blockquote></details>
+
 7. using day_of_week runtime field for aggregation
 
-```markdown
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 GET date_to_day/_search
 {
   "size": 0,
@@ -199,9 +228,9 @@ GET date_to_day/_search
 }
 ```
 
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
+```sh
 curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: application/json' -d'
 {
   "size": 0,
@@ -216,14 +245,25 @@ curl -X GET "localhost:9200/date_to_day/_search?pretty" -H 'Content-Type: applic
 '
 ```
 
+</details>
+
+</blockquote></details>
+
 8. Delete the index as cleanup
 
-```markdown
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 DELETE date_to_day
 ```
 
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
+```sh
 curl -X DELETE "localhost:9200/date_to_day" 
 ```
+
+</details>
+
+</blockquote></details>
+
