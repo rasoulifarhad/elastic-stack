@@ -2,9 +2,11 @@
 
 > See [es4sql](https://github.com/NLPchina/elasticsearch-sql/tree/master/src/test/java/org/nlpcn/es4sql)
 
+---
+
 ### Book Library
 
-##### Bulk Index Books
+#### Bulk Index Books
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -120,7 +122,7 @@ POST /_sql?format=txt
 ### Dogs
 
 
-##### Bulk Index Dogs
+#### Bulk Index Dogs
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -162,7 +164,7 @@ holdersName.keyword|VARCHAR        |keyword
 
 ---
 
-##### SQL
+#### SQL
 
 **1.** 
 
@@ -344,7 +346,7 @@ rex            |2
 
 ### Game of Thrones documets 
 
-##### Bulk Index documents
+#### Bulk Index documents
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -370,7 +372,7 @@ POST /game_of_thrones/_bulk
 
 ---
 
-##### SQL
+#### SQL
 
 **1.** 
 
@@ -666,7 +668,7 @@ ASCII          |SCALAR
 
 ### Accounts documets 
 
-##### Index Accounts
+#### Index Accounts
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -681,7 +683,7 @@ curl -XPOST "localhost:9200/accounts/_bulk" \
 
 ---
 
-##### SQL
+#### SQL
 
 **1.** 
 
@@ -846,7 +848,7 @@ M              |36             |31             |647425
 
 ### Peoples documets 
 
-##### Index peoples
+#### Index peoples
 
 <details open><summary><i></i></summary><blockquote>
 
@@ -861,7 +863,7 @@ curl -XPOST "localhost:9200/peoples/_bulk" \
 
 </blockquote></details>
 
-##### SQL
+#### SQL
 
 **1.** 
  
@@ -1242,9 +1244,9 @@ POST /_sql?format=txt
 
 ### Locations documets 
 
-##### Index locations
+#### Index locations
 
-##### SQL
+#### SQL
 
 1. 
 
@@ -1255,9 +1257,9 @@ POST /_sql?format=txt
 
 ### Phrases documets 
 
-##### Index phrases
+#### Index phrases
 
-##### SQL
+#### SQL
 
 1. 
 
@@ -1268,9 +1270,9 @@ POST /_sql?format=txt
 
 ### Systems documets 
 
-##### Index systems
+#### Index systems
 
-##### SQL
+#### SQL
 
 1. 
 
@@ -1281,9 +1283,9 @@ POST /_sql?format=txt
 
 ### Onlines documets 
 
-##### Index onlines
+#### Index onlines
 
-##### SQL
+#### SQL
 
 1. 
 
@@ -1294,9 +1296,9 @@ POST /_sql?format=txt
 
 ### Nested Objects documets 
 
-##### Index nested objects
+#### Index nested objects
 
-##### SQL
+#### SQL
 
 1. 
 
