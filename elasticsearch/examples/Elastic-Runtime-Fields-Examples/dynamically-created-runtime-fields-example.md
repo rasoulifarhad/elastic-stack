@@ -1,4 +1,4 @@
-### Dynamically created runtime fields
+## Dynamically created runtime fields
 
 
 1. ***Define index template***
