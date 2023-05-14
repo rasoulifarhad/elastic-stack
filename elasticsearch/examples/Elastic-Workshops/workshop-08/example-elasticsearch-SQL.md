@@ -1,6 +1,6 @@
 ## Elasticsearch SQL
 
-[from](https://github.com/NLPchina/elasticsearch-sql/tree/master/src/test/java/org/nlpcn/es4sql)
+> See [es4sql](https://github.com/NLPchina/elasticsearch-sql/tree/master/src/test/java/org/nlpcn/es4sql)
 
 ### Book Library
 
