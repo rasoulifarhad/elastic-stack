@@ -1,9 +1,11 @@
 ### Dynamically created runtime fields
 
 
-1. Define index template
+1. ***Define index template***
 
-```markdown
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 PUT _index_template/my_dynamic_index
 {
   "index_patterns": [
@@ -26,11 +28,14 @@ PUT _index_template/my_dynamic_index
 }
 ```
 
-2. Ingest some data
+</blockquote></details>
 
-with DevTools:
 
-```markdown
+2. ***Ingest some data***
+
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 POST my_dynamic_index-1/_bulk
 {"index":{}}
 {"timestamp": "2021-01-01", "response_code": 200, "new_tla": "data-1"}
@@ -42,9 +47,9 @@ POST my_dynamic_index-1/_bulk
 {"timestamp": "2021-01-01", "response_code": 200, "new_tla": "data-2"}
 ```
 
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
+```sh
 curl -X POST "localhost:9200/my_dynamic_index-1/_bulk?refresh&pretty" -H 'Content-Type: application/json' -d'
 {"index":{}}
 {"timestamp": "2021-01-01", "response_code": 200, "new_tla": "data-1"}
@@ -57,22 +62,35 @@ curl -X POST "localhost:9200/my_dynamic_index-1/_bulk?refresh&pretty" -H 'Conten
 '
 ```
 
-3. Show the index mapping
+</details>
 
-```markdown
-GET /my_dynamic_index-1
+</blockquote></details>
+
+
+3. ***Show the index mapping***
+
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 GET /my_dynamic_index-1/_mapping
 ```
 
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
-curl -X GET "localhost:9200/my_dynamic_index-1?pretty"
+```sh
 curl -X GET "localhost:9200/my_dynamic_index-1/_mapping?pretty"
 ```
-4. Search for  ...
 
-```markdown
+</details>
+
+</blockquote></details>
+
+
+4. ***Search for  ...***
+
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 GET my_dynamic_index-1/_search
 {
   "query": {
@@ -83,16 +101,25 @@ GET my_dynamic_index-1/_search
 }
 ```
 
-5. Delete the index as cleanup
+</blockquote></details>
 
-```markdown
-DELETE my_dynamic_index-1
+
+5. ***Delete the index as cleanup***
+
+<details open><summary><i>with DevTools:</i></summary><blockquote>
+
+```json
 DELETE _index_template/my_dynamic_index
 ```
-with curl: 
+<details><summary><i>with curl</i></summary>
 
-```markdown
-curl -X DELETE "localhost:9200/_index_template" 
+```sh
 curl -X DELETE "localhost:9200/_index_template/my_dynamic_index"
 ```
+
+</details>
+
+</blockquote></details>
+
+
 
