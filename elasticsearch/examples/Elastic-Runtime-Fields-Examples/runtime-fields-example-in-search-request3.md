@@ -11,7 +11,9 @@ PUT my-index-000001/
       "day_of_week": {
         "type": "keyword",
         "script": {
-          "source": "emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))"
+          "source": """
+             emit(doc['@timestamp'].value.dayOfWeekEnum.getDisplayName(TextStyle.FULL, Locale.ROOT))
+          """
         }
       }
     },
@@ -72,7 +74,9 @@ PUT /my-index-000001/_mapping
     "client_ip": {
       "type": "ip",
       "script" : {
-      "source" : "String m = doc[\"message\"].value; int end = m.indexOf(\" \"); emit(m.substring(0, end));"
+      "source" : """
+        String m = doc[\"message\"].value; int end = m.indexOf(\" \"); emit(m.substring(0, end));
+      """
       }
     }
   }
